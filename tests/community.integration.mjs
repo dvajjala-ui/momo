@@ -8,7 +8,7 @@ const {Miniflare}=require('miniflare');
 const mf=new Miniflare({modules:[{type:'ESModule',path:root+'/dist/server/index.js'},...readdirSync(root+'/dist/server',{recursive:true}).filter(p=>p.endsWith('.js')&&p!=='index.js').map(p=>({type:'ESModule',path:root+'/dist/server/'+p}))],modulesRoot:root+'/dist/server',modulesRules:[{type:'ESModule',include:['**/*.js','**/*.mjs']}],compatibilityDate:'2026-05-15',compatibilityFlags:['nodejs_compat'],d1Databases:['DB'],r2Buckets:['BUCKET'],bindings:{ADMIN_EMAILS:'host@example.test',WHATSAPP_APP_SECRET:'local-test-secret',WHATSAPP_PHONE_NUMBER_ID:'123456789',WHATSAPP_VERIFY_TOKEN:'local-verify'}});
 try{
 const db=await mf.getD1Database('DB');
-for(const file of ['0000_wide_starfox.sql','0001_yummy_silvermane.sql'])for(const s of readFileSync(root+'/drizzle/'+file,'utf8').split('--> statement-breakpoint'))if(s.trim())await db.prepare(s).run();
+for(const file of readdirSync(root+'/drizzle').filter(f=>f.endsWith('.sql')).sort())for(const s of readFileSync(root+'/drizzle/'+file,'utf8').split('--> statement-breakpoint'))if(s.trim())await db.prepare(s).run();
 async function call(path='/api/community',data,user='member'){
  const headers={'Content-Type':'application/json',Origin:'https://momo.test'};
  if(user){headers['oai-authenticated-user-id']=user;headers['oai-authenticated-user-email']=user+'@example.test'}
@@ -47,7 +47,18 @@ assert('out-of-order status callback acknowledged',await webhook({statuses:[{id:
 if((await db.prepare("SELECT status FROM deliveries WHERE id='test'").first()).status!=='read')throw Error('Status downgraded');console.log('PASS delivery status does not downgrade');
 assert('signed STOP processed',await webhook({messages:[{type:'text',from:'12025550123',text:{body:'STOP'}}]}),200);
 if((await call('/api/community?view=me')).data.invite!==null)throw Error('STOP did not remove request');console.log('PASS STOP removes request');
+assert('wish needs a nickname',await call('/api/community',{action:'wish',title:'Badminton',whenText:'Sunday',area:'Test',spots:2},'nobody'),400);
+assert('wish saved',await call('/api/community',{action:'wish',title:'Sunday badminton',whenText:'Sunday 7am',area:'Test City',spots:2}),200);
+assert('other member profile',await call('/api/community',{action:'profile',nickname:'Gary',avatar:1,adult:true,rules:true},'other'),200);
+const wishes=(await call('/api/community',null,'other')).data.wishes;const wish=wishes[0];if(!wish||wish.by.nickname!=='Chutney'||wish.joined!==1||'user_id' in wish)throw Error('Wish board shape');console.log('PASS wish board shows nickname without identity');
+const anonWish=(await call('/api/community',null,null)).data.wishes[0];if(anonWish.by!==null||anonWish.gang.length)throw Error('Anonymous visitors saw nicknames');console.log('PASS anonymous wish view hides nicknames');
+assert('member joins wish',await call('/api/community',{action:'joinWish',id:wish.id},'other'),200);
+if((await call('/api/community',null,'other')).data.wishes[0].status!=='ready')throw Error('Gang not ready');console.log('PASS full gang marked ready');
+assert('third member profile',await call('/api/community',{action:'profile',nickname:'Pari',avatar:2,adult:true,rules:true},'third'),200);
+assert('full gang refuses more',await call('/api/community',{action:'joinWish',id:wish.id},'third'),409);
+assert('non-owner cannot remove wish',await call('/api/community',{action:'removeWish',id:wish.id},'other'),403);
+assert('host can remove wish',await call('/api/community',{action:'removeWish',id:wish.id},'host'),200);
 assert('withdraw invite',await call('/api/community',{action:'withdraw'}),200);
 assert('delete own data',await call('/api/community',{action:'deleteAccount'}),200);
-const count=await db.prepare('SELECT COUNT(*) AS n FROM profiles').first();if(count.n)throw Error('Cleanup failed');console.log('PASS account data deleted');
+const count=await db.prepare("SELECT (SELECT COUNT(*) FROM profiles WHERE id='member')+(SELECT COUNT(*) FROM wishes WHERE user_id='member')+(SELECT COUNT(*) FROM wish_joins WHERE user_id='member') AS n").first();if(count.n)throw Error('Cleanup failed');console.log('PASS account data deleted');
 }finally{await mf.dispose()}

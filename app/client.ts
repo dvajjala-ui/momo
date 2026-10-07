@@ -1,0 +1,3 @@
+export async function api(action:string,data:any={}){const r=await fetch('/api/community',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action,...data})});const d:any=await r.json().catch(()=>({}));if(!r.ok)throw Error(d.error||'Please try again.');return d}
+export async function session(action:'start'|'signout'|'host',data:any={}){const r=await fetch('/api/session',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action,...data})});const d:any=await r.json().catch(()=>({}));if(!r.ok)throw Error(d.error||'Please try again.');return d}
+export type Run=(fn:()=>Promise<void>)=>Promise<void>;

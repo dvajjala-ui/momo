@@ -1,2 +1,2 @@
-import Momo from '../momo';
-export default function Page(){return <Momo view="explore"/>}
+import {redirect} from 'next/navigation';
+export default function Page(){redirect('/')}

@@ -46,3 +46,6 @@ next-env.d.ts
 /work/
 !.env.example
 *.tsbuildinfo
+
+# local SQLite for the Node/Vercel runtime
+/.data/

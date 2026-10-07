@@ -15,6 +15,13 @@
       "when": 1791178336357,
       "tag": "0001_yummy_silvermane",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1791405824373,
+      "tag": "0002_wishes_and_sessions",
+      "breakpoints": true
     }
   ]
 }
