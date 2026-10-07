@@ -12,7 +12,7 @@ export default function PlayfulHome({data,me,busy,run,reload,signIn,onError}:{da
       <div className="hero-copy">
         <span className="torn-label">AHMEDABAD · A WEEKEND FRIEND CLUB · 18+</span>
         <h1>Make a wish.<br/><em>We’ll get your gang ready.</em></h1>
-        <p>Screens got easier. Making friends got harder.<br/>Momo is the excuse to step out: good food, a silly game,<br/>and people who slowly become <i>your people</i>.</p>
+        <p>Screens got easier. Making friends got harder. <br/>Momo is the excuse to step out: good food, a silly game, <br/>and people who slowly become <i>your people</i>.</p>
         <div className="hero-buttons"><a className="button blue" href="/join">{me?.invite?'See my spot':'Count me in'}</a><a className="hand-link" href="#wishes">see the wish wall ↓</a></div>
         <ThemeSwitch/>
       </div>

@@ -11,7 +11,16 @@ export const metadata: Metadata = {
   icons: {
     icon: "/favicon.svg",
     shortcut: "/favicon.svg",
+    apple: "/apple-touch-icon.png",
   },
+  manifest: "/manifest.webmanifest",
+  openGraph: {
+    title: "Momo — make a wish, we’ll get your gang ready",
+    description: "Small weekend meetups in Ahmedabad. Good food, a silly game, and people who become your people. 18+.",
+    images: [{ url: "/og.png", width: 1200, height: 630, alt: "Momo: make a wish, we'll get your gang ready" }],
+    type: "website",
+  },
+  twitter: { card: "summary_large_image", images: ["/og.png"] },
 };
 
 export const viewport: Viewport = { themeColor: "#fffaf0", width: "device-width", initialScale: 1 };

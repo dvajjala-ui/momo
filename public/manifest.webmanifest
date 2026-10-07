@@ -1,0 +1,14 @@
+{
+  "name": "Momo — make a wish, we'll get your gang ready",
+  "short_name": "Momo",
+  "description": "Small weekend meetups in Ahmedabad: good food, a silly game, and people who become your people.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#fffaf0",
+  "theme_color": "#ffd84d",
+  "icons": [
+    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

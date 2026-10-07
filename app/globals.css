@@ -314,7 +314,7 @@ footer small{grid-column:1/-1;font-size:12px;color:var(--muted)}
 }
 @media(max-width:760px){
   body{padding-bottom:84px}
-  .topbar{grid-template-columns:1fr auto;padding:10px 4%}
+  .topbar{grid-template-columns:1fr auto;padding:10px 4%;backdrop-filter:none;background:var(--paper)}
   .logo{font-size:32px}
   .tabs{position:fixed;bottom:12px;left:50%;transform:translateX(-50%);z-index:60;width:min(380px,calc(100% - 28px));justify-content:space-around}
   .tabs a{flex:1;justify-content:center;padding:11px 10px;font-size:16px}
