@@ -1,0 +1,1 @@
+ALTER TABLE `reports` ADD `kind` text DEFAULT 'message' NOT NULL;

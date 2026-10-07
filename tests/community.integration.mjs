@@ -56,8 +56,14 @@ assert('member joins wish',await call('/api/community',{action:'joinWish',id:wis
 if((await call('/api/community',null,'other')).data.wishes[0].status!=='ready')throw Error('Gang not ready');console.log('PASS full gang marked ready');
 assert('third member profile',await call('/api/community',{action:'profile',nickname:'Pari',avatar:2,adult:true,rules:true},'third'),200);
 assert('full gang refuses more',await call('/api/community',{action:'joinWish',id:wish.id},'third'),409);
+assert('host plans the ready wish',await call('/api/community',{action:'event',wishId:wish.id,title:'Badminton, planned',date:'2026-11-08T07:00:00+05:30',venue:'Public court, Test City',cost:'Court fee split',description:'From a wish',category:'Play'},'host'),200);
+const planned=(await call('/api/community',null,'other')).data.wishes[0];if(planned.status!=='planned'||!planned.eventId)throw Error('Wish not marked planned');console.log('PASS planned wish links to its event');
+assert('plan for a missing wish rejected',await call('/api/community',{action:'event',wishId:'nope',title:'x plan',date:'2026-11-08T07:00:00+05:30',venue:'Somewhere',cost:'Free',description:'Nothing',category:'Play'},'host'),400);
+assert('member reports a wish',await call('/api/community',{action:'reportWish',id:wish.id,reason:'Not a public place'},'third'),200);
+const wr=(await call('/api/community?view=host',null,'host')).data.reports.find(r=>r.kind==='wish');if(!wr||!wr.body.startsWith('Wish: '))throw Error('Wish report missing');console.log('PASS hosts see wish reports');
 assert('non-owner cannot remove wish',await call('/api/community',{action:'removeWish',id:wish.id},'other'),403);
 assert('host can remove wish',await call('/api/community',{action:'removeWish',id:wish.id},'host'),200);
+if((await call('/api/community?view=host',null,'host')).data.reports.some(r=>r.kind==='wish'))throw Error('Wish report left behind');console.log('PASS removing a wish clears its reports');
 assert('withdraw invite',await call('/api/community',{action:'withdraw'}),200);
 assert('delete own data',await call('/api/community',{action:'deleteAccount'}),200);
 const count=await db.prepare("SELECT (SELECT COUNT(*) FROM profiles WHERE id='member')+(SELECT COUNT(*) FROM wishes WHERE user_id='member')+(SELECT COUNT(*) FROM wish_joins WHERE user_id='member') AS n").first();if(count.n)throw Error('Cleanup failed');console.log('PASS account data deleted');

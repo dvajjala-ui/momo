@@ -1,0 +1,1 @@
+ALTER TABLE `events` ADD `wish_id` text;

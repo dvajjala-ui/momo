@@ -10,6 +10,14 @@ export const migrations:{name:string;sql:string}[]=[
  },
  {
   "name": "0002_wishes_and_sessions",
-  "sql": "CREATE TABLE `sessions` (\n\t`token_hash` text PRIMARY KEY NOT NULL,\n\t`user_id` text NOT NULL,\n\t`host` integer DEFAULT 0 NOT NULL,\n\t`created` integer NOT NULL\n);\n--> statement-breakpoint\nCREATE INDEX `idx_sessions_user` ON `sessions` (`user_id`);--> statement-breakpoint\nCREATE TABLE `wish_joins` (\n\t`id` text PRIMARY KEY NOT NULL,\n\t`wish_id` text NOT NULL,\n\t`user_id` text NOT NULL,\n\t`created` integer NOT NULL\n);\n--> statement-breakpoint\nCREATE INDEX `idx_wish_joins_wish` ON `wish_joins` (`wish_id`);--> statement-breakpoint\nCREATE INDEX `idx_wish_joins_user` ON `wish_joins` (`user_id`);--> statement-breakpoint\nCREATE TABLE `wishes` (\n\t`id` text PRIMARY KEY NOT NULL,\n\t`user_id` text NOT NULL,\n\t`title` text NOT NULL,\n\t`when_text` text NOT NULL,\n\t`area` text NOT NULL,\n\t`spots` integer NOT NULL,\n\t`status` text DEFAULT 'open' NOT NULL,\n\t`created` integer NOT NULL\n);\n--> statement-breakpoint\nCREATE INDEX `idx_wishes_created` ON `wishes` (`created`);--> statement-breakpoint\nCREATE INDEX `idx_wishes_user` ON `wishes` (`user_id`);--> statement-breakpoint\nALTER TABLE `invites` ADD `letter_style` text DEFAULT 'notebook' NOT NULL;"
+  "sql": "CREATE TABLE `sessions` (\r\n\t`token_hash` text PRIMARY KEY NOT NULL,\r\n\t`user_id` text NOT NULL,\r\n\t`host` integer DEFAULT 0 NOT NULL,\r\n\t`created` integer NOT NULL\r\n);\r\n--> statement-breakpoint\r\nCREATE INDEX `idx_sessions_user` ON `sessions` (`user_id`);--> statement-breakpoint\r\nCREATE TABLE `wish_joins` (\r\n\t`id` text PRIMARY KEY NOT NULL,\r\n\t`wish_id` text NOT NULL,\r\n\t`user_id` text NOT NULL,\r\n\t`created` integer NOT NULL\r\n);\r\n--> statement-breakpoint\r\nCREATE INDEX `idx_wish_joins_wish` ON `wish_joins` (`wish_id`);--> statement-breakpoint\r\nCREATE INDEX `idx_wish_joins_user` ON `wish_joins` (`user_id`);--> statement-breakpoint\r\nCREATE TABLE `wishes` (\r\n\t`id` text PRIMARY KEY NOT NULL,\r\n\t`user_id` text NOT NULL,\r\n\t`title` text NOT NULL,\r\n\t`when_text` text NOT NULL,\r\n\t`area` text NOT NULL,\r\n\t`spots` integer NOT NULL,\r\n\t`status` text DEFAULT 'open' NOT NULL,\r\n\t`created` integer NOT NULL\r\n);\r\n--> statement-breakpoint\r\nCREATE INDEX `idx_wishes_created` ON `wishes` (`created`);--> statement-breakpoint\r\nCREATE INDEX `idx_wishes_user` ON `wishes` (`user_id`);--> statement-breakpoint\r\nALTER TABLE `invites` ADD `letter_style` text DEFAULT 'notebook' NOT NULL;"
+ },
+ {
+  "name": "0003_events_wish_link",
+  "sql": "ALTER TABLE `events` ADD `wish_id` text;"
+ },
+ {
+  "name": "0004_report_kind",
+  "sql": "ALTER TABLE `reports` ADD `kind` text DEFAULT 'message' NOT NULL;"
  }
 ];
