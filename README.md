@@ -1,41 +1,54 @@
 # Momo — kal milte hain?
 
-A playful adult weekend meetup club. A crayon notebook, shared food, and room to just be.
+**Make a wish. We'll get your gang ready.** A playful adult (18+) weekend friend club in Ahmedabad. A crayon notebook, shared food, and a way for the meetup to actually happen.
+
+Next steps and what's blocked live in [`docs/ROADMAP.md`](docs/ROADMAP.md).
 
 ## This version
 
-- Two complete visual themes: four distinct steamed, fried, tandoori and Schezwan momos; or pizza, vada pav, noodles, pasta, chai/coffee and dal baati. The switch carries through the homepage, avatars, Explore and invitation downloads.
-- Original generated crayon casts, scrapbook references, responsive layouts and reduced-motion support.
-- Saved invite requests, visible reference/receipt, masked phone, host review status and separate WhatsApp delivery status. Signup saves to the host inbox; it does not silently send email or WhatsApp.
-- Host inbox, event publishing, gallery uploads, report moderation and actual-event invitation PNG downloads.
-- Signed-in pseudonymous group chat, profile photos, reporting, blocking, throttled posting and account-data deletion. One-to-one chat remains a future feature.
-- Meta WhatsApp Cloud API integration with approved-template sending, durable per-person/event deduplication, signed delivery callbacks and STOP opt-out processing. Disabled until real configuration and phone verification are complete.
-- Two cinematic production briefs instead of the rejected slideshow, plus an Instagram/community launch plan in the creative notebook.
+- **3 pages, 2 tabs.** **Ghar** (`/`): hero, the food gang, how it works, hosted plans, the **wish wall**, a "Hi you" note and postcards. **Adda** (`/chat`): the group chat. **Count me in** (`/join`): invite list, nickname, postcard choice, member badge, rules and privacy. The host corner (`/host`) is for admins only. Old routes (`/explore`, `/studio`, `/privacy`, `/guidelines`) redirect.
+- **Wish wall.** A member posts a plan ("Sunday badminton, need 4"). Others tap "I'm in". When it's full, the gang is marked ready and a host confirms a public venue, time and full cost. Signed-out visitors see wishes and head counts, never nicknames.
+- **Two food editions** with hand-built, animated SVG friends: steamed (steam rises), fried (crispy blisters), tandoori (char), gravy (sits in a red pool); or Neapolitan pizza, vada pav, noodles, chai and dal baati. Pasta was removed. There's one real, freely licensed food photo per edition with a visible credit.
+- **Postcards:** Hero post (night sky, original "Momo-signal", POW), Princess post (pink glitter, tiara, wax seal) and Notebook post. People pick their own; hosts download each person's choice. No third-party logos or characters are used.
+- **Member badge** ("This is who's coming on Saturday") drawn locally in the browser; the optional childhood photo is never uploaded.
+- Host inbox, event publishing, gallery uploads, report moderation, pseudonymous chat, blocking, throttling and data deletion.
+- Meta WhatsApp Cloud API code (template sends, signed callbacks, STOP opt-out). It stays disabled until real configuration and phone verification exist.
 
-## Hosting and accounts
+## Hosting
 
-The Site remains owner-private. It uses platform-provided ChatGPT sign-in. Participants can use nicknames; they are not anonymous to the host/infrastructure. `ADMIN_EMAILS` is a server-side allowlist; empty configuration denies host access. The supplied contact is the.world.is.waiting.for.uu@gmail.com. Email contact is not an email-delivery integration.
+Two targets share one codebase:
 
-D1 `DB` stores requests, profiles, chat, events and delivery metadata. R2 `BUCKET` stores uploaded photos. Drizzle migrations are additive; never modify applied migration files. Environment variable names and placeholders are in `.env.example`; configure actual secrets privately in runtime settings, never in Git.
+| Target | Build | Sign-in | Storage |
+|--------|-------|---------|---------|
+| ChatGPT Site (Cloudflare Workers via Vinext) | `pnpm run build` | Trusted ChatGPT identity headers, `ADMIN_EMAILS` allowlist | D1 `DB`, R2 `BUCKET` |
+| Vercel (`vercel.json`) | `node scripts/embed-migrations.mjs && next build` | Pseudonymous device session cookie; host via `HOST_PASSCODE` | Turso/libSQL when `TURSO_DATABASE_URL` + `TURSO_AUTH_TOKEN` are set, otherwise SQLite in `/tmp` ("preview mode", resets) |
+
+On Vercel, `cloudflare:workers` is aliased to `lib/vercel-cloudflare-env.ts`, and ChatGPT identity headers are **never** trusted there. Drizzle migrations are additive; non-Cloudflare runtimes apply them automatically from `lib/migrations.generated.ts` (regenerate with `node scripts/embed-migrations.mjs` after `npm run db:generate`). Secrets go in runtime settings, never in Git (see `.env.example`).
 
 ## Still needed for launch
 
-- Connect the actual Meta business sender, approved four-parameter invitation template and delivery webhook. See `public/creative/whatsapp-setup.md`. This owner-private Site cannot currently receive Meta's external webhook. Phone ownership verification is not implemented; its readiness flag is a deliberate launch gate, not a substitute for verification. No real WhatsApp invitation has been sent or tested.
-- Supply confirmed public venue, named host, full cost, end time and complaint/moderation arrangements before listing a real meetup.
-- Review brand availability, image rights, participant photo consent, local privacy and event obligations. This build does not constitute legal clearance or a production security audit. Age confirmation is self-attestation.
-- GitHub access was restored on 5 October 2026. This repository contains the source handoff; see `CODEX_HANDOFF.md` for the continuation brief. GitHub changes do not automatically deploy to the existing Site.
-- Public onboarding currently requires ChatGPT sign-in. Phone-only OTP onboarding and attendance-gated direct messages are not implemented.
+- A durable database on Vercel (Turso via the Vercel Marketplace) and a `HOST_PASSCODE`; see the roadmap.
+- The real WhatsApp sender, template and public webhook, plus phone ownership verification. No real WhatsApp invitation has been sent.
+- A confirmed public venue, named host, full cost, end time and moderation arrangements before listing a real meetup.
+- Review brand availability, image rights, participant photo consent, privacy and event obligations. This is not legal clearance or a security audit. Age confirmation is self-attestation.
 
 ## Creative files and provenance
 
-- `public/momo-flavours.png`, `public/whole-menu.png`: original AI-generated wax-crayon food characters created for this project. No personality labels.
-- `public/moodboard/*` and `public/food.jpg`: user-supplied references. Presented as inspiration, never as actual meetup memories. Licenses/ownership are unverified; clear or replace before public launch.
-- SVG marks and downloadable canvas invitation layouts are original code-based assets.
-- The old intro MP4 and old personality mascots were retired. No finished cinematic video is claimed. Both full briefs are under `public/creative/` and linked in `/studio`.
-- Launch research uses official Timeleft, Bumble BFF, Google Flow, Runway and WhatsApp documentation; links are included in the relevant briefs.
+- `app/food-art.ts`: original code-drawn food characters (SVG) used on the site and on the postcards.
+- Food photos: Wikimedia Commons, CC BY-SA 4.0, credited on the page (`themePhoto` in `app/brand.tsx`).
+- `docs/moodboard/*`: user-supplied inspiration with unverified rights. These are no longer served by the site.
+- `docs/video-series.md`: proposal for the 6-character short-film series (tools, prompts, feasibility). No films exist yet.
+- `docs/art-and-icon-prompts.md`: prompts for the illustrated icon set, gang illustration and postcards.
+- `docs/archive-*-film-brief.md`: earlier single-film briefs, kept for reference.
 
 ## Development and validation
 
-Use the existing pnpm lockfile. `npm run db:generate` generates schema migrations. `npm run build` produces a Cloudflare Workers-compatible build. Sites owns source synchronization and deployment.
+```sh
+pnpm install --frozen-lockfile
+npx tsc --noEmit
+MOMO_TARGET=next npx next build    # the Vercel build
+pnpm run build                     # the Cloudflare/Sites build
+node tests/community.integration.mjs
+```
 
-TypeScript/build checks and disposable local Worker/D1 integration tests cover permissions, request persistence/privacy, theme preferences, chat, moderation and WhatsApp callbacks. The browser preview is used for theme/navigation/layout checks. Real multi-user hosted chat and end-to-end Meta delivery remain untested.
+The integration tests run against a disposable local Worker/D1 and cover permissions, invite privacy, chat, moderation, the wish wall and WhatsApp callbacks. They never contact real recipients.

@@ -39,25 +39,25 @@ async function hero(ctx:Ctx,theme:FoodTheme,event?:any){
   ctx.save();ctx.translate(W/2,950);ctx.rotate(.012);ctx.fillStyle='#fffdf2';ctx.strokeStyle='#0a1433';ctx.lineWidth=8;ctx.beginPath();ctx.roundRect(-440,-160,880,330,18);ctx.fill();ctx.stroke();
   ctx.textAlign='left';ctx.fillStyle='#d7263d';ctx.font='54px Bangers';ctx.fillText(event?'THE MISSION:':'MISSION LOADING…',-395,-90);ctx.fillStyle='#1b1b2f';ctx.font='700 34px Nunito';let y=-35;for(const l of details(event))y=wrap(ctx,l,-395,y,790,46);ctx.restore();
   // Lightning emblem + POW burst
-  ctx.save();ctx.translate(150,800);ctx.fillStyle='#d7263d';ctx.strokeStyle='#ffd23f';ctx.lineWidth=8;ctx.beginPath();ctx.arc(0,0,74,0,7);ctx.fill();ctx.stroke();ctx.fillStyle='#ffd23f';ctx.beginPath();ctx.moveTo(14,-52);ctx.lineTo(-28,8);ctx.lineTo(-2,8);ctx.lineTo(-16,54);ctx.lineTo(30,-10);ctx.lineTo(4,-10);ctx.closePath();ctx.fill();ctx.restore();
-  ctx.save();ctx.translate(930,800);ctx.rotate(.18);star(ctx,0,0,118,12,.62);ctx.fillStyle='#ffd23f';ctx.fill();ctx.strokeStyle='#d7263d';ctx.lineWidth=7;ctx.stroke();ctx.fillStyle='#d7263d';ctx.font='62px Bangers';ctx.textAlign='center';ctx.fillText('POW!',0,20);ctx.restore();
+  ctx.save();ctx.translate(140,165);ctx.fillStyle='#d7263d';ctx.strokeStyle='#ffd23f';ctx.lineWidth=8;ctx.beginPath();ctx.arc(0,0,74,0,7);ctx.fill();ctx.stroke();ctx.fillStyle='#ffd23f';ctx.beginPath();ctx.moveTo(14,-52);ctx.lineTo(-28,8);ctx.lineTo(-2,8);ctx.lineTo(-16,54);ctx.lineTo(30,-10);ctx.lineTo(4,-10);ctx.closePath();ctx.fill();ctx.restore();
+  ctx.save();ctx.translate(940,170);ctx.rotate(.18);star(ctx,0,0,104,12,.62);ctx.fillStyle='#ffd23f';ctx.fill();ctx.strokeStyle='#d7263d';ctx.lineWidth=7;ctx.stroke();ctx.fillStyle='#d7263d';ctx.font='62px Bangers';ctx.textAlign='center';ctx.fillText('POW!',0,20);ctx.restore();
   // Skyline
   const r2=rng(3);ctx.fillStyle='#070e26';let x=0;while(x<W){const w=60+r2()*90,h=90+r2()*170;ctx.fillRect(x,H-h,w,h);ctx.fillStyle='rgba(255,214,90,.75)';for(let wy=H-h+18;wy<H-20;wy+=30)for(let wx=x+12;wx<x+w-12;wx+=24)if(r2()>.55)ctx.fillRect(wx,wy,9,13);ctx.fillStyle='#070e26';x+=w+4}
-  ctx.textAlign='center';ctx.fillStyle='#ffd23f';ctx.font='54px Bangers';ctx.fillText('MAKE A WISH. WE’LL GET YOUR GANG READY.',W/2,1215);ctx.fillStyle='rgba(255,255,255,.85)';ctx.font='700 25px Nunito';ctx.fillText(fine,W/2,1270);
+  ctx.fillStyle='rgba(7,14,38,.82)';ctx.fillRect(0,1160,W,190);ctx.textAlign='center';ctx.fillStyle='#ffd23f';ctx.font='54px Bangers';ctx.fillText('MAKE A WISH. WE’LL GET YOUR GANG READY.',W/2,1215);ctx.fillStyle='rgba(255,255,255,.85)';ctx.font='700 25px Nunito';ctx.fillText(fine,W/2,1270);
 }
 
 async function princess(ctx:Ctx,theme:FoodTheme,event?:any){
   const r=rng(11);
   const g=ctx.createLinearGradient(0,0,W,H);g.addColorStop(0,'#ffe6f3');g.addColorStop(.5,'#fcc6e2');g.addColorStop(1,'#e6d2ff');ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
   // Castle silhouette
-  ctx.fillStyle='rgba(176,120,214,.35)';const towers=[[120,980,90,260],[260,900,110,340],[430,820,220,420],[690,900,110,340],[840,980,90,260]];for(const [tx,ty,tw,th] of towers){ctx.fillRect(tx,ty,tw,th);ctx.beginPath();ctx.moveTo(tx-10,ty);ctx.lineTo(tx+tw/2,ty-110);ctx.lineTo(tx+tw+10,ty);ctx.fill()}
+  ctx.fillStyle='rgba(176,120,214,.35)';const towers=[[120,980,90,260],[260,900,110,340],[430,820,220,420],[690,900,110,340],[840,980,90,260]];for(const [tx,ty,tw,th] of towers){ctx.fillStyle='rgba(176,120,214,.35)';ctx.fillRect(tx,ty,tw,th);for(let bx=tx;bx<tx+tw;bx+=tw/4)ctx.fillRect(bx,ty-18,tw/8,18);ctx.beginPath();ctx.moveTo(tx-16,ty-18);ctx.lineTo(tx+tw/2,ty-100);ctx.lineTo(tx+tw+16,ty-18);ctx.fill();ctx.fillStyle='rgba(255,255,255,.55)';ctx.beginPath();ctx.roundRect(tx+tw/2-12,ty+40,24,40,[12,12,0,0]);ctx.fill();ctx.strokeStyle='rgba(176,120,214,.5)';ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(tx+tw/2,ty-100);ctx.lineTo(tx+tw/2,ty-135);ctx.stroke();ctx.fillStyle='rgba(255,111,170,.55)';ctx.beginPath();ctx.moveTo(tx+tw/2,ty-135);ctx.lineTo(tx+tw/2+26,ty-126);ctx.lineTo(tx+tw/2,ty-117);ctx.fill()}
   // Glitter
   const cols=['#ffffff','#ffd6ec','#ffe9a8','#f7a8d0','#d9c2ff'];for(let i=0;i<320;i++){ctx.fillStyle=cols[i%5];ctx.globalAlpha=.4+r()*.6;ctx.beginPath();ctx.arc(r()*W,r()*H,r()*3+.6,0,7);ctx.fill()}ctx.globalAlpha=1;
   for(let i=0;i<34;i++){star(ctx,r()*W,r()*H,8+r()*16);ctx.fillStyle=r()>.5?'#fff':'#ffe08a';ctx.fill()}
   // Scalloped frame
   ctx.strokeStyle='#e46aa8';ctx.lineWidth=4;ctx.setLineDash([2,14]);ctx.lineCap='round';ctx.strokeRect(48,48,W-96,H-96);ctx.setLineDash([]);ctx.strokeStyle='rgba(228,106,168,.5)';ctx.lineWidth=2;ctx.strokeRect(66,66,W-132,H-132);
   // Tiara
-  ctx.save();ctx.translate(W/2,210);const gold=ctx.createLinearGradient(0,-110,0,40);gold.addColorStop(0,'#fff1a8');gold.addColorStop(1,'#d9a520');ctx.fillStyle=gold;ctx.strokeStyle='#a8740c';ctx.lineWidth=5;ctx.beginPath();ctx.moveTo(-190,30);ctx.lineTo(-170,-40);ctx.lineTo(-110,10);ctx.lineTo(-60,-80);ctx.lineTo(0,-5);ctx.lineTo(0,-120);ctx.lineTo(0,-5);ctx.lineTo(60,-80);ctx.lineTo(110,10);ctx.lineTo(170,-40);ctx.lineTo(190,30);ctx.quadraticCurveTo(0,70,-190,30);ctx.closePath();ctx.fill();ctx.stroke();
+  ctx.save();ctx.translate(W/2,210);const gold=ctx.createLinearGradient(0,-110,0,40);gold.addColorStop(0,'#fff1a8');gold.addColorStop(1,'#d9a520');ctx.fillStyle=gold;ctx.strokeStyle='#a8740c';ctx.lineWidth=5;ctx.beginPath();ctx.moveTo(-190,30);ctx.lineTo(-170,-40);ctx.lineTo(-110,10);ctx.lineTo(-60,-80);ctx.lineTo(-22,-20);ctx.lineTo(0,-118);ctx.lineTo(22,-20);ctx.lineTo(60,-80);ctx.lineTo(110,10);ctx.lineTo(170,-40);ctx.lineTo(190,30);ctx.quadraticCurveTo(0,70,-190,30);ctx.closePath();ctx.fill();ctx.stroke();
   for(const [gx,gy,c,s] of [[0,-60,'#ff5fa2',22],[-60,-30,'#7ec8ff',14],[60,-30,'#7ec8ff',14],[-140,0,'#ff5fa2',11],[140,0,'#ff5fa2',11]] as [number,number,string,number][]){ctx.fillStyle=c;ctx.beginPath();ctx.arc(gx,gy,s,0,7);ctx.fill();ctx.fillStyle='rgba(255,255,255,.8)';ctx.beginPath();ctx.arc(gx-s*.35,gy-s*.35,s*.3,0,7);ctx.fill()}
   ctx.restore();
   ctx.textAlign='center';ctx.fillStyle='#a8276a';ctx.font='118px "Great Vibes"';ctx.fillText('You’re royally invited',W/2,385);

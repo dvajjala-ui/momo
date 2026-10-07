@@ -25,7 +25,7 @@ function momo(id:string,kind:'steamed'|'fried'|'tandoori'|'gravy'){
   if(kind==='tandoori'){
     over=`<g stroke="#4f220d" stroke-width="4" stroke-linecap="round" opacity=".55"><path d="M30 76 L44 66"/><path d="M58 104 L80 86"/><path d="M78 64 L90 56"/><path d="M28 98 L38 92"/></g>`+[[40,88],[70,60],[86,82],[52,70],[64,96],[32,66]].map(([x,y])=>`<circle cx="${x}" cy="${y}" r="1.6" fill="#7c1d0b" opacity=".6"/>`).join('');
     back=steam([64],32,'fi-smoke','#b7b0a8');
-    front=`<circle cx="18" cy="110" r="7" fill="none" stroke="#c98bc4" stroke-width="3"/><path d="M92 112 A12 12 0 0 1 116 112 Z" fill="#f6dd5b" stroke="${INK}" stroke-width="2"/><path d="M104 112 L104 102 M98 111 L94 104 M110 111 L114 104" stroke="#e9c43b" stroke-width="1.5"/>`;
+    front=`<ellipse cx="22" cy="112" rx="8" ry="4" fill="none" stroke="#c98bc4" stroke-width="2.6"/><path d="M92 112 A12 12 0 0 1 116 112 Z" fill="#f6dd5b" stroke="${INK}" stroke-width="2"/><path d="M104 112 L104 102 M98 111 L94 104 M110 111 L114 104" stroke="#e9c43b" stroke-width="1.5"/>`;
   }
   if(kind==='gravy'){
     back=`<ellipse class="fi-ripple" cx="60" cy="108" rx="56" ry="12" fill="#c8261d"/><ellipse cx="60" cy="106" rx="44" ry="7" fill="#e2493b" opacity=".7"/>`;

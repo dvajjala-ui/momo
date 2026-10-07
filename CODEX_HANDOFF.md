@@ -2,6 +2,10 @@
 
 Prepared 5 October 2026 for Dwarkesh Vajjala. This is a summary of the product conversation and implementation progress, not a verbatim chat export.
 
+## Update — 8 October 2026
+
+The site was simplified to 3 pages / 2 tabs (Ghar, Adda, Count me in), gained the wish wall, new animated SVG food icons, hero/princess/notebook postcards, a member badge and a working Vercel build. **`docs/ROADMAP.md` is now the live backlog**; the "Remaining work" list below is historical context.
+
 ## Start here
 
 Continue this project; do not rebuild or replace the design by default. Read this file, `AGENTS.md`, `README.md`, and `public/creative/whatsapp-setup.md`. Inspect the current code before changing it. The next substantial task is completing real WhatsApp onboarding/delivery and testing the invitation and host flows. Any necessary credentials must be configured privately; ask for the specific missing account setup rather than asking the user to repeat the brief.
@@ -59,7 +63,9 @@ Implemented:
 - `app/brand.tsx`: food themes/casts/names.
 - `app/host-desk.tsx`: host inbox and event/gallery/moderation UI.
 - `app/invitation.ts`: browser canvas PNG export.
-- `app/studio-content.tsx`, `public/creative/`: two briefs and launch/setup guides.
+- `app/wishes.tsx`, `app/letters.tsx`, `app/food-art.ts`: wish wall, postcards/badge, SVG food art.
+- `lib/sqlite-d1.ts`, `lib/vercel-cloudflare-env.ts`, `lib/device-session.ts`, `app/api/session/route.ts`: the Vercel runtime.
+- `docs/`: roadmap, film-series proposal, art prompts; `public/creative/`: WhatsApp setup and launch plan.
 - `app/api/community/route.ts`: data, requests, chat and host mutations.
 - `app/api/upload/route.ts`, `app/api/media/[id]/route.ts`: photo storage/access.
 - `lib/whatsapp.ts`, `app/api/whatsapp/webhook/route.ts`: Meta sending/signature validation/receipts/STOP.

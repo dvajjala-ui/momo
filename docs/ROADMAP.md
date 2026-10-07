@@ -1,0 +1,43 @@
+# Momo roadmap & continuation backlog
+
+This file is the source of truth for whoever continues the work, human or a scheduled Claude session. Pick the **first unchecked item that isn't blocked**, do it, tick it off with a one-line note and the date, then commit.
+
+## The idea (don't lose this)
+
+Screens got easier; making friends as an adult got harder. Reddit has the conversations, but nobody actually meets. **Momo makes the meetup happen**: make a wish, a gang forms, a host locks a public venue, time and full cost, and people show up. The tone is playful, a crayon notebook with filmy nostalgia. It never feels corporate, never pressures anyone and never labels people.
+
+The site is **3 pages and 2 tabs**: **Ghar** (home + wish wall), **Adda** (group chat) and **Count me in** (`/join`: invite list, nickname, postcard, badge, rules, privacy). The host corner (`/host`) is hidden for admins. Don't add more top-level pages without the owner asking.
+
+## Blocked on the owner (needs your accounts; Claude must not do these alone)
+
+- [ ] **Durable database on Vercel.** Today Vercel runs in "preview mode": SQLite in `/tmp`, so wishes and chats reset. Fix (about 2 minutes): Vercel → Storage → **Turso** → Create → connect to the `momo` project. That injects `TURSO_DATABASE_URL` + `TURSO_AUTH_TOKEN`; then redeploy. The code already supports it (`lib/sqlite-d1.ts`) and runs migrations automatically.
+- [ ] **Host passcode on Vercel.** Vercel → momo → Settings → Environment Variables → `HOST_PASSCODE` (12+ characters, keep it secret) → redeploy. Then open `/host`.
+- [ ] **Photo storage on Vercel.** Optional: create a Vercel Blob store (Storage → Blob) so profile and gallery photos work there too. Code support is a backlog item below.
+- [ ] **WhatsApp Business** sender, template and webhook: see `public/creative/whatsapp-setup.md`. Keep the readiness flags false until it's real.
+- [ ] **Phone ownership verification (OTP)** needs an SMS/WhatsApp OTP provider account.
+- [ ] Decide **names** for the film characters and mascot (`docs/video-series.md`), and the tab names (Ghar/Adda).
+- [ ] Generate the illustrated icon set, gang illustration and films with the prompts in `docs/art-and-icon-prompts.md` and `docs/video-series.md`. No image or video generation tool is connected to the coding agent.
+
+## Backlog (not blocked; pick from the top)
+
+- [ ] Vercel Blob adapter for `BUCKET` (use `BLOB_READ_WRITE_TOKEN` and the REST API via `fetch`, no new dependency), and re-enable the profile photo upload in `/join` when `photos` is true.
+- [ ] "Plan it" for hosts: turn a ready wish into a published event (prefill the event form from the wish; link `event.wish_id` with an additive migration) and show "Planned ✓" on the wish.
+- [ ] Members can report a wish (reuse the reports table with a `kind` column, additive migration); hosts see wish reports in `/host`.
+- [ ] Open Graph / share image: a static `public/og.png`-style SVG or route, so WhatsApp link previews look good.
+- [ ] Web app manifest + icons so "Add to Home Screen" works (the mobile bottom tab bar already feels app-like).
+- [ ] An original SVG "gang" illustration for the hero (six friends: garba girl, office guy, sleepy princess, footballer in patka, hoodie guy doing the filmy hero pose, badminton girl). Flat style, clean ink lines, no logos and no celebrity likeness.
+- [ ] Accessibility pass: focus styles on tabs and letter tabs, `prefers-reduced-motion` already handled, colour contrast of the hand-written blue on cream.
+- [ ] Hindi/Gujarati sprinkle copy review (keep it light, Hinglish-friendly).
+- [ ] Update `CODEX_HANDOFF.md` and `README.md` whenever something above lands.
+
+## Done
+
+- [x] 2026-10-08: Simplified to 2 tabs and 3 pages; wish wall with "I'm in" and gang-ready state; animated SVG food icons (pasta removed); Hero, Princess and Notebook postcards; member badge; real CC-licensed photo per edition; Vercel build with SQLite/libSQL adapter and device sessions; docs for the film series and art prompts.
+
+## Rules for any continuing session
+
+- Read `AGENTS.md`, this file, then the code. Keep the crayon/notebook brand and both food editions.
+- Run `npx tsc --noEmit`, `MOMO_TARGET=next npx next build`, `pnpm run build` and `node tests/community.integration.mjs` before committing.
+- Work on a branch, push it, check the Vercel preview, then fast-forward `main` (pushing `main` deploys production).
+- Never commit secrets. Never enable WhatsApp sending. Never accept third-party terms, create accounts or enter passwords on the owner's behalf: list those under "Blocked on the owner".
+- No third-party logos or characters (Batman, Superman, film princesses, club crests), and no copyrighted film stills on the site.
