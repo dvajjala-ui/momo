@@ -5,9 +5,10 @@ import Wishes from './wishes';
 import {Letters} from './letters';
 import {Run} from './client';
 
-export default function PlayfulHome({data,me,busy,run,reload,signIn,onError}:{data:any,me:any,busy:boolean,run:Run,reload:()=>Promise<void>,signIn:React.ReactNode,onError:(s:string)=>void}){
+export default function PlayfulHome({data,me,busy,run,reload,signIn,onError,previewBanner}:{data:any,me:any,busy:boolean,run:Run,reload:()=>Promise<void>,signIn:React.ReactNode,onError:(s:string)=>void,previewBanner?:React.ReactNode}){
   const{theme}=useBrand();const photo=themePhoto(theme);const kinds=themeKinds(theme);const upcoming=data.events.filter((e:any)=>Date.parse(e.date)>Date.now()-6*3600000);const event=upcoming[0];
   return <main className="home">
+    {previewBanner}
     <section className="hero">
       <div className="hero-copy">
         <span className="torn-label">AHMEDABAD · A WEEKEND FRIEND CLUB · 18+</span>
@@ -37,7 +38,7 @@ export default function PlayfulHome({data,me,busy,run,reload,signIn,onError}:{da
       <p>So here’s the deal: you bring yourself, <mark className="hl-orange">we’ll bring the gang</mark>. Some momos. A silly game. A Saturday you’ll talk about on Monday.</p>
       <p className="sign">— somebody who also wanted <mark className="hl-yellow">their people</mark> ✳</p>
     </div></section>
-    <section className="letters-section" id="letters"><div className="section-heading center"><span className="handwritten">a tiny invitation. a possible story.</span><h2>Send a little <span className="crayon-underline">“come along?”</span></h2><p>Pick the postcard that feels like you, or like the friend you want to drag along.</p></div><Letters event={event} onError={onError}/></section>
+    <section className="letters-section" id="letters"><div className="section-heading center"><span className="handwritten">a tiny invitation. a possible story.</span><h2>Send a little <span className="crayon-underline">“come along?”</span></h2><p>Pick the postcard that feels like you, or like the friend you want to invite.</p></div><Letters event={event} onError={onError}/></section>
     {data.gallery?.length>0&&<section className="memories"><div className="section-heading"><span className="handwritten">from our tables.</span><h2>Real people. <span className="crayon-underline">Real permission.</span></h2></div><div className="memory-strip">{data.gallery.slice(0,8).map((g:any)=><figure key={g.id} className="photo-card small"><img src={'/api/media/'+g.id} alt={g.caption}/><figcaption className="handwritten">{g.caption}</figcaption></figure>)}</div></section>}
   </main>;
 }

@@ -21,13 +21,15 @@ Two targets share one codebase:
 | Target | Build | Sign-in | Storage |
 |--------|-------|---------|---------|
 | ChatGPT Site (Cloudflare Workers via Vinext) | `pnpm run build` | Trusted ChatGPT identity headers, `ADMIN_EMAILS` allowlist | D1 `DB`, R2 `BUCKET` |
-| Vercel (`vercel.json`) | `node scripts/embed-migrations.mjs && next build` | Pseudonymous device session cookie; host via `HOST_PASSCODE` | Turso/libSQL when `TURSO_DATABASE_URL` + `TURSO_AUTH_TOKEN` are set, otherwise SQLite in `/tmp` ("preview mode", resets) |
+| Vercel (`vercel.json`) | `node scripts/embed-migrations.mjs && next build` | Pseudonymous device session cookie; host via `HOST_PASSCODE` | Cloudflare D1 REST + private R2 S3 when configured; alternative Turso/libSQL; otherwise SQLite in `/tmp` ("preview mode", resets) |
 
-On Vercel, `cloudflare:workers` is aliased to `lib/vercel-cloudflare-env.ts`, and ChatGPT identity headers are **never** trusted there. Drizzle migrations are additive; non-Cloudflare runtimes apply them automatically from `lib/migrations.generated.ts` (regenerate with `node scripts/embed-migrations.mjs` after `npm run db:generate`). Secrets go in runtime settings, never in Git (see `.env.example`).
+On Vercel, `cloudflare:workers` is aliased to `lib/vercel-cloudflare-env.ts`, and ChatGPT identity headers are **never** trusted there. D1 migrations are applied explicitly with `scripts/cloudflare-migrate.mjs`; Turso and local SQLite apply them automatically from `lib/migrations.generated.ts`. Preserve applied migrations. Secrets go in runtime settings, never in Git (see `.env.example`).
+
+Local SQLite is for development. Vercel's `/tmp` fallback is temporary, even when it feels fast in a local test. The new server adapters support D1 and private R2 on Vercel; resource creation and local tests do not prove a live connection. Setup and verification: [Cloudflare guide](docs/CLOUDFLARE_SETUP.md).
 
 ## Still needed for launch
 
-- A durable database on Vercel (Turso via the Vercel Marketplace) and a `HOST_PASSCODE`; see the roadmap.
+- Configure and verify the Cloudflare storage connection on Vercel and a private `HOST_PASSCODE`; see the roadmap.
 - The real WhatsApp sender, template and public webhook, plus phone ownership verification. No real WhatsApp invitation has been sent.
 - A confirmed public venue, named host, full cost, end time and moderation arrangements before listing a real meetup.
 - Review brand availability, image rights, participant photo consent, privacy and event obligations. This is not legal clearance or a security audit. Age confirmation is self-attestation.
@@ -49,6 +51,7 @@ npx tsc --noEmit
 MOMO_TARGET=next npx next build    # the Vercel build
 pnpm run build                     # the Cloudflare/Sites build
 node tests/community.integration.mjs
+node --experimental-strip-types tests/storage.integration.mjs
 ```
 
 The integration tests run against a disposable local Worker/D1 and cover permissions, invite privacy, chat, moderation, the wish wall and WhatsApp callbacks. They never contact real recipients.

@@ -9,7 +9,7 @@ export function Letters({event,onError,initial='hero'}:{event?:any,onError:(s:st
   const key=style+theme+(event?.id||'');
   useEffect(()=>{if(preview[key])return;let live=true;renderLetter(style,theme as FoodTheme,event).then(c=>{if(live)setPreview(p=>({...p,[key]:c.toDataURL('image/jpeg',.82)}))}).catch(()=>{});return()=>{live=false}},[key]);
   return <div className="letters">
-    <div className="letter-tabs" role="tablist" aria-label="Postcard style">{LETTER_STYLES.map(s=><button key={s.id} role="tab" aria-selected={style===s.id} className={'letter-tab ls-'+s.id+(style===s.id?' on':'')} onClick={()=>setStyle(s.id)}><b>{s.name}</b><small>{s.note}</small></button>)}</div>
+    <div className="letter-tabs" role="group" aria-label="Postcard style">{LETTER_STYLES.map(s=><button key={s.id} type="button" aria-pressed={style===s.id} className={'letter-tab ls-'+s.id+(style===s.id?' on':'')} onClick={()=>setStyle(s.id)}><b>{s.name}</b><small>{s.note}</small></button>)}</div>
     <div className="letter-stage">{preview[key]?<img src={preview[key]} alt={LETTER_STYLES.find(s=>s.id===style)?.name+' invitation preview'}/>:<div className="letter-loading">drawing your postcard…</div>}</div>
     <button className="button blue" disabled={busy} onClick={async()=>{setBusy(true);try{await saveCanvas(await renderLetter(style,theme,event),`momo-${style}-invitation.png`)}catch(e){onError(e instanceof Error?e.message:'Could not make the postcard.')}finally{setBusy(false)}}}><Download size={17}/>{busy?'Making it…':'Download this postcard'}</button>
     <p className="tiny-note">{event?'Made for: '+event.title:'A preview card. Real plans get their own card once a host confirms them.'}</p>
