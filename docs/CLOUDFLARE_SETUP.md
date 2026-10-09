@@ -11,6 +11,8 @@ These are separate from Backline and the existing private ChatGPT Site. No parti
 
 ## Private runtime settings
 
+The admin/messaging candidate adds an optional native Worker gateway as the preferred Vercel database transport. It is built and locally tested, but has not been deployed or configured. Read `docs/D1_GATEWAY.md` before activation. Configure `MOMO_DB_GATEWAY_URL` and `MOMO_DB_GATEWAY_TOKEN` only on the server; no gateway secret belongs in browser code. The existing management API remains the explicit migration path.
+
 In Vercel project `momo`, set the following server-only environment variables. Use separate disposable resources for preview deployments that accept test writes.
 
 | Setting | Value / scope |

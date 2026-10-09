@@ -34,7 +34,7 @@ try{
   const photo=await fetch(origins[1]+'/api/media/'+photoId,{headers:{Cookie:b.cookie}});assert.equal(photo.status,200);assert.equal(photo.headers.get('content-type'),'image/png');assert.equal(photo.headers.get('cache-control'),'private, no-store');
   console.log('PASS private R2 photo through independent Vercel runtime');
   if(process.env.MOMO_TEST_HOST_PASSCODE){
-    assert.equal((await call(outsider,'/api/session',{action:'host',passcode:process.env.MOMO_TEST_HOST_PASSCODE})).status,200);
+    assert.equal((await call(outsider,'/api/session',{action:'host',username:process.env.MOMO_TEST_ADMIN_USERNAME||'momo',passcode:process.env.MOMO_TEST_HOST_PASSCODE})).status,200);
     const host=await call(outsider,'/api/community?view=host');assert.equal(host.status,200);assert.equal(host.body.whatsapp.configured,false);
     assert.equal((await call(outsider,'/api/community',{action:'event',title:'Disposable QA event',date:'2026-11-01T18:00:00+05:30',venue:'Public test venue',cost:'Test only',description:'Disposable local verification only',category:'Food'})).status,200);
     eventId=(await call(outsider,'/api/community?view=home')).body.events.find(e=>e.title==='Disposable QA event').id;

@@ -6,13 +6,15 @@ This file is the source of truth for whoever continues the work, human or a sche
 
 Screens got easier; making friends as an adult got harder. Reddit has the conversations, but nobody actually meets. **Momo makes the meetup happen**: make a wish, a gang forms, a host locks a public venue, time and full cost, and people show up. The tone is playful, a crayon notebook with filmy nostalgia. It never feels corporate, never pressures anyone and never labels people.
 
-The site is **3 pages and 2 tabs**: **Ghar** (home + wish wall), **Adda** (group chat) and **Count me in** (`/join`: invite list, nickname, postcard, badge, rules, privacy). The host corner (`/host`) is hidden for admins. Don't add more top-level pages without the owner asking.
+The site is **3 pages and 2 tabs**: **Ghar** (home + wish wall), **Adda** (community chat + attendance-gated private notes) and **Count me in** (`/join`: invite list, nickname, postcard, badge, rules, privacy). The header's Host login opens the existing protected `/host` notebook. Don't add more top-level pages without the owner asking.
 
 ## Pending work at a glance — 9 October 2026
 
 | Priority | Work | Current state |
 | --- | --- | --- |
-| Pilot release | Connect the dedicated Gmail account, approve/apply migrations 0005 and 0006, then verify a confirmation and one reviewed invitation in a real inbox | Email flow is built in draft PR #3; no sender grant, production schema change or real message yet |
+| Current build | Activate reviewed gateway/chat Workers; test hosted reconnects and sustained capacity | WebSocket delivery, retry protection and permission checks pass local suites, including one 500-client fanout; private settings and hosted verification are pending |
+| Candidate release | Review admin/private-note candidate; approve/apply migrations 0005–0008 and deploy | Draft PR #4 includes host controls, private notes, gateway and real-time chat; production is unchanged |
+| Email activation | Connect the dedicated Gmail account, then verify a confirmation and one reviewed invitation in a real inbox | Email flow is built in draft PR #3; no sender grant or real message yet |
 | First meetup | Confirm a named host, public venue, date/end time, full cost and capacity; review moderation and participant/photo permissions | No real event should be announced from a preview plan |
 | After first pilot | Add delivery/bounce feedback and a host-reviewed reminder queue | Provider acceptance is the last current email status; reminders are not scheduled |
 | Broader launch | Replace D1 management API access with a native Worker gateway and test capacity | Current D1 REST path is for a small pilot |
@@ -20,6 +22,20 @@ The site is **3 pages and 2 tabs**: **Ghar** (home + wish wall), **Adda** (group
 | Later | Decide whether verified email should recover a lost device seat; connect WhatsApp sender/template/callback/phone proof; finish original art and two films; clear rights/privacy/event obligations | No WhatsApp account or film delivery is needed for the email pilot |
 
 The detailed checkboxes below are authoritative. A GitHub push to the draft email branch produces a Vercel preview; it does not apply the new production migrations or release email sending.
+
+## Current priority — host control and messaging
+
+The owner requested one place to manage the app and confirmed that private notes must require shared host-confirmed attendance. Work is on `codex/admin-messaging`, stacked on the email candidate. See `docs/ADMIN_AND_CHAT.md`.
+
+- [x] 2026-10-09: Host username/password form using the existing private passcode; server-protected overview, searchable/paginated members and contacts, nickname editing, suspension/restoration, typed deletion and audit history.
+- [x] 2026-10-09: Gang rosters/removal and capacity controls (2–500), atomic join/capacity checks, bounded wish-card avatars, attendance controls, guarded plan editing and public/gang moderation in the same notebook.
+- [x] 2026-10-09: Private notes require shared confirmed attendance and mutual opt-in. Blocks, opt-out and suspension close server access; report/unblock controls are included. Adda polls only the selected conversation type.
+- [x] 2026-10-09: Native Worker/D1 gateway and optional Vercel transport built. Isolated tests pass for server authentication, bounded requests, private errors, batch rollback and 50 simultaneous joins into ten seats. No new Worker/token or production setting has been created. See `docs/D1_GATEWAY.md`.
+- [ ] Activate the reviewed gateway with private Worker/Vercel settings and verify deployed flows. Runtime management-API traffic continues until activation.
+- [x] 2026-10-09: Optional WebSocket rooms, signed short-lived authorization, native D1 sends, durable retry IDs, 80-note history, member-wide ten-note burst budgets and live permission checks built. Clients reconnect and ignore old-room responses; chat stays disabled until deployment/settings. See `docs/REALTIME_CHAT.md`.
+- [x] 2026-10-09: Isolated reconnect/moderation/retry suites pass. A 500-client local network probe delivered one note exactly once to each client (p95 51 ms). This is local fanout evidence, not sustained hosted capacity or mobile latency.
+- [ ] Deploy reviewed chat/gateway Workers with private settings; test sustained hosted traffic, reconnect storms, slow/offline/mobile clients and permission changes against the exact release SHA. Set a measured latency target and review quotas/receipt retention before broader launch.
+- [ ] Review/deploy the tested candidate and apply additive migrations `0007_nappy_goliath` and `0008_serious_impossible_man` alongside the earlier pending migrations. Keep production records and sending gates intact.
 
 ## Current priority — email letters
 
@@ -39,7 +55,7 @@ The owner selected email first on 2026-10-09 and specified `the.world.is.waiting
 - [x] 2026-10-09: **Host passcode configured on Vercel.** Owner entered `HOST_PASSCODE` privately as a Production secret. Live host login was verified by the owner; its value was not read back.
 - [x] 2026-10-09: **Photo adapter for Vercel.** Private R2 S3 adapter added; profile upload is gated by `photos: true`, host uploads wait for storage, badge photos stay local. Local Worker and actual Cloudflare/Next checks cover permissions, consent, replacement and deletion. Live activation requires the candidate deployment.
 - [ ] **Future WhatsApp Business** sender, template and webhook: see `public/creative/whatsapp-setup.md`. Keep the readiness flags false until it's real.
-- [ ] **Capacity before a broader public launch.** D1 REST uses Cloudflare's 1,200 calls/5-minute management API limit. Gang polling now batches permission and messages into one call and skips hidden tabs. The current candidate is for a small pilot; a native D1 Worker gateway is needed before scaling beyond it. See the setup guide.
+- [ ] **Capacity before a broader public launch.** Current production uses the D1 management API and polling. The gateway/WebSocket candidates are built locally; reviewed activation, sustained hosted load/device checks and quota/retention review are still needed before scaling beyond the small pilot. See `docs/D1_GATEWAY.md` and `docs/REALTIME_CHAT.md`.
 - [ ] **Future phone ownership activation:** the manual-message proof is built locally; it needs the real business sender and authenticated public callback before release.
 - [ ] Decide **names** for the film characters and mascot (`docs/video-series.md`), and the tab names (Ghar/Adda).
 - [ ] Generate the illustrated icon set, gang illustration and films with the prompts in `docs/art-and-icon-prompts.md` and `docs/video-series.md`. Image generation is available; character names and the final art direction need owner review. Finished cinematic films still need a video-generation workflow.

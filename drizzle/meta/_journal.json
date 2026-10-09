@@ -50,6 +50,20 @@
       "when": 1791545477248,
       "tag": "0006_email_letters",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "6",
+      "when": 1791549541467,
+      "tag": "0007_nappy_goliath",
+      "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "6",
+      "when": 1791553741831,
+      "tag": "0008_serious_impossible_man",
+      "breakpoints": true
     }
   ]
 }

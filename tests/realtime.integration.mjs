@@ -1,0 +1,140 @@
+import assert from 'node:assert/strict';
+import {createRequire} from 'node:module';
+import {readFileSync,realpathSync,readdirSync} from 'node:fs';
+import {fileURLToPath} from 'node:url';
+import {randomUUID} from 'node:crypto';
+import {signChatTicket} from '../lib/chat-ticket.mjs';
+import {persistChat} from '../lib/chat-core.mjs';
+const root=fileURLToPath(new URL('..',import.meta.url));
+const {Miniflare}=createRequire(realpathSync(root+'/node_modules/wrangler/package.json'))('miniflare');
+const WebSocket=createRequire(realpathSync(root+'/node_modules/wrangler/package.json')).resolve('miniflare');
+const NodeWebSocket=createRequire(WebSocket)('ws');
+const secret='disposable-chat-secret-1234567890123456789',origin='https://momo.test';
+const mf=new Miniflare({modules:true,scriptPath:root+'/cloudflare/chat/worker.mjs',modulesRoot:root,modulesRules:[{type:'ESModule',include:['**/*.mjs']}],compatibilityDate:'2026-05-15',d1Databases:['DB'],durableObjects:{ROOMS:{className:'ChatRoom',useSQLite:true}},bindings:{MOMO_CHAT_SECRET:secret,MOMO_CHAT_APP_ORIGIN:origin}});
+const sockets=[];
+async function post(path,body,token=secret){const r=await mf.dispatchFetch('https://chat.test/v1/'+path,{method:'POST',headers:{'Content-Type':'application/json',Authorization:'Bearer '+token},body:JSON.stringify(body)});return {status:r.status,data:await r.json()}}
+function seat(userId,room='weekend'){return {userId,admin:false,room}}
+async function connect(userId,room='weekend',changes={},requestOrigin=origin,signingSecret=secret){
+  const ticket=await signChatTicket(signingSecret,{v:1,...seat(userId,room),origin,expires:Date.now()+30000,...changes});
+  // A real local network client avoids the dispatchFetch upgrade bridge and
+  // exercises the same handshake/close path used by browsers.
+  const url=new URL('/connect',await mf.ready);url.protocol='ws:';
+  const ws=new NodeWebSocket(url,['momo',ticket],{origin:requestOrigin});
+  const received=[],closed={value:false};ws.on('message',data=>received.push(JSON.parse(data.toString())));
+  ws.on('close',()=>{closed.value=true});
+  return new Promise((resolve,reject)=>{
+    ws.on('error',reject);
+    ws.once('open',()=>{sockets.push(ws);resolve({status:101,ws,received,closed})});
+    ws.once('unexpected-response',(request,response)=>{let text='';response.on('data',chunk=>text+=chunk);response.on('end',()=>{request.socket?.end();resolve({status:response.statusCode,data:JSON.parse(text)})})});
+  });
+}
+async function until(check){const limit=Date.now()+3000;while(!check()){if(Date.now()>limit)assert.fail('Timed out waiting for local socket event');await new Promise(r=>setTimeout(r,10))}}
+try{
+  const db=await mf.getD1Database('DB');
+  for(const file of readdirSync(root+'/drizzle').filter(f=>f.endsWith('.sql')).sort())for(const statement of readFileSync(root+'/drizzle/'+file,'utf8').split('--> statement-breakpoint'))if(statement.trim())await db.prepare(statement).run();
+  for(const [id,nick] of [['a','Chai'],['b','Momo'],['c','Noodles']])await db.prepare('INSERT INTO profiles(id,nickname,created,dm_opt_in) VALUES(?,?,1,1)').bind(id,nick).run();
+  assert.equal((await post('history',seat('a'),'wrong')).status,401);
+  assert.equal((await connect('a','weekend',{},'https://outsider.test')).status,403);
+  assert.equal((await connect('a','weekend',{expires:Date.now()-1})).status,401);
+  assert.equal((await connect('a','weekend',{},origin,'wrong-secret')).status,401);
+  assert.equal((await connect('no-profile')).status,403);
+  console.log('PASS signed tickets, expiry, origin, secret and profile boundaries');
+  const a=await connect('a'),b=await connect('b');
+  await until(()=>a.received.some(x=>x.type==='history')&&b.received.some(x=>x.type==='history'));
+  const clientId=randomUUID();a.ws.send(JSON.stringify({type:'send',clientId,body:'A live local note'}));
+  await until(()=>a.received.some(x=>x.type==='ack'&&x.clientId===clientId)&&b.received.some(x=>x.type==='message'));
+  const note=b.received.find(x=>x.type==='message').message;
+  assert.equal(note.body,'A live local note');assert.equal(note.mine,false);assert.equal(note.nickname,'Chai');
+  assert.equal(a.received.find(x=>x.type==='message').message.mine,true);
+  assert(!JSON.stringify(note).includes('user_id'));assert(!('email' in note));assert(!('phone' in note));
+  const duplicate=await post('send',{...seat('a'),clientId,body:'A live local note'});assert.equal(duplicate.status,200);assert.equal(duplicate.data.duplicate,true);
+  assert.equal((await db.prepare('SELECT COUNT(*) AS n FROM messages').first()).n,1);
+  assert.equal((await post('send',{...seat('a'),clientId,body:'Different body'})).status,409);
+  await db.prepare('DELETE FROM messages WHERE id=?').bind(note.id).run();
+  assert.equal((await post('send',{...seat('a'),clientId,body:'A live local note'})).status,200);
+  assert.equal((await db.prepare('SELECT COUNT(*) AS n FROM messages').first()).n,0,'retry must not resurrect a moderated message');
+  console.log('PASS live delivery, private identity stripping and durable HTTP/socket retry deduplication');
+  await db.prepare("INSERT INTO blocks(id,user_id,blocked_id) VALUES('b:a','b','a')").run();
+  const before=b.received.filter(x=>x.type==='message').length;
+  assert.equal((await post('send',{...seat('a'),clientId:randomUUID(),body:'Hidden by block'})).status,200);
+  assert.equal(b.received.filter(x=>x.type==='message').length,before);
+  assert.equal((await post('history',seat('b'))).data.messages.length,0);
+  await db.prepare("DELETE FROM blocks WHERE id='b:a'").run();
+  a.ws.close();b.ws.close();
+  const reconnect=await connect('b');await until(()=>reconnect.received.some(x=>x.type==='history'));
+  assert(reconnect.received.find(x=>x.type==='history').messages.some(x=>x.body==='Hidden by block'));
+  assert.equal((await post('history',seat('b'))).data.messages.length,1);
+  console.log('PASS blocked recipients do not receive data; reconnect recovers bounded persisted history');
+  const wish=randomUUID(),gang='w_'+wish;
+  await db.prepare("INSERT INTO wishes(id,user_id,title,when_text,area,spots,status,created) VALUES(?,'a','Disposable gang','Sunday','Test',5,'open',1)").bind(wish).run();
+  for(const id of ['a','b'])await db.prepare('INSERT INTO wish_joins(id,wish_id,user_id,created) VALUES(?,?,?,1)').bind(wish+':'+id,wish,id).run();
+  assert.equal((await connect('c',gang)).status,403);
+  const gangB=await connect('b',gang);await until(()=>gangB.received.some(x=>x.type==='history'));
+  await db.prepare("DELETE FROM wish_joins WHERE wish_id=? AND user_id='b'").bind(wish).run();
+  assert.equal((await post('send',{...seat('a',gang),clientId:randomUUID(),body:'After removal'})).status,200);
+  await until(()=>gangB.received.some(x=>x.type==='revoked'));
+  assert(!gangB.received.some(x=>x.type==='message'));
+  assert.equal((await post('history',seat('b',gang))).status,403);
+  console.log('PASS gang membership is revalidated before history, sending and socket delivery');
+  const event=randomUUID(),thread='f'.repeat(32),direct='d_'+thread;
+  await db.prepare("INSERT INTO events(id,title,date,venue,cost,description,category,created) VALUES(?,'Local test','2026-10-01','Test','Test','Disposable','Food',1)").bind(event).run();
+  await db.prepare("INSERT INTO direct_threads(id,user_a,user_b,created) VALUES(?,'a','b',1)").bind(thread).run();
+  assert.equal((await connect('a',direct)).status,403);
+  for(const id of ['a','b'])await db.prepare("INSERT INTO event_attendance(id,event_id,user_id,confirmed_by,attended_at) VALUES(?,?,?,'host',1)").bind(event+':'+id,event,id).run();
+  const directB=await connect('b',direct);await until(()=>directB.received.some(x=>x.type==='history'));
+  await db.prepare("UPDATE profiles SET dm_opt_in=0 WHERE id='b'").run();
+  assert.equal((await post('send',{...seat('a',direct),clientId:randomUUID(),body:'Must not save'})).status,403);
+  assert.equal((await post('history',seat('a',direct))).status,403);
+  await db.prepare("UPDATE profiles SET dm_opt_in=1 WHERE id='b'").run();
+  await db.prepare("INSERT INTO blocks(id,user_id,blocked_id) VALUES('b:a','b','a')").run();
+  assert.equal((await post('send',{...seat('a',direct),clientId:randomUUID(),body:'Must stay blocked'})).status,403);
+  await db.prepare("DELETE FROM blocks WHERE id='b:a'").run();
+  await db.prepare("INSERT INTO member_controls(user_id,status,updated) VALUES('b','suspended',1)").run();
+  assert.equal((await post('send',{...seat('a',direct),clientId:randomUUID(),body:'Suspended peer'})).status,403);
+  assert.equal((await connect('b')).status,403);
+  await db.prepare("DELETE FROM member_controls WHERE user_id='b'").run();
+  await db.prepare("DELETE FROM event_attendance WHERE user_id='b'").run();
+  assert.equal((await post('history',seat('a',direct))).status,403);
+  console.log('PASS private-note attendance, mutual opt-in, blocks and suspension gates stay live');
+  const sends=await Promise.all(Array.from({length:20},(_,i)=>post('send',{...seat('c',i%2?'food':'games'),clientId:randomUUID(),body:'Burst '+i})));
+  assert.equal(sends.filter(x=>x.status===200).length,10);assert.equal(sends.filter(x=>x.status===429).length,10);
+  const budget=await db.prepare("SELECT * FROM chat_send_limits WHERE user_id='c'").first();assert.equal(budget.sent,10);
+  console.log('PASS ten-note burst budget is atomic across independent rooms');
+  await db.prepare("UPDATE chat_send_limits SET window_start=0 WHERE user_id='c'").run();
+  const repeatedId=randomUUID();
+  const repeated=await Promise.all(Array.from({length:20},()=>post('send',{...seat('c','food'),clientId:repeatedId,body:'One note twenty retries'})));
+  assert(repeated.every(x=>x.status===200));
+  assert.equal((await db.prepare("SELECT COUNT(*) AS n FROM messages WHERE body='One note twenty retries'").first()).n,1);
+  assert.equal((await db.prepare("SELECT sent FROM chat_send_limits WHERE user_id='c'").first()).sent,1);
+  const start=Date.now();
+  for(let i=0;i<90;i++)await db.prepare("INSERT INTO messages(id,user_id,room,body,created) VALUES(?,'a','games','History bound',?)").bind(randomUUID(),start+i).run();
+  assert.equal((await post('history',seat('a','games'))).data.messages.length,80);
+  assert.equal((await post('send',{...seat('a'),clientId:randomUUID(),body:'x'.repeat(501)})).status,400);
+  console.log('PASS concurrent retry IDs save once, do not spend extra budget, and history/frames are bounded');
+  // Failure in the transactional write leaves neither receipt nor rate budget.
+  await db.prepare("CREATE TRIGGER reject_chat BEFORE INSERT ON messages WHEN NEW.body='Rollback probe' BEGIN SELECT RAISE(ABORT,'local-only'); END").run();
+  const failId=randomUUID();await assert.rejects(persistChat(db,{...seat('c'),clientId:failId,body:'Rollback probe'}));
+  const failedSend=await post('send',{...seat('c'),clientId:randomUUID(),body:'Rollback probe'});
+  assert.equal(failedSend.status,503);assert.deepEqual(failedSend.data,{error:'Chat is temporarily unavailable.'});
+  assert.equal((await db.prepare("SELECT COUNT(*) AS n FROM chat_send_receipts WHERE user_id='c'").first()).n,11);
+  assert.equal((await db.prepare("SELECT sent FROM chat_send_limits WHERE user_id='c'").first()).sent,1);
+  console.log('PASS failed native batch rolls back message, receipt and burst budget');
+  await db.prepare('DROP TRIGGER reject_chat').run();
+  const count=Number(process.env.MOMO_CHAT_LOAD_CLIENTS||50);
+  assert(Number.isInteger(count)&&count>=2&&count<=500,'local load must be 2–500 clients');
+  for(let base=0;base<count;base+=50)await db.batch(Array.from({length:Math.min(50,count-base)},(_,n)=>db.prepare('INSERT INTO profiles(id,nickname,created) VALUES(?,?,1)').bind('load-'+(base+n),'Local load '+(base+n))));
+  const clients=[];
+  for(let base=0;base<count;base+=25)clients.push(...await Promise.all(Array.from({length:Math.min(25,count-base)},(_,n)=>connect('load-'+(base+n),'food'))));
+  await until(()=>clients.every(c=>c.received.some(x=>x.type==='history')));
+  const elapsed=[],loadId=randomUUID(),loadStart=performance.now();
+  for(const c of clients)c.ws.on('message',data=>{const b=JSON.parse(data.toString());if(b.type==='message'&&b.message.body==='Local fanout probe')elapsed.push(performance.now()-loadStart)});
+  clients[0].ws.send(JSON.stringify({type:'send',clientId:loadId,body:'Local fanout probe'}));
+  await until(()=>elapsed.length===count);
+  elapsed.sort((a,b)=>a-b);
+  assert(clients.every(c=>c.received.filter(x=>x.type==='message'&&x.message.body==='Local fanout probe').length===1));
+  console.log('PASS local fanout',JSON.stringify({clients:count,p50Ms:Math.round(elapsed[Math.floor(count*.5)]),p95Ms:Math.round(elapsed[Math.floor(count*.95)]),maxMs:Math.round(elapsed.at(-1)),environment:'isolated local network, one message; not production capacity'}));
+}catch(error){console.error('Realtime test failed:',error);throw error}finally{
+  for(const ws of sockets)try{ws.close(1000,'Test complete')}catch{}
+  const limit=Date.now()+3000;while(sockets.some(ws=>ws.readyState!==NodeWebSocket.CLOSED)&&Date.now()<limit)await new Promise(resolve=>setTimeout(resolve,20));
+  await mf.dispose();
+}
