@@ -6,13 +6,15 @@ This file is the source of truth for whoever continues the work, human or a sche
 
 Screens got easier; making friends as an adult got harder. Reddit has the conversations, but nobody actually meets. **Momo makes the meetup happen**: make a wish, a gang forms, a host locks a public venue, time and full cost, and people show up. The tone is playful, a crayon notebook with filmy nostalgia. It never feels corporate, never pressures anyone and never labels people.
 
-The site is **3 pages and 2 tabs**: **Ghar** (home + wish wall), **Adda** (group chat) and **Count me in** (`/join`: invite list, nickname, postcard, badge, rules, privacy). The host corner (`/host`) is hidden for admins. Don't add more top-level pages without the owner asking.
+The site is **3 pages and 2 tabs**: **Ghar** (home + wish wall), **Adda** (community chat + attendance-gated private notes) and **Count me in** (`/join`: invite list, nickname, postcard, badge, rules, privacy). The header's Host login opens the existing protected `/host` notebook. Don't add more top-level pages without the owner asking.
 
 ## Pending work at a glance — 9 October 2026
 
 | Priority | Work | Current state |
 | --- | --- | --- |
-| Pilot release | Connect the dedicated Gmail account, approve/apply migrations 0005 and 0006, then verify a confirmation and one reviewed invitation in a real inbox | Email flow is built in draft PR #3; no sender grant, production schema change or real message yet |
+| Current build | Replace chat polling/D1 management access with a native Worker and WebSocket rooms; test reconnects, abuse limits and capacity | Admin/attendance/private-note candidate is built locally; current transport is still a small pilot |
+| Candidate release | Review admin/private-note candidate; approve/apply migrations 0005–0007 and deploy | Host directory/moderation, capacity and attendance controls pass disposable integration tests; production is unchanged |
+| Email activation | Connect the dedicated Gmail account, then verify a confirmation and one reviewed invitation in a real inbox | Email flow is built in draft PR #3; no sender grant or real message yet |
 | First meetup | Confirm a named host, public venue, date/end time, full cost and capacity; review moderation and participant/photo permissions | No real event should be announced from a preview plan |
 | After first pilot | Add delivery/bounce feedback and a host-reviewed reminder queue | Provider acceptance is the last current email status; reminders are not scheduled |
 | Broader launch | Replace D1 management API access with a native Worker gateway and test capacity | Current D1 REST path is for a small pilot |
@@ -20,6 +22,17 @@ The site is **3 pages and 2 tabs**: **Ghar** (home + wish wall), **Adda** (group
 | Later | Decide whether verified email should recover a lost device seat; connect WhatsApp sender/template/callback/phone proof; finish original art and two films; clear rights/privacy/event obligations | No WhatsApp account or film delivery is needed for the email pilot |
 
 The detailed checkboxes below are authoritative. A GitHub push to the draft email branch produces a Vercel preview; it does not apply the new production migrations or release email sending.
+
+## Current priority — host control and messaging
+
+The owner requested one place to manage the app and confirmed that private notes must require shared host-confirmed attendance. Work is on `codex/admin-messaging`, stacked on the email candidate. See `docs/ADMIN_AND_CHAT.md`.
+
+- [x] 2026-10-09: Host username/password form using the existing private passcode; server-protected overview, searchable/paginated members and contacts, nickname editing, suspension/restoration, typed deletion and audit history.
+- [x] 2026-10-09: Gang rosters/removal and capacity controls (2–500), atomic join/capacity checks, bounded wish-card avatars, attendance controls, guarded plan editing and public/gang moderation in the same notebook.
+- [x] 2026-10-09: Private notes require shared confirmed attendance and mutual opt-in. Blocks, opt-out and suspension close server access; report/unblock controls are included. Adda polls only the selected conversation type.
+- [ ] Replace the five-second polling and three-second send throttle with a native Worker/D1 and WebSocket room service, idempotent sends, bounded history, burst limits and permission revocation. A 500-person capacity setting is not proof of concurrent chat capacity.
+- [ ] Run multi-client reconnect, moderation and load checks against the new transport before activating it. Define and measure the latency target; do not promise zero delay.
+- [ ] Review/deploy the tested candidate and apply additive migration `0007_nappy_goliath` alongside the earlier pending migrations. Keep production records and sending gates intact.
 
 ## Current priority — email letters
 

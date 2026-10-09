@@ -15,9 +15,14 @@ export async function POST(req:Request){try{
   if(b.action==='signout')return withCookies({ok:true},200,clearCookies(secure));
   if(b.action==='host'){
     const expected=String((env as any).HOST_PASSCODE||'');
+    const expectedUsername=String((env as any).ADMIN_USERNAME||'momo');
     if(expected.length<12)return json({error:'Host access is not set up yet. Add a HOST_PASSCODE (12+ characters) in the deployment settings.'},403);
-    const ok=typeof b.passcode==='string'&&(await sha256(b.passcode))===(await sha256(expected));
-    if(!ok){await new Promise(r=>setTimeout(r,900));return json({error:'That passcode didn’t match.'},403)}
+    const suppliedUsername=typeof b.username==='string'?b.username.trim():'';
+    const suppliedPasscode=typeof b.passcode==='string'?b.passcode:'';
+    const [usernameHash,expectedUsernameHash,passcodeHash,expectedHash]=await Promise.all([sha256(suppliedUsername),sha256(expectedUsername),sha256(suppliedPasscode),sha256(expected)]);
+    let difference=0;
+    for(let i=0;i<64;i++)difference|=(usernameHash.charCodeAt(i)^expectedUsernameHash.charCodeAt(i))|(passcodeHash.charCodeAt(i)^expectedHash.charCodeAt(i));
+    if(difference){await new Promise(r=>setTimeout(r,900));return json({error:'Username or passcode did not match.'},403)}
     const token=current||newToken();
     return withCookies({ok:true},200,[...(current?[]:[sessionCookie(token,secure)]),hostCookie(await hostProof(token,expected),secure)]);
   }
