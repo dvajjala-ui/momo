@@ -18,6 +18,8 @@ async function call(path='/api/community',data,user='member'){
 function assert(name,r,status){if(r.status!==status)throw Error(name+': '+JSON.stringify(r));console.log('PASS '+name+' ('+status+')')}
 assert('public event data',await call('/api/community',null,null),200);
 assert('anonymous mutation denied',await call('/api/community',{action:'profile'},null),401);
+assert('anonymous chat ticket denied',await call('/api/chat',{room:'weekend'},null),401);
+const chatSetup=await call('/api/chat',{room:'weekend'});assert('real-time chat stays disabled without setup',chatSetup,200);if(chatSetup.data.enabled!==false)throw Error('Unexpected real-time chat activation');
 assert('member host access denied',await call('/api/community?view=host'),403);
 assert('host access granted',await call('/api/community?view=host',null,'host'),200);
 assert('age/rules required',await call('/api/community',{action:'profile',nickname:'Test',avatar:0}),400);

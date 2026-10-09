@@ -1,6 +1,6 @@
 # Host controls and private notes
 
-Candidate on `codex/admin-messaging`, based on the email-letter candidate. Production activation needs the additive `0005`, `0006` and `0007` migrations and a reviewed deployment.
+Candidate in draft PR #4 on `codex/admin-messaging`, based on the email-letter candidate. Production activation needs additive migrations `0005`–`0008` and a reviewed deployment.
 
 ## Host access
 
@@ -22,7 +22,7 @@ Adda has a conversation-type switch for community tables and private notes. Memb
 
 The current transport still polls every five seconds, loads the latest 80 messages, and throttles sends to one per three seconds. It is a small-pilot transport. Raising gang capacity to 500 does **not** establish that 500 concurrent chat users are supported. The home page transfers at most eight avatars per wish, and a single conditional SQLite insert prevents concurrent joins from overfilling a group.
 
-Before broader launch, move chat reads/writes to a native Cloudflare D1 binding, add a Durable Object per room with WebSocket delivery, bounded history/cursors, idempotent sends, burst limits and access-revocation handling, then test reconnects, moderation and simultaneous clients. Cloudflare's [WebSocket guide](https://developers.cloudflare.com/durable-objects/best-practices/websockets/) and [real-time chat tutorial](https://developers.cloudflare.com/workers/tutorials/deploy-a-realtime-chat-app/) describe the supported room architecture. Check actual [free-tier quotas](https://developers.cloudflare.com/durable-objects/platform/pricing/) before activation; free usage is limited.
+The candidate now includes an optional native D1/Durable Object chat service with WebSocket delivery, idempotent sends, burst budgets, current permission checks and reconnect history. Its isolated suites and one 500-client local fanout pass. It is disabled until reviewed deployment, private settings and exact-SHA hosted reconnect/load/device verification. See `REALTIME_CHAT.md` and `D1_GATEWAY.md`. Check actual [free-tier quotas](https://developers.cloudflare.com/durable-objects/platform/pricing/) before activation; free usage is limited.
 
 ## Verification
 

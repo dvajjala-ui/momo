@@ -21,6 +21,8 @@ export async function deleteMemberData(userId:string,now=Date.now()){
     db().prepare('DELETE FROM wishes WHERE user_id=?').bind(userId),
     db().prepare("UPDATE wishes SET status=CASE WHEN (SELECT COUNT(*) FROM wish_joins j WHERE j.wish_id=wishes.id)>=spots THEN 'ready' ELSE 'open' END"),
     db().prepare('DELETE FROM member_controls WHERE user_id=?').bind(userId),
+    db().prepare('DELETE FROM chat_send_limits WHERE user_id=?').bind(userId),
+    db().prepare('DELETE FROM chat_send_receipts WHERE user_id=?').bind(userId),
     db().prepare('DELETE FROM sessions WHERE user_id=?').bind(userId),
     db().prepare("UPDATE admin_audit SET actor_id=CASE WHEN actor_id=? THEN 'deleted-member' ELSE actor_id END,subject_id=CASE WHEN subject_id=? THEN 'deleted-member' ELSE subject_id END WHERE actor_id=? OR subject_id=?").bind(userId,userId,userId,userId),
     db().prepare('DELETE FROM profiles WHERE id=?').bind(userId),

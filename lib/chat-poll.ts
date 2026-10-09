@@ -8,7 +8,7 @@ export type ChatMessage = {
 export function createChatPoll(
   room: string,
   receive: (messages: ChatMessage[]) => void,
-  fail: (message: string) => void,
+  fail: (message: string, status?:number) => void,
   request: typeof fetch = fetch,
 ) {
   let disposed = false;
@@ -26,7 +26,7 @@ export function createChatPoll(
         const data = await response.json() as {messages?: ChatMessage[]; error?: string};
         if (disposed) return;
         if (response.ok && Array.isArray(data.messages)) receive(data.messages);
-        else fail(data.error || 'Could not open this table. Please try again.');
+        else fail(data.error || 'Could not open this table. Please try again.',response.status);
       } catch {
         if (!disposed) fail('Could not refresh this table. Please check your connection.');
       } finally {

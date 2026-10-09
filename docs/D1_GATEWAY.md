@@ -31,6 +31,6 @@ node --env-file=.env.gateway.local --experimental-strip-types scripts/probe-db-g
 
 ## Remaining messaging work
 
-This gateway removes runtime database traffic from the management-API path once activated. It does not replace the five-second chat poll or three-second send throttle. The next work is a Durable Object per room with WebSocket delivery, short-lived server-issued room authorization, revalidation after moderation/opt-out, idempotent sends, incremental history, reconnects and measured multi-client capacity.
+This gateway removes runtime database traffic from the management-API path once activated. It does not replace chat polling itself. An optional Durable Object per room with WebSocket delivery, signed room authorization, permission revalidation, idempotent sends and reconnect history is now built and locally tested. It remains disabled until reviewed deployment and private settings. See `REALTIME_CHAT.md` for its 500-client local probe and the remaining hosted capacity checks.
 
 Cloudflare documents native [D1 prepared statements and batches](https://developers.cloudflare.com/d1/worker-api/d1-database/). Its [D1 free allowances](https://developers.cloudflare.com/d1/platform/pricing/) and [Worker request allowances](https://developers.cloudflare.com/workers/platform/pricing/) still apply; a native binding does not make usage unlimited.
