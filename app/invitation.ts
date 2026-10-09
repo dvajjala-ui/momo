@@ -16,6 +16,35 @@ function silhouette(img:HTMLImageElement,size:number,color:string){const c=docum
 function wrap(ctx:Ctx,text:string,x:number,y:number,max:number,line:number){const words=text.split(' ');let row='';for(const word of words){const test=row+word+' ';if(ctx.measureText(test).width>max&&row){ctx.fillText(row.trim(),x,y);y+=line;row=word+' '}else row=test}ctx.fillText(row.trim(),x,y);return y+line}
 function star(ctx:Ctx,x:number,y:number,r:number,points=4,inner=.35){ctx.beginPath();for(let i=0;i<points*2;i++){const a=Math.PI*i/points-Math.PI/2,rr=i%2?r*inner:r;ctx.lineTo(x+Math.cos(a)*rr,y+Math.sin(a)*rr)}ctx.closePath()}
 function details(event?:any){return event?[event.title,new Date(event.date).toLocaleString('en-IN',{timeZone:'Asia/Kolkata',dateStyle:'medium',timeStyle:'short'})+' IST',event.venue,'Full cost: '+event.cost]:['Ahmedabad · our first table is taking shape','Date, public venue & full cost come first.','You decide after that. No pressure.']}
+function detailLines(ctx:Ctx,text:string,width:number){
+  const lines:string[]=[];let line='';
+  for(const word of text.trim().split(/\s+/)){
+    if(!word)continue;
+    const next=line?line+' '+word:word;
+    if(ctx.measureText(next).width<=width){line=next;continue}
+    if(line){lines.push(line);line=''}
+    if(ctx.measureText(word).width<=width){line=word;continue}
+    for(const letter of Array.from(word)){
+      if(line&&ctx.measureText(line+letter).width>width){lines.push(line);line=''}
+      line+=letter;
+    }
+  }
+  if(line)lines.push(line);
+  return lines;
+}
+function drawDetails(ctx:Ctx,event:any,x:number,top:number,bottom:number,width:number){
+  const items=details(event);let lines:string[]=[],lineHeight=0;
+  for(let size=34;size>=18;size--){
+    ctx.font=`700 ${size}px Nunito`;lineHeight=Math.ceil(size*1.3);
+    lines=items.flatMap(item=>detailLines(ctx,item,width));
+    if(top+(lines.length-1)*lineHeight<=bottom)break;
+  }
+  const capacity=Math.floor((bottom-top)/lineHeight)+1;
+  if(lines.length>capacity){
+    throw new Error('This plan is too long for the postcard. Shorten its title, venue or cost before exporting.');
+  }
+  lines.forEach((line,i)=>ctx.fillText(line,x,top+i*lineHeight));
+}
 const fine='18+ · public venue · full cost before you decide · leave anytime';
 
 async function hero(ctx:Ctx,theme:FoodTheme,event?:any){
@@ -36,8 +65,8 @@ async function hero(ctx:Ctx,theme:FoodTheme,event?:any){
   ctx.restore();
   ctx.fillStyle='#fff';ctx.font='900 40px Nunito';ctx.fillText('Your gang needs you this weekend.',W/2,745);
   // Comic panel with the mission
-  ctx.save();ctx.translate(W/2,950);ctx.rotate(.012);ctx.fillStyle='#fffdf2';ctx.strokeStyle='#0a1433';ctx.lineWidth=8;ctx.beginPath();ctx.roundRect(-440,-160,880,330,18);ctx.fill();ctx.stroke();
-  ctx.textAlign='left';ctx.fillStyle='#d7263d';ctx.font='54px Bangers';ctx.fillText(event?'THE MISSION:':'MISSION LOADING…',-395,-90);ctx.fillStyle='#1b1b2f';ctx.font='700 34px Nunito';let y=-35;for(const l of details(event))y=wrap(ctx,l,-395,y,790,46);ctx.restore();
+  ctx.save();ctx.translate(W/2,950);ctx.rotate(.012);ctx.fillStyle='#fffdf2';ctx.strokeStyle='#0a1433';ctx.lineWidth=8;ctx.beginPath();ctx.roundRect(-440,-180,880,365,18);ctx.fill();ctx.stroke();
+  ctx.textAlign='left';ctx.fillStyle='#d7263d';ctx.font='54px Bangers';ctx.fillText(event?'THE MISSION:':'MISSION LOADING…',-395,-113);ctx.fillStyle='#1b1b2f';drawDetails(ctx,event,-395,-72,160,790);ctx.restore();
   // Lightning emblem + POW burst
   ctx.save();ctx.translate(140,165);ctx.fillStyle='#d7263d';ctx.strokeStyle='#ffd23f';ctx.lineWidth=8;ctx.beginPath();ctx.arc(0,0,74,0,7);ctx.fill();ctx.stroke();ctx.fillStyle='#ffd23f';ctx.beginPath();ctx.moveTo(14,-52);ctx.lineTo(-28,8);ctx.lineTo(-2,8);ctx.lineTo(-16,54);ctx.lineTo(30,-10);ctx.lineTo(4,-10);ctx.closePath();ctx.fill();ctx.restore();
   ctx.save();ctx.translate(940,170);ctx.rotate(.18);star(ctx,0,0,104,12,.62);ctx.fillStyle='#ffd23f';ctx.fill();ctx.strokeStyle='#d7263d';ctx.lineWidth=7;ctx.stroke();ctx.fillStyle='#d7263d';ctx.font='62px Bangers';ctx.textAlign='center';ctx.fillText('POW!',0,20);ctx.restore();
@@ -62,8 +91,8 @@ async function princess(ctx:Ctx,theme:FoodTheme,event?:any){
   ctx.restore();
   ctx.textAlign='center';ctx.fillStyle='#a8276a';ctx.font='118px "Great Vibes"';ctx.fillText('You’re royally invited',W/2,385);
   ctx.fillStyle='#6b2a52';ctx.font='italic 700 36px Nunito';ctx.fillText('The palace (a cosy café) requests your presence.',W/2,455);
-  ctx.fillStyle='rgba(255,255,255,.86)';ctx.strokeStyle='#e46aa8';ctx.lineWidth=4;ctx.beginPath();ctx.roundRect(120,510,840,370,36);ctx.fill();ctx.stroke();
-  ctx.fillStyle='#a8276a';ctx.font='64px "Great Vibes"';ctx.fillText(event?'The royal plan':'A little preview',W/2,585);ctx.fillStyle='#4a2440';ctx.font='700 33px Nunito';let y=650;for(const l of details(event))y=wrap(ctx,l,W/2,y,740,46);
+  ctx.fillStyle='rgba(255,255,255,.86)';ctx.strokeStyle='#e46aa8';ctx.lineWidth=4;ctx.beginPath();ctx.roundRect(120,485,840,400,36);ctx.fill();ctx.stroke();
+  ctx.fillStyle='#a8276a';ctx.font='64px "Great Vibes"';ctx.fillText(event?'The royal plan':'A little preview',W/2,555);ctx.fillStyle='#4a2440';drawDetails(ctx,event,W/2,610,855,740);
   // Wax seal
   ctx.save();ctx.translate(W/2,960);ctx.fillStyle='#d94c8a';ctx.beginPath();for(let i=0;i<18;i++){const a=i/18*Math.PI*2,rr=i%2?82:92;ctx.lineTo(Math.cos(a)*rr,Math.sin(a)*rr)}ctx.closePath();ctx.fill();ctx.strokeStyle='#f39bc2';ctx.lineWidth=5;ctx.beginPath();ctx.arc(0,0,60,0,7);ctx.stroke();ctx.fillStyle='#f6b3d1';ctx.beginPath();ctx.moveTo(0,30);ctx.bezierCurveTo(-55,-5,-30,-50,0,-22);ctx.bezierCurveTo(30,-50,55,-5,0,30);ctx.fill();ctx.restore();
   const kinds=themeKinds(theme);const a=await icon(kinds[0],'pa'),b=await icon(kinds[1],'pb');ctx.drawImage(a,250,880,170,170);ctx.drawImage(b,660,880,170,170);
@@ -77,7 +106,7 @@ async function notebook(ctx:Ctx,theme:FoodTheme,event?:any){
   ctx.textAlign='left';ctx.fillStyle='#4a4a4a';ctx.font='700 24px Nunito';ctx.fillText(theme==='momo'?'A NOTE FROM MOMO':'A NOTE FROM THE WHOLE MENU',150,130);
   ctx.fillStyle='#282c33';ctx.font='700 104px Caveat';ctx.fillText('Dear you,',150,265);ctx.fillStyle=blue;ctx.font='700 130px Caveat';ctx.fillText('got plans?',150,385);
   ctx.fillStyle='#282c33';ctx.font='700 46px Caveat';['Come eat something good.','Stay for one more game.','Leave with a small story.'].forEach((t,i)=>ctx.fillText(t,150,480+i*56));
-  ctx.setLineDash([12,10]);ctx.strokeStyle=blue;ctx.lineWidth=4;ctx.strokeRect(140,670,800,250);ctx.setLineDash([]);ctx.fillStyle='#282c33';ctx.font='700 34px Nunito';let y=730;for(const l of details(event))y=wrap(ctx,l,170,y,740,48);
+  ctx.setLineDash([12,10]);ctx.strokeStyle=blue;ctx.lineWidth=4;ctx.strokeRect(140,620,800,320);ctx.setLineDash([]);ctx.fillStyle='#282c33';drawDetails(ctx,event,170,675,915,740);
   ctx.save();ctx.translate(880,180);ctx.rotate(.2);ctx.setLineDash([8,6]);ctx.strokeStyle=blue;ctx.lineWidth=4;ctx.strokeRect(-80,-70,160,140);ctx.setLineDash([]);ctx.fillStyle=blue;ctx.font='700 22px Nunito';ctx.textAlign='center';ctx.fillText('REAL LIFE',0,-15);ctx.fillText('POST',0,15);ctx.font='40px Nunito';ctx.fillText('✳',0,58);ctx.restore();
   const kinds=themeKinds(theme);const size=Math.min(190,860/kinds.length);for(let i=0;i<kinds.length;i++){const img=await icon(kinds[i],'n'+i);ctx.drawImage(img,110+i*(860/kinds.length)+(860/kinds.length-size)/2,960,size,size)}
   ctx.textAlign='center';ctx.fillStyle=blue;ctx.font='700 56px Caveat';ctx.fillText('Make a wish. We’ll get your gang ready.',W/2,1220);ctx.fillStyle='#4a4a4a';ctx.font='700 25px Nunito';ctx.fillText(fine,W/2,1275);

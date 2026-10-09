@@ -22,6 +22,25 @@ assert('member host access denied',await call('/api/community?view=host'),403);
 assert('host access granted',await call('/api/community?view=host',null,'host'),200);
 assert('age/rules required',await call('/api/community',{action:'profile',nickname:'Test',avatar:0}),400);
 assert('profile saved',await call('/api/community',{action:'profile',nickname:'Chutney',avatar:2,adult:true,rules:true}),200);
+const photoBytes=Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+aWQAAAABJRU5ErkJggg==','base64');
+async function uploadPhoto(kind,user='member',consent=true){
+ const form=new FormData();form.set('photo',new Blob([photoBytes],{type:'image/png'}),'test.png');form.set('kind',kind);form.set('caption','Disposable local photo');form.set('category','Food');if(consent)form.set('consent','yes');
+ const headers={Origin:'https://momo.test'};if(user){headers['oai-authenticated-user-id']=user;headers['oai-authenticated-user-email']=user+'@example.test'}
+ const request=new Request('https://momo.test/api/upload',{method:'POST',headers,body:form});const r=await mf.dispatchFetch(request.url,{method:'POST',headers:request.headers,body:await request.arrayBuffer()});return {status:r.status,data:await r.json()};
+}
+assert('anonymous upload denied',await uploadPhoto('profile',null),401);
+assert('member gallery upload denied',await uploadPhoto('gallery'),403);
+assert('photo consent required',await uploadPhoto('profile','member',false),400);
+const profilePhoto=await uploadPhoto('profile');assert('profile photo saved',profilePhoto,200);
+assert('member photo requires sign-in',await call('/api/media/'+profilePhoto.data.id,null,null),401);
+const signedPhoto=await mf.dispatchFetch('https://momo.test/api/media/'+profilePhoto.data.id,{headers:{'oai-authenticated-user-id':'other','oai-authenticated-user-email':'other@example.test'}});
+if(signedPhoto.status!==200||signedPhoto.headers.get('content-type')!=='image/png'||signedPhoto.headers.get('cache-control')!=='private, no-store')throw Error('Member photo access or cache policy failed');console.log('PASS member photo signed-in access and private cache policy');
+const replacedPhoto=await uploadPhoto('profile');assert('profile photo replaced',replacedPhoto,200);
+const photoBucket=await mf.getR2Bucket('BUCKET');if(await photoBucket.get(profilePhoto.data.id))throw Error('Old profile photo left in R2');console.log('PASS replaced photo removed from R2');
+const galleryPhoto=await uploadPhoto('gallery','host');assert('host gallery photo saved',galleryPhoto,200);
+if((await mf.dispatchFetch('https://momo.test/api/media/'+galleryPhoto.data.id)).status!==200)throw Error('Published gallery photo not visible');console.log('PASS published gallery photo public through media route');
+assert('host removes gallery photo',await call('/api/community',{action:'removePhoto',id:galleryPhoto.data.id},'host'),200);
+if(await photoBucket.get(galleryPhoto.data.id))throw Error('Removed gallery photo left in R2');console.log('PASS gallery deletion removes R2 object');
 assert('invalid phone rejected',await call('/api/community',{action:'invite',phone:'bad',city:'Test City',adult:true,consent:true}),400);
 assert('invite saved',await call('/api/community',{action:'invite',phone:'+12025550123',city:'Test City',adult:true,consent:true,foodTheme:'menu'}),200);
 const me=await call('/api/community?view=me');if('phone' in me.data.invite)throw Error('phone leaked');console.log('PASS profile response excludes phone');
@@ -72,4 +91,5 @@ if((await call('/api/community?view=host',null,'host')).data.reports.some(r=>r.k
 assert('withdraw invite',await call('/api/community',{action:'withdraw'}),200);
 assert('delete own data',await call('/api/community',{action:'deleteAccount'}),200);
 const count=await db.prepare("SELECT (SELECT COUNT(*) FROM profiles WHERE id='member')+(SELECT COUNT(*) FROM wishes WHERE user_id='member')+(SELECT COUNT(*) FROM wish_joins WHERE user_id='member') AS n").first();if(count.n)throw Error('Cleanup failed');console.log('PASS account data deleted');
+if(await photoBucket.get(replacedPhoto.data.id))throw Error('Account photo left in R2');console.log('PASS account deletion removes profile photo');
 }finally{await mf.dispose()}

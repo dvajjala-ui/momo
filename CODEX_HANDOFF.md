@@ -8,6 +8,12 @@ The site was simplified to 3 pages / 2 tabs (Ghar, Adda, Count me in), gained th
 
 ## Start here
 
+### Storage continuation — 9 October 2026
+
+Latest GitHub main was pulled to `e144f8d`; work continues on `codex/launch-readiness`. Dedicated Cloudflare D1 `momo-community` and private Standard R2 `momo-media` were created with owner authorization. Server adapters and an explicit migration command have been added for Vercel. See `docs/CLOUDFLARE_SETUP.md` for identifiers, exact secret names and verification gates. Approved scoped credentials were created and saved as Production secrets in Vercel, all five migrations applied, and the owner entered HOST_PASSCODE privately. Real D1/R2 probes and full Next API checks across two local instances passed with disposable data cleaned up. Live deployment verification is still required; the live Vercel API was observed in preview storage mode. Backline storage and the existing private Site were not altered.
+
+Restored form focus outlines, corrected room/postcard button semantics and clarified temporary storage notices. The postcard exporter now fits long details within each panel or reports an error rather than silently clipping essential event information. Optional profile uploads are gated by actual photo storage; badge photos remain local. WhatsApp sending remains disabled. Existing lint debt remains; passing builds and local integration checks do not mean the entire launch backlog is complete.
+
 Continue this project; do not rebuild or replace the design by default. Read this file, `AGENTS.md`, `README.md`, and `public/creative/whatsapp-setup.md`. Inspect the current code before changing it. The next substantial task is completing real WhatsApp onboarding/delivery and testing the invitation and host flows. Any necessary credentials must be configured privately; ask for the specific missing account setup rather than asking the user to repeat the brief.
 
 ## What the user is making

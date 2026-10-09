@@ -1,12 +1,8 @@
 // A small D1-compatible adapter so the same route code runs outside Cloudflare.
-// Backends: Turso/libSQL over HTTP when TURSO_DATABASE_URL is set (durable),
+// Backends: Cloudflare D1, then Turso/libSQL over HTTP (durable),
 // otherwise node:sqlite on local disk (durable locally, ephemeral on Vercel).
 import {migrations} from './migrations.generated';
-
-type Value=string|number|null;
-type Row=Record<string,unknown>;
-type Result={rows:Row[];changes:number};
-interface Executor{exec(sql:string,args:Value[]):Promise<Result>;batch(list:[string,Value[]][]):Promise<Result[]>}
+import {cloudflareD1Config,cloudflareExecutor,type Value,type Row,type Result,type Executor} from './d1-http';
 
 const READS=/^\s*(SELECT|WITH|PRAGMA)\b/i;
 const toValue=(v:unknown):Value=>v===undefined||v===null?null:typeof v==='boolean'?(v?1:0):typeof v==='number'||typeof v==='string'?v:String(v);
@@ -67,6 +63,9 @@ class Statement{
 export function createD1(){
   let pending:Promise<Executor>|null=null;
   const ready=()=>pending??=(async()=>{
+    const cloudflare=cloudflareD1Config();
+    // Apply remote migrations explicitly before deployment, never per cold start.
+    if(cloudflare)return cloudflareExecutor(cloudflare);
     const url=process.env.TURSO_DATABASE_URL||process.env.LIBSQL_URL;
     const ex=url?libsqlExecutor(url,process.env.TURSO_AUTH_TOKEN||process.env.LIBSQL_AUTH_TOKEN):await sqliteExecutor(process.env.MOMO_SQLITE_PATH||(process.env.VERCEL?'/tmp/momo.sqlite':'.data/momo.sqlite'));
     await migrate(ex);return ex;
@@ -77,4 +76,4 @@ export function createD1(){
   };
 }
 
-export const storageMode=()=>process.env.TURSO_DATABASE_URL||process.env.LIBSQL_URL?'durable':process.env.VERCEL?'preview':'local';
+export const storageMode=()=>cloudflareD1Config()||process.env.TURSO_DATABASE_URL||process.env.LIBSQL_URL?'durable':process.env.VERCEL?'preview':'local';

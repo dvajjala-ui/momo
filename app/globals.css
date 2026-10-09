@@ -83,6 +83,7 @@ p{margin:0 0 1em}
 
 /* Home */
 .home section{max-width:1240px;margin:0 auto;padding:64px 5%}
+.home>.preview-banner{width:min(1120px,90%);margin:24px auto 0}
 .hero{display:grid;grid-template-columns:1.12fr .88fr;gap:56px;align-items:center;padding-top:56px!important}
 .hero h1{font-family:var(--serif);font-weight:800;font-size:clamp(44px,5.6vw,76px);letter-spacing:-2.5px;margin:22px 0 20px}
 .hero h1 em{font-weight:500;color:var(--accent)}
@@ -206,7 +207,7 @@ html[data-food=menu] .meter i{background:repeating-linear-gradient(45deg,var(--a
 label{display:flex;flex-direction:column;gap:8px;font-size:14px;font-weight:700;margin-bottom:16px}
 .label{display:block;font-size:14px;font-weight:700}
 input:not([type=checkbox]):not([type=radio]):not([type=file]),textarea,select{width:100%;padding:12px 14px;border:2px solid #d9cfbb;border-radius:12px;background:#fff;line-height:1.4}
-input:focus,textarea:focus,select:focus{border-color:var(--accent);outline:none}
+input:focus,textarea:focus,select:focus{border-color:var(--accent)}
 input[type=file]{font-size:13px}
 textarea{min-height:100px;resize:vertical}
 .check{display:block;font-weight:400;font-size:14px;line-height:1.6;margin-bottom:12px}
