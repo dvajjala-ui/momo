@@ -5,7 +5,7 @@ Created 9 October 2026 in the existing owner account:
 - D1: `momo-community`, UUID `57f1a496-03ae-44d5-ad94-db63def06c25`, Asia Pacific.
 - R2: `momo-media`, Standard storage, public access disabled.
 
-Both scoped credentials were created with owner approval, all six storage settings saved as Production secrets in Vercel, and all five migrations applied. The owner entered HOST_PASSCODE privately. Real Cloudflare probes and full API checks across two local Next instances passed; all disposable records and files were removed. The deployed candidate still needs verification.
+Both scoped credentials were created with owner approval, all six storage settings saved as Production secrets in Vercel, and all five migrations applied. The owner entered HOST_PASSCODE privately. Real Cloudflare probes and full API checks across two local Next instances passed; all disposable records and files were removed. PR #1 is merged and Vercel production is running the storage integration. Live API checks passed for durable/photo status, wish/gang persistence across independent requests, access denial and private R2 media; QA data was removed. The owner successfully opened the live host notebook; WhatsApp remains unconfigured. Post-deployment verification details are recorded in the deployment-verification pull request.
 
 These are separate from Backline and the existing private ChatGPT Site. No participant data has been copied. Resource creation alone does not connect the deployed site.
 
