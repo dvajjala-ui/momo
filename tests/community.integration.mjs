@@ -58,6 +58,9 @@ assert('WhatsApp fails closed without setup',await call('/api/community',{action
 assert('host can review request',await call('/api/community',{action:'requestStatus',userId:'member',status:'reviewed'},'host'),200);
 assert('member cannot review requests',await call('/api/community',{action:'requestStatus',userId:'member',status:'reviewed'}),403);
 const host=await call('/api/community?view=host',null,'host');if(host.data.whatsapp.configured||!host.data.whatsapp.missing.includes('WHATSAPP_ACCESS_TOKEN'))throw Error('Setup guard failed');console.log('PASS WhatsApp missing setup disclosed without secrets');
+if(host.data.email.configured||!host.data.email.missing.includes('GMAIL_REFRESH_TOKEN'))throw Error('Email setup guard failed');console.log('PASS Gmail fails closed without sender authorization');
+assert('email request saves without sender',await call('/api/community',{action:'emailInvite',email:'member@example.test',city:'Test City',adult:true,consent:true}),200);
+assert('email verification waits for sender',await call('/api/community',{action:'verifyEmail'}),400);
 await db.prepare("INSERT INTO deliveries(id,user_id,event_id,message_id,status,created,updated) VALUES('test','member',?,'wamid.test','accepted',1,1)").bind(eventId).run();
 async function webhook(value,valid=true){const body=JSON.stringify({object:'whatsapp_business_account',entry:[{changes:[{field:'messages',value:{metadata:{phone_number_id:'123456789'},...value}}]}]});const signature=createHmac('sha256',valid?'local-test-secret':'wrong').update(body).digest('hex');const r=await mf.dispatchFetch('https://momo.test/api/whatsapp/webhook',{method:'POST',headers:{'Content-Type':'application/json','x-hub-signature-256':'sha256='+signature},body});return {status:r.status,data:await r.json()}}
 assert('forged WhatsApp callback denied',await webhook({statuses:[{id:'wamid.test',status:'delivered'}]},false),403);

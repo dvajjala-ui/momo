@@ -12,7 +12,8 @@ Next steps and what's blocked live in [`docs/ROADMAP.md`](docs/ROADMAP.md).
 - **Postcards:** Hero post (night sky, original "Momo-signal", POW), Princess post (pink glitter, tiara, wax seal) and Notebook post. People pick their own; hosts download each person's choice. No third-party logos or characters are used.
 - **Member badge** ("This is who's coming on Saturday") drawn locally in the browser; the optional childhood photo is never uploaded.
 - Host inbox, event publishing, gallery uploads, report moderation, pseudonymous chat, blocking, throttling and data deletion.
-- Meta WhatsApp Cloud API code (template sends, signed callbacks, STOP opt-out). It stays disabled until real configuration and phone verification exist.
+- **Email letters first:** email-only consent, double opt-in, host HTML/plain text letter preview, reviewed sends, opt-out and durable duplicate protection. Gmail API support for the dedicated Momo mailbox is built; its private authorization is still needed. See [Email setup](docs/EMAIL_SETUP.md).
+- Future Meta WhatsApp Cloud API code (template sends, signed callbacks, STOP opt-out). It stays disabled until real configuration and phone verification exist.
 
 ## Hosting
 
@@ -29,8 +30,9 @@ Local SQLite is for development. Vercel's `/tmp` fallback is temporary, even whe
 
 ## Still needed for launch
 
-- Configure and verify the Cloudflare storage connection on Vercel and a private `HOST_PASSCODE`; see the roadmap.
-- The real WhatsApp sender, template and public webhook, plus phone ownership verification. No real WhatsApp invitation has been sent.
+- Cloudflare D1/private R2 and host login are live and verified. The email candidate adds two unapplied migrations; review and approve these before production deployment.
+- Authorize the dedicated Gmail sender and verify a real confirmation/invitation with an owner-approved test inbox. Sending is disabled until then.
+- Future WhatsApp: the real sender, template and public webhook, plus live ownership-proof testing. No real WhatsApp invitation has been sent.
 - A confirmed public venue, named host, full cost, end time and moderation arrangements before listing a real meetup.
 - Review brand availability, image rights, participant photo consent, privacy and event obligations. This is not legal clearance or a security audit. Age confirmation is self-attestation.
 
@@ -51,6 +53,8 @@ npx tsc --noEmit
 MOMO_TARGET=next npx next build    # the Vercel build
 pnpm run build                     # the Cloudflare/Sites build
 node tests/community.integration.mjs
+node tests/invitations.integration.mjs
+MOMO_EMAIL_TEST_PROVIDER=gmail node tests/invitations.integration.mjs
 node --experimental-strip-types tests/storage.integration.mjs
 ```
 

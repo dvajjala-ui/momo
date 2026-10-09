@@ -7,14 +7,14 @@ import {Run} from './client';
 
 export default function PlayfulHome({data,me,busy,run,reload,signIn,onError,previewBanner}:{data:any,me:any,busy:boolean,run:Run,reload:()=>Promise<void>,signIn:React.ReactNode,onError:(s:string)=>void,previewBanner?:React.ReactNode}){
   const{theme}=useBrand();const photo=themePhoto(theme);const kinds=themeKinds(theme);const upcoming=data.events.filter((e:any)=>Date.parse(e.date)>Date.now()-6*3600000);const event=upcoming[0];
-  return <main className="home">
+  return <main id="main-content" tabIndex={-1} className="home">
     {previewBanner}
     <section className="hero">
       <div className="hero-copy">
         <span className="torn-label">AHMEDABAD · A WEEKEND FRIEND CLUB · 18+</span>
         <h1>Make a wish.<br/><em>We’ll get your gang ready.</em></h1>
         <p>Screens got easier. Making friends got harder. <br/>Momo is the excuse to step out: good food, a silly game, <br/>and people who slowly become <i>your people</i>.</p>
-        <div className="hero-buttons"><a className="button blue" href="/join">{me?.invite?'See my spot':'Count me in'}</a><a className="hand-link" href="#wishes">see the wish wall ↓</a></div>
+        <div className="hero-buttons"><a className="button blue" href="/join">{(me?.emailInvite||me?.invite)?'See my spot':'Count me in'}</a><a className="hand-link" href="#wishes">see the wish wall ↓</a></div>
         <ThemeSwitch/>
       </div>
       <div className="hero-photo">
@@ -29,7 +29,7 @@ export default function PlayfulHome({data,me,busy,run,reload,signIn,onError,prev
     <section className="how" id="the-plan">
       <div className="section-heading"><span className="handwritten">okay, here’s how it works.</span><h2>Three tiny steps.<br/>One <span className="crayon-underline">real</span> weekend.</h2></div>
       <div className="steps"><article><b>01</b><h3>Wish or pick a plan</h3><p>Make a wish (“badminton, Sunday?”) or tap into a plan a host already set up.</p></article><article><b>02</b><h3>Your gang fills up</h3><p>People say “I’m in”. A host confirms a public venue, a time and the full cost, all upfront.</p></article><article><b>03</b><h3>Show up. Be found.</h3><p>Talk, listen, or just eat. No icebreaker speeches. Leave whenever you like.</p></article></div>
-      <div className="plans">{upcoming.length?upcoming.slice(0,3).map((e:any)=><article className="plan-card" key={e.id}><span className="torn-label">HOSTED PLAN</span><h3>{e.title}</h3><p>{e.description}</p><div className="event-meta"><span><CalendarDays size={17}/>{new Date(e.date).toLocaleString('en-IN',{dateStyle:'medium',timeStyle:'short',timeZone:'Asia/Kolkata'})} IST</span><span><MapPin size={17}/>{e.venue}</span><span><Utensils size={17}/>{e.cost}</span></div><a href={'/join?event='+e.id} className="button blue">Ask for a seat</a></article>):<article className="plan-card"><span className="torn-label">OUR FIRST TABLE IS TAKING SHAPE</span><h3>{theme==='momo'?'Momos. UNO. “One last round.”':'Good food. UNO. “One last round.”'}</h3><p>We’re putting together the first Ahmedabad get-together. Leave your number and we’ll send the real date, public venue and full cost before you decide.</p><a href="/join" className="button blue">{me?.invite?'Check my spot':'Keep me in the loop'}</a><small>Interest list only. No booking or payment.</small></article>}</div>
+      <div className="plans">{upcoming.length?upcoming.slice(0,3).map((e:any)=><article className="plan-card" key={e.id}><span className="torn-label">HOSTED PLAN</span><h3>{e.title}</h3><p>{e.description}</p><div className="event-meta"><span><CalendarDays size={17}/>{new Date(e.date).toLocaleString('en-IN',{dateStyle:'medium',timeStyle:'short',timeZone:'Asia/Kolkata'})} IST</span><span><MapPin size={17}/>{e.venue}</span><span><Utensils size={17}/>{e.cost}</span></div><a href={'/join?event='+e.id} className="button blue">Ask for a seat</a></article>):<article className="plan-card"><span className="torn-label">OUR FIRST TABLE IS TAKING SHAPE</span><h3>{theme==='momo'?'Momos. UNO. “One last round.”':'Good food. UNO. “One last round.”'}</h3><p>We’re putting together the first Ahmedabad get-together. Leave an email and we’ll send a little letter with the real date, public venue and full cost before you decide.</p><a href="/join" className="button blue">{(me?.emailInvite||me?.invite)?'Check my spot':'Keep me in the loop'}</a><small>Interest list only. No booking or payment.</small></article>}</div>
     </section>
     <Wishes wishes={data.wishes||[]} me={me} busy={busy} run={run} reload={reload} signIn={signIn}/>
     <section className="hi-note"><div className="note-paper">

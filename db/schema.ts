@@ -13,3 +13,13 @@ export const wishes=sqliteTable('wishes',{id:text('id').primaryKey(),userId:text
 export const wishJoins=sqliteTable('wish_joins',{id:text('id').primaryKey(),wishId:text('wish_id').notNull(),userId:text('user_id').notNull(),created:integer('created').notNull()},t=>[index('idx_wish_joins_wish').on(t.wishId),index('idx_wish_joins_user').on(t.userId)]);
 // Device sessions, used only where no trusted sign-in gateway exists (the Vercel deployment).
 export const sessions=sqliteTable('sessions',{tokenHash:text('token_hash').primaryKey(),userId:text('user_id').notNull(),host:integer('host').notNull().default(0),created:integer('created').notNull()},t=>[index('idx_sessions_user').on(t.userId)]);
+
+// One current phone proof per account. Challenges are hashed and single use.
+export const phoneVerifications=sqliteTable('phone_verifications',{userId:text('user_id').primaryKey(),phone:text('phone').notNull(),codeHash:text('code_hash'),expires:integer('expires').notNull(),created:integer('created').notNull(),verifiedAt:integer('verified_at')},t=>[index('idx_phone_verifications_code').on(t.codeHash,t.phone)]);
+
+// Email is a separate, optional invitation channel. Existing phone requests stay intact.
+export const emailInvites=sqliteTable('email_invites',{userId:text('user_id').primaryKey(),email:text('email').notNull(),city:text('city').notNull(),eventId:text('event_id'),consent:text('consent').notNull(),status:text('status').notNull().default('requested'),foodTheme:text('food_theme').notNull().default('momo'),letterStyle:text('letter_style').notNull().default('notebook'),revision:text('revision').notNull(),created:integer('created').notNull(),updated:integer('updated').notNull(),verifiedAt:integer('verified_at'),verifyHash:text('verify_hash'),verifyExpires:integer('verify_expires')},t=>[index('idx_email_invites_verify').on(t.verifyHash)]);
+// id hashes email + event, so the same inbox cannot receive duplicate invitations via multiple seats.
+export const emailDeliveries=sqliteTable('email_deliveries',{id:text('id').primaryKey(),userId:text('user_id').notNull(),eventId:text('event_id').notNull(),revision:text('revision').notNull(),unsubscribeHash:text('unsubscribe_hash'),messageId:text('message_id'),status:text('status').notNull(),error:text('error'),created:integer('created').notNull(),updated:integer('updated').notNull()},t=>[index('idx_email_deliveries_user').on(t.userId),index('idx_email_deliveries_unsubscribe').on(t.unsubscribeHash)]);
+// Short-lived, hashed recipient budgets also apply across newly-created device seats.
+export const emailBudgets=sqliteTable('email_budgets',{id:text('id').primaryKey(),count:integer('count').notNull(),last:integer('last').notNull()});
