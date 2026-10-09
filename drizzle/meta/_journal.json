@@ -36,6 +36,20 @@
       "when": 1791407366520,
       "tag": "0004_report_kind",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "6",
+      "when": 1791544398563,
+      "tag": "0005_phone_verification",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "6",
+      "when": 1791545477248,
+      "tag": "0006_email_letters",
+      "breakpoints": true
     }
   ]
 }

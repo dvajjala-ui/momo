@@ -3,6 +3,7 @@ import "./globals.css";
 import {BrandProvider} from "./brand";
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://momo-ten-pied.vercel.app"),
   title: "Momo — kal milte hain?",
   description: "Make a wish. We’ll get your gang ready. Small weekend meetups in Ahmedabad: good food, a silly game, and people who become your people.",
   other: {
