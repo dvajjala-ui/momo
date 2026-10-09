@@ -12,7 +12,7 @@ The site is **3 pages and 2 tabs**: **Ghar** (home + wish wall), **Adda** (commu
 
 | Priority | Work | Current state |
 | --- | --- | --- |
-| Current build | Replace chat polling/D1 management access with a native Worker and WebSocket rooms; test reconnects, abuse limits and capacity | Admin/attendance/private-note candidate is built locally; current transport is still a small pilot |
+| Current build | Add WebSocket rooms; test reconnects, abuse limits and capacity | Native Worker/D1 gateway is built and tested locally; activation and WebSocket delivery are pending |
 | Candidate release | Review admin/private-note candidate; approve/apply migrations 0005–0007 and deploy | Host directory/moderation, capacity and attendance controls pass disposable integration tests; production is unchanged |
 | Email activation | Connect the dedicated Gmail account, then verify a confirmation and one reviewed invitation in a real inbox | Email flow is built in draft PR #3; no sender grant or real message yet |
 | First meetup | Confirm a named host, public venue, date/end time, full cost and capacity; review moderation and participant/photo permissions | No real event should be announced from a preview plan |
@@ -30,7 +30,9 @@ The owner requested one place to manage the app and confirmed that private notes
 - [x] 2026-10-09: Host username/password form using the existing private passcode; server-protected overview, searchable/paginated members and contacts, nickname editing, suspension/restoration, typed deletion and audit history.
 - [x] 2026-10-09: Gang rosters/removal and capacity controls (2–500), atomic join/capacity checks, bounded wish-card avatars, attendance controls, guarded plan editing and public/gang moderation in the same notebook.
 - [x] 2026-10-09: Private notes require shared confirmed attendance and mutual opt-in. Blocks, opt-out and suspension close server access; report/unblock controls are included. Adda polls only the selected conversation type.
-- [ ] Replace the five-second polling and three-second send throttle with a native Worker/D1 and WebSocket room service, idempotent sends, bounded history, burst limits and permission revocation. A 500-person capacity setting is not proof of concurrent chat capacity.
+- [x] 2026-10-09: Native Worker/D1 gateway and optional Vercel transport built. Isolated tests pass for server authentication, bounded requests, private errors, batch rollback and 50 simultaneous joins into ten seats. No new Worker/token or production setting has been created. See `docs/D1_GATEWAY.md`.
+- [ ] Activate the reviewed gateway with private Worker/Vercel settings and verify deployed flows. Runtime management-API traffic continues until activation.
+- [ ] Replace five-second polling and the three-second send throttle with a WebSocket room service, idempotent sends, bounded history, burst limits and permission revocation. A 500-person capacity setting is not proof of concurrent chat capacity.
 - [ ] Run multi-client reconnect, moderation and load checks against the new transport before activating it. Define and measure the latency target; do not promise zero delay.
 - [ ] Review/deploy the tested candidate and apply additive migration `0007_nappy_goliath` alongside the earlier pending migrations. Keep production records and sending gates intact.
 

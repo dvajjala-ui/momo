@@ -2,7 +2,7 @@
 // Backends: Cloudflare D1, then Turso/libSQL over HTTP (durable),
 // otherwise node:sqlite on local disk (durable locally, ephemeral on Vercel).
 import {migrations} from './migrations.generated';
-import {cloudflareD1Config,cloudflareExecutor,type Value,type Row,type Result,type Executor} from './d1-http';
+import {d1GatewayConfig,gatewayExecutor,cloudflareD1Config,cloudflareExecutor,type Value,type Row,type Result,type Executor} from './d1-http';
 
 const READS=/^\s*(SELECT|WITH|PRAGMA)\b/i;
 const toValue=(v:unknown):Value=>v===undefined||v===null?null:typeof v==='boolean'?(v?1:0):typeof v==='number'||typeof v==='string'?v:String(v);
@@ -63,6 +63,8 @@ class Statement{
 export function createD1(){
   let pending:Promise<Executor>|null=null;
   const ready=()=>pending??=(async()=>{
+    const gateway=d1GatewayConfig();
+    if(gateway)return gatewayExecutor(gateway);
     const cloudflare=cloudflareD1Config();
     // Apply remote migrations explicitly before deployment, never per cold start.
     if(cloudflare)return cloudflareExecutor(cloudflare);
@@ -76,4 +78,4 @@ export function createD1(){
   };
 }
 
-export const storageMode=()=>cloudflareD1Config()||process.env.TURSO_DATABASE_URL||process.env.LIBSQL_URL?'durable':process.env.VERCEL?'preview':'local';
+export const storageMode=()=>d1GatewayConfig()||cloudflareD1Config()||process.env.TURSO_DATABASE_URL||process.env.LIBSQL_URL?'durable':process.env.VERCEL?'preview':'local';

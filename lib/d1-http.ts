@@ -8,6 +8,19 @@ export interface Executor {
 }
 type Settings = Record<string, string | undefined>;
 export type D1Config = {accountId: string; databaseId: string; token: string};
+export type GatewayConfig = {origin: string; token: string};
+
+export function d1GatewayConfig(settings: Settings = process.env): GatewayConfig | null {
+  if (!settings.MOMO_DB_GATEWAY_URL && !settings.MOMO_DB_GATEWAY_TOKEN) return null;
+  const token = settings.MOMO_DB_GATEWAY_TOKEN?.trim() || '';
+  let url: URL;
+  try { url = new URL(settings.MOMO_DB_GATEWAY_URL || ''); }
+  catch { throw new Error('D1 gateway settings are incomplete. Refusing temporary storage fallback.'); }
+  if (url.protocol !== 'https:' || url.username || url.password || url.search || url.hash || url.pathname !== '/' || token.length < 32) {
+    throw new Error('D1 gateway settings are incomplete. Refusing temporary storage fallback.');
+  }
+  return {origin: url.origin, token};
+}
 
 export function cloudflareD1Config(settings: Settings = process.env): D1Config | null {
   // The account ID may also be used by R2 alone.
@@ -26,21 +39,29 @@ type ApiResponse = {success?: boolean; result?: QueryResult[]};
 
 export function cloudflareExecutor(config: D1Config, transport: typeof fetch = fetch): Executor {
   const endpoint = `https://api.cloudflare.com/client/v4/accounts/${config.accountId}/d1/database/${config.databaseId}/query`;
+  return remoteExecutor(endpoint, config.token, 'Cloudflare', transport);
+}
+
+export function gatewayExecutor(config: GatewayConfig, transport: typeof fetch = fetch): Executor {
+  return remoteExecutor(config.origin + '/v1/query', config.token, 'D1 gateway', transport);
+}
+
+function remoteExecutor(endpoint: string, token: string, label: string, transport: typeof fetch): Executor {
   async function query(list: [string, Value[]][]): Promise<Result[]> {
     if (!list.length) return [];
     const batch = list.map(([sql, params]) => ({sql, params}));
     const response = await transport(endpoint, {
       method: 'POST',
-      headers: {'Content-Type': 'application/json', Authorization: `Bearer ${config.token}`},
+      headers: {'Content-Type': 'application/json', Authorization: `Bearer ${token}`},
       body: JSON.stringify(list.length === 1 ? batch[0] : {batch}),
       cache: 'no-store',
       signal: AbortSignal.timeout(15000),
     });
     // Do not log remote errors: SQL, parameters and credentials must stay private.
-    if (!response.ok) throw new Error(`Cloudflare database request failed (${response.status}).`);
+    if (!response.ok) throw new Error(`${label} database request failed (${response.status}).`);
     const data = await response.json() as ApiResponse;
     if (!data.success || data.result?.length !== list.length || data.result.some(r => !r.success)) {
-      throw new Error('Cloudflare database query failed.');
+      throw new Error(`${label} database query failed.`);
     }
     return data.result.map(r => ({rows: r.results || [], changes: Number(r.meta?.changes || 0)}));
   }

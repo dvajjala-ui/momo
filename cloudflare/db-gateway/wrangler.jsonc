@@ -1,0 +1,15 @@
+{
+  "$schema": "../../node_modules/wrangler/config-schema.json",
+  "name": "momo-db-gateway",
+  "main": "worker.mjs",
+  "compatibility_date": "2026-05-15",
+  "workers_dev": true,
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "momo-community",
+      "database_id": "57f1a496-03ae-44d5-ad94-db63def06c25"
+    }
+  ],
+  "observability": {"enabled": false}
+}
