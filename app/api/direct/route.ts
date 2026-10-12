@@ -18,7 +18,7 @@ export async function GET(){
       JOIN events e ON e.id=mine.event_id
       JOIN profiles p ON p.id=theirs.user_id AND p.dm_opt_in=1
       WHERE mine.user_id=?
-        AND NOT EXISTS (SELECT 1 FROM member_controls c WHERE c.user_id=p.id AND c.status='suspended')
+        AND NOT EXISTS (SELECT 1 FROM member_controls c WHERE c.user_id=p.id AND c.status<>'active')
         AND NOT EXISTS (SELECT 1 FROM blocks b WHERE (b.user_id=? AND b.blocked_id=p.id) OR (b.user_id=p.id AND b.blocked_id=?))
       ORDER BY p.nickname COLLATE NOCASE LIMIT 500`).bind(user.userId,user.userId,user.userId).all<PeerRow>()).results;
     const allowed=new Set(peers.map(p=>p.id));

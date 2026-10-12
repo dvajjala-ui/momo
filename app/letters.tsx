@@ -6,14 +6,17 @@ import {useBrand,themeKinds,FoodTheme} from './brand';
 import {LETTER_STYLES,LetterStyle,InvitationEvent,renderLetter,saveCanvas,renderBadge} from './invitation';
 
 export function Letters({event,onError,initial='hero'}:{event?:InvitationEvent,onError:(s:string)=>void,initial?:LetterStyle}){
-  const{theme}=useBrand();const[style,setStyle]=useState<LetterStyle>(initial);const[preview,setPreview]=useState<Record<string,string>>({});const[busy,setBusy]=useState(false);
+  const{theme}=useBrand();const[style,setStyle]=useState<LetterStyle>(initial);const[preview,setPreview]=useState<Record<string,string>>({});const[busy,setBusy]=useState(false);const[open,setOpen]=useState(false);
   const key=JSON.stringify([style,theme,event?.id,event?.title,event?.date,event?.venue,event?.cost]);
   useEffect(()=>{if(preview[key])return;let live=true;renderLetter(style,theme as FoodTheme,event).then(c=>{if(live)setPreview(p=>({...p,[key]:c.toDataURL('image/jpeg',.82)}))}).catch(()=>{});return()=>{live=false}},[key,preview,style,theme,event]);
   return <div className="letters">
-    <div className="letter-tabs" role="group" aria-label="Postcard style">{LETTER_STYLES.map(s=><button key={s.id} type="button" aria-pressed={style===s.id} className={'letter-tab ls-'+s.id+(style===s.id?' on':'')} onClick={()=>setStyle(s.id)}><b>{s.name}</b><small>{s.note}</small></button>)}</div>
-    <div className="letter-stage">{preview[key]?<Image unoptimized width={1080} height={1350} src={preview[key]} alt={LETTER_STYLES.find(s=>s.id===style)?.name+' invitation preview'}/>:<div className="letter-loading">drawing your postcard…</div>}</div>
-    <button className="button blue" disabled={busy} onClick={async()=>{setBusy(true);try{await saveCanvas(await renderLetter(style,theme,event),`momo-${style}-invitation.png`)}catch(e){onError(e instanceof Error?e.message:'Could not make the postcard.')}finally{setBusy(false)}}}><Download size={17}/>{busy?'Making it…':'Download this postcard'}</button>
-    <p className="tiny-note">{event?'Made for: '+event.title:'A preview card. Real plans get their own card once a host confirms them.'}</p>
+    {!open?<button type="button" className={'letter-cover ls-'+style} aria-expanded="false" onClick={()=>setOpen(true)} onDoubleClick={()=>setOpen(true)}><span className="cover-postmark">MOMO TO PIZZA · AHMEDABAD</span><span className={'cover-emblem emblem-'+style} aria-hidden="true"><i/><b>{style==='hero'?'M':style==='princess'?'✿':'✳'}</b></span><span className="cover-copy"><small>A LITTLE COME ALONG?</small><strong>{event?.title||'A possible weekend story'}</strong><em>tap or double-click to open</em></span><span className="cover-seal" aria-hidden="true">m+p</span></button>:<>
+      <button type="button" className="textbutton close-letter" onClick={()=>setOpen(false)}>Close the letter</button>
+      <div className="letter-tabs" role="group" aria-label="Postcard style">{LETTER_STYLES.map(s=><button key={s.id} type="button" aria-pressed={style===s.id} className={'letter-tab ls-'+s.id+(style===s.id?' on':'')} onClick={()=>setStyle(s.id)}><b>{s.name}</b><small>{s.note}</small></button>)}</div>
+      <div className="letter-stage">{preview[key]?<Image unoptimized width={1080} height={1350} src={preview[key]} alt={LETTER_STYLES.find(s=>s.id===style)?.name+' invitation preview'}/>:<div className="letter-loading">drawing your postcard…</div>}</div>
+      <button className="button blue" disabled={busy} onClick={async()=>{setBusy(true);try{await saveCanvas(await renderLetter(style,theme,event),`momo-${style}-invitation.png`)}catch(e){onError(e instanceof Error?e.message:'Could not make the postcard.')}finally{setBusy(false)}}}><Download size={17}/>{busy?'Making it…':'Download this postcard'}</button>
+      <p className="tiny-note">{event?'Made for: '+event.title:'A preview card. Real plans get their own card once a host confirms them.'}</p>
+    </>}
   </div>;
 }
 

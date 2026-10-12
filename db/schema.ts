@@ -33,3 +33,9 @@ export const adminAudit=sqliteTable('admin_audit',{id:text('id').primaryKey(),ac
 // Shared across all chat rooms: burst budget and durable retry receipts.
 export const chatSendLimits=sqliteTable('chat_send_limits',{userId:text('user_id').primaryKey(),windowStart:integer('window_start').notNull(),sent:integer('sent').notNull(),lastId:text('last_id').notNull()});
 export const chatSendReceipts=sqliteTable('chat_send_receipts',{id:text('id').primaryKey(),userId:text('user_id').notNull(),bodyHash:text('body_hash').notNull(),created:integer('created').notNull()},t=>[index('idx_chat_receipts_user').on(t.userId)]);
+
+// Durable pilot access and owner-operated communication.
+export const nicknameClaims=sqliteTable('nickname_claims',{nicknameKey:text('nickname_key').primaryKey(),userId:text('user_id').notNull().unique()});
+export const hostMessages=sqliteTable('host_messages',{id:text('id').primaryKey(),userId:text('user_id').notNull(),body:text('body').notNull(),created:integer('created').notNull(),readAt:integer('read_at')},t=>[index('idx_host_messages_user_created').on(t.userId,t.created)]);
+export const sidekickApplications=sqliteTable('sidekick_applications',{userId:text('user_id').primaryKey(),email:text('email').notNull(),city:text('city').notNull(),helpWith:text('help_with').notNull(),about:text('about').notNull(),status:text('status').notNull().default('new'),created:integer('created').notNull(),updated:integer('updated').notNull()});
+export const hostLoginLimits=sqliteTable('host_login_limits',{id:text('id').primaryKey(),windowStart:integer('window_start').notNull(),attempts:integer('attempts').notNull()});

@@ -64,6 +64,13 @@
       "when": 1791553741831,
       "tag": "0008_serious_impossible_man",
       "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "6",
+      "when": 1791849600000,
+      "tag": "0009_member_pilot",
+      "breakpoints": true
     }
   ]
 }

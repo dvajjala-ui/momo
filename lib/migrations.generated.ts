@@ -35,5 +35,9 @@ export const migrations:{name:string;sql:string}[]=[
  {
   "name": "0008_serious_impossible_man",
   "sql": "CREATE TABLE `chat_send_limits` (\n\t`user_id` text PRIMARY KEY NOT NULL,\n\t`window_start` integer NOT NULL,\n\t`sent` integer NOT NULL,\n\t`last_id` text NOT NULL\n);\n--> statement-breakpoint\nCREATE TABLE `chat_send_receipts` (\n\t`id` text PRIMARY KEY NOT NULL,\n\t`user_id` text NOT NULL,\n\t`body_hash` text NOT NULL,\n\t`created` integer NOT NULL\n);\n--> statement-breakpoint\nCREATE INDEX `idx_chat_receipts_user` ON `chat_send_receipts` (`user_id`);"
+ },
+ {
+  "name": "0009_member_pilot",
+  "sql": "CREATE TABLE `nickname_claims` (\n\t`nickname_key` text PRIMARY KEY NOT NULL,\n\t`user_id` text NOT NULL UNIQUE\n);\n--> statement-breakpoint\nINSERT OR IGNORE INTO nickname_claims(nickname_key,user_id)\nSELECT lower(trim(nickname)),id FROM profiles ORDER BY created,id;\n--> statement-breakpoint\nINSERT OR IGNORE INTO member_controls(user_id,status,reason,updated)\nSELECT id,'active',NULL,created FROM profiles ORDER BY created,id;\n--> statement-breakpoint\nCREATE TABLE `host_messages` (\n\t`id` text PRIMARY KEY NOT NULL,\n\t`user_id` text NOT NULL,\n\t`body` text NOT NULL,\n\t`created` integer NOT NULL,\n\t`read_at` integer\n);\n--> statement-breakpoint\nCREATE INDEX `idx_host_messages_user_created` ON `host_messages` (`user_id`,`created`);\n--> statement-breakpoint\nCREATE TABLE `sidekick_applications` (\n\t`user_id` text PRIMARY KEY NOT NULL,\n\t`email` text NOT NULL,\n\t`city` text NOT NULL,\n\t`help_with` text NOT NULL,\n\t`about` text NOT NULL,\n\t`status` text NOT NULL DEFAULT 'new',\n\t`created` integer NOT NULL,\n\t`updated` integer NOT NULL\n);\n--> statement-breakpoint\nCREATE TABLE `host_login_limits` (\n\t`id` text PRIMARY KEY NOT NULL,\n\t`window_start` integer NOT NULL,\n\t`attempts` integer NOT NULL\n);\n"
  }
 ];

@@ -9,7 +9,7 @@ import {useCurrentTime} from './use-current-time';
 import {InvitationEvent} from './invitation';
 
 type HomeEvent=InvitationEvent&{id:string;description:string};
-type HomeData={events:HomeEvent[];gallery:{id:string;caption:string}[];wishes:WishData[]};
+type HomeData={events:HomeEvent[];gallery:{id:string;caption:string}[];wishes:WishData[];pilot?:{active:number;capacity:number}};
 type HomeMember={signedIn?:boolean;profile?:unknown;admin?:boolean;emailInvite?:unknown;invite?:unknown}|null;
 export default function PlayfulHome({data,me,busy,run,reload,signIn,onError,previewBanner}:{data:HomeData,me:HomeMember,busy:boolean,run:Run,reload:()=>Promise<void>,signIn:React.ReactNode,onError:(s:string)=>void,previewBanner?:React.ReactNode}){
   const{theme}=useBrand();const now=useCurrentTime();const photo=themePhoto(theme);const kinds=themeKinds(theme);const upcoming=data.events.filter(e=>Date.parse(e.date)>now-6*3600000);const event=upcoming[0];
@@ -17,17 +17,18 @@ export default function PlayfulHome({data,me,busy,run,reload,signIn,onError,prev
     {previewBanner}
     <section className="hero">
       <div className="hero-copy">
-        <span className="torn-label">AHMEDABAD · A WEEKEND FRIEND CLUB · 18+</span>
+        <span className="torn-label">AHMEDABAD · A WEEKEND FRIEND CLUB</span>
         <h1>Make a wish.<br/><em>We’ll get your gang ready.</em></h1>
         <p>Screens got easier. Making friends got harder. <br/>Momo is the excuse to step out: good food, a silly game, <br/>and people who slowly become <i>your people</i>.</p>
         <div className="hero-buttons"><a className="button blue" href="/join">{(me?.emailInvite||me?.invite)?'See my spot':'Count me in'}</a><a className="hand-link" href="#wishes">see the wish wall ↓</a></div>
+        {data.pilot&&<div className="pilot-count" aria-label={`${data.pilot.active} of ${data.pilot.capacity} pilot seats active`}><strong>{data.pilot.active}</strong><span>of {data.pilot.capacity} pilot seats active</span><small>Live count from the community database</small></div>}
         <ThemeSwitch/>
       </div>
       <div className="hero-photo">
         <figure className="photo-card"><div className="paper-tape"/><Image unoptimized width={1280} height={1376} src={photo.src} alt={photo.alt}/><figcaption className="handwritten">{theme==='momo'?'the opening scene.':'one slice. many stories.'}</figcaption></figure>
         <span className="peek peek-a"><FoodIcon kind={kinds[0]}/></span><span className="peek peek-b"><FoodIcon kind={kinds[kinds.length-1]}/></span>
         <span className="hero-note">come and<br/>be found.</span>
-        <small className="credit">Photo: <a href={photo.page} target="_blank" rel="noreferrer">{photo.credit}</a>, <a href={photo.licenseUrl} target="_blank" rel="noreferrer">{photo.license}</a>, via Wikimedia Commons. Display cropped for layout.</small>
+        <details className="photo-credits"><summary>Photo credits</summary><small>Photo: <a href={photo.page} target="_blank" rel="noreferrer">{photo.credit}</a>, <a href={photo.licenseUrl} target="_blank" rel="noreferrer">{photo.license}</a>, via Wikimedia Commons. Display cropped for layout.</small></details>
       </div>
     </section>
     <div className="ribbon" aria-hidden="true"><div>{[...SLOGANS,...SLOGANS].map((s,i)=><span key={i}>{s}<b>✳</b></span>)}</div></div>
@@ -42,7 +43,7 @@ export default function PlayfulHome({data,me,busy,run,reload,signIn,onError,prev
       <p><mark className="hl-purple">Hi you!</mark> Somewhere between <mark className="hl-yellow">work, scrolling and “let’s plan soon”</mark>, the weekends got quiet. Old friends moved cities. New ones are <mark className="hl-blue">weirdly hard to make</mark> as a grown-up.</p>
       <p>That’s not a <mark className="hl-black">you problem</mark>. It happens to <mark className="hl-green">almost everyone</mark>. And there are so many people out there <mark className="hl-pink">waiting for someone to just say “chal, chalte hain”</mark>.</p>
       <p>So here’s the deal: you bring yourself, <mark className="hl-orange">we’ll bring the gang</mark>. Some momos. A silly game. A Saturday you’ll talk about on Monday.</p>
-      <p className="sign">— somebody who also wanted <mark className="hl-yellow">their people</mark> ✳</p>
+      <p className="sign">somebody who also wanted <mark className="hl-yellow">their people</mark> ✳</p>
     </div></section>
     <section className="letters-section" id="letters"><div className="section-heading center"><span className="handwritten">a tiny invitation. a possible story.</span><h2>Send a little <span className="crayon-underline">“come along?”</span></h2><p>Pick the postcard that feels like you, or like the friend you want to invite.</p></div><Letters event={event} onError={onError}/></section>
     {data.gallery?.length>0&&<section className="memories"><div className="section-heading"><span className="handwritten">from our tables.</span><h2>Real people. <span className="crayon-underline">Real permission.</span></h2></div><div className="memory-strip">{data.gallery.slice(0,8).map(g=><figure key={g.id} className="photo-card small"><Image unoptimized width={1280} height={1376} src={'/api/media/'+g.id} alt={g.caption}/><figcaption className="handwritten">{g.caption}</figcaption></figure>)}</div></section>}

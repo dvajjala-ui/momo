@@ -46,7 +46,7 @@ function drawDetails(ctx:Ctx,event:InvitationEvent|undefined,x:number,top:number
   }
   lines.forEach((line,i)=>ctx.fillText(line,x,top+i*lineHeight));
 }
-const fine='18+ · public venue · full cost before you decide · leave anytime';
+const fine='table rules · public venue · full cost before you decide · leave anytime';
 
 async function hero(ctx:Ctx,theme:FoodTheme,event?:InvitationEvent){
   const r=rng(7);
@@ -117,7 +117,7 @@ export async function renderLetter(style:LetterStyle,theme:FoodTheme,event?:Invi
 export async function saveCanvas(c:HTMLCanvasElement,name:string){const blob=await new Promise<Blob|null>(r=>c.toBlob(r,'image/png'));if(!blob)throw Error('Could not export the image.');const a=document.createElement('a');const url=URL.createObjectURL(blob);a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),2000)}
 export async function downloadInvitation(theme:FoodTheme,event?:InvitationEvent,style:LetterStyle='notebook'){await saveCanvas(await renderLetter(style,theme,event),`momo-${style}-invitation.png`)}
 
-// "This is who's coming on Saturday" — a member badge made entirely in the browser.
+// "This is who's coming on Saturday" , a member badge made entirely in the browser.
 export async function renderBadge({name,role,photo,kind}:{name:string,role:string,photo?:string|null,kind:FoodKind}){
   await fonts();const c=document.createElement('canvas');c.width=W;c.height=H;const ctx=c.getContext('2d')!;
   ctx.fillStyle='#ecebe7';ctx.fillRect(0,0,W,H);

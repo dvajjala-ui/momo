@@ -1,92 +1,85 @@
-# Momo roadmap & continuation backlog
+# Momo to Pizza roadmap
 
-This file is the source of truth for whoever continues the work, human or a scheduled Claude session. Pick the **first unchecked item that isn't blocked**, do it, tick it off with a one-line note and the date, then commit.
+The complete 28-point owner brief, exact expected behavior and per-item status live in [PRODUCTION_REQUIREMENTS.md](PRODUCTION_REQUIREMENTS.md). Update that file whenever a feature request is added or its status changes.
 
-## The idea (don't lose this)
+## Current release state
 
-Screens got easier; making friends as an adult got harder. Reddit has the conversations, but nobody actually meets. **Momo makes the meetup happen**: make a wish, a gang forms, a host locks a public venue, time and full cost, and people show up. The tone is playful, a crayon notebook with filmy nostalgia. It never feels corporate, never pressures anyone and never labels people.
+The production candidate is on `codex/production-readiness-2`, based on the exact current `origin/main` commit `b7cf62d` as checked on 2026-10-13.
 
-The site is **3 pages and 2 tabs**: **Ghar** (home + wish wall), **Adda** (community chat + attendance-gated private notes) and **Count me in** (`/join`: invite list, nickname, postcard, badge, rules, privacy). The header's Host login opens the existing protected `/host` notebook. Don't add more top-level pages without the owner asking.
+Completed in the candidate:
 
-## Pending work at a glance — 9 October 2026
+- device-only site sessions with all ChatGPT sign-in code and UI removed
+- **Momo to Pizza** branding and a more visible momo/pizza edition switch
+- custom sealed invitation covers that reveal the Hero, Princess or Notebook letter
+- durable unique nicknames with suggestions that preserve the typed value
+- one-click wish join before profile creation and a three-active-group limit
+- anonymous wish ownership in public responses
+- honest 100-seat active/queued/suspended pilot controls and real counts
+- host site messages to named and unnamed device seats
+- a Sidekicks application and host review flow without special access
+- host-login throttling, security headers and a documented security review
+- hidden public Host link, focus-only skip link, collapsed credits and the requested footer
+- `18+` limited to Rules and product-source copy audited for long dash characters
+- chat-ticket future-clock handling fixed
+- disposable integration coverage expanded for the new member and host flows
+- built-site browser checks for signed-out entry, one-click gang chat, deferred profile, seat exit, sidekick form and host controls
+- 500-client local realtime fanout: p50 33 ms, p95 42 ms, max 43 ms, one delivery per client in the tested run
 
-| Priority | Work | Current state |
-| --- | --- | --- |
-| Current build | Activate reviewed gateway/chat Workers; test hosted reconnects and sustained capacity | WebSocket delivery, retry protection and permission checks pass local suites, including one 500-client fanout; private settings and hosted verification are pending |
-| Candidate release | Review admin/private-note candidate; approve/apply migrations 0005–0008 and deploy | Draft PR #4 includes host controls, private notes, gateway and real-time chat; production is unchanged |
-| Email activation | Connect the dedicated Gmail account, then verify a confirmation and one reviewed invitation in a real inbox | Email flow is built in draft PR #3; no sender grant or real message yet |
-| First meetup | Confirm a named host, public venue, date/end time, full cost and capacity; review moderation and participant/photo permissions | No real event should be announced from a preview plan |
-| After first pilot | Add delivery/bounce feedback and a host-reviewed reminder queue | Provider acceptance is the last current email status; reminders are not scheduled |
-| Broader launch | Replace D1 management API access with a native Worker gateway and test capacity | Current D1 REST path is for a small pilot |
-| Usability | Complete screen-reader and physical-device review | Keyboard, mobile layout and contrast fixes are underway; see accessibility item below |
-| Later | Decide whether verified email should recover a lost device seat; connect WhatsApp sender/template/callback/phone proof; finish original art and two films; clear rights/privacy/event obligations | No WhatsApp account or film delivery is needed for the email pilot |
+The new migration is `0009_member_pilot`. It is additive and follows the existing unapplied production migrations `0005` through `0008`.
 
-12 October 2026 review: [LAUNCH_REVIEW.md](LAUNCH_REVIEW.md) records current accessibility, gateway, brand, image, consent, privacy and event evidence, with the remaining release decisions. It does not close the pending device, hosted-capacity or rights checks.
+## Release actions pending
 
-The detailed checkboxes below are authoritative. A GitHub push to the draft email branch produces a Vercel preview; it does not apply the new production migrations or release email sending.
+- [ ] Review and merge the production-readiness pull request.
+- [ ] Apply migrations `0005` through `0009` to production D1 `momo-community`, in order, and verify the migration ledger.
+- [ ] Create separate private secrets and deploy `momo-db-gateway` and `momo-chat`.
+- [ ] Add `MOMO_DB_GATEWAY_URL`, `MOMO_DB_GATEWAY_TOKEN`, `MOMO_CHAT_URL`, `MOMO_CHAT_SECRET` and `MOMO_CHAT_APP_ORIGIN` to Vercel Production.
+- [ ] Deploy the exact reviewed commit and smoke-test the live site with disposable seats. Do not contact real invitation recipients.
+- [ ] Record hosted gateway latency, WebSocket fanout/reconnect behavior, errors and quota use.
+- [ ] Add Cloudflare Turnstile and edge rate limits before posting the link to a large public community.
+- [ ] Add server-side image decode/re-encode and dimension limits, or keep uploads unavailable during a broad public launch.
+- [ ] Configure redacted error monitoring and perform a D1 restore drill.
 
-## Current priority — host control and messaging
+The existing Site project remains owner-private. Its ID in `.openai/hosting.json` must stay unchanged. GitHub/Vercel and Sites have separate deployment ancestry, so a GitHub push does not publish the Site.
 
-The owner requested one place to manage the app and confirmed that private notes must require shared host-confirmed attendance. Work is on `codex/admin-messaging`, stacked on the email candidate. See `docs/ADMIN_AND_CHAT.md`.
+## Owner decisions kept last
 
-- [x] 2026-10-09: Host username/password form using the existing private passcode; server-protected overview, searchable/paginated members and contacts, nickname editing, suspension/restoration, typed deletion and audit history.
-- [x] 2026-10-09: Gang rosters/removal and capacity controls (2–500), atomic join/capacity checks, bounded wish-card avatars, attendance controls, guarded plan editing and public/gang moderation in the same notebook.
-- [x] 2026-10-09: Private notes require shared confirmed attendance and mutual opt-in. Blocks, opt-out and suspension close server access; report/unblock controls are included. Adda polls only the selected conversation type.
-- [x] 2026-10-09: Native Worker/D1 gateway and optional Vercel transport built. Isolated tests pass for server authentication, bounded requests, private errors, batch rollback and 50 simultaneous joins into ten seats. No new Worker/token or production setting has been created. See `docs/D1_GATEWAY.md`.
-- [ ] Activate the reviewed gateway with private Worker/Vercel settings and verify deployed flows. Runtime management-API traffic continues until activation.
-- [x] 2026-10-09: Optional WebSocket rooms, signed short-lived authorization, native D1 sends, durable retry IDs, 80-note history, member-wide ten-note burst budgets and live permission checks built. Clients reconnect and ignore old-room responses; chat stays disabled until deployment/settings. See `docs/REALTIME_CHAT.md`.
-- [x] 2026-10-09: Isolated reconnect/moderation/retry suites pass. A 500-client local network probe delivered one note exactly once to each client (p95 51 ms). This is local fanout evidence, not sustained hosted capacity or mobile latency.
-- [ ] Deploy reviewed chat/gateway Workers with private settings; test sustained hosted traffic, reconnect storms, slow/offline/mobile clients and permission changes against the exact release SHA. Set a measured latency target and review quotas/receipt retention before broader launch.
-- [ ] Review/deploy the tested candidate and apply additive migrations `0007_nappy_goliath` and `0008_serious_impossible_man` alongside the earlier pending migrations. Keep production records and sending gates intact.
+### First meetup
 
-## Current priority — email letters
+Choose and confirm one real plan before publishing it:
 
-The owner selected email first on 2026-10-09 and specified `the.world.is.waiting.for.uu@gmail.com`. WhatsApp remains future scope. Candidate work is on `codex/email-invitations`; it is not deployed to production.
+- Kitab Khana/Kitab Ghar or Sindhu Bhavan, with city and full public address
+- calendar date, 5:00 pm start and a clear planned end time
+- named host
+- attendee capacity
+- full per-person cost
+- moderation contact and emergency/venue-exit plan
 
-- [x] 2026-10-09: Email-only request, consent, hashed single-use confirmation, host HTML/plain-text letter preview in all three styles/both editions, reviewed send, opt-out, durable deduplication and pilot quotas. Gmail transport and exact-account check tested with intercepted provider traffic. No real emails sent.
-- [x] 2026-10-09: Future phone-proof flow and host readiness preview built and tested with signed local callbacks. Sending gates remain disabled; no Meta account connected.
-- [x] 2026-10-09: Corrected the canonical share-image base URL; Next no longer generates localhost image links. Local email/host mobile and keyboard checks passed. Candidate builds and isolated provider suites pass; this does not establish real email delivery.
-- [x] 2026-10-09: Guarded chat polling by room so late responses cannot put private gang messages in another room; limited polls to one request at a time and announced new message counts without reading the entire chat on each refresh. Wish composer now focuses its title field and restores keyboard focus on close.
-- [ ] Authorize the dedicated Gmail mailbox privately, apply the two new additive migrations after candidate approval, then test a real confirmation and one reviewed invitation in an owner-approved inbox. See `docs/EMAIL_SETUP.md`.
-- [ ] Add email delivery/bounce handling and a reviewed reminder queue after the first pilot. Current status stops at provider acceptance; no scheduled reminders implemented.
-- [ ] Recover a device seat through verified email, if the owner wants cross-device account recovery. Current confirmation verifies an invitation address, not a login.
+Guests can still leave whenever they want. The product should not publish “until bored” as the only end-time information.
 
-## Blocked on the owner (needs your accounts; Claude must not do these alone)
+### Age and gender
 
-- [x] 2026-10-09: **Cloudflare connection activated on production.** 2026-10-09: created dedicated D1 `momo-community` and private Standard R2 `momo-media`, applied the five existing migrations, added server adapters, and saved all six settings as Production secrets in Vercel. Real Cloudflare probes and the full Next API flow across two local server instances pass; disposable records were removed. PR #1 is merged and production is deployed: live `storage: "durable"`, `photos: true`, independent-request persistence, gang access denial and private media all pass, with QA data removed. The owner successfully opened the live host notebook. Post-deployment verification details are recorded in the deployment-verification pull request. See `docs/CLOUDFLARE_SETUP.md`.
-- [x] 2026-10-09: **Host passcode configured on Vercel.** Owner entered `HOST_PASSCODE` privately as a Production secret. Live host login was verified by the owner; its value was not read back.
-- [x] 2026-10-09: **Photo adapter for Vercel.** Private R2 S3 adapter added; profile upload is gated by `photos: true`, host uploads wait for storage, badge photos stay local. Local Worker and actual Cloudflare/Next checks cover permissions, consent, replacement and deletion. Live activation requires the candidate deployment.
-- [ ] **Future WhatsApp Business** sender, template and webhook: see `public/creative/whatsapp-setup.md`. Keep the readiness flags false until it's real.
-- [ ] **Capacity before a broader public launch.** Current production uses the D1 management API and polling. The gateway/WebSocket candidates are built locally; reviewed activation, sustained hosted load/device checks and quota/retention review are still needed before scaling beyond the small pilot. See `docs/D1_GATEWAY.md` and `docs/REALTIME_CHAT.md`.
-- [ ] **Future phone ownership activation:** the manual-message proof is built locally; it needs the real business sender and authenticated public callback before release.
-- [ ] Decide **names** for the film characters and mascot (`docs/video-series.md`), and the tab names (Ghar/Adda).
-- [ ] Generate the illustrated icon set, gang illustration and films with the prompts in `docs/art-and-icon-prompts.md` and `docs/video-series.md`. Image generation is available; character names and the final art direction need owner review. Finished cinematic films still need a video-generation workflow.
+Choose one:
 
-## Backlog (not blocked; pick from the top)
+1. Optional age band and self-described gender after joining, both skippable.
+2. Collect neither.
 
-- [x] 2026-10-09: Long event titles, venues and costs fit postcard panels; confirmed PNG downloads and inspected all three styles in both food editions. Essential details are never silently clipped.
+Do not infer gender from photos and do not collect Aadhaar for this flow.
 
-- [x] 2026-10-08: "Plan it": hosts see ready gangs in /host, the plan form is prefilled, events.wish_id links them, and the wish shows "planned ✳" with a link to the plan.
-- [x] 2026-10-08: Members can report a wish (reports.kind), hosts see and remove reported wishes; removing a wish clears its reports.
-- [x] 2026-10-08: Open Graph share image (`public/og.png`, generated by `scripts/make-share-images.mjs`).
-- [x] 2026-10-08: Web app manifest + momo app icons (192/512/maskable/apple-touch), new favicon.
-- [x] 2026-10-08: Moved to "Blocked on the owner": a hand-coded SVG of six people would look amateur; generate it with the prompt in docs/art-and-icon-prompts.md and drop it into public/art/.
-- [ ] Accessibility pass: focus styles on tabs and letter tabs, `prefers-reduced-motion` already handled, colour contrast of the hand-written blue on cream. 2026-10-09: restored form focus outlines, corrected room/postcard button semantics, and checked the main blue/orange text contrast. The deployed preview was checked at 390px across Ghar, Join and Adda in both food editions: no horizontal overflow, labelled fields and visible keyboard focus. The email candidate also adds a skip link, inert modal background, initial focus, Tab wrap, Escape and focus restoration; local keyboard checks passed. Chat messages now use a navigable log with a separate polite new-message announcement, and wish entry restores focus. Full screen-reader and physical-device coverage remains.
-- [x] 2026-10-09: Hindi/Gujarati sprinkle copy review: retained the light Ghar/Adda/kal milte hain tone, softened the invitation copy, and corrected the device-seat privacy claim. Native-language review is welcome before adding more translations.
-- [x] 2026-10-09: Updated handoff, README and Cloudflare setup guide with tested state and remaining deployment/WhatsApp gates.
+## Later work
 
-## Done
+- Connect the dedicated Gmail sender only when the owner is ready for a real test inbox. Email remains disabled and no real message has been sent.
+- Keep WhatsApp disabled until the real sender, approved template, signed public callback and phone proof are working.
+- Add delivery/bounce handling and a reviewed reminder queue after the first email pilot.
+- Decide whether verified email should recover a lost device seat.
+- Complete physical-device and screen-reader testing.
+- Clear rights for user-supplied reference images or continue using original replacements.
+- Produce the two film briefs through a real video workflow. They remain briefs, not finished movies.
 
-- [x] 2026-10-08: Private **gang rooms**: everyone in a wish gets a room in the Adda (`w_<wishId>`), hidden from outsiders; "Gang chat" button on the wish; removing a wish or deleting an account cleans its room.
-- [x] 2026-10-08: `/join?event=…` shows which plan you are asking a seat for.
-- [x] 2026-10-08: Mobile fixes (bottom tab bar, label wrapping) and visible focus outlines.
+## Continuing rules
 
-- [x] 2026-10-08: Simplified to 2 tabs and 3 pages; wish wall with "I'm in" and gang-ready state; animated SVG food icons (pasta removed); Hero, Princess and Notebook postcards; member badge; real CC-licensed photo per edition; Vercel build with SQLite/libSQL adapter and device sessions; docs for the film series and art prompts.
-
-## Rules for any continuing session
-
-- Read `AGENTS.md`, this file, then the code. Keep the crayon/notebook brand and both food editions.
-- Run `npx tsc --noEmit`, `MOMO_TARGET=next npx next build`, `pnpm run build` and `node tests/community.integration.mjs` before committing.
-- Work on a branch, push it, check the Vercel preview, then fast-forward `main` (pushing `main` deploys production).
-- Never commit secrets. Never enable WhatsApp sending. Never accept third-party terms, create accounts or enter passwords on the owner's behalf: list those under "Blocked on the owner".
-- No third-party logos or characters (Batman, Superman, film princesses, club crests), and no copyrighted film stills on the site.
+- Read `AGENTS.md`, `CODEX_HANDOFF.md` and `PRODUCTION_REQUIREMENTS.md` before changing code.
+- Preserve the scrapbook/crayon brand, both food editions, migrations and `.openai/hosting.json`.
+- Never add fake members, fake events, pressure copy, personality labels or unsupported safety claims.
+- Never trust browser roles or identity headers. Keep host authorization server-side.
+- Never commit secrets or participant data. Invitation integration tests must use intercepted providers.
+- Run type generation, TypeScript, lint, both production builds and the relevant disposable integrations after functional changes.

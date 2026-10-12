@@ -1,6 +1,6 @@
 # Host controls and private notes
 
-Candidate in draft PR #4 on `codex/admin-messaging`, based on the email-letter candidate. Production activation needs additive migrations `0005`–`0008` and a reviewed deployment.
+The current production-readiness candidate includes these controls plus the member-pilot work. Production activation needs additive migrations `0005` through `0009` and a reviewed deployment.
 
 ## Host access
 
