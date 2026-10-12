@@ -74,14 +74,30 @@ add what ever is neeed i have alredy logined nnto claodue fare in ur inbuilt bro
 28) hide the photos authoser and sorce which u added from UI jsut hde or moved which ever is better form allt eh iamegs and realted issue form the site jsut the sotce anmea nd siielt totle not the iamegs
 ```
 
+## Latest owner direction, verbatim
+
+```text
+**YOUR POSTCARD**
+
+## See how your invite will look.
+
+remove this ection&#x20;
+
+no age limitaiton pick nickname and toeht age gender osme planing only when trying to message once doone for that eprosna cpunt owuld be crated. currentyl the&#x20;
+
+why did u rmeove the real image of momo nad pizza we had added add that again and like just 2-3  page site with small enfgough usi enuth 1 will have imGE AND EVNET DERILS AND AY THINGS ELSE FORM THR STRUUCTYR EU FEELL IMPROTANT RHAN  add do not amke like to much fusss keep it simple and liek better ux not makw ot over mress u are limke adding uncessary thingk an rpeating think and mark tit look messy
+```
+
+This later direction takes precedence over the earlier postcard showcase and age-rule wording. The main flow stays on Ghar, Adda and Count me in. Home shows the real food image, essential plan details and wishes. Join shows the real food image and invitation form; the postcard preview, separate nickname card and badge maker are removed. Chat creates a profile with nickname, age, self-described gender and a food avatar before the first message.
+
 ## Delivery status
 
 | # | Required behavior | Status | Verification or decision |
 |---|---|---|---|
 | 1, 9 | Site-owned device session only; no ChatGPT sign-in UI, routes, or identity logic | Complete and locally verified | Signed-out Join, one-click gang entry, Adda, seat exit and direct Host URL were checked in the production build |
-| 2 | Invitation starts as a custom cover and opens into the existing letter | Complete and locally verified | Custom original Hero, Princess and Notebook covers reveal the existing letter by click, keyboard action or double-click; unverified reference art was not copied |
+| 2 | Preserve the custom invitation artwork without a public showcase | Updated per later owner direction | Hero, Princess and Notebook invitation artwork remains in the invitation system; the standalone Home and Join preview sections are removed |
 | 3 | Nicknames are unique and useful alternatives appear without overwriting the typed name | Complete and integration-tested | D1 owns the normalized claim; a conflict returns static alternatives while preserving the typed value |
-| 4 | Age/gender approach | Owner decision last | Do not infer gender from a face or collect Aadhaar. Proposed: voluntary age band and self-description after joining |
+| 4 | Age/gender approach | Complete per owner direction | Ask for exact age and self-described gender only when someone first tries to message; show both beside chat messages; apply no age eligibility cutoff; never infer from a face or collect Aadhaar |
 | 5 | Food edition switch is visible and well placed | Complete and browser-verified | Prominent switch persists the selected edition and was checked in the local production preview |
 | 6 | Site name and browser title | Complete | Working product name and document title are **Momo to Pizza**. Alternatives remain recorded below |
 | 7 | Host login hidden from public navigation | Complete and browser-verified | `/host` is available only as the private direct URL |
@@ -91,9 +107,9 @@ add what ever is neeed i have alredy logined nnto claodue fare in ur inbuilt bro
 | 12 | Host chat-ticket verification | Complete and integration-tested | `tests/chat-ticket.integration.mjs` passes, including bounded future clock skew |
 | 13 | D1 gateway and WebSocket Worker deployment/load test | Ready for production activation | Workers and configs pass disposable local tests; Cloudflare deployment and hosted smoke/load evidence remain release actions |
 | 14 | Security review, fixes and operating checklist | Source review complete | `docs/SECURITY_REVIEW.md` records implemented controls, remaining production controls and incident steps |
-| 15 | One-click meetup join, then chat; ask profile details only before first message | Complete and browser-verified | A signed-out visitor receives a device seat, joins the gang and reaches its chat before choosing a nickname |
+| 15 | One-click meetup join, then chat; ask profile details only before first message | Complete and integration-tested | A signed-out visitor receives a device seat, joins the gang and reaches its chat before choosing a nickname, age, gender and food avatar |
 | 16 | Maximum three active joined groups/events per member | Complete and integration-tested | The API rejects a fourth active group and the UI explains the limit |
-| 18 | Age wording appears in Rules only | Complete | Product-source audit finds `18+` only in the Rules heading |
+| 18 | Remove the earlier `18+` wording | Superseded and complete | The owner’s later direction removed the age eligibility rule entirely from Rules, invitations and profiles |
 | 19 | Every represented feature has a working end-to-end flow | Complete for the production candidate | Type, lint, both builds, disposable integrations and local browser flow pass; outbound delivery remains deliberately gated |
 | 20 | Capacity/load test | Local evidence complete; hosted test pending | 500 local WebSocket clients received one saved message each: p50 33 ms, p95 42 ms, max 43 ms, zero misses in the tested fanout |
 | 21 | Wish wall keeps the wish owner anonymous | Complete and integration-tested | Public wish responses omit the creator; the server retains identity for ownership and moderation |
@@ -111,14 +127,14 @@ Checked on 2026-10-13:
 
 - Git source was fetched and this branch started from the exact current `origin/main` commit `b7cf62d`.
 - Vercel production already contains `HOST_PASSCODE` and the existing Cloudflare D1/R2 settings. It does not yet contain `MOMO_DB_GATEWAY_URL`, `MOMO_DB_GATEWAY_TOKEN`, `MOMO_CHAT_URL`, `MOMO_CHAT_SECRET` or `MOMO_CHAT_APP_ORIGIN`.
-- Production D1 `momo-community` has migrations `0000` through `0004`. The additive migrations `0005` through `0009` remain to be applied in order.
+- Production D1 `momo-community` has migrations `0000` through `0004`. The additive migrations `0005` through `0010` remain to be applied in order.
 - The Cloudflare account has `momo-community` and `momo-media`, but no deployed Workers. The reviewed `momo-db-gateway` and `momo-chat` candidates therefore remain inactive.
 - The existing Vercel production URL is `https://momo-ten-pied.vercel.app`. The existing Site project remains owner-private and its ID in `.openai/hosting.json` is unchanged.
 - Gmail and WhatsApp sending remain disabled. Local invitation tests intercept providers and do not contact real recipients.
 
 Release order after owner approval:
 
-1. Create a production restore point and apply migrations `0005` through `0009` to the exact `momo-community` database.
+1. Create a production restore point and apply migrations `0005` through `0010` to the exact `momo-community` database.
 2. Create separate strong gateway and chat secrets in private settings, then deploy `momo-db-gateway` and `momo-chat`.
 3. Add the five gateway/chat variables to Vercel Production with `MOMO_CHAT_APP_ORIGIN=https://momo-ten-pied.vercel.app`.
 4. Release the reviewed Git commit, then run production smoke checks with disposable seats. Do not send invitations.
@@ -161,19 +177,9 @@ Please provide or choose:
 
 No public event will be invented or published before these details are real.
 
-### Age and gender
-
-Recommended low-friction flow:
-
-- keep the age rule in Rules and ask members to confirm they meet it
-- optionally ask for an age band after joining
-- let a member self-describe gender or skip the question
-- never infer gender from appearance
-- do not collect Aadhaar or government ID for this community flow
-
-Owner choice needed: collect voluntary age band and gender after the first chat attempt, or collect neither.
-
 ## Change log
 
 - 2026-10-13: Created this source of truth from the 28-point owner brief and the reference-image folder.
 - 2026-10-13: Completed all unblocked product work, security hardening, disposable integrations and local browser flow checks. Recorded the exact production migration, Worker and runtime-setting gap; left public activation and owner decisions last.
+- 2026-10-13: Removed the postcard preview and badge/profile clutter from Join, restored the real momo/pizza photo as a prominent visual, simplified Home to the core plan and wish wall, and implemented nickname, age and self-described gender at first chat with no age eligibility rule.
+- 2026-10-13: Rechecked TypeScript, lint, both production builds and the community, invitation, chat-ticket and realtime suites after the simplified flow. All passed. Latest visual browser validation remains pending; prior browser evidence applies to the earlier layout.

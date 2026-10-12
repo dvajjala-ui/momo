@@ -29,8 +29,8 @@ assert('anonymous chat ticket denied',await call('/api/chat',{room:'weekend'},nu
 const chatSetup=await call('/api/chat',{room:'weekend'});assert('real-time chat stays disabled without setup',chatSetup,200);if(chatSetup.data.enabled!==false)throw Error('Unexpected real-time chat activation');
 assert('member host access denied',await call('/api/community?view=host'),403);
 assert('host access granted',await call('/api/community?view=host',null,'host'),200);
-assert('age/rules required',await call('/api/community',{action:'profile',nickname:'Test',avatar:0}),400);
-assert('profile saved',await call('/api/community',{action:'profile',nickname:'Chutney',avatar:2,adult:true,rules:true}),200);
+assert('profile details and rules required',await call('/api/community',{action:'profile',nickname:'Test',avatar:0}),400);
+assert('profile saved without an age eligibility gate',await call('/api/community',{action:'profile',nickname:'Chutney',age:16,gender:'Woman',avatar:2,rules:true}),200);
 const photoBytes=Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+aWQAAAABJRU5ErkJggg==','base64');
 async function uploadPhoto(kind,user='member',consent=true){
  const form=new FormData();form.set('photo',new Blob([photoBytes],{type:'image/png'}),'test.png');form.set('kind',kind);form.set('caption','Disposable local photo');form.set('category','Food');if(consent)form.set('consent','yes');
@@ -50,13 +50,13 @@ const galleryPhoto=await uploadPhoto('gallery','host');assert('host gallery phot
 if((await mf.dispatchFetch('https://momo.test/api/media/'+galleryPhoto.data.id)).status!==200)throw Error('Published gallery photo not visible');console.log('PASS published gallery photo public through media route');
 assert('host removes gallery photo',await call('/api/community',{action:'removePhoto',id:galleryPhoto.data.id},'host'),200);
 if(await photoBucket.get(galleryPhoto.data.id))throw Error('Removed gallery photo left in R2');console.log('PASS gallery deletion removes R2 object');
-assert('invalid phone rejected',await call('/api/community',{action:'invite',phone:'bad',city:'Test City',adult:true,consent:true}),400);
-assert('invite saved',await call('/api/community',{action:'invite',phone:'+12025550123',city:'Test City',adult:true,consent:true,foodTheme:'menu'}),200);
+assert('invalid phone rejected',await call('/api/community',{action:'invite',phone:'bad',city:'Test City',consent:true}),400);
+assert('invite saved',await call('/api/community',{action:'invite',phone:'+12025550123',city:'Test City',consent:true,foodTheme:'menu'}),200);
 const me=await call('/api/community?view=me');if('phone' in me.data.invite)throw Error('phone leaked');console.log('PASS profile response excludes phone');
 if(me.data.invite.foodTheme!=='menu'||!/^MM-[A-F0-9]{10}$/i.test(me.data.invite.reference)||me.data.invite.deliveryStatus!=='Not sent')throw Error('Missing invite receipt');console.log('PASS themed request receipt');
 assert('message saved',await call('/api/community',{action:'message',room:'weekend',body:'Test hello'}),200);
 assert('rate limit',await call('/api/community',{action:'message',room:'weekend',body:'too fast'}),429);
-const chat=await call('/api/community?view=chat&room=weekend');const m=chat.data.messages[0];if(m.user_id||m.phone||m.email||m.nickname!=='Chutney')throw Error('Chat privacy failure');console.log('PASS chat uses nickname without identity or phone');
+const chat=await call('/api/community?view=chat&room=weekend');const m=chat.data.messages[0];if(m.user_id||m.phone||m.email||m.nickname!=='Chutney'||m.age!==16||m.gender!=='Woman')throw Error('Chat profile/privacy failure');console.log('PASS chat shows nickname, age and gender without identity or contact details');
 assert('report saved',await call('/api/community',{action:'report',messageId:m.id,reason:'Test moderation'},'other'),200);
 assert('block saved',await call('/api/community',{action:'block',messageId:m.id},'other'),200);
 const blocked=await call('/api/community?view=chat&room=weekend',null,'other');if(blocked.data.messages.length)throw Error('Block failed');console.log('PASS blocked messages hidden');
@@ -68,7 +68,7 @@ assert('host can review request',await call('/api/community',{action:'requestSta
 assert('member cannot review requests',await call('/api/community',{action:'requestStatus',userId:'member',status:'reviewed'}),403);
 const host=await call('/api/community?view=host',null,'host');if(host.data.whatsapp.configured||!host.data.whatsapp.missing.includes('WHATSAPP_ACCESS_TOKEN'))throw Error('Setup guard failed');console.log('PASS WhatsApp missing setup disclosed without secrets');
 if(host.data.email.configured||!host.data.email.missing.includes('GMAIL_REFRESH_TOKEN'))throw Error('Email setup guard failed');console.log('PASS Gmail fails closed without sender authorization');
-assert('email request saves without sender',await call('/api/community',{action:'emailInvite',email:'member@example.test',city:'Test City',adult:true,consent:true}),200);
+assert('email request saves without sender',await call('/api/community',{action:'emailInvite',email:'member@example.test',city:'Test City',consent:true}),200);
 assert('email verification waits for sender',await call('/api/community',{action:'verifyEmail'}),400);
 await db.prepare("INSERT INTO deliveries(id,user_id,event_id,message_id,status,created,updated) VALUES('test',?,?,'wamid.test','accepted',1,1)").bind(memberDbId,eventId).run();
 async function webhook(value,valid=true){const body=JSON.stringify({object:'whatsapp_business_account',entry:[{changes:[{field:'messages',value:{metadata:{phone_number_id:'123456789'},...value}}]}]});const signature=createHmac('sha256',valid?'local-test-secret':'wrong').update(body).digest('hex');const r=await mf.dispatchFetch('https://momo.test/api/whatsapp/webhook',{method:'POST',headers:{'Content-Type':'application/json','x-hub-signature-256':'sha256='+signature},body});return {status:r.status,data:await r.json()}}
@@ -80,13 +80,13 @@ assert('signed STOP processed',await webhook({messages:[{type:'text',from:'12025
 if((await call('/api/community?view=me')).data.invite!==null)throw Error('STOP did not remove request');console.log('PASS STOP removes request');
 assert('wish needs a nickname',await call('/api/community',{action:'wish',title:'Badminton',whenText:'Sunday',area:'Test',spots:2},'nobody'),400);
 assert('wish saved',await call('/api/community',{action:'wish',title:'Sunday badminton',whenText:'Sunday 7am',area:'Test City',spots:2}),200);
-assert('other member profile',await call('/api/community',{action:'profile',nickname:'Gary',avatar:1,adult:true,rules:true},'other'),200);
+assert('other member profile',await call('/api/community',{action:'profile',nickname:'Gary',age:28,gender:'Man',avatar:1,rules:true},'other'),200);
 const wishes=(await call('/api/community',null,'other')).data.wishes;const wish=wishes[0];if(!wish||wish.by!==null||wish.joined!==1||'user_id' in wish)throw Error('Wish board shape');console.log('PASS wish board keeps its creator anonymous');
 const anonWish=(await call('/api/community',null,null)).data.wishes[0];if(anonWish.by!==null||anonWish.gang.length)throw Error('Anonymous visitors saw nicknames');console.log('PASS anonymous wish view hides nicknames');
 assert('member joins wish',await call('/api/community',{action:'joinWish',id:wish.id},'other'),200);
 if((await call('/api/community',null,'other')).data.wishes[0].status!=='ready')throw Error('Gang not ready');console.log('PASS full gang marked ready');
-const duplicateNickname=await call('/api/community',{action:'profile',nickname:'Chutney',avatar:2,adult:true,rules:true},'third');assert('duplicate nickname rejected',duplicateNickname,409);if(!duplicateNickname.data.error.includes('Your name is still here')||!duplicateNickname.data.error.includes('Try'))throw Error('Nickname alternatives missing');console.log('PASS duplicate nickname keeps the input and suggests alternatives');
-assert('third member profile',await call('/api/community',{action:'profile',nickname:'Pari',avatar:2,adult:true,rules:true},'third'),200);
+const duplicateNickname=await call('/api/community',{action:'profile',nickname:'Chutney',age:25,gender:'Non-binary',avatar:2,rules:true},'third');assert('duplicate nickname rejected',duplicateNickname,409);if(!duplicateNickname.data.error.includes('Your name is still here')||!duplicateNickname.data.error.includes('Try'))throw Error('Nickname alternatives missing');console.log('PASS duplicate nickname keeps the input and suggests alternatives');
+assert('third member profile',await call('/api/community',{action:'profile',nickname:'Pari',age:25,gender:'Non-binary',avatar:2,rules:true},'third'),200);
 assert('full gang refuses more',await call('/api/community',{action:'joinWish',id:wish.id},'third'),409);
 assert('gang member posts in gang room',await call('/api/community',{action:'message',room:'w_'+wish.id,body:'see you at the court'},'other'),200);
 assert('outsider cannot read gang room',await call('/api/community?view=chat&room=w_'+wish.id,null,'third'),403);

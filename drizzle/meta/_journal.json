@@ -71,6 +71,13 @@
       "when": 1791849600000,
       "tag": "0009_member_pilot",
       "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "6",
+      "when": 1791936000000,
+      "tag": "0010_profile_details",
+      "breakpoints": true
     }
   ]
 }

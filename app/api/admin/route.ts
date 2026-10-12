@@ -19,7 +19,7 @@ export async function GET(req:Request){
       const match='%'+query.replace(/[\\%_]/g,'\\$&')+'%';
       const filter=' WHERE COALESCE(p.nickname,\'\') LIKE ? ESCAPE \'\\\' OR mc.user_id LIKE ? ESCAPE \'\\\' OR COALESCE(i.phone,\'\') LIKE ? ESCAPE \'\\\' OR COALESCE(ei.email,\'\') LIKE ? ESCAPE \'\\\'';
       const base=' FROM member_controls mc LEFT JOIN profiles p ON p.id=mc.user_id LEFT JOIN invites i ON i.user_id=mc.user_id LEFT JOIN email_invites ei ON ei.user_id=mc.user_id';
-      const rows=(await db().prepare('SELECT mc.user_id AS id,p.nickname,p.avatar,COALESCE(p.created,mc.updated) AS created,COALESCE(p.dm_opt_in,0) AS dm_opt_in,mc.status,mc.reason,i.phone,i.city,ei.email,ei.verified_at AS email_verified_at,(SELECT COUNT(*) FROM wish_joins j WHERE j.user_id=mc.user_id) AS gangs'+base+filter+' ORDER BY created DESC,mc.user_id DESC LIMIT 50 OFFSET ?').bind(match,match,match,match,page*50).all()).results;
+      const rows=(await db().prepare('SELECT mc.user_id AS id,p.nickname,p.avatar,p.age,p.gender,COALESCE(p.created,mc.updated) AS created,COALESCE(p.dm_opt_in,0) AS dm_opt_in,mc.status,mc.reason,i.phone,i.city,ei.email,ei.verified_at AS email_verified_at,(SELECT COUNT(*) FROM wish_joins j WHERE j.user_id=mc.user_id) AS gangs'+base+filter+' ORDER BY created DESC,mc.user_id DESC LIMIT 50 OFFSET ?').bind(match,match,match,match,page*50).all()).results;
       const total=await db().prepare('SELECT COUNT(*) AS n'+base+filter).bind(match,match,match,match).first<{n:number}>();
       return json({members:rows,page,total:Number(total?.n||0)});
     }

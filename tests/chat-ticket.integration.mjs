@@ -26,7 +26,7 @@ async function call(path,body,seatCookie=cookie,requestOrigin=origin){
 try{
   for(const mf of [app,chat]){
     const db=await mf.getD1Database('DB');for(const file of readdirSync(root+'/drizzle').filter(f=>f.endsWith('.sql')).sort())for(const sql of readFileSync(root+'/drizzle/'+file,'utf8').split('--> statement-breakpoint'))if(sql.trim())await db.prepare(sql).run();
-    await db.prepare('INSERT INTO profiles(id,nickname,created) VALUES(?,?,1)').bind(userId,'Cookie member').run();
+    await db.prepare('INSERT INTO profiles(id,nickname,age,gender,created) VALUES(?,?,24,?,1)').bind(userId,'Cookie member','Test profile').run();
   }
   assert.equal((await call('/api/chat',{room:'weekend'},null)).status,401,'forged identity headers cannot replace a device cookie');
   assert.equal((await call('/api/chat',{room:'weekend'},cookie,'https://outsider.test')).status,403);

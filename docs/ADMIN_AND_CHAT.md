@@ -1,6 +1,6 @@
 # Host controls and private notes
 
-The current production-readiness candidate includes these controls plus the member-pilot work. Production activation needs additive migrations `0005` through `0009` and a reviewed deployment.
+The current production-readiness candidate includes these controls plus the member-pilot work. Production activation needs additive migrations `0005` through `0010` and a reviewed deployment.
 
 ## Host access
 

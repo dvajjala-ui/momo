@@ -19,18 +19,19 @@ Completed in the candidate:
 - a Sidekicks application and host review flow without special access
 - host-login throttling, security headers and a documented security review
 - hidden public Host link, focus-only skip link, collapsed credits and the requested footer
-- `18+` limited to Rules and product-source copy audited for long dash characters
+- no age eligibility rule; nickname, age and self-described gender are collected only at first chat and shown beside messages
+- simplified three-page flow with the real momo/pizza photo prominent and duplicate postcard/badge sections removed
 - chat-ticket future-clock handling fixed
 - disposable integration coverage expanded for the new member and host flows
 - built-site browser checks for signed-out entry, one-click gang chat, deferred profile, seat exit, sidekick form and host controls
 - 500-client local realtime fanout: p50 33 ms, p95 42 ms, max 43 ms, one delivery per client in the tested run
 
-The new migration is `0009_member_pilot`. It is additive and follows the existing unapplied production migrations `0005` through `0008`.
+The newest migration is `0010_profile_details`. It adds nullable age and gender fields after the existing additive migration `0009_member_pilot`.
 
 ## Release actions pending
 
 - [ ] Review and merge the production-readiness pull request.
-- [ ] Apply migrations `0005` through `0009` to production D1 `momo-community`, in order, and verify the migration ledger.
+- [ ] Apply migrations `0005` through `0010` to production D1 `momo-community`, in order, and verify the migration ledger.
 - [ ] Create separate private secrets and deploy `momo-db-gateway` and `momo-chat`.
 - [ ] Add `MOMO_DB_GATEWAY_URL`, `MOMO_DB_GATEWAY_TOKEN`, `MOMO_CHAT_URL`, `MOMO_CHAT_SECRET` and `MOMO_CHAT_APP_ORIGIN` to Vercel Production.
 - [ ] Deploy the exact reviewed commit and smoke-test the live site with disposable seats. Do not contact real invitation recipients.
@@ -55,15 +56,6 @@ Choose and confirm one real plan before publishing it:
 - moderation contact and emergency/venue-exit plan
 
 Guests can still leave whenever they want. The product should not publish “until bored” as the only end-time information.
-
-### Age and gender
-
-Choose one:
-
-1. Optional age band and self-described gender after joining, both skippable.
-2. Collect neither.
-
-Do not infer gender from photos and do not collect Aadhaar for this flow.
 
 ## Later work
 

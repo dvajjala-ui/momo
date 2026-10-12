@@ -6,11 +6,10 @@ Next steps and what's blocked live in [`docs/ROADMAP.md`](docs/ROADMAP.md).
 
 ## This version
 
-- **3 pages, 2 tabs.** **Ghar** (`/`): hero, the food gang, how it works, hosted plans, the **wish wall**, a "Hi you" note and postcards. **Adda** (`/chat`): the group chat. **Count me in** (`/join`): invite list, nickname, postcard choice, member badge, rules and privacy. The host corner (`/host`) is for admins only. Old routes (`/explore`, `/studio`, `/privacy`, `/guidelines`) redirect.
+- **3 focused pages, 2 tabs.** **Ghar** (`/`): real food image, how it works, hosted plans and the **wish wall**. **Adda** (`/chat`): group chat, with nickname, age and self-described gender collected only before the first message. **Count me in** (`/join`): real food image, event details, invite list, rules and privacy. The host corner (`/host`) is for admins only. Old routes (`/explore`, `/studio`, `/privacy`, `/guidelines`) redirect.
 - **Wish wall.** A member posts a plan ("Sunday badminton, need 4"). Others tap "I'm in". When it's full, the gang is marked ready and a host confirms a public venue, time and full cost. Signed-out visitors see wishes and head counts, never nicknames.
 - **Two food editions** with hand-built, animated SVG friends: steamed (steam rises), fried (crispy blisters), tandoori (char), gravy (sits in a red pool); or Neapolitan pizza, vada pav, noodles, chai and dal baati. Pasta was removed. Image attribution is retained in the collapsed credits area.
 - **Postcards:** Hero post (night sky, original "Momo-signal", POW), Princess post (pink glitter, tiara, wax seal) and Notebook post. People pick their own; hosts download each person's choice. No third-party logos or characters are used.
-- **Member badge** ("This is who's coming on Saturday") drawn locally in the browser; the optional childhood photo is never uploaded.
 - Host inbox, event publishing, gallery uploads, report moderation, pseudonymous chat, blocking, throttling and data deletion.
 - **Email letters first:** email-only consent, double opt-in, host HTML/plain text letter preview, reviewed sends, opt-out and durable duplicate protection. Gmail API support for the dedicated Momo mailbox is built; its private authorization is still needed. See [Email setup](docs/EMAIL_SETUP.md).
 - Future Meta WhatsApp Cloud API code (template sends, signed callbacks, STOP opt-out). It stays disabled until real configuration and phone verification exist.
@@ -30,12 +29,12 @@ Local SQLite is for development. Vercel's `/tmp` fallback is temporary, even whe
 
 ## Still needed for launch
 
-- Cloudflare D1/private R2 and host login are live and verified. The current candidate needs additive migrations `0005` through `0009`, the D1 gateway and realtime Workers, private runtime settings and a production smoke check.
+- Cloudflare D1/private R2 and host login are live and verified. The current candidate needs additive migrations `0005` through `0010`, the D1 gateway and realtime Workers, private runtime settings and a production smoke check.
 - Add Cloudflare edge rate limits and Turnstile before broad promotion. Re-encode uploads server-side or keep them unavailable for a broad public pilot.
 - Authorize the dedicated Gmail sender and verify a real confirmation/invitation with an owner-approved test inbox. Sending is disabled until then.
 - Future WhatsApp: the real sender, template and public webhook, plus live ownership-proof testing. No real WhatsApp invitation has been sent.
 - A confirmed public venue, named host, full cost, end time and moderation arrangements before listing a real meetup.
-- Review brand availability, image rights, participant photo consent, privacy and event obligations. This is not legal clearance or a security audit. Age confirmation is self-attestation.
+- Review brand availability, image rights, participant photo consent, privacy and event obligations. This is not legal clearance or a security audit.
 
 ## Creative files and provenance
 

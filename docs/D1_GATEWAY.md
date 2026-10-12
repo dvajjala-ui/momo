@@ -2,7 +2,7 @@
 
 `cloudflare/db-gateway/worker.mjs` is a server-to-server Worker with a native binding to `momo-community`. The candidate is implemented and locally tested; no Worker, new credential or production runtime setting has been created for it yet.
 
-Production was inspected read-only on 2026-10-13. D1 `momo-community` exists and its migration ledger contains `0000` through `0004`. The Cloudflare Workers list is empty, and Vercel has the existing D1/R2 credentials but no `MOMO_DB_GATEWAY_URL` or `MOMO_DB_GATEWAY_TOKEN`. Apply `0005` through `0009` and activate this gateway only as part of the reviewed release sequence.
+Production was inspected read-only on 2026-10-13. D1 `momo-community` exists and its migration ledger contains `0000` through `0004`. The Cloudflare Workers list is empty, and Vercel has the existing D1/R2 credentials but no `MOMO_DB_GATEWAY_URL` or `MOMO_DB_GATEWAY_TOKEN`. Apply `0005` through `0010` and activate this gateway only as part of the reviewed release sequence.
 
 When configured, Vercel's database adapter prefers this gateway over the Cloudflare management API. Momo's authenticated routes still decide member/host permissions. The gateway token permits application-data reads and writes in the bound Momo database, so treat it like a database password. It must exist only in the Worker secret and Vercel server settings. Never expose it with a `NEXT_PUBLIC_` variable or send it to the browser.
 

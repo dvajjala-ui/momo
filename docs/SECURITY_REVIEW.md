@@ -94,13 +94,13 @@ Before opening uploads to a broad audience, add server-side decode/re-encode and
 - Reports, blocks, host suspension and waiting-queue controls are enforced on the server.
 - A device seat is pseudonymous, not verified identity. Clearing storage or using another browser creates another seat. IP addresses are not treated as permanent identity because shared networks, carrier NAT, VPNs and changing addresses would block real people and still not stop a determined attacker.
 - The 100-seat pilot, queue, three-group limit, chat rate limit and host moderation reduce casual fake-account abuse. Stronger controls for a public Reddit launch should use Cloudflare Turnstile on seat creation and edge rate limits on session, profile, wish, join, upload and host-login endpoints.
-- The site must never infer gender from a face or collect Aadhaar for this community flow. Both create disproportionate privacy and discrimination risk and do not reliably prove a person’s gender.
+- Age and gender are self-entered at first chat, stored with the profile and shown to signed-in chat participants. They do not grant or deny access. The site never infers gender from a face or collects Aadhaar. Account deletion removes these profile fields with the rest of the profile.
 
 ## Production checks still required
 
 These block a broad public launch until they are completed and recorded:
 
-- Apply migrations `0005` through `0009` to the production D1 database and verify the migration ledger.
+- Apply migrations `0005` through `0010` to the production D1 database and verify the migration ledger.
 - Deploy the reviewed D1 gateway and realtime Worker to the intended Cloudflare account.
 - Configure exact production origins and 32-byte-or-longer gateway/chat secrets in private settings.
 - Run the gateway, realtime, chat-ticket, community and invitation integration suites against the built candidate without contacting real recipients.
@@ -119,7 +119,7 @@ A local browser run of the built Worker verified signed-out seat creation, one-c
 
 The 500-client local realtime fanout delivered one persisted message exactly once to every client. Measured local network latency was p50 33 ms, p95 42 ms and max 43 ms. This was one fanout on Windows/Miniflare with disposable data. It is useful regression evidence and does not predict sustained hosted capacity, mobile latency or Cloudflare quota usage.
 
-Production inspection found migrations `0000` through `0004` applied in D1. Migrations `0005` through `0009`, the two Workers, their secrets and the five Vercel gateway/chat variables are not active yet. Those are deployment tasks, so the controls that depend on them are source-complete but not production-active.
+Production inspection found migrations `0000` through `0004` applied in D1. Migrations `0005` through `0010`, the two Workers, their secrets and the five Vercel gateway/chat variables are not active yet. Those are deployment tasks, so the controls that depend on them are source-complete but not production-active.
 
 ## Incident checklist
 

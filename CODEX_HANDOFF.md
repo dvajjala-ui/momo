@@ -6,7 +6,7 @@ Read `AGENTS.md` and `docs/PRODUCTION_REQUIREMENTS.md` before making changes. Th
 
 ## Product
 
-Momo to Pizza helps adults turn a small food or activity idea into a real public meetup. It uses a playful crayon/scrapbook style and two persistent food editions. Keep the tone warm and low pressure. Do not invent members, events, urgency or safety claims. Do not label personalities.
+Momo to Pizza helps people turn a small food or activity idea into a real public meetup. It uses a playful crayon/scrapbook style and two persistent food editions. Keep the tone warm and low pressure. Do not invent members, events, urgency or safety claims. Do not label personalities.
 
 The main experience is Ghar, Adda and Count me in. `/host` is the private direct owner route and is intentionally absent from public navigation. Device sessions provide low-friction pseudonymous seats. The browser cannot grant itself a role or identity.
 
@@ -43,11 +43,12 @@ Vercel Production already has `HOST_PASSCODE` and existing D1/R2 variables. It d
 - Added D1-backed host-login attempt limits and global browser security headers.
 - Added `docs/SECURITY_REVIEW.md`.
 - Added a light “Made with love, always.” footer, focus-only skip link and collapsed image credits.
-- Kept `18+` only in Rules and removed long dash characters from product source.
+- Removed the age eligibility rule. Nickname, exact age and self-described gender are collected only when someone first tries to message and appear beside chat messages.
+- Simplified Home and Join, removed the Join postcard preview/member badge/profile card, and kept the real momo/pizza photograph prominent in both editions.
 - Fixed chat-ticket future clock skew handling.
 - Disabled internal Next link prefetch where Vinext’s compatibility shim produced browser console errors.
 
-The additive migration `drizzle/0009_member_pilot.sql` creates nickname claims, host messages, sidekick applications and host-login limits, and backfills active controls. `lib/migrations.generated.ts` includes migrations `0000` through `0009`.
+The additive migration `drizzle/0009_member_pilot.sql` creates nickname claims, host messages, sidekick applications and host-login limits, and backfills active controls. `drizzle/0010_profile_details.sql` adds age and gender to profiles. `lib/migrations.generated.ts` includes migrations `0000` through `0010`.
 
 ## Verification
 
@@ -73,12 +74,14 @@ The 500-client local realtime probe delivered one persisted message exactly once
 
 The built local Worker was checked in a browser for signed-out seat creation, edition persistence, invitation covers, one-click wish join, direct gang chat, deferred nickname setup, seat exit, Sidekicks submission, direct host login and administration of named and unnamed seats. A clean test page had no console errors.
 
+After the owner’s simplification request, TypeScript, repository lint, both production builds, community, invitation, chat-ticket and realtime integration checks passed again. These checks include nickname/age/gender persistence and chat output, invitation consent without an age gate, and the complete migration chain through `0010`. Browser checks above describe the earlier layout; the simplified layout has not had a new visual browser pass yet.
+
 `tests/vercel-storage.integration.mjs` was not rerun because it requires two separately configured Next servers backed by the same durable resources. Earlier production adapter evidence exists; use disposable data if repeating it.
 
 ## Production release order
 
 1. Review and merge the exact candidate commit.
-2. Create a production restore point and apply migrations `0005` through `0009` to D1 `momo-community` in order.
+2. Create a production restore point and apply migrations `0005` through `0010` to D1 `momo-community` in order.
 3. Generate separate strong secrets privately and deploy `momo-db-gateway` and `momo-chat`.
 4. Add `MOMO_DB_GATEWAY_URL`, `MOMO_DB_GATEWAY_TOKEN`, `MOMO_CHAT_URL`, `MOMO_CHAT_SECRET` and `MOMO_CHAT_APP_ORIGIN` to Vercel Production. The app origin is `https://momo-ten-pied.vercel.app` unless the canonical production domain changes.
 5. Deploy the reviewed commit and use disposable seats to check session, one-click join, host controls, gateway, chat reconnect, queue/suspension and deletion. Do not send invitations.
@@ -91,8 +94,6 @@ WhatsApp readiness flags remain gates. Do not enable sending until the real send
 ## Owner decisions kept last
 
 The first real meetup still needs a venue with full address, date, named host, clear end time, capacity, full cost, moderation contact and emergency/exit plan. The stated options are Kitab Khana/Kitab Ghar or Sindhu Bhavan, starting around 5:00 pm.
-
-For age and gender, recommend either optional self-described age band and gender after joining, both skippable, or collecting neither. Do not infer gender from a face and do not collect Aadhaar.
 
 ## Working-tree care
 

@@ -11,7 +11,7 @@ async function call(session,path='/api/community',data=null,instance=0){
   if(session){const cookies=response.headers.getSetCookie().map(x=>x.split(';')[0]);if(cookies.length)session.cookie=[...session.cookie.split('; ').filter(Boolean).filter(x=>!cookies.some(c=>c.split('=')[0]===x.split('=')[0])),...cookies].join('; ');}
   const body=await response.json();return {status:response.status,body};
 }
-async function member(name){const s={cookie:''};sessions.push(s);assert.equal((await call(s,'/api/session',{action:'start'})).status,200);assert.equal((await call(s,'/api/community',{action:'profile',nickname:name,avatar:1,adult:true,rules:true})).status,200);return s;}
+async function member(name){const s={cookie:''};sessions.push(s);assert.equal((await call(s,'/api/session',{action:'start'})).status,200);assert.equal((await call(s,'/api/community',{action:'profile',nickname:name,age:24,gender:'Test profile',avatar:1,rules:true})).status,200);return s;}
 async function upload(session,kind){
   const form=new FormData();form.set('kind',kind);form.set('consent','yes');form.set('caption','Disposable storage test');form.set('category','Food');form.set('photo',new Blob([Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+aWQAAAABJRU5ErkJggg==','base64')],{type:'image/png'}),'test.png');
   const response=await fetch(origins[0]+'/api/upload',{method:'POST',headers:{Origin:origins[0],Cookie:session.cookie},body:form});const body=await response.json();assert.equal(response.status,200);return body.id;
