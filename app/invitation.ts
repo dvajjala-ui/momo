@@ -1,6 +1,7 @@
 import {FoodTheme,themeKinds} from './brand';
 import {foodSvg,FoodKind} from './food-art';
 export type LetterStyle='hero'|'princess'|'notebook';
+export type InvitationEvent={id?:string;title:string;date:string;venue:string;cost:string};
 export const LETTER_STYLES:{id:LetterStyle,name:string,note:string}[]=[
   {id:'hero',name:'Hero post',note:'night sky, cape & the Momo-signal'},
   {id:'princess',name:'Princess post',note:'pink, glitter, tiara & a wax seal'},
@@ -15,7 +16,7 @@ async function icon(kind:FoodKind,id:string){const img=new Image();img.src='data
 function silhouette(img:HTMLImageElement,size:number,color:string){const c=document.createElement('canvas');c.width=c.height=size;const x=c.getContext('2d')!;x.drawImage(img,0,0,size,size);x.globalCompositeOperation='source-in';x.fillStyle=color;x.fillRect(0,0,size,size);return c}
 function wrap(ctx:Ctx,text:string,x:number,y:number,max:number,line:number){const words=text.split(' ');let row='';for(const word of words){const test=row+word+' ';if(ctx.measureText(test).width>max&&row){ctx.fillText(row.trim(),x,y);y+=line;row=word+' '}else row=test}ctx.fillText(row.trim(),x,y);return y+line}
 function star(ctx:Ctx,x:number,y:number,r:number,points=4,inner=.35){ctx.beginPath();for(let i=0;i<points*2;i++){const a=Math.PI*i/points-Math.PI/2,rr=i%2?r*inner:r;ctx.lineTo(x+Math.cos(a)*rr,y+Math.sin(a)*rr)}ctx.closePath()}
-function details(event?:any){return event?[event.title,new Date(event.date).toLocaleString('en-IN',{timeZone:'Asia/Kolkata',dateStyle:'medium',timeStyle:'short'})+' IST',event.venue,'Full cost: '+event.cost]:['Ahmedabad · our first table is taking shape','Date, public venue & full cost come first.','You decide after that. No pressure.']}
+function details(event?:InvitationEvent){return event?[event.title,new Date(event.date).toLocaleString('en-IN',{timeZone:'Asia/Kolkata',dateStyle:'medium',timeStyle:'short'})+' IST',event.venue,'Full cost: '+event.cost]:['Ahmedabad · our first table is taking shape','Date, public venue & full cost come first.','You decide after that. No pressure.']}
 function detailLines(ctx:Ctx,text:string,width:number){
   const lines:string[]=[];let line='';
   for(const word of text.trim().split(/\s+/)){
@@ -32,7 +33,7 @@ function detailLines(ctx:Ctx,text:string,width:number){
   if(line)lines.push(line);
   return lines;
 }
-function drawDetails(ctx:Ctx,event:any,x:number,top:number,bottom:number,width:number){
+function drawDetails(ctx:Ctx,event:InvitationEvent|undefined,x:number,top:number,bottom:number,width:number){
   const items=details(event);let lines:string[]=[],lineHeight=0;
   for(let size=34;size>=18;size--){
     ctx.font=`700 ${size}px Nunito`;lineHeight=Math.ceil(size*1.3);
@@ -47,7 +48,7 @@ function drawDetails(ctx:Ctx,event:any,x:number,top:number,bottom:number,width:n
 }
 const fine='18+ · public venue · full cost before you decide · leave anytime';
 
-async function hero(ctx:Ctx,theme:FoodTheme,event?:any){
+async function hero(ctx:Ctx,theme:FoodTheme,event?:InvitationEvent){
   const r=rng(7);
   const g=ctx.createLinearGradient(0,0,0,H);g.addColorStop(0,'#0a1433');g.addColorStop(.55,'#1a2d6b');g.addColorStop(1,'#2b4aa3');ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
   for(let i=0;i<140;i++){ctx.fillStyle=`rgba(255,255,255,${.25+r()*.6})`;ctx.beginPath();ctx.arc(r()*W,r()*H*.55,r()*2.2+.4,0,7);ctx.fill()}
@@ -75,7 +76,7 @@ async function hero(ctx:Ctx,theme:FoodTheme,event?:any){
   ctx.fillStyle='rgba(7,14,38,.82)';ctx.fillRect(0,1160,W,190);ctx.textAlign='center';ctx.fillStyle='#ffd23f';ctx.font='54px Bangers';ctx.fillText('MAKE A WISH. WE’LL GET YOUR GANG READY.',W/2,1215);ctx.fillStyle='rgba(255,255,255,.85)';ctx.font='700 25px Nunito';ctx.fillText(fine,W/2,1270);
 }
 
-async function princess(ctx:Ctx,theme:FoodTheme,event?:any){
+async function princess(ctx:Ctx,theme:FoodTheme,event?:InvitationEvent){
   const r=rng(11);
   const g=ctx.createLinearGradient(0,0,W,H);g.addColorStop(0,'#ffe6f3');g.addColorStop(.5,'#fcc6e2');g.addColorStop(1,'#e6d2ff');ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
   // Castle silhouette
@@ -99,7 +100,7 @@ async function princess(ctx:Ctx,theme:FoodTheme,event?:any){
   ctx.fillStyle='#a8276a';ctx.font='80px "Great Vibes"';ctx.fillText('Come and be found.',W/2,1170);ctx.fillStyle='#6b2a52';ctx.font='700 25px Nunito';ctx.fillText(fine,W/2,1240);
 }
 
-async function notebook(ctx:Ctx,theme:FoodTheme,event?:any){
+async function notebook(ctx:Ctx,theme:FoodTheme,event?:InvitationEvent){
   ctx.fillStyle='#fff8dc';ctx.fillRect(0,0,W,H);ctx.strokeStyle='rgba(70,110,200,.22)';ctx.lineWidth=2;for(let y=170;y<H;y+=56){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke()}ctx.strokeStyle='rgba(220,70,70,.45)';ctx.beginPath();ctx.moveTo(118,0);ctx.lineTo(118,H);ctx.stroke();
   ctx.fillStyle='rgba(172,202,208,.75)';ctx.save();ctx.translate(W/2,40);ctx.rotate(-.05);ctx.fillRect(-90,-22,180,48);ctx.restore();
   const blue=theme==='momo'?'#2448ce':'#bc421c';
@@ -112,9 +113,9 @@ async function notebook(ctx:Ctx,theme:FoodTheme,event?:any){
   ctx.textAlign='center';ctx.fillStyle=blue;ctx.font='700 56px Caveat';ctx.fillText('Make a wish. We’ll get your gang ready.',W/2,1220);ctx.fillStyle='#4a4a4a';ctx.font='700 25px Nunito';ctx.fillText(fine,W/2,1275);
 }
 
-export async function renderLetter(style:LetterStyle,theme:FoodTheme,event?:any){await fonts();const c=document.createElement('canvas');c.width=W;c.height=H;const ctx=c.getContext('2d');if(!ctx)throw Error('Your browser cannot draw this postcard.');await (style==='hero'?hero:style==='princess'?princess:notebook)(ctx,theme,event);return c}
+export async function renderLetter(style:LetterStyle,theme:FoodTheme,event?:InvitationEvent){await fonts();const c=document.createElement('canvas');c.width=W;c.height=H;const ctx=c.getContext('2d');if(!ctx)throw Error('Your browser cannot draw this postcard.');await (style==='hero'?hero:style==='princess'?princess:notebook)(ctx,theme,event);return c}
 export async function saveCanvas(c:HTMLCanvasElement,name:string){const blob=await new Promise<Blob|null>(r=>c.toBlob(r,'image/png'));if(!blob)throw Error('Could not export the image.');const a=document.createElement('a');const url=URL.createObjectURL(blob);a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),2000)}
-export async function downloadInvitation(theme:FoodTheme,event?:any,style:LetterStyle='notebook'){await saveCanvas(await renderLetter(style,theme,event),`momo-${style}-invitation.png`)}
+export async function downloadInvitation(theme:FoodTheme,event?:InvitationEvent,style:LetterStyle='notebook'){await saveCanvas(await renderLetter(style,theme,event),`momo-${style}-invitation.png`)}
 
 // "This is who's coming on Saturday" — a member badge made entirely in the browser.
 export async function renderBadge({name,role,photo,kind}:{name:string,role:string,photo?:string|null,kind:FoodKind}){

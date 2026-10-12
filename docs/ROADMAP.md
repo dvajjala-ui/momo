@@ -21,6 +21,8 @@ The site is **3 pages and 2 tabs**: **Ghar** (home + wish wall), **Adda** (commu
 | Usability | Complete screen-reader and physical-device review | Keyboard, mobile layout and contrast fixes are underway; see accessibility item below |
 | Later | Decide whether verified email should recover a lost device seat; connect WhatsApp sender/template/callback/phone proof; finish original art and two films; clear rights/privacy/event obligations | No WhatsApp account or film delivery is needed for the email pilot |
 
+12 October 2026 review: [LAUNCH_REVIEW.md](LAUNCH_REVIEW.md) records current accessibility, gateway, brand, image, consent, privacy and event evidence, with the remaining release decisions. It does not close the pending device, hosted-capacity or rights checks.
+
 The detailed checkboxes below are authoritative. A GitHub push to the draft email branch produces a Vercel preview; it does not apply the new production migrations or release email sending.
 
 ## Current priority — host control and messaging

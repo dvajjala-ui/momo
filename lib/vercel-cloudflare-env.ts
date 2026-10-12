@@ -5,7 +5,7 @@ import {createR2Bucket,r2Config} from './r2-bucket';
 
 let database:ReturnType<typeof createD1>|null=null;
 let bucket:ReturnType<typeof createR2Bucket>|null=null;
-export const env:any=new Proxy({},{
+export const env:Record<string,unknown>=new Proxy({},{
   get(_t,key){
     if(key==='MOMO_PLATFORM')return 'vercel';
     if(key==='MOMO_STORAGE')return storageMode();

@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-page-custom-font -- The App Router root layout shares this stylesheet across every route. */
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import {BrandProvider} from "./brand";

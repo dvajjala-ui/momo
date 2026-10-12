@@ -201,7 +201,7 @@ html[data-food=menu] .meter i{background:repeating-linear-gradient(45deg,var(--a
 .page-title em{font-weight:500;color:var(--accent)}
 .preview-banner{background:#fff1c2;border:1.5px dashed #b99a2f;border-radius:12px;padding:10px 16px;font-size:14px;margin-bottom:20px}
 .card{background:var(--card);border:2px solid var(--ink);border-radius:20px;padding:28px;box-shadow:var(--shadow)}
-.card h2{font-family:var(--serif);font-size:32px;letter-spacing:-1px;margin:8px 0 22px}
+.card h1,.card h2{font-family:var(--serif);font-size:32px;letter-spacing:-1px;margin:8px 0 22px}
 .card.wide{margin-top:26px}
 .card.narrow{max-width:520px;margin:40px auto}
 label{display:flex;flex-direction:column;gap:8px;font-size:14px;font-weight:700;margin-bottom:16px}
@@ -230,7 +230,7 @@ legend{font-size:14px;font-weight:700;margin-bottom:8px}
 .room-pills .gang-pill.on{border-style:solid;background:var(--accent-soft);color:var(--accent)}
 .chat-box{background:#fff;border:2px solid var(--ink);border-radius:20px;overflow:hidden;box-shadow:var(--shadow)}
 .chat-heading{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:16px 22px;border-bottom:2px solid var(--line)}
-.chat-heading h3{font-family:var(--serif);font-size:22px}
+.chat-heading h2,.chat-heading h3{font-family:var(--serif);font-size:22px}
 .pill{font-size:12px;border:1.5px solid var(--line);border-radius:30px;padding:5px 12px;white-space:nowrap}
 .pill a{text-decoration:underline}
 .chat-gate{padding:20px}

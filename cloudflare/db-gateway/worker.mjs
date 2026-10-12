@@ -28,7 +28,7 @@ function valid(query){
     && query.params.every(value=>value===null||typeof value==='string'||(typeof value==='number'&&Number.isFinite(value)));
 }
 
-export default {
+const gateway={
   async fetch(request,env){
     const token=env.MOMO_DB_GATEWAY_TOKEN;
     if(typeof token!=='string'||token.length<32||!env.DB)return reply({success:false,error:'Gateway unavailable.'},503);
@@ -53,3 +53,4 @@ export default {
     }
   },
 };
+export default gateway;

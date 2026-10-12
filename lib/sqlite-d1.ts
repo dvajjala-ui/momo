@@ -4,6 +4,11 @@
 import {migrations} from './migrations.generated';
 import {d1GatewayConfig,gatewayExecutor,cloudflareD1Config,cloudflareExecutor,type Value,type Row,type Result,type Executor} from './d1-http';
 
+type LibsqlCell={type:string;value?:string|number};
+type LibsqlQueryResult={cols?:{name:string}[];rows?:LibsqlCell[][];affected_row_count?:number};
+type LibsqlBatchResult={step_errors:({message?:string}|null)[];step_results:LibsqlQueryResult[]};
+type LibsqlPipelineResult={type:string;error?:{message?:string};response:{result:LibsqlQueryResult&LibsqlBatchResult}};
+
 const READS=/^\s*(SELECT|WITH|PRAGMA)\b/i;
 const toValue=(v:unknown):Value=>v===undefined||v===null?null:typeof v==='boolean'?(v?1:0):typeof v==='number'||typeof v==='string'?v:String(v);
 
@@ -25,18 +30,18 @@ function libsqlExecutor(url:string,token?:string):Executor{
   const base=url.replace(/^libsql:\/\//,'https://').replace(/\/$/,'');
   const arg=(v:Value)=>v===null?{type:'null'}:typeof v==='number'?(Number.isInteger(v)?{type:'integer',value:String(v)}:{type:'float',value:v}):{type:'text',value:v};
   const stmt=(sql:string,args:Value[])=>({sql,args:args.map(arg)});
-  const decode=(r:any):Result=>{const cols:string[]=(r?.cols||[]).map((c:any)=>c.name);return {changes:Number(r?.affected_row_count||0),rows:(r?.rows||[]).map((row:any[])=>Object.fromEntries(row.map((cell:any,i:number)=>[cols[i],cell.type==='null'?null:cell.type==='integer'?Number(cell.value):cell.type==='float'?Number(cell.value):cell.value])))}};
-  async function pipeline(requests:any[]){const res=await fetch(base+'/v2/pipeline',{method:'POST',headers:{'Content-Type':'application/json',...(token?{Authorization:'Bearer '+token}:{})},body:JSON.stringify({requests:[...requests,{type:'close'}]})});if(!res.ok)throw new Error('Database request failed ('+res.status+')');const data:any=await res.json();return data.results as any[]}
+  const decode=(r:LibsqlQueryResult):Result=>{const cols=(r?.cols||[]).map(c=>c.name);return {changes:Number(r?.affected_row_count||0),rows:(r?.rows||[]).map(row=>Object.fromEntries(row.map((cell,i)=>[cols[i],cell.type==='null'?null:cell.type==='integer'?Number(cell.value):cell.type==='float'?Number(cell.value):cell.value])))}};
+  async function pipeline(requests:unknown[]){const res=await fetch(base+'/v2/pipeline',{method:'POST',headers:{'Content-Type':'application/json',...(token?{Authorization:'Bearer '+token}:{})},body:JSON.stringify({requests:[...requests,{type:'close'}]})});if(!res.ok)throw new Error('Database request failed ('+res.status+')');const data=await res.json() as {results:LibsqlPipelineResult[]};return data.results}
   return {
     async exec(sql,args){const [r]=await pipeline([{type:'execute',stmt:stmt(sql,args)}]);if(r.type!=='ok')throw new Error(r.error?.message||'Database error');return decode(r.response.result)},
     async batch(list){
-      const steps:any[]=[{stmt:{sql:'BEGIN'}}];
+      const steps:unknown[]=[{stmt:{sql:'BEGIN'}}];
       list.forEach(([s,a],i)=>steps.push({condition:{type:'ok',step:i},stmt:stmt(s,a)}));
       steps.push({condition:{type:'ok',step:list.length},stmt:{sql:'COMMIT'}});
       steps.push({condition:{type:'not',cond:{type:'ok',step:list.length+1}},stmt:{sql:'ROLLBACK'}});
       const [r]=await pipeline([{type:'batch',batch:{steps}}]);
       if(r.type!=='ok')throw new Error(r.error?.message||'Database error');
-      const results=r.response.result;const failed=results.step_errors.find((e:any)=>e);if(failed)throw new Error(failed.message||'Database error');
+      const results=r.response.result;const failed=results.step_errors.find(e=>e);if(failed)throw new Error(failed.message||'Database error');
       return list.map((_,i)=>decode(results.step_results[i+1]));
     },
   };

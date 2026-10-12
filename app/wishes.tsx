@@ -1,13 +1,15 @@
 'use client';
 import {useEffect,useRef,useState} from 'react';
 import {Sparkles,Users,CalendarDays,MapPin,X,Flag} from 'lucide-react';
+import Image from 'next/image';
 import {FoodIcon,themeKinds,useBrand} from './brand';
 import {api,Run} from './client';
 
 const IDEAS=['Sunday badminton doubles','Post-garba momo run','Board games + chai','Sunrise trek','Football 5-a-side','Pottery class, finally'];
-export function Avatar({i=0,photo,large=false}:{i?:number,photo?:string|null,large?:boolean}){const{theme}=useBrand();const kinds=themeKinds(theme);return <span className={'avatar '+(large?'large':'')}>{photo?<img src={`/api/media/${photo}`} alt=""/>:<FoodIcon kind={kinds[Math.abs(i)%kinds.length]}/>}</span>}
+export type WishData={id:string;title:string;whenText:string;area:string;spots:number;joined:number;status:string;eventId?:string;mine?:boolean;joinedByMe?:boolean;by?:{avatar:number;nickname:string}|null;gang?:{avatar:number;nickname:string}[]};
+export function Avatar({i=0,photo,large=false}:{i?:number,photo?:string|null,large?:boolean}){const{theme}=useBrand();const kinds=themeKinds(theme);return <span className={'avatar '+(large?'large':'')}>{photo?<Image unoptimized width={96} height={96} src={`/api/media/${photo}`} alt=""/>:<FoodIcon kind={kinds[Math.abs(i)%kinds.length]}/>}</span>}
 
-export default function Wishes({wishes,me,busy,run,reload,signIn}:{wishes:any[],me:any,busy:boolean,run:Run,reload:()=>Promise<void>,signIn:React.ReactNode}){
+export default function Wishes({wishes,me,busy,run,reload,signIn}:{wishes:WishData[],me:{signedIn?:boolean;profile?:unknown;admin?:boolean}|null,busy:boolean,run:Run,reload:()=>Promise<void>,signIn:React.ReactNode}){
   const[open,setOpen]=useState(false);const[title,setTitle]=useState('');const[reporting,setReporting]=useState('');
   const opener=useRef<HTMLButtonElement|null>(null);
   const titleInput=useRef<HTMLInputElement|null>(null);
@@ -24,7 +26,7 @@ export default function Wishes({wishes,me,busy,run,reload,signIn}:{wishes:any[],
       <h3>{w.title}</h3>
       <div className="event-meta"><span><CalendarDays size={16}/>{w.whenText}</span><span><MapPin size={16}/>{w.area}</span><span><Users size={16}/>{w.joined}/{w.spots} in</span></div>
       <div className="meter" aria-hidden="true"><i style={{width:`${Math.min(100,w.joined/w.spots*100)}%`}}/></div>
-      {w.gang?.length>0&&<div className="gang-row">{w.gang.slice(0,8).map((g:any,i:number)=><span key={i} title={g.nickname}><Avatar i={g.avatar}/></span>)}</div>}
+      {!!w.gang?.length&&<div className="gang-row">{w.gang.slice(0,8).map((g,i)=><span key={i} title={g.nickname}><Avatar i={g.avatar}/></span>)}</div>}
       {planned?<p className="hint">It’s happening. The host set a public venue, time and full cost. <a className="hand-link" href={'/join?event='+w.eventId}>see the plan</a></p>:ready&&<p className="hint">The gang’s ready. A host will share a public venue, time and full cost before anyone meets.</p>}
       <div className="wish-actions">{(w.mine||w.joinedByMe)&&<a className="button small" href={'/chat?room=w_'+w.id}>Gang chat</a>}{w.mine?<button className="textbutton" disabled={busy} onClick={()=>run(async()=>{await api('removeWish',{id:w.id});await reload()})}>Remove my wish</button>:w.joinedByMe?<button className="button" disabled={busy} onClick={()=>run(async()=>{await api('leaveWish',{id:w.id});await reload()})}>I’m in ✓ · leave</button>:<button className="button blue" disabled={busy||ready} onClick={e=>{if(!me?.signedIn||!me?.profile){showWish(e);return}run(async()=>{await api('joinWish',{id:w.id});await reload()})}}>{ready?'Gang full':'I’m in'}</button>}{me?.admin&&!w.mine&&<button className="textbutton" disabled={busy} onClick={()=>run(async()=>{await api('removeWish',{id:w.id});await reload()})}>Remove (host)</button>}{me?.signedIn&&!w.mine&&<button className="icon-button" aria-label={'Report wish: '+w.title} aria-expanded={reporting===w.id} onClick={()=>setReporting(reporting===w.id?'':w.id)}><Flag size={15}/></button>}</div>
       {reporting===w.id&&<form className="wish-report" onSubmit={e=>{e.preventDefault();const f=new FormData(e.currentTarget);run(async()=>{await api('reportWish',{id:w.id,reason:f.get('reason')});setReporting('')})}}><label>What’s wrong with this wish?<textarea name="reason" required minLength={3} maxLength={300}/></label><button className="button small" disabled={busy}>Send to the hosts</button></form>}
