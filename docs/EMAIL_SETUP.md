@@ -4,7 +4,7 @@ The owner selected email letters as the first invitation channel on 9 October 20
 
 ## Built, awaiting activation
 
-- Email-only request with explicit adult acknowledgement and email consent, nickname kept separate.
+- Email-only request with explicit email consent; chat profile details stay separate.
 - Separate confirmation letter requested by the member. A random, hashed, single-use link expires after 30 minutes; opening it alone does not verify an address. It can be confirmed on another device without signing in.
 - Host review, HTML letter preview and plain text alternative for the selected published plan. All three letter styles and both food editions are retained. Date, public venue, full cost, description and no-pressure wording are included.
 - Host sends one reviewed letter per verified inbox and plan. A durable hash deduplicates across device seats. An accepted provider response is **not** a delivery receipt or confirmed seat.
@@ -25,7 +25,7 @@ Enrollment credentials belong to this application. A Gmail connector inside Code
 
 ## Deployment order
 
-New additive migrations `0005_phone_verification` and `0006_email_letters` are required. They have only been applied in disposable local databases. Preserve existing migrations. Review the candidate first, obtain approval for the production schema/deployment, run the exact-database guarded migration command from `docs/CLOUDFLARE_SETUP.md`, then deploy. Rollback to the prior app leaves the additive tables unused.
+Email specifically requires additive migrations `0005_phone_verification` and `0006_email_letters`. The current production-readiness release also depends on `0007` through `0010`, so apply the complete pending chain `0005` through `0010` in order after approval. They have only been applied in disposable local databases. Preserve existing migrations, run the exact-database guarded migration command from `docs/CLOUDFLARE_SETUP.md`, then deploy. Rollback to the prior app leaves the additive tables unused.
 
 Verify the live email request and confirmation UI with an owner-approved test inbox. Review a published plan and its letter before sending the one test invitation. Check the real inbox, Spam and the sender’s Sent folder. Do not infer delivery from `accepted`. A timeout or missing message ID records `unknown`; investigate in Gmail before any manual recovery. Gmail has no provider idempotency key; Momo’s durable attempt reservation prevents retries. Concurrent opt-out after an outbound request starts cannot recall that message.
 

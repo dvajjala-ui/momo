@@ -32,7 +32,7 @@ async function until(check){const limit=Date.now()+3000;while(!check()){if(Date.
 try{
   const db=await mf.getD1Database('DB');
   for(const file of readdirSync(root+'/drizzle').filter(f=>f.endsWith('.sql')).sort())for(const statement of readFileSync(root+'/drizzle/'+file,'utf8').split('--> statement-breakpoint'))if(statement.trim())await db.prepare(statement).run();
-  for(const [id,nick] of [['a','Chai'],['b','Momo'],['c','Noodles']])await db.prepare('INSERT INTO profiles(id,nickname,created,dm_opt_in) VALUES(?,?,1,1)').bind(id,nick).run();
+  for(const [id,nick] of [['a','Chai'],['b','Momo'],['c','Noodles']])await db.prepare('INSERT INTO profiles(id,nickname,age,gender,created,dm_opt_in) VALUES(?,?,24,?,1,1)').bind(id,nick,'Test profile').run();
   assert.equal((await post('history',seat('a'),'wrong')).status,401);
   assert.equal((await connect('a','weekend',{},'https://outsider.test')).status,403);
   assert.equal((await connect('a','weekend',{expires:Date.now()-1})).status,401);
@@ -122,7 +122,7 @@ try{
   await db.prepare('DROP TRIGGER reject_chat').run();
   const count=Number(process.env.MOMO_CHAT_LOAD_CLIENTS||50);
   assert(Number.isInteger(count)&&count>=2&&count<=500,'local load must be 2–500 clients');
-  for(let base=0;base<count;base+=50)await db.batch(Array.from({length:Math.min(50,count-base)},(_,n)=>db.prepare('INSERT INTO profiles(id,nickname,created) VALUES(?,?,1)').bind('load-'+(base+n),'Local load '+(base+n))));
+  for(let base=0;base<count;base+=50)await db.batch(Array.from({length:Math.min(50,count-base)},(_,n)=>db.prepare('INSERT INTO profiles(id,nickname,age,gender,created) VALUES(?,?,24,?,1)').bind('load-'+(base+n),'Local load '+(base+n),'Test profile')));
   const clients=[];
   for(let base=0;base<count;base+=25)clients.push(...await Promise.all(Array.from({length:Math.min(25,count-base)},(_,n)=>connect('load-'+(base+n),'food'))));
   await until(()=>clients.every(c=>c.received.some(x=>x.type==='history')));

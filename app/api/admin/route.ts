@@ -10,17 +10,17 @@ export async function GET(req:Request){
     if(!isAdmin(user))return json({error:'Host access is restricted.'},403);
     const url=new URL(req.url),view=url.searchParams.get('view')||'overview';
     if(view==='overview'){
-      const counts=await db().prepare('SELECT (SELECT COUNT(*) FROM profiles) AS members,(SELECT COUNT(*) FROM wishes) AS wishes,(SELECT COUNT(*) FROM wish_joins) AS gang_seats,(SELECT COUNT(*) FROM messages) AS messages,(SELECT COUNT(*) FROM reports) AS reports,(SELECT COUNT(*) FROM member_controls WHERE status=\'suspended\') AS suspended,(SELECT COUNT(*) FROM event_attendance) AS attended').first();
+      const counts=await db().prepare('SELECT (SELECT COUNT(*) FROM member_controls WHERE status=\'active\') AS active_members,(SELECT COUNT(*) FROM member_controls WHERE status=\'queued\') AS queued,(SELECT COUNT(*) FROM profiles) AS profiles,(SELECT COUNT(*) FROM wishes) AS wishes,(SELECT COUNT(*) FROM wish_joins) AS gang_seats,(SELECT COUNT(*) FROM messages) AS messages,(SELECT COUNT(*) FROM reports) AS reports,(SELECT COUNT(*) FROM member_controls WHERE status=\'suspended\') AS suspended,(SELECT COUNT(*) FROM event_attendance) AS attended,(SELECT COUNT(*) FROM sidekick_applications WHERE status=\'new\') AS sidekick_notes').first();
       const audit=(await db().prepare('SELECT actor_id,action,subject_id,note,created FROM admin_audit ORDER BY created DESC LIMIT 30').all()).results;
       return json({counts,audit});
     }
     if(view==='members'){
       const query=(url.searchParams.get('q')||'').trim().slice(0,80),page=Math.min(100,Math.max(0,Number(url.searchParams.get('page')||0)||0));
       const match='%'+query.replace(/[\\%_]/g,'\\$&')+'%';
-      const filter=' WHERE p.nickname LIKE ? ESCAPE \'\\\' OR COALESCE(i.phone,\'\') LIKE ? ESCAPE \'\\\' OR COALESCE(ei.email,\'\') LIKE ? ESCAPE \'\\\'';
-      const base=' FROM profiles p LEFT JOIN member_controls mc ON mc.user_id=p.id LEFT JOIN invites i ON i.user_id=p.id LEFT JOIN email_invites ei ON ei.user_id=p.id';
-      const rows=(await db().prepare('SELECT p.id,p.nickname,p.avatar,p.created,p.dm_opt_in,COALESCE(mc.status,\'active\') AS status,mc.reason,i.phone,i.city,ei.email,ei.verified_at AS email_verified_at,(SELECT COUNT(*) FROM wish_joins j WHERE j.user_id=p.id) AS gangs'+base+filter+' ORDER BY p.created DESC,p.id DESC LIMIT 50 OFFSET ?').bind(match,match,match,page*50).all()).results;
-      const total=await db().prepare('SELECT COUNT(*) AS n'+base+filter).bind(match,match,match).first<{n:number}>();
+      const filter=' WHERE COALESCE(p.nickname,\'\') LIKE ? ESCAPE \'\\\' OR mc.user_id LIKE ? ESCAPE \'\\\' OR COALESCE(i.phone,\'\') LIKE ? ESCAPE \'\\\' OR COALESCE(ei.email,\'\') LIKE ? ESCAPE \'\\\'';
+      const base=' FROM member_controls mc LEFT JOIN profiles p ON p.id=mc.user_id LEFT JOIN invites i ON i.user_id=mc.user_id LEFT JOIN email_invites ei ON ei.user_id=mc.user_id';
+      const rows=(await db().prepare('SELECT mc.user_id AS id,p.nickname,p.avatar,p.age,p.gender,COALESCE(p.created,mc.updated) AS created,COALESCE(p.dm_opt_in,0) AS dm_opt_in,mc.status,mc.reason,i.phone,i.city,ei.email,ei.verified_at AS email_verified_at,(SELECT COUNT(*) FROM wish_joins j WHERE j.user_id=mc.user_id) AS gangs'+base+filter+' ORDER BY created DESC,mc.user_id DESC LIMIT 50 OFFSET ?').bind(match,match,match,match,page*50).all()).results;
+      const total=await db().prepare('SELECT COUNT(*) AS n'+base+filter).bind(match,match,match,match).first<{n:number}>();
       return json({members:rows,page,total:Number(total?.n||0)});
     }
     if(view==='gangs'){
@@ -48,6 +48,7 @@ export async function GET(req:Request){
       const messages=(await db().prepare('SELECT m.id,m.room,m.body,m.created,p.nickname FROM messages m LEFT JOIN profiles p ON p.id=m.user_id WHERE m.room=? ORDER BY m.created DESC LIMIT 100').bind(room).all()).results;
       return json({room,messages});
     }
+    if(view==='sidekicks')return json({applications:(await db().prepare('SELECT user_id,email,city,help_with,about,status,created,updated FROM sidekick_applications ORDER BY updated DESC LIMIT 200').all()).results});
     return json({error:'Not found.'},404);
   }catch(e){console.error('admin read failed',e);return json({error:'The host notebook could not load this section.'},503)}
 }
@@ -62,25 +63,45 @@ export async function POST(req:Request){
     if(b.action==='memberStatus'){
       const id=member(b.userId),status=b.status;
       if(id===actor)return json({error:'Use another host account to moderate your own account.'},400);
-      if(status!=='active'&&status!=='suspended')return json({error:'Choose active or suspended.'},400);
-      if(!await db().prepare('SELECT id FROM profiles WHERE id=?').bind(id).first())return json({error:'Member not found.'},404);
-      const reason=status==='suspended'?str(b.reason,3,160):null;
+      if(!['active','queued','suspended'].includes(status))return json({error:'Choose active, queued or suspended.'},400);
+      if(!await db().prepare('SELECT user_id FROM member_controls WHERE user_id=?').bind(id).first())return json({error:'Member not found.'},404);
+      const reason=status==='active'?null:(typeof b.reason==='string'&&b.reason.trim()?str(b.reason,3,160):status==='queued'?'Waiting for the next pilot seat.':null);
+      if(status==='suspended'&&!reason)return json({error:'Add a reason for suspension.'},400);
       await db().prepare('INSERT INTO member_controls(user_id,status,reason,updated) VALUES(?,?,?,?) ON CONFLICT(user_id) DO UPDATE SET status=excluded.status,reason=excluded.reason,updated=excluded.updated').bind(id,status,reason,now).run();
       await record(actor,'member:'+status,id,reason);
       return json({ok:true});
     }
     if(b.action==='memberNickname'){
       const id=member(b.userId),nickname=str(b.nickname,2,30);
+      const nicknameKey=nickname.normalize('NFKC').toLocaleLowerCase('en');
+      const owner=await db().prepare('SELECT user_id FROM nickname_claims WHERE nickname_key=?').bind(nicknameKey).first<{user_id:string}>();
+      if(owner&&owner.user_id!==id)return json({error:'That nickname is already in use.'},409);
+      if(!owner)await db().prepare('INSERT INTO nickname_claims(nickname_key,user_id) VALUES(?,?) ON CONFLICT(user_id) DO UPDATE SET nickname_key=excluded.nickname_key').bind(nicknameKey,id).run();
       const result=await db().prepare('UPDATE profiles SET nickname=? WHERE id=?').bind(nickname,id).run();
       if(!result.meta.changes)return json({error:'Member not found.'},404);
       await record(actor,'member:nickname',id);
       return json({ok:true});
     }
+    if(b.action==='hostMessage'){
+      const id=member(b.userId),body=str(b.body,1,500);
+      if(!await db().prepare('SELECT user_id FROM member_controls WHERE user_id=?').bind(id).first())return json({error:'Member not found.'},404);
+      await db().prepare('INSERT INTO host_messages(id,user_id,body,created) VALUES(?,?,?,?)').bind(crypto.randomUUID(),id,body,now).run();
+      await record(actor,'member:message',id);
+      return json({ok:true});
+    }
+    if(b.action==='sidekickStatus'){
+      const id=member(b.userId),status=String(b.status||'');
+      if(!['new','contacted','closed'].includes(status))return json({error:'Choose new, contacted or closed.'},400);
+      const changed=await db().prepare('UPDATE sidekick_applications SET status=?,updated=? WHERE user_id=?').bind(status,now,id).run();
+      if(!changed.meta.changes)return json({error:'Application not found.'},404);
+      await record(actor,'sidekick:'+status,id);
+      return json({ok:true});
+    }
     if(b.action==='deleteMember'){
-      const id=member(b.userId),current=await db().prepare('SELECT nickname FROM profiles WHERE id=?').bind(id).first<{nickname:string}>();
+      const id=member(b.userId),seat=await db().prepare('SELECT user_id FROM member_controls WHERE user_id=?').bind(id).first(),current=await db().prepare('SELECT nickname FROM profiles WHERE id=?').bind(id).first<{nickname:string}>();
       if(id===actor)return json({error:'Use your own account controls to delete your seat.'},400);
-      if(!current)return json({error:'Member not found.'},404);
-      if(b.confirmNickname!==current.nickname)return json({error:'Type the exact nickname to confirm removal.'},400);
+      if(!seat&&!current)return json({error:'Member not found.'},404);
+      if(b.confirmNickname!==(current?.nickname||'REMOVE'))return json({error:current?'Type the exact nickname to confirm removal.':'Type REMOVE to confirm removal.'},400);
       await deleteMemberData(id,now);
       await record(actor,'member:deleted','deleted-member');
       return json({ok:true});

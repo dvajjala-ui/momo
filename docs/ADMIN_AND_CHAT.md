@@ -1,10 +1,10 @@
 # Host controls and private notes
 
-Candidate in draft PR #4 on `codex/admin-messaging`, based on the email-letter candidate. Production activation needs additive migrations `0005`–`0008` and a reviewed deployment.
+The current production-readiness candidate includes these controls plus the member-pilot work. Production activation needs additive migrations `0005` through `0010` and a reviewed deployment.
 
 ## Host access
 
-Open `/host`. On Vercel, the username defaults to `momo`; set `ADMIN_USERNAME` privately to change it. The password is the existing `HOST_PASSCODE` configured by the owner. No new password is committed. The Site continues to use the server-side `ADMIN_EMAILS` allowlist. Every admin API request checks the server identity; member-supplied roles and identity headers are not accepted on Vercel.
+Open `/host`. The username defaults to `momo`; set `ADMIN_USERNAME` privately to change it. The password is the existing `HOST_PASSCODE` configured by the owner. No new password is committed. Every admin API request checks the server-owned host proof; member-supplied roles and identity headers are never accepted.
 
 The same notebook contains a searchable, paginated member directory, consented email/phone details, nickname changes, suspension/restoration, typed-confirmation deletion, gang roster/removal, group size (2–500), host-recorded attendance, published-plan editing and public/gang message moderation. Existing invitation, plan creation, gallery and report controls remain in that page. The host does not create authenticated member identities or consent on someone else's behalf.
 

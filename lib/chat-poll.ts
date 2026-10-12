@@ -1,6 +1,6 @@
 export type ChatMessage = {
   id: string; nickname: string; body: string; created: number;
-  avatar: number; photo?: string | null; mine: boolean;
+  avatar: number; photo?: string | null; age?: number | null; gender?: string | null; mine: boolean;
 };
 
 // One request at a time. Disposing a room prevents late responses from

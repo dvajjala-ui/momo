@@ -1,8 +1,8 @@
 import {db,identity,json,readBounded,sameOrigin,str} from '../../../lib/momo-server';
 import {memberIsActive,canStartDirectThread} from '../../../lib/member-access';
 import {sha256} from '../../../lib/device-session';
-type PeerRow={id:string;nickname:string;avatar:number};
-type ThreadRow={id:string;user_a:string;user_b:string;created:number;nickname_a:string;nickname_b:string};
+type PeerRow={id:string;nickname:string;avatar:number;age:number;gender:string};
+type ThreadRow={id:string;user_a:string;user_b:string;created:number;nickname_a:string;nickname_b:string;age_a:number;age_b:number;gender_a:string;gender_b:string};
 
 export async function GET(){
   try{
@@ -13,20 +13,20 @@ export async function GET(){
     const attended=await db().prepare('SELECT COUNT(*) AS n FROM event_attendance a JOIN events e ON e.id=a.event_id WHERE a.user_id=?').bind(user.userId).first<{n:number}>();
     const blocked=(await db().prepare('SELECT b.blocked_id AS id,p.nickname FROM blocks b JOIN profiles p ON p.id=b.blocked_id WHERE b.user_id=? ORDER BY p.nickname COLLATE NOCASE LIMIT 500').bind(user.userId).all()).results;
     if(!profile?.dm_opt_in)return json({optedIn:false,attended:Number(attended?.n||0)>0,peers:[],threads:[],blocked});
-    const peers=(await db().prepare(`SELECT DISTINCT p.id,p.nickname,p.avatar FROM event_attendance mine
+    const peers=(await db().prepare(`SELECT DISTINCT p.id,p.nickname,p.avatar,p.age,p.gender FROM event_attendance mine
       JOIN event_attendance theirs ON theirs.event_id=mine.event_id AND theirs.user_id<>mine.user_id
       JOIN events e ON e.id=mine.event_id
-      JOIN profiles p ON p.id=theirs.user_id AND p.dm_opt_in=1
+      JOIN profiles p ON p.id=theirs.user_id AND p.dm_opt_in=1 AND p.age IS NOT NULL AND length(p.gender)>0
       WHERE mine.user_id=?
-        AND NOT EXISTS (SELECT 1 FROM member_controls c WHERE c.user_id=p.id AND c.status='suspended')
+        AND NOT EXISTS (SELECT 1 FROM member_controls c WHERE c.user_id=p.id AND c.status<>'active')
         AND NOT EXISTS (SELECT 1 FROM blocks b WHERE (b.user_id=? AND b.blocked_id=p.id) OR (b.user_id=p.id AND b.blocked_id=?))
       ORDER BY p.nickname COLLATE NOCASE LIMIT 500`).bind(user.userId,user.userId,user.userId).all<PeerRow>()).results;
     const allowed=new Set(peers.map(p=>p.id));
-    const threads=(await db().prepare(`SELECT t.id,t.user_a,t.user_b,t.created,pa.nickname AS nickname_a,pb.nickname AS nickname_b
+    const threads=(await db().prepare(`SELECT t.id,t.user_a,t.user_b,t.created,pa.nickname AS nickname_a,pb.nickname AS nickname_b,pa.age AS age_a,pb.age AS age_b,pa.gender AS gender_a,pb.gender AS gender_b
       FROM direct_threads t JOIN profiles pa ON pa.id=t.user_a JOIN profiles pb ON pb.id=t.user_b
       WHERE t.user_a=? OR t.user_b=? ORDER BY t.created DESC LIMIT 100`).bind(user.userId,user.userId).all<ThreadRow>()).results
       .filter(t=>allowed.has(t.user_a===user.userId?t.user_b:t.user_a))
-      .map(t=>({room:'d_'+t.id,peerId:t.user_a===user.userId?t.user_b:t.user_a,nickname:t.user_a===user.userId?t.nickname_b:t.nickname_a}));
+      .map(t=>({room:'d_'+t.id,peerId:t.user_a===user.userId?t.user_b:t.user_a,nickname:t.user_a===user.userId?t.nickname_b:t.nickname_a,age:t.user_a===user.userId?t.age_b:t.age_a,gender:t.user_a===user.userId?t.gender_b:t.gender_a}));
     return json({optedIn:true,attended:Number(attended?.n||0)>0,peers,threads,blocked});
   }catch(e){console.error('direct list failed',e);return json({error:'Private notes could not load right now.'},503)}
 }

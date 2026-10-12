@@ -1,14 +1,12 @@
 import {env} from 'cloudflare:workers';
-import {getChatGPTUser} from '../app/chatgpt-auth';
 import {deviceUser} from './device-session';
 export function db(){if(!env.DB)throw new Error('Community storage is temporarily unavailable.');return env.DB}
 export function bucket(){if(!env.BUCKET)throw new Error('Photo storage is temporarily unavailable.');return env.BUCKET}
 const settings=env as unknown as Record<string,string|undefined>;
-// The hosted ChatGPT Site injects trusted identity headers. Anywhere else (Vercel), those headers
-// could be forged, so identity comes only from our own device session cookie.
-export const platform=():'vercel'|'sites'=>settings.MOMO_PLATFORM==='vercel'?'vercel':'sites';
-export async function identity():Promise<{userId:string,email:string,displayName:string,fullName:string|null,host?:boolean}|null>{return platform()==='vercel'?deviceUser(settings.HOST_PASSCODE):getChatGPTUser()}
-export function isAdmin(user:Awaited<ReturnType<typeof identity>>){if(!user)return false;if(platform()==='vercel')return user.host===true;const emails=(settings.ADMIN_EMAILS||'').split(',').map((x:string)=>x.trim().toLowerCase()).filter(Boolean);return !!user.email&&emails.includes(user.email.toLowerCase())}
+// Every deployment uses the same site-owned, pseudonymous device session. The
+// browser never supplies a role or trusted identity header.
+export async function identity():Promise<{userId:string,email:string,displayName:string,fullName:string|null,host?:boolean}|null>{return deviceUser(settings.HOST_PASSCODE)}
+export function isAdmin(user:Awaited<ReturnType<typeof identity>>){return user?.host===true}
 export function photosEnabled(){return !!env.BUCKET}
 export function json(data:unknown,status=200,extra:Record<string,string>={}){return Response.json(data,{status,headers:{'Cache-Control':'no-store','X-Content-Type-Options':'nosniff',...extra}})}
 export function sameOrigin(req:Request){const origin=req.headers.get('origin');return !!origin&&origin===new URL(req.url).origin}

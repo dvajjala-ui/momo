@@ -24,7 +24,7 @@ node tests/chat-ticket.integration.mjs # after the Vinext build
 
 The isolated Worker/D1 suite covers signature/origin/expiry boundaries, live delivery, identity stripping, HTTP/socket deduplication, removed-note retries, reconnect history, blocks, gang removal, private-note revocation, cross-room burst races and transaction rollback. The client suite checks acknowledgements, uncertain sends, live/history races and disposal.
 
-On 2026-10-09, a separate **500-client local network fanout** delivered one persisted note exactly once to every connected client: p50 41 ms, p95 51 ms, max 52 ms. These are Windows/Miniflare measurements with local disposable data; they do not establish Cloudflare-to-device latency, sustained throughput, production quotas or the number of users the hosted service can support. The default suite uses 50 clients. To repeat the larger local probe in PowerShell:
+On 2026-10-13, a separate **500-client local network fanout** delivered one persisted note exactly once to every connected client: p50 33 ms, p95 42 ms, max 43 ms. These are Windows/Miniflare measurements with local disposable data; they do not establish Cloudflare-to-device latency, sustained throughput, production quotas or the number of users the hosted service can support. The default suite uses 50 clients. To repeat the larger local probe in PowerShell:
 
 ```powershell
 $env:MOMO_CHAT_LOAD_CLIENTS='500'
@@ -33,7 +33,7 @@ node tests/realtime.integration.mjs
 
 ## Activation after review
 
-1. Apply reviewed additive migrations `0005`–`0008` to the intended database before releasing the candidate. `0008_serious_impossible_man` adds retry receipts and burst budgets. Preserve existing records and earlier migrations. Disposable preview resources must be separate from production.
+1. Apply reviewed additive migrations `0005` through `0010` to the intended database before releasing the candidate. `0008_serious_impossible_man` adds retry receipts and burst budgets; `0009_member_pilot` adds the member-pilot controls used by current authorization; `0010_profile_details` adds the chat age and gender fields. Preserve existing records and earlier migrations. Disposable preview resources must be separate from production.
 2. Review `cloudflare/chat/wrangler.jsonc`, including its existing `momo-community` binding and new SQLite Durable Object class migration. Set `MOMO_CHAT_APP_ORIGIN` to the exact intended HTTPS site origin. Do not allow arbitrary origins or reuse production settings for an unreviewed preview.
 3. Configure a cryptographically random secret of at least 32 bytes privately as `MOMO_CHAT_SECRET` in the Worker and Vercel. Never paste its value into chat, command arguments, Git or screenshots. Use owner-operated secret entry. This credential authorizes room access and writes as application members; treat it like a database credential.
 4. Deploy the reviewed chat Worker, then set `MOMO_CHAT_URL` to its HTTPS origin and `MOMO_CHAT_APP_ORIGIN` to the same exact site origin in Vercel. Keep these settings server-only. The D1 gateway has separate credentials/settings; see `D1_GATEWAY.md`.

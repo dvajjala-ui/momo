@@ -1,18 +1,25 @@
 import {fileURLToPath} from 'node:url';
-import {createHmac} from 'node:crypto';
+import {createHash,createHmac} from 'node:crypto';
 import {createRequire} from 'node:module';
 import {readFileSync,realpathSync,readdirSync} from 'node:fs';
 const root=fileURLToPath(new URL('..',import.meta.url)).replace(/[\\/]$/,'');
 const require=createRequire(realpathSync(root+'/node_modules/wrangler/package.json'));
 const {Miniflare}=require('miniflare');
-const mf=new Miniflare({modules:[{type:'ESModule',path:root+'/dist/server/index.js'},...readdirSync(root+'/dist/server',{recursive:true}).filter(p=>p.endsWith('.js')&&p!=='index.js').map(p=>({type:'ESModule',path:root+'/dist/server/'+p}))],modulesRoot:root+'/dist/server',modulesRules:[{type:'ESModule',include:['**/*.js','**/*.mjs']}],compatibilityDate:'2026-05-15',compatibilityFlags:['nodejs_compat'],d1Databases:['DB'],r2Buckets:['BUCKET'],bindings:{ADMIN_EMAILS:'host@example.test',WHATSAPP_APP_SECRET:'local-test-secret',WHATSAPP_PHONE_NUMBER_ID:'123456789',WHATSAPP_VERIFY_TOKEN:'local-verify'}});
+const hostPasscode='disposable-host-passcode-123';
+const hash=value=>createHash('sha256').update(value).digest('hex');
+const tokenFor=user=>hash('seat:'+user);
+const userIdFor=user=>'m_'+hash('member:'+tokenFor(user)).slice(0,32);
+const cookieFor=user=>user?`momo_sid=${tokenFor(user)}`+(user==='host'?`; momo_host=${hash('host:'+hostPasscode+':'+tokenFor(user))}`:''):'';
+const memberDbId=userIdFor('member'),otherDbId=userIdFor('other'),thirdDbId=userIdFor('third');
+const translateIds=data=>data&&typeof data==='object'?Object.fromEntries(Object.entries(data).map(([key,value])=>[(key),(['userId','peerId'].includes(key)&&typeof value==='string')?userIdFor(value):value])):data;
+const mf=new Miniflare({modules:[{type:'ESModule',path:root+'/dist/server/index.js'},...readdirSync(root+'/dist/server',{recursive:true}).filter(p=>p.endsWith('.js')&&p!=='index.js').map(p=>({type:'ESModule',path:root+'/dist/server/'+p}))],modulesRoot:root+'/dist/server',modulesRules:[{type:'ESModule',include:['**/*.js','**/*.mjs']}],compatibilityDate:'2026-05-15',compatibilityFlags:['nodejs_compat'],d1Databases:['DB'],r2Buckets:['BUCKET'],bindings:{HOST_PASSCODE:hostPasscode,ADMIN_USERNAME:'momo',WHATSAPP_APP_SECRET:'local-test-secret',WHATSAPP_PHONE_NUMBER_ID:'123456789',WHATSAPP_VERIFY_TOKEN:'local-verify'}});
 try{
 const db=await mf.getD1Database('DB');
 for(const file of readdirSync(root+'/drizzle').filter(f=>f.endsWith('.sql')).sort())for(const s of readFileSync(root+'/drizzle/'+file,'utf8').split('--> statement-breakpoint'))if(s.trim())await db.prepare(s).run();
 async function call(path='/api/community',data,user='member'){
  const headers={'Content-Type':'application/json',Origin:'https://momo.test'};
- if(user){headers['oai-authenticated-user-id']=user;headers['oai-authenticated-user-email']=user+'@example.test'}
- const r=await mf.dispatchFetch('https://momo.test'+path,{headers,method:data?'POST':'GET',body:data?JSON.stringify(data):undefined});
+ if(user)headers.Cookie=cookieFor(user);
+ const r=await mf.dispatchFetch('https://momo.test'+path,{headers,method:data?'POST':'GET',body:data?JSON.stringify(translateIds(data)):undefined});
  const d=await r.json();return {status:r.status,data:d};
 }
 function assert(name,r,status){if(r.status!==status)throw Error(name+': '+JSON.stringify(r));console.log('PASS '+name+' ('+status+')')}
@@ -22,12 +29,12 @@ assert('anonymous chat ticket denied',await call('/api/chat',{room:'weekend'},nu
 const chatSetup=await call('/api/chat',{room:'weekend'});assert('real-time chat stays disabled without setup',chatSetup,200);if(chatSetup.data.enabled!==false)throw Error('Unexpected real-time chat activation');
 assert('member host access denied',await call('/api/community?view=host'),403);
 assert('host access granted',await call('/api/community?view=host',null,'host'),200);
-assert('age/rules required',await call('/api/community',{action:'profile',nickname:'Test',avatar:0}),400);
-assert('profile saved',await call('/api/community',{action:'profile',nickname:'Chutney',avatar:2,adult:true,rules:true}),200);
+assert('profile details and rules required',await call('/api/community',{action:'profile',nickname:'Test',avatar:0}),400);
+assert('profile saved without an age eligibility gate',await call('/api/community',{action:'profile',nickname:'Chutney',age:16,gender:'Woman',avatar:2,rules:true}),200);
 const photoBytes=Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+aWQAAAABJRU5ErkJggg==','base64');
 async function uploadPhoto(kind,user='member',consent=true){
  const form=new FormData();form.set('photo',new Blob([photoBytes],{type:'image/png'}),'test.png');form.set('kind',kind);form.set('caption','Disposable local photo');form.set('category','Food');if(consent)form.set('consent','yes');
- const headers={Origin:'https://momo.test'};if(user){headers['oai-authenticated-user-id']=user;headers['oai-authenticated-user-email']=user+'@example.test'}
+ const headers={Origin:'https://momo.test'};if(user)headers.Cookie=cookieFor(user);
  const request=new Request('https://momo.test/api/upload',{method:'POST',headers,body:form});const r=await mf.dispatchFetch(request.url,{method:'POST',headers:request.headers,body:await request.arrayBuffer()});return {status:r.status,data:await r.json()};
 }
 assert('anonymous upload denied',await uploadPhoto('profile',null),401);
@@ -35,7 +42,7 @@ assert('member gallery upload denied',await uploadPhoto('gallery'),403);
 assert('photo consent required',await uploadPhoto('profile','member',false),400);
 const profilePhoto=await uploadPhoto('profile');assert('profile photo saved',profilePhoto,200);
 assert('member photo requires sign-in',await call('/api/media/'+profilePhoto.data.id,null,null),401);
-const signedPhoto=await mf.dispatchFetch('https://momo.test/api/media/'+profilePhoto.data.id,{headers:{'oai-authenticated-user-id':'other','oai-authenticated-user-email':'other@example.test'}});
+const signedPhoto=await mf.dispatchFetch('https://momo.test/api/media/'+profilePhoto.data.id,{headers:{Cookie:cookieFor('other')}});
 if(signedPhoto.status!==200||signedPhoto.headers.get('content-type')!=='image/png'||signedPhoto.headers.get('cache-control')!=='private, no-store')throw Error('Member photo access or cache policy failed');console.log('PASS member photo signed-in access and private cache policy');
 const replacedPhoto=await uploadPhoto('profile');assert('profile photo replaced',replacedPhoto,200);
 const photoBucket=await mf.getR2Bucket('BUCKET');if(await photoBucket.get(profilePhoto.data.id))throw Error('Old profile photo left in R2');console.log('PASS replaced photo removed from R2');
@@ -43,13 +50,13 @@ const galleryPhoto=await uploadPhoto('gallery','host');assert('host gallery phot
 if((await mf.dispatchFetch('https://momo.test/api/media/'+galleryPhoto.data.id)).status!==200)throw Error('Published gallery photo not visible');console.log('PASS published gallery photo public through media route');
 assert('host removes gallery photo',await call('/api/community',{action:'removePhoto',id:galleryPhoto.data.id},'host'),200);
 if(await photoBucket.get(galleryPhoto.data.id))throw Error('Removed gallery photo left in R2');console.log('PASS gallery deletion removes R2 object');
-assert('invalid phone rejected',await call('/api/community',{action:'invite',phone:'bad',city:'Test City',adult:true,consent:true}),400);
-assert('invite saved',await call('/api/community',{action:'invite',phone:'+12025550123',city:'Test City',adult:true,consent:true,foodTheme:'menu'}),200);
+assert('invalid phone rejected',await call('/api/community',{action:'invite',phone:'bad',city:'Test City',consent:true}),400);
+assert('invite saved',await call('/api/community',{action:'invite',phone:'+12025550123',city:'Test City',consent:true,foodTheme:'menu'}),200);
 const me=await call('/api/community?view=me');if('phone' in me.data.invite)throw Error('phone leaked');console.log('PASS profile response excludes phone');
 if(me.data.invite.foodTheme!=='menu'||!/^MM-[A-F0-9]{10}$/i.test(me.data.invite.reference)||me.data.invite.deliveryStatus!=='Not sent')throw Error('Missing invite receipt');console.log('PASS themed request receipt');
 assert('message saved',await call('/api/community',{action:'message',room:'weekend',body:'Test hello'}),200);
 assert('rate limit',await call('/api/community',{action:'message',room:'weekend',body:'too fast'}),429);
-const chat=await call('/api/community?view=chat&room=weekend');const m=chat.data.messages[0];if(m.user_id||m.phone||m.email||m.nickname!=='Chutney')throw Error('Chat privacy failure');console.log('PASS chat uses nickname without identity or phone');
+const chat=await call('/api/community?view=chat&room=weekend');const m=chat.data.messages[0];if(m.user_id||m.phone||m.email||m.nickname!=='Chutney'||m.age!==16||m.gender!=='Woman')throw Error('Chat profile/privacy failure');console.log('PASS chat shows nickname, age and gender without identity or contact details');
 assert('report saved',await call('/api/community',{action:'report',messageId:m.id,reason:'Test moderation'},'other'),200);
 assert('block saved',await call('/api/community',{action:'block',messageId:m.id},'other'),200);
 const blocked=await call('/api/community?view=chat&room=weekend',null,'other');if(blocked.data.messages.length)throw Error('Block failed');console.log('PASS blocked messages hidden');
@@ -61,9 +68,9 @@ assert('host can review request',await call('/api/community',{action:'requestSta
 assert('member cannot review requests',await call('/api/community',{action:'requestStatus',userId:'member',status:'reviewed'}),403);
 const host=await call('/api/community?view=host',null,'host');if(host.data.whatsapp.configured||!host.data.whatsapp.missing.includes('WHATSAPP_ACCESS_TOKEN'))throw Error('Setup guard failed');console.log('PASS WhatsApp missing setup disclosed without secrets');
 if(host.data.email.configured||!host.data.email.missing.includes('GMAIL_REFRESH_TOKEN'))throw Error('Email setup guard failed');console.log('PASS Gmail fails closed without sender authorization');
-assert('email request saves without sender',await call('/api/community',{action:'emailInvite',email:'member@example.test',city:'Test City',adult:true,consent:true}),200);
+assert('email request saves without sender',await call('/api/community',{action:'emailInvite',email:'member@example.test',city:'Test City',consent:true}),200);
 assert('email verification waits for sender',await call('/api/community',{action:'verifyEmail'}),400);
-await db.prepare("INSERT INTO deliveries(id,user_id,event_id,message_id,status,created,updated) VALUES('test','member',?,'wamid.test','accepted',1,1)").bind(eventId).run();
+await db.prepare("INSERT INTO deliveries(id,user_id,event_id,message_id,status,created,updated) VALUES('test',?,?,'wamid.test','accepted',1,1)").bind(memberDbId,eventId).run();
 async function webhook(value,valid=true){const body=JSON.stringify({object:'whatsapp_business_account',entry:[{changes:[{field:'messages',value:{metadata:{phone_number_id:'123456789'},...value}}]}]});const signature=createHmac('sha256',valid?'local-test-secret':'wrong').update(body).digest('hex');const r=await mf.dispatchFetch('https://momo.test/api/whatsapp/webhook',{method:'POST',headers:{'Content-Type':'application/json','x-hub-signature-256':'sha256='+signature},body});return {status:r.status,data:await r.json()}}
 assert('forged WhatsApp callback denied',await webhook({statuses:[{id:'wamid.test',status:'delivered'}]},false),403);
 assert('signed WhatsApp callback accepted',await webhook({statuses:[{id:'wamid.test',status:'read'}]}),200);
@@ -73,12 +80,13 @@ assert('signed STOP processed',await webhook({messages:[{type:'text',from:'12025
 if((await call('/api/community?view=me')).data.invite!==null)throw Error('STOP did not remove request');console.log('PASS STOP removes request');
 assert('wish needs a nickname',await call('/api/community',{action:'wish',title:'Badminton',whenText:'Sunday',area:'Test',spots:2},'nobody'),400);
 assert('wish saved',await call('/api/community',{action:'wish',title:'Sunday badminton',whenText:'Sunday 7am',area:'Test City',spots:2}),200);
-assert('other member profile',await call('/api/community',{action:'profile',nickname:'Gary',avatar:1,adult:true,rules:true},'other'),200);
-const wishes=(await call('/api/community',null,'other')).data.wishes;const wish=wishes[0];if(!wish||wish.by.nickname!=='Chutney'||wish.joined!==1||'user_id' in wish)throw Error('Wish board shape');console.log('PASS wish board shows nickname without identity');
+assert('other member profile',await call('/api/community',{action:'profile',nickname:'Gary',age:28,gender:'Man',avatar:1,rules:true},'other'),200);
+const wishes=(await call('/api/community',null,'other')).data.wishes;const wish=wishes[0];if(!wish||wish.by!==null||wish.joined!==1||'user_id' in wish)throw Error('Wish board shape');console.log('PASS wish board keeps its creator anonymous');
 const anonWish=(await call('/api/community',null,null)).data.wishes[0];if(anonWish.by!==null||anonWish.gang.length)throw Error('Anonymous visitors saw nicknames');console.log('PASS anonymous wish view hides nicknames');
 assert('member joins wish',await call('/api/community',{action:'joinWish',id:wish.id},'other'),200);
 if((await call('/api/community',null,'other')).data.wishes[0].status!=='ready')throw Error('Gang not ready');console.log('PASS full gang marked ready');
-assert('third member profile',await call('/api/community',{action:'profile',nickname:'Pari',avatar:2,adult:true,rules:true},'third'),200);
+const duplicateNickname=await call('/api/community',{action:'profile',nickname:'Chutney',age:25,gender:'Non-binary',avatar:2,rules:true},'third');assert('duplicate nickname rejected',duplicateNickname,409);if(!duplicateNickname.data.error.includes('Your name is still here')||!duplicateNickname.data.error.includes('Try'))throw Error('Nickname alternatives missing');console.log('PASS duplicate nickname keeps the input and suggests alternatives');
+assert('third member profile',await call('/api/community',{action:'profile',nickname:'Pari',age:25,gender:'Non-binary',avatar:2,rules:true},'third'),200);
 assert('full gang refuses more',await call('/api/community',{action:'joinWish',id:wish.id},'third'),409);
 assert('gang member posts in gang room',await call('/api/community',{action:'message',room:'w_'+wish.id,body:'see you at the court'},'other'),200);
 assert('outsider cannot read gang room',await call('/api/community?view=chat&room=w_'+wish.id,null,'third'),403);
@@ -103,6 +111,21 @@ const attendanceWish=(await call('/api/community',null,'member')).data.wishes.fi
 assert('second person joins attendance wish',await call('/api/community',{action:'joinWish',id:attendanceWish.id},'other'),200);
 assert('host can set group size',await call('/api/admin',{action:'gangSize',wishId:attendanceWish.id,spots:2},'host'),200);
 assert('capacity is enforced after host resize',await call('/api/community',{action:'joinWish',id:attendanceWish.id},'third'),409);
+const tapOne=await call('/api/community',{action:'wish',title:'One tap table one',whenText:'Next week',area:'Test City',spots:12},'third');assert('first one-tap test wish',tapOne,200);
+const tapTwo=await call('/api/community',{action:'wish',title:'One tap table two',whenText:'Next week',area:'Test City',spots:12},'other');assert('second one-tap test wish',tapTwo,200);
+const tapThree=await call('/api/community',{action:'wish',title:'One tap table three',whenText:'Next week',area:'Test City',spots:12},'member');assert('third one-tap test wish',tapThree,200);
+const tapFour=await call('/api/community',{action:'wish',title:'One tap table four',whenText:'Next week',area:'Test City',spots:12},'member');assert('fourth one-tap test wish',tapFour,200);
+assert('one-click join works before profile',await call('/api/community',{action:'joinWish',id:tapOne.data.id},'oneclick'),200);
+assert('unnamed seat joins second active group',await call('/api/community',{action:'joinWish',id:tapTwo.data.id},'oneclick'),200);
+assert('unnamed seat joins third active group',await call('/api/community',{action:'joinWish',id:tapThree.data.id},'oneclick'),200);
+assert('fourth active group is refused',await call('/api/community',{action:'joinWish',id:tapFour.data.id},'oneclick'),429);
+const unnamedDirectory=await call('/api/admin?view=members&q='+encodeURIComponent(userIdFor('oneclick')),null,'host');if(unnamedDirectory.status!==200||unnamedDirectory.data.total!==1||unnamedDirectory.data.members[0].nickname!==null)throw Error('Unnamed pilot seat missing from host controls');console.log('PASS host can find an unnamed one-click seat');
+assert('host moves unnamed seat to queue',await call('/api/admin',{action:'memberStatus',userId:'oneclick',status:'queued',reason:'Waiting for the next table.'},'host'),200);
+assert('host messages unnamed seat',await call('/api/admin',{action:'hostMessage',userId:'oneclick',body:'You are on the next table list.'},'host'),200);
+const notice=await call('/api/community?view=notices',null,'oneclick');if(notice.status!==200||notice.data.status!=='queued'||notice.data.messages[0]?.body!=='You are on the next table list.')throw Error('Private pilot notice missing');console.log('PASS queued seat receives its private host note');
+assert('sidekick application saved',await call('/api/community',{action:'sidekickApply',email:'helper@example.test',city:'Test City',helpWith:'Meetup ideas',about:'I can help plan small public food meetups.'},'supporter'),200);
+const sidekicks=await call('/api/admin?view=sidekicks',null,'host');if(sidekicks.status!==200||sidekicks.data.applications[0]?.email!=='helper@example.test')throw Error('Sidekick application missing');console.log('PASS host sees sidekick application');
+assert('host updates sidekick status',await call('/api/admin',{action:'sidekickStatus',userId:'supporter',status:'contacted'},'host'),200);
 const pastDate=new Date(Date.now()-3600000).toISOString();
 assert('host publishes past local test plan',await call('/api/community',{action:'event',wishId:attendanceWish.id,title:'Disposable attendance test',date:pastDate,venue:'Local test venue',cost:'Nothing',description:'Local integration only',category:'Play'},'host'),200);
 const attendedEvent=(await call('/api/community',null,'host')).data.events.find(e=>e.title==='Disposable attendance test');
@@ -119,7 +142,7 @@ const privateRoom=started.data.room;
 if(!/^d_[0-9a-f]{32}$/.test(privateRoom))throw Error('Private room ID failed');
 assert('outsider cannot read private notes',await call('/api/community?view=chat&room='+privateRoom,null,'third'),403);
 assert('host cannot browse private notes',await call('/api/admin?view=messages&room='+privateRoom,null,'host'),400);
-await db.prepare("UPDATE profiles SET last_message=0 WHERE id IN ('member','other')").run();
+await db.prepare('UPDATE profiles SET last_message=0 WHERE id IN (?,?)').bind(memberDbId,otherDbId).run();
 assert('first private note saved',await call('/api/community',{action:'message',room:privateRoom,body:'Good to meet you'},'member'),200);
 const privateNote=(await call('/api/community?view=chat&room='+privateRoom,null,'other')).data.messages[0];
 if(privateNote.body!=='Good to meet you'||privateNote.user_id)throw Error('Private note leaked identity');console.log('PASS private note shows only nickname');
@@ -139,9 +162,9 @@ assert('cannot remove an attended plan',await call('/api/community',{action:'rem
 assert('cannot silently edit an attended plan',await call('/api/admin',{action:'eventUpdate',eventId:attendedEvent.id,title:'Changed',date:pastDate,venue:'Local test venue',cost:'Nothing',description:'Change',category:'Play'},'host'),409);
 assert('delete member requires exact nickname',await call('/api/admin',{action:'deleteMember',userId:'third',confirmNickname:'wrong'},'host'),400);
 assert('host deletes member data',await call('/api/admin',{action:'deleteMember',userId:'third',confirmNickname:'Pari Changed'},'host'),200);
-if(await db.prepare("SELECT id FROM profiles WHERE id='third'").first())throw Error('Host deletion left member profile');console.log('PASS host deletion removes member profile');
+if(await db.prepare('SELECT id FROM profiles WHERE id=?').bind(thirdDbId).first())throw Error('Host deletion left member profile');console.log('PASS host deletion removes member profile');
 assert('withdraw invite',await call('/api/community',{action:'withdraw'}),200);
 assert('delete own data',await call('/api/community',{action:'deleteAccount'}),200);
-const count=await db.prepare("SELECT (SELECT COUNT(*) FROM profiles WHERE id='member')+(SELECT COUNT(*) FROM wishes WHERE user_id='member')+(SELECT COUNT(*) FROM wish_joins WHERE user_id='member') AS n").first();if(count.n)throw Error('Cleanup failed');console.log('PASS account data deleted');
+const count=await db.prepare('SELECT (SELECT COUNT(*) FROM profiles WHERE id=?)+(SELECT COUNT(*) FROM wishes WHERE user_id=?)+(SELECT COUNT(*) FROM wish_joins WHERE user_id=?) AS n').bind(memberDbId,memberDbId,memberDbId).first();if(count.n)throw Error('Cleanup failed');console.log('PASS account data deleted');
 if(await photoBucket.get(replacedPhoto.data.id))throw Error('Account photo left in R2');console.log('PASS account deletion removes profile photo');
 }finally{await mf.dispose()}
