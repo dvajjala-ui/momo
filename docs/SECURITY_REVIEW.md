@@ -95,6 +95,7 @@ The updated gateway and real Images binding have not yet been deployed and teste
 - Reports, blocks, host suspension and waiting-queue controls are enforced on the server.
 - A device seat is pseudonymous, not verified identity. Clearing storage or using another browser creates another seat. IP addresses are not treated as permanent identity because shared networks, carrier NAT, VPNs and changing addresses would block real people and still not stop a determined attacker.
 - The 100-seat pilot, queue, three-group limit, chat rate limit and host moderation reduce casual fake-account abuse. Stronger controls for a public Reddit launch should use Cloudflare Turnstile on seat creation and edge rate limits on session, profile, wish, join, upload and host-login endpoints.
+- A source candidate for new-seat Turnstile verification is documented in `docs/TURNSTILE_SETUP.md`. It remains disabled until the widget, secret and flag are configured and the hosted flow is verified. Edge rate-limit rules remain separate production work.
 - Age and gender are self-entered at first chat, stored with the profile and shown to signed-in chat participants. They do not grant or deny access. The site never infers gender from a face or collects Aadhaar. Account deletion removes these profile fields with the rest of the profile.
 
 ## Production checks still required

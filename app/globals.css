@@ -314,6 +314,11 @@ footer small{grid-column:1/-1;font-size:12px;color:var(--muted)}
 .modal{position:relative;background:var(--paper);padding:40px;max-width:600px;width:100%;max-height:90vh;overflow:auto;border-radius:20px;border:2px solid var(--ink)}
 .modal h2{font-family:var(--serif);font-size:32px;margin-bottom:16px}
 .modal-close{position:absolute;top:14px;right:14px;background:none;border:0;z-index:2}
+.seat-challenge-dialog{width:min(430px,calc(100vw - 32px));max-height:90vh;overflow:auto;padding:28px;border:2px solid var(--ink);border-radius:20px;background:var(--paper);color:var(--ink);box-shadow:var(--shadow);text-align:center}
+.seat-challenge-dialog::backdrop{background:#1f1a16cc;backdrop-filter:blur(6px)}
+.seat-challenge-dialog h2{font-family:var(--serif);font-size:28px;margin:0 0 8px}
+.seat-challenge-dialog p{font-size:14px;color:var(--muted);margin:0 0 18px}
+.seat-challenge-widget{display:flex;justify-content:center;min-height:65px;margin:0 0 18px}
 
 /* Host notebook (admin) */
 .section{max-width:1180px;margin:auto;padding:40px 5% 70px}
