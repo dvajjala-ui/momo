@@ -75,9 +75,10 @@ The realtime Worker uses Cloudflare’s hibernation API. Cloudflare documents a 
 - Gallery uploads require host access. Profile uploads require an existing profile and explicit permission confirmation.
 - Published gallery media is public. Profile media requires a valid member session and uses `private, no-store` caching.
 - Replaced and deleted media is removed from R2.
-- The UI tells uploaders to remove location metadata. Server-side metadata stripping is not yet implemented, so this remains a launch risk for profile and gallery uploads.
+- The current source candidate pauses new uploads unless R2, the gateway settings and the explicit server-only `MOMO_IMAGE_UPLOADS_ENABLED=true` flag are present. Existing profile and gallery media remains readable.
+- When enabled, the upload route sends accepted bytes to the authenticated gateway's Cloudflare Images binding. The gateway decodes the image, enforces 4096-pixel side and 12-megapixel limits, scales it to at most 2048 pixels per side, and stores only re-encoded WebP bytes. Cloudflare documents that transformed WebP output discards metadata, including EXIF location data. The route and gateway reject unexpected output types and oversized output. See [Cloudflare Images transformations](https://developers.cloudflare.com/images/optimization/binding/) and [metadata behavior](https://developers.cloudflare.com/images/optimization/features/).
 
-Before opening uploads to a broad audience, add server-side decode/re-encode and pixel-dimension limits. The [OWASP File Upload Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/File_Upload_Cheat_Sheet.html) is the reference.
+The updated gateway and real Images binding have not yet been deployed and tested together. Keep uploads paused until a disposable hosted upload confirms conversion and metadata removal, rejects bad files, and preserves private-profile access rules. The [OWASP File Upload Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/File_Upload_Cheat_Sheet.html) remains the reference.
 
 ### Invitations and outbound services
 
@@ -105,7 +106,7 @@ These block a broad public launch until they are completed and recorded:
 - Run the gateway, realtime, chat-ticket, community and invitation integration suites against the built candidate without contacting real recipients.
 - Run sustained hosted fanout/reconnect probes in a separate disposable environment. A small production seat/profile/chat-access/deletion smoke passed; record p50, p95, error rate, D1 reads/writes and Durable Object overload responses before broader promotion.
 - Add Cloudflare edge rate-limit rules and Turnstile before posting to a large public community.
-- Add server-side image re-encoding or keep uploads unavailable for the public pilot.
+- Deploy and smoke-test the new image processor before enabling `MOMO_IMAGE_UPLOADS_ENABLED`. If the hosted binding fails, keep uploads unavailable for the public pilot.
 - Add a monitored error/log destination with contact data redaction. Alert on host login failures, access denials, moderation spikes, D1 overload/quota errors and outbound invitation failures.
 - Establish a D1 backup/restore drill and retention schedule. Free D1 currently provides a seven-day Time Travel window and has daily usage limits. Check current [D1 limits](https://developers.cloudflare.com/d1/platform/limits/) and [D1 pricing](https://developers.cloudflare.com/d1/platform/pricing/) before launch.
 - Rotate a secret immediately if it appears in a command, screenshot, Git history, chat transcript or client response.
@@ -134,4 +135,4 @@ Production D1 now has migrations `0000` through `0010`. Both Workers, separate c
 
 The product limit is 100 active pilot seats. It is a deliberate operating cap, not a claim that the platform fails at 101. Cloudflare states that each D1 database processes queries serially, so throughput depends on query duration; their example gives about 1,000 queries per second at 1 ms per query and 10 per second at 100 ms. Overload is queued and may eventually return an error. This means a local load result is evidence for the tested workload only, not a universal user count. See [Cloudflare D1 limits](https://developers.cloudflare.com/d1/platform/limits/).
 
-The current recommendation is a controlled pilot capped at 100 active seats after the production migrations, Workers and smoke checks pass. Do not advertise a concurrency figure from the local fanout. Keep uploads away from a broad public campaign until server-side image re-encoding is added, and add Turnstile plus edge rate limits before posting to a large public community.
+The current recommendation is a controlled pilot capped at 100 active seats after the production migrations, Workers and smoke checks pass. Do not advertise a concurrency figure from the local fanout. Keep uploads paused until the hosted image processor is verified, and add Turnstile plus edge rate limits before posting to a large public community.

@@ -47,9 +47,9 @@ The command preserves checked-in Drizzle migrations, tracks names in `_momo_migr
 
 1. Build and run `node --experimental-strip-types tests/storage.integration.mjs` plus the existing local Worker integration suite.
 2. Verify actual D1 parameter binding and batch rollback against the new empty database using disposable records, then apply the schema.
-3. Deploy a reviewed candidate with private runtime settings. `/api/community?view=me` must report `storage: "durable"` and authenticated responses `photos: true`.
+3. Deploy a reviewed candidate with private runtime settings. `/api/community?view=me` must report `storage: "durable"`. The `photos` field reports whether new uploads are enabled; it should remain `false` until the updated image gateway has passed a hosted conversion and access-control smoke test.
 4. A test wish and chat must survive independent requests and redeployment. Test gang access from two different member sessions and an outsider.
-5. Upload a consented test photo, verify media permissions, replace/delete it and confirm R2 cleanup. Keep the bucket private.
+5. Keep new uploads paused by default. After deploying the Cloudflare Images binding, use disposable consented PNG/JPEG/WebP files to verify WebP conversion, metadata removal, media permissions, replacement/deletion and R2 cleanup before setting the server-only `MOMO_IMAGE_UPLOADS_ENABLED=true` flag. Keep the bucket private.
 6. Host access must work only with the private passcode. Keep both WhatsApp readiness flags false.
 
 ## Free allowances and limits
