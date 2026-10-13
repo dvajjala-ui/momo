@@ -106,11 +106,11 @@ This later direction takes precedence over the earlier postcard showcase and age
 | 11, 17 | Honest 100-member pilot with active/queued/suspended admin controls and host messages | Complete and integration-tested | Real D1 seat count only; host can queue, restore, suspend, message or remove both named and unnamed device seats |
 | 12 | Host chat-ticket verification | Complete and integration-tested | `tests/chat-ticket.integration.mjs` passes, including bounded future clock skew |
 | 13 | D1 gateway and WebSocket Worker deployment/load test | Activated; hosted load test pending | Both Workers and their private settings are active; the gateway probe and disposable live seat/chat access passed, while sustained fanout/reconnect and quota checks remain |
-| 14 | Security review, fixes and operating checklist | Source review complete | `docs/SECURITY_REVIEW.md` records implemented controls, remaining production controls and incident steps |
+| 14 | Security review, fixes and operating checklist | Source review and upload protection candidate complete; deployment pending | `docs/SECURITY_REVIEW.md` records controls and remaining checks. New uploads are paused unless the image processor and explicit server-side flag are configured; the updated gateway and real Images binding still need a hosted smoke test |
 | 15 | One-click meetup join, then chat; ask profile details only before first message | Complete and integration-tested | A signed-out visitor receives a device seat, joins the gang and reaches its chat before choosing a nickname, age, gender and food avatar |
 | 16 | Maximum three active joined groups/events per member | Complete and integration-tested | The API rejects a fourth active group and the UI explains the limit |
 | 18 | Remove the earlier `18+` wording | Superseded and complete | The owner’s later direction removed the age eligibility rule entirely from Rules, invitations and profiles |
-| 19 | Every represented feature has a working end-to-end flow | Complete for the production candidate | Type, lint, both builds, disposable integrations and local browser flow pass; outbound delivery remains deliberately gated |
+| 19 | Every represented feature has a working end-to-end flow | Local flows verified; hosted coverage pending | Type, lint, both builds and disposable integrations pass. Hosted host/wish/load flows still need verification; photo uploads and outbound delivery remain deliberately gated |
 | 20 | Capacity/load test | Local evidence complete; hosted test pending | 500 local WebSocket clients received one saved message each: p50 33 ms, p95 42 ms, max 43 ms, zero misses in the tested fanout |
 | 21 | Wish wall keeps the wish owner anonymous | Complete and integration-tested | Public wish responses omit the creator; the server retains identity for ownership and moderation |
 | 22 | Database decision | Decided | D1 is required for durable profiles, joins, queue, messages, moderation and chat |
@@ -125,7 +125,7 @@ This later direction takes precedence over the earlier postcard showcase and age
 
 Checked on 2026-10-13:
 
-- Pull request #5 was merged as `d06df2d`, and Vercel Production reports that exact source commit.
+- Pull request #5 was merged as `d06df2d`. Pull request #6 was later merged as `0793a09`, and Vercel Production reported Ready for that merge commit. Pull request #7 merged the two-instance host-control tests as `0b02577`; production readiness for that exact merge has not been checked here. The image upload changes described below are a separate candidate, not deployed.
 - Vercel Production contains `HOST_PASSCODE`, the existing Cloudflare D1/R2 settings and all five new gateway/chat settings. Their secret values were not read back or committed.
 - Production D1 `momo-community` has migrations `0000` through `0010`. The six later migrations were applied on 2026-10-13 after an owner-approved restore bookmark was recorded; the read-only ledger check showed no pending migration.
 - The Cloudflare account has `momo-community`, `momo-media`, `momo-db-gateway` and `momo-chat`. Both Workers are deployed with separate credentials and the exact site origin; the public endpoints reject unauthenticated requests.
@@ -137,7 +137,9 @@ Release state after separate owner approvals:
 1. Completed: deployed both Workers with separate 48-byte random credentials and set `MOMO_CHAT_APP_ORIGIN=https://momo-ten-pied.vercel.app`.
 2. Completed: added all five server-only variables to Vercel Production and redeployed the reviewed `d06df2d` source.
 3. Completed smoke: gateway authenticated read, disposable device seat/profile, successful `/api/chat` access and owner-approved deletion. No messages or invitations were sent.
-4. Remaining: hosted wish/gang and host-control tests in a separate disposable environment; sustained latency, reconnect, errors and quota behavior before sharing the site to a large Reddit audience.
+4. Completed local follow-up: two independent Next processes passed disposable shared wish/chat/access-control/deletion checks. This does not establish hosted D1/R2 or sustained-load behavior.
+5. Remaining: hosted wish/gang and host-control tests in a separate disposable environment; sustained latency, reconnect, errors and quota behavior before sharing the site to a large Reddit audience.
+6. Uploads remain paused by default. Before enabling them, deploy the updated D1 gateway with its Cloudflare Images binding, verify a disposable PNG/JPEG/WebP upload is returned as WebP without retained metadata, verify rejected and private-media cases, then set the server-only `MOMO_IMAGE_UPLOADS_ENABLED=true` flag. Keep the flag unset if any check fails.
 
 ## Product decisions already made
 
@@ -184,3 +186,4 @@ No public event will be invented or published before these details are real.
 - 2026-10-13: Rechecked TypeScript, lint, both production builds and the community, invitation, chat-ticket and realtime suites after the simplified flow. All passed. At that point, visual browser validation still described the earlier layout; the subsequent narrow-screen check is recorded below.
 - 2026-10-13: Pull request #5 reached Vercel before its database migrations and the public community API returned 503. With owner approval, recorded a D1 restore bookmark, applied `0005` through `0010`, verified the full ledger and confirmed `GET /api/community` returned HTTP 200. A local narrow-screen pass checked the simplified pages, seat creation and edition switch; the resulting copy and link corrections remain on the continuation branch.
 - 2026-10-13: With separate owner approval, deployed the native D1 gateway and realtime chat Workers, set private Vercel Production variables, and redeployed `d06df2d`. A live disposable seat/profile opened Adda, `/api/chat` returned 200, the Worker dashboards showed no execution errors, and the test seat was deleted with owner approval. Hosted host controls, sustained load and physical-device review remain.
+- 2026-10-13: Pull request #6 merged as `0793a09` and Vercel reported Ready; pull request #7 merged the two-instance host-control tests as `0b02577`. Two independent local Next processes passed shared wish/chat/access-control/deletion checks. Started a fail-closed upload candidate: authenticated image processing, decoded dimension limits and WebP output before R2 storage. Local mocked checks pass; the real Cloudflare Images binding and deployment are unverified, so uploads stay paused.
