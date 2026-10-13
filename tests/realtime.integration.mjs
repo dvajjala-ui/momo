@@ -37,8 +37,15 @@ try{
   assert.equal((await connect('a','weekend',{},'https://outsider.test')).status,403);
   assert.equal((await connect('a','weekend',{expires:Date.now()-1})).status,401);
   assert.equal((await connect('a','weekend',{},origin,'wrong-secret')).status,401);
-  assert.equal((await connect('no-profile')).status,403);
-  console.log('PASS signed tickets, expiry, origin, secret and profile boundaries');
+  const noProfile=await connect('no-profile');
+  assert.equal(noProfile.status,101);
+  await until(()=>noProfile.received.some(x=>x.type==='history'));
+  const noProfileId=randomUUID();noProfile.ws.send(JSON.stringify({type:'send',clientId:noProfileId,body:'Read first, write later'}));
+  await until(()=>noProfile.received.some(x=>x.type==='ack'&&x.clientId===noProfileId));
+  const noProfileAck=noProfile.received.find(x=>x.type==='ack'&&x.clientId===noProfileId);
+  assert.equal(noProfileAck.status,400);assert.match(noProfileAck.error,/profile/i);assert.equal(noProfile.closed.value,false);
+  noProfile.ws.close();
+  console.log('PASS signed tickets, expiry, origin, secret, read-before-profile and send profile gate');
   const a=await connect('a'),b=await connect('b');
   await until(()=>a.received.some(x=>x.type==='history')&&b.received.some(x=>x.type==='history'));
   const clientId=randomUUID();a.ws.send(JSON.stringify({type:'send',clientId,body:'A live local note'}));
