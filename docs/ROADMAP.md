@@ -4,7 +4,7 @@ The complete 28-point owner brief, exact expected behavior and per-item status l
 
 ## Current release state
 
-The production candidate is on `codex/production-readiness-2`, based on the exact current `origin/main` commit `b7cf62d` as checked on 2026-10-13.
+The production-readiness candidate was merged as `d06df2d` on 2026-10-13 and redeployed to Vercel after the six pending D1 migrations and both Workers were activated with owner approval. The migration ledger shows `0000` through `0010`, and `GET /api/community` returned HTTP 200 after an earlier missing-schema 503. A disposable device seat/profile reached Adda with successful chat-ticket requests and was deleted. The full hosted wish/gang and host flows still need smoke tests.
 
 Completed in the candidate:
 
@@ -30,12 +30,13 @@ The newest migration is `0010_profile_details`. It adds nullable age and gender 
 
 ## Release actions pending
 
-- [ ] Review and merge the production-readiness pull request.
-- [ ] Apply migrations `0005` through `0010` to production D1 `momo-community`, in order, and verify the migration ledger.
-- [ ] Create separate private secrets and deploy `momo-db-gateway` and `momo-chat`.
-- [ ] Add `MOMO_DB_GATEWAY_URL`, `MOMO_DB_GATEWAY_TOKEN`, `MOMO_CHAT_URL`, `MOMO_CHAT_SECRET` and `MOMO_CHAT_APP_ORIGIN` to Vercel Production.
-- [ ] Deploy the exact reviewed commit and smoke-test the live site with disposable seats. Do not contact real invitation recipients.
-- [ ] Record hosted gateway latency, WebSocket fanout/reconnect behavior, errors and quota use.
+- [x] Review and merge the production-readiness pull request (`d06df2d`).
+- [x] Record a D1 restore bookmark, apply migrations `0005` through `0010` to production `momo-community`, and verify the ledger and public API (2026-10-13).
+- [x] Create separate private secrets and deploy `momo-db-gateway` and `momo-chat` (2026-10-13).
+- [x] Add `MOMO_DB_GATEWAY_URL`, `MOMO_DB_GATEWAY_TOKEN`, `MOMO_CHAT_URL`, `MOMO_CHAT_SECRET` and `MOMO_CHAT_APP_ORIGIN` to Vercel Production; redeploy `d06df2d`.
+- [x] Smoke-test a disposable live device seat, profile, Adda access and deletion without sending a message or invitation.
+- [ ] Check hosted wish/gang, reconnect and host/queue/suspension flows in a separate disposable environment before claiming full end-to-end readiness.
+- [ ] Record sustained hosted gateway latency, WebSocket fanout/reconnect behavior, errors and quota use. A brief read-only sample and Worker error counts are recorded in the handoff.
 - [ ] Add Cloudflare Turnstile and edge rate limits before posting the link to a large public community.
 - [ ] Add server-side image decode/re-encode and dimension limits, or keep uploads unavailable during a broad public launch.
 - [ ] Configure redacted error monitoring and perform a D1 restore drill.

@@ -38,9 +38,11 @@ const nextConfig: NextConfig = forNext
       turbopack: {
         resolveAlias: { "cloudflare:workers": "./lib/vercel-cloudflare-env.ts" },
       },
-      webpack(config) {
+      webpack(config, { webpack }) {
         config.resolve ??= {};
         config.resolve.alias = { ...config.resolve.alias, "cloudflare:workers": vercelEnv };
+        // Webpack treats the colon as a URL scheme before it considers aliases.
+        config.plugins.push(new webpack.NormalModuleReplacementPlugin(/^cloudflare:workers$/, vercelEnv));
         return config;
       },
     }

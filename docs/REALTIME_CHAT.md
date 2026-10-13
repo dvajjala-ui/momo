@@ -1,6 +1,6 @@
 # Real-time chat candidate
 
-The admin branch includes a standalone Cloudflare chat Worker, one Durable Object per room, and an optional browser connection. It is built and tested locally. **No chat Worker, secret, runtime setting or production migration has been activated.** Without its settings, the site continues using the existing five-second poll and three-second send throttle.
+The app includes a standalone Cloudflare chat Worker, one Durable Object per room, and an optional browser connection. It was deployed and enabled on Vercel Production on 2026-10-13 after the required D1 migrations and separate owner approval. The five-second poll remains a reconnect fallback.
 
 ## What is implemented
 
@@ -33,15 +33,13 @@ node tests/realtime.integration.mjs
 
 ## Activation after review
 
-1. Apply reviewed additive migrations `0005` through `0010` to the intended database before releasing the candidate. `0008_serious_impossible_man` adds retry receipts and burst budgets; `0009_member_pilot` adds the member-pilot controls used by current authorization; `0010_profile_details` adds the chat age and gender fields. Preserve existing records and earlier migrations. Disposable preview resources must be separate from production.
-2. Review `cloudflare/chat/wrangler.jsonc`, including its existing `momo-community` binding and new SQLite Durable Object class migration. Set `MOMO_CHAT_APP_ORIGIN` to the exact intended HTTPS site origin. Do not allow arbitrary origins or reuse production settings for an unreviewed preview.
-3. Configure a cryptographically random secret of at least 32 bytes privately as `MOMO_CHAT_SECRET` in the Worker and Vercel. Never paste its value into chat, command arguments, Git or screenshots. Use owner-operated secret entry. This credential authorizes room access and writes as application members; treat it like a database credential.
-4. Deploy the reviewed chat Worker, then set `MOMO_CHAT_URL` to its HTTPS origin and `MOMO_CHAT_APP_ORIGIN` to the same exact site origin in Vercel. Keep these settings server-only. The D1 gateway has separate credentials/settings; see `D1_GATEWAY.md`.
-5. Test the exact deployed SHA with disposable seats: group chat, confirmed-attendance private notes, reconnects, block/opt-out, suspension/removal, moderation and deletion. Remove disposable data through the application. Never send invitation messages during a chat probe.
-6. Measure sustained hosted traffic, fanout, reconnect storms, slow/offline clients and actual mobile latency; record quotas and an achievable latency target. Complete physical-device/screen-reader review. Only then activate it for the intended audience.
+1. Completed: applied additive migrations `0005` through `0010` to `momo-community`. `0008_serious_impossible_man` adds retry receipts and burst budgets; `0009_member_pilot` adds member-pilot controls; `0010_profile_details` adds chat age and gender fields.
+2. Completed: reviewed `cloudflare/chat/wrangler.jsonc`, deployed the Worker and configured a separate 48-byte random `MOMO_CHAT_SECRET` plus the exact `MOMO_CHAT_APP_ORIGIN=https://momo-ten-pied.vercel.app` in private settings. Vercel Production has the matching server-only settings; no secret value was committed or placed in a command argument.
+3. Completed smoke: a live disposable seat/profile opened Adda and Vercel logged successful `/api/chat` requests. Cloudflare showed 10 chat Worker invocations and zero execution errors at inspection. The seat was deleted through the site. No message or invitation was sent.
+4. Remaining: test the exact hosted SHA with disposable private/gang rooms, reconnects, block/opt-out, suspension/removal, moderation and deletion in a separate test environment. Measure sustained fanout, reconnect storms, slow/offline clients, actual mobile latency and quotas. Complete physical-device/screen-reader review before a wider audience.
 
 ## Remaining limits
 
-The hosted service is not deployed or load-tested. Permission checks use current database snapshots; an already in-flight delivery or previously received copy cannot be recalled. Moderated notes and profile edits are reconciled by refresh/renewal, rather than instantly rewriting all clients. Invitation delivery/bounces, email recovery and retention/cleanup policy for retry receipts remain separate work. The current retry receipts remain until member deletion; review storage growth and retention before broader launch.
+The hosted service is deployed but has not had a sustained load test. Permission checks use current database snapshots; an already in-flight delivery or previously received copy cannot be recalled. Moderated notes and profile edits are reconciled by refresh/renewal, rather than instantly rewriting all clients. Invitation delivery/bounces, email recovery and retention/cleanup policy for retry receipts remain separate work. The current retry receipts remain until member deletion; review storage growth and retention before broader launch.
 
 Cloudflare's [hibernatable WebSockets](https://developers.cloudflare.com/durable-objects/best-practices/websockets/) allow idle connections to survive object hibernation. Its [Durable Object pricing](https://developers.cloudflare.com/durable-objects/platform/pricing/) and [D1 allowances](https://developers.cloudflare.com/d1/platform/pricing/) still apply; the free plan is not unlimited.
