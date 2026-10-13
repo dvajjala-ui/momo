@@ -4,7 +4,7 @@ The complete 28-point owner brief, exact expected behavior and per-item status l
 
 ## Current release state
 
-The production-readiness candidate was merged as `d06df2d` on 2026-10-13 and redeployed to Vercel after the six pending D1 migrations and both Workers were activated with owner approval. Pull request #6 later merged as `0793a09` and Vercel reported Ready for that commit. The migration ledger shows `0000` through `0010`, and `GET /api/community` returned HTTP 200 after an earlier missing-schema 503. A disposable device seat/profile reached Adda with successful chat-ticket requests and was deleted. Two local Next instances passed shared wish/chat/access-control/deletion checks. The full hosted wish/gang and host flows still need smoke tests.
+The production-readiness candidate was merged as `d06df2d` on 2026-10-13 and redeployed to Vercel after the six pending D1 migrations and both Workers were activated with owner approval. Pull request #6 later merged as `0793a09` and Vercel reported Ready for that commit. Pull request #7 merged as `0b02577` with two-instance host-control tests; production readiness for that exact merge has not been checked here. Pull request #8 merged the image upload protection source as `3a6c18c`; its updated gateway and real Images binding have not been deployed or smoke-tested, and uploads remain gated. The migration ledger shows `0000` through `0010`, and `GET /api/community` returned HTTP 200 after an earlier missing-schema 503. A disposable device seat/profile reached Adda with successful chat-ticket requests and was deleted. Two local Next instances passed shared wish/chat/access-control/deletion checks. The full hosted wish/gang and host flows still need smoke tests.
 
 Completed in the candidate:
 
@@ -38,7 +38,7 @@ The newest migration is `0010_profile_details`. It adds nullable age and gender 
 - [ ] Check hosted wish/gang, reconnect and host/queue/suspension flows in a separate disposable environment before claiming full end-to-end readiness.
 - [ ] Record sustained hosted gateway latency, WebSocket fanout/reconnect behavior, errors and quota use. A brief read-only sample and Worker error counts are recorded in the handoff.
 - [ ] Add Cloudflare Turnstile and edge rate limits before posting the link to a large public community.
-- [ ] Deploy and smoke-test the local image decode/re-encode candidate with the real Cloudflare Images binding before setting `MOMO_IMAGE_UPLOADS_ENABLED=true`; otherwise keep uploads paused.
+- [ ] Deploy and smoke-test the merged image decode/re-encode source with the real Cloudflare Images binding before setting `MOMO_IMAGE_UPLOADS_ENABLED=true`; otherwise keep uploads paused.
 - [ ] Configure redacted error monitoring and perform a D1 restore drill.
 
 The existing Site project remains owner-private. Its ID in `.openai/hosting.json` must stay unchanged. GitHub/Vercel and Sites have separate deployment ancestry, so a GitHub push does not publish the Site.
