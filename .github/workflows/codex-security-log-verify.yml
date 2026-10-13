@@ -1,0 +1,28 @@
+name: Redacted security log verification
+
+on:
+  push:
+    branches:
+      - codex/redacted-security-logs
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 11.25.0
+          run_install: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22.13.0
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: node tests/ops-log.test.mjs
+      - run: node tests/seat-turnstile.integration.mjs
+      - run: pnpm lint
