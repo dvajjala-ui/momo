@@ -23,6 +23,7 @@ Allowed security event names:
 - `host_login_rate_limited`
 - `host_login_failed`
 - `admin_access_denied`
+- `security_sink_probe` only for the explicit one-event verification script
 
 Each record contains only:
 
@@ -61,8 +62,13 @@ If enabled settings are incomplete/invalid, application security behavior contin
 
 1. Configure the four variables on an isolated preview first.
 2. Run the repository privacy test `node tests/ops-log.test.mjs`.
-3. Run the one-event sink probe described in `tests/hosted-security-sink-probe.mjs`; it refuses to run without its explicit disposable flag.
-4. Confirm the Axiom dataset receives exactly the redacted probe event and no token/query/cookie/contact information.
+3. Run the one-event sink probe with the four sink variables plus `MOMO_SECURITY_SINK_DISPOSABLE=yes-send-one-redacted-event`:
+
+```bash
+node tests/hosted-security-sink-probe.mjs
+```
+
+4. Confirm the Axiom dataset receives exactly one `security_sink_probe` event and no token/query/cookie/contact information.
 5. Trigger one controlled failed host login in the disposable preview and confirm a `host_login_failed` event appears.
 6. Confirm a successful host login produces no security-failure event.
 7. Configure monitors before enabling the sink in production.
@@ -75,6 +81,7 @@ Start with conservative thresholds and tune using real traffic:
 - `host_login_failed`: 3 or more events in 5 minutes
 - `seat_challenge_failed`: 20 or more events in 5 minutes
 - recurring `admin_access_denied` or `cross_origin_mutation_block` samples for 5 minutes: investigate alongside Vercel Firewall data
+- ignore `security_sink_probe` in alert rules
 
 Also monitor platform-level 5xx/D1 quota errors and outbound invitation failures using the provider/platform telemetry available to the deployment. The Axiom sink intentionally receives only the redacted security-event schema, not arbitrary application logs containing user data.
 
