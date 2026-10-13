@@ -1,5 +1,6 @@
 import {env} from 'cloudflare:workers';
 import {deviceUser} from './device-session';
+import {imageSanitizerConfigured,sanitizeUploadedImage} from './image-sanitizer';
 export function db(){if(!env.DB)throw new Error('Community storage is temporarily unavailable.');return env.DB}
 export function bucket(){if(!env.BUCKET)throw new Error('Photo storage is temporarily unavailable.');return env.BUCKET}
 const settings=env as unknown as Record<string,string|undefined>;
@@ -8,6 +9,8 @@ const settings=env as unknown as Record<string,string|undefined>;
 export async function identity():Promise<{userId:string,email:string,displayName:string,fullName:string|null,host?:boolean}|null>{return deviceUser(settings.HOST_PASSCODE)}
 export function isAdmin(user:Awaited<ReturnType<typeof identity>>){return user?.host===true}
 export function photosEnabled(){return !!env.BUCKET}
+export function uploadsEnabled(){return photosEnabled()&&imageSanitizerConfigured(settings)}
+export function processPhoto(bytes:Uint8Array,type:string){return sanitizeUploadedImage(bytes,type,settings)}
 export function json(data:unknown,status=200,extra:Record<string,string>={}){return Response.json(data,{status,headers:{'Cache-Control':'no-store','X-Content-Type-Options':'nosniff',...extra}})}
 export function sameOrigin(req:Request){const origin=req.headers.get('origin');return !!origin&&origin===new URL(req.url).origin}
 export function str(x:unknown,min:number,max:number){if(typeof x!=='string'||x.trim().length<min||x.trim().length>max)throw new Error(`Please enter between ${min} and ${max} characters.`);return x.trim()}

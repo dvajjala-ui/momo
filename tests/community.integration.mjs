@@ -40,13 +40,18 @@ async function uploadPhoto(kind,user='member',consent=true){
 assert('anonymous upload denied',await uploadPhoto('profile',null),401);
 assert('member gallery upload denied',await uploadPhoto('gallery'),403);
 assert('photo consent required',await uploadPhoto('profile','member',false),400);
-const profilePhoto=await uploadPhoto('profile');assert('profile photo saved',profilePhoto,200);
+assert('photo upload paused without processing',await uploadPhoto('profile'),503);
+assert('host photo upload paused without processing',await uploadPhoto('gallery','host'),503);
+const photoBucket=await mf.getR2Bucket('BUCKET');
+const profilePhoto={data:{id:'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa'}};
+await photoBucket.put(profilePhoto.data.id,photoBytes,{httpMetadata:{contentType:'image/png'}});
+await db.prepare('UPDATE profiles SET photo=? WHERE id=?').bind(profilePhoto.data.id,memberDbId).run();
 assert('member photo requires sign-in',await call('/api/media/'+profilePhoto.data.id,null,null),401);
 const signedPhoto=await mf.dispatchFetch('https://momo.test/api/media/'+profilePhoto.data.id,{headers:{Cookie:cookieFor('other')}});
 if(signedPhoto.status!==200||signedPhoto.headers.get('content-type')!=='image/png'||signedPhoto.headers.get('cache-control')!=='private, no-store')throw Error('Member photo access or cache policy failed');console.log('PASS member photo signed-in access and private cache policy');
-const replacedPhoto=await uploadPhoto('profile');assert('profile photo replaced',replacedPhoto,200);
-const photoBucket=await mf.getR2Bucket('BUCKET');if(await photoBucket.get(profilePhoto.data.id))throw Error('Old profile photo left in R2');console.log('PASS replaced photo removed from R2');
-const galleryPhoto=await uploadPhoto('gallery','host');assert('host gallery photo saved',galleryPhoto,200);
+const galleryPhoto={data:{id:'bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb'}};
+await photoBucket.put(galleryPhoto.data.id,photoBytes,{httpMetadata:{contentType:'image/png'}});
+await db.prepare('INSERT INTO gallery(id,caption,category,created) VALUES(?,?,?,?)').bind(galleryPhoto.data.id,'Disposable local photo','Food',Date.now()).run();
 if((await mf.dispatchFetch('https://momo.test/api/media/'+galleryPhoto.data.id)).status!==200)throw Error('Published gallery photo not visible');console.log('PASS published gallery photo public through media route');
 assert('host removes gallery photo',await call('/api/community',{action:'removePhoto',id:galleryPhoto.data.id},'host'),200);
 if(await photoBucket.get(galleryPhoto.data.id))throw Error('Removed gallery photo left in R2');console.log('PASS gallery deletion removes R2 object');
@@ -166,5 +171,5 @@ if(await db.prepare('SELECT id FROM profiles WHERE id=?').bind(thirdDbId).first(
 assert('withdraw invite',await call('/api/community',{action:'withdraw'}),200);
 assert('delete own data',await call('/api/community',{action:'deleteAccount'}),200);
 const count=await db.prepare('SELECT (SELECT COUNT(*) FROM profiles WHERE id=?)+(SELECT COUNT(*) FROM wishes WHERE user_id=?)+(SELECT COUNT(*) FROM wish_joins WHERE user_id=?) AS n').bind(memberDbId,memberDbId,memberDbId).first();if(count.n)throw Error('Cleanup failed');console.log('PASS account data deleted');
-if(await photoBucket.get(replacedPhoto.data.id))throw Error('Account photo left in R2');console.log('PASS account deletion removes profile photo');
+if(await photoBucket.get(profilePhoto.data.id))throw Error('Account photo left in R2');console.log('PASS account deletion removes profile photo');
 }finally{await mf.dispose()}
