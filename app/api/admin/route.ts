@@ -1,5 +1,6 @@
 import {db,identity,isAdmin,json,readBounded,sameOrigin,str} from '../../../lib/momo-server';
 import {deleteMemberData} from '../../../lib/member-lifecycle';
+import {securityEvent} from '../../../lib/ops-log.mjs';
 
 const member=(value:unknown)=>str(value,1,150);
 const record=async(actor:string,action:string,subject:string,note:string|null=null)=>db().prepare('INSERT INTO admin_audit(id,actor_id,action,subject_id,note,created) VALUES(?,?,?,?,?,?)').bind(crypto.randomUUID(),actor,action,subject,note,Date.now()).run();
@@ -7,7 +8,7 @@ const record=async(actor:string,action:string,subject:string,note:string|null=nu
 export async function GET(req:Request){
   try{
     const user=await identity();
-    if(!isAdmin(user))return json({error:'Host access is restricted.'},403);
+    if(!isAdmin(user)){securityEvent(req,'admin_access_denied',403);return json({error:'Host access is restricted.'},403)}
     const url=new URL(req.url),view=url.searchParams.get('view')||'overview';
     if(view==='overview'){
       const counts=await db().prepare('SELECT (SELECT COUNT(*) FROM member_controls WHERE status=\'active\') AS active_members,(SELECT COUNT(*) FROM member_controls WHERE status=\'queued\') AS queued,(SELECT COUNT(*) FROM profiles) AS profiles,(SELECT COUNT(*) FROM wishes) AS wishes,(SELECT COUNT(*) FROM wish_joins) AS gang_seats,(SELECT COUNT(*) FROM messages) AS messages,(SELECT COUNT(*) FROM reports) AS reports,(SELECT COUNT(*) FROM member_controls WHERE status=\'suspended\') AS suspended,(SELECT COUNT(*) FROM event_attendance) AS attended,(SELECT COUNT(*) FROM sidekick_applications WHERE status=\'new\') AS sidekick_notes').first();
@@ -55,9 +56,9 @@ export async function GET(req:Request){
 
 export async function POST(req:Request){
   try{
-    if(!sameOrigin(req))return json({error:'Please submit from this site.'},403);
+    if(!sameOrigin(req)){securityEvent(req,'cross_origin_mutation_block',403);return json({error:'Please submit from this site.'},403)}
     const user=await identity();
-    if(!isAdmin(user))return json({error:'Host access is restricted.'},403);
+    if(!isAdmin(user)){securityEvent(req,'admin_access_denied',403);return json({error:'Host access is restricted.'},403)}
     const b=JSON.parse(new TextDecoder().decode(await readBounded(req,5000))||'{}');
     const actor=user!.userId,now=Date.now();
     if(b.action==='memberStatus'){
