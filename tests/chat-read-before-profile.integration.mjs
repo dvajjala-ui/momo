@@ -32,8 +32,11 @@ try{
   assert.deepEqual(await chatHistory(db,room,'reader',false),[]);
 
   const blockedWrite=await persistChat(db,{room,userId:'reader',admin:false,clientId:randomUUID(),body:'Not yet'});
-  assert.equal(blockedWrite.status,403);
+  assert.equal(blockedWrite.status,400);
   assert.match(blockedWrite.error,/profile/i);
+  const outsiderWrite=await persistChat(db,{room,userId:'outsider',admin:false,clientId:randomUUID(),body:'Not a member'});
+  assert.equal(outsiderWrite.status,403);
+  assert.match(outsiderWrite.error,/no longer available/i);
 
   const saved=await persistChat(db,{room,userId:'sender',admin:false,clientId:randomUUID(),body:'Welcome to the gang'});
   assert.equal(saved.status,200);
