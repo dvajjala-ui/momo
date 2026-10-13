@@ -11,6 +11,8 @@ if(process.env.MOMO_HOSTED_LIFECYCLE_DISPOSABLE!=='yes-delete-probe-data'){
 const app=new URL(required('MOMO_HOSTED_TEST_APP_URL'));
 const hostPasscode=required('MOMO_HOSTED_TEST_HOST_PASSCODE');
 const hostUsername=process.env.MOMO_HOSTED_TEST_ADMIN_USERNAME||'momo';
+const turnstileTokens=(process.env.MOMO_HOSTED_TURNSTILE_TOKENS||'').split(/[\r\n,]+/).map(value=>value.trim()).filter(Boolean);
+let turnstileTokenIndex=0;
 if(app.protocol!=='https:')throw Error('Hosted lifecycle probe requires an HTTPS preview URL.');
 if(app.origin==='https://momo-ten-pied.vercel.app'||app.hostname==='momo-ten-pied.vercel.app'){
   throw Error('Refusing to run the disposable lifecycle probe against the known production site.');
@@ -54,10 +56,18 @@ const expect=(name,result,status)=>{
   console.log(`PASS ${name} (${status})`);
   return result.data;
 };
+function nextTurnstileToken(label){
+  const token=turnstileTokens[turnstileTokenIndex++];
+  if(!token){
+    throw Error(`${label}: disposable preview requires Turnstile but no fresh token remains. Supply one single-use token per new seat in MOMO_HOSTED_TURNSTILE_TOKENS (comma/newline separated). Do not disable production Turnstile.`);
+  }
+  return token;
+}
 async function openSeat(session){
-  const result=await session.post('/api/session',{action:'start'});
+  let result=await session.post('/api/session',{action:'start'});
   if(result.status===428){
-    throw Error('Disposable preview requires Turnstile. Use a separate Turnstile test widget/testing keys for this preview; do not disable production Turnstile to run the probe.');
+    const turnstileToken=nextTurnstileToken(session.label);
+    result=await session.post('/api/session',{action:'start',turnstileToken});
   }
   expect(`${session.label} opens a device seat`,result,200);
   assert(session.cookies.get('momo_sid'),`${session.label}: session cookie missing`);
@@ -119,7 +129,7 @@ try{
   assert(!boardAfterCreatorDelete.wishes?.some(item=>item.id===wishId),'creator deletion left the disposable wish behind');
 
   const elapsed=Math.round(performance.now()-started);
-  console.log('PASS disposable hosted lifecycle probe',JSON.stringify({runId,creatorId,joinerId,elapsedMs:elapsed,productionDataTouched:false}));
+  console.log('PASS disposable hosted lifecycle probe',JSON.stringify({runId,creatorId,joinerId,elapsedMs:elapsed,turnstileTokensUsed:turnstileTokenIndex,productionDataTouched:false}));
 }finally{
   // deleteAccount is intentionally allowed even when a seat is queued/suspended.
   // Cleanup is best effort because this script must not weaken application guards.
