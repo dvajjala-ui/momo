@@ -84,6 +84,10 @@ After the owner’s simplification request, TypeScript, repository lint, both pr
 
 ## Production release order
 
+Release follow-up on 2026-10-13: owner-approved PR #6 merged as `0793a09`. Vercel Production reported Ready for that exact merge commit at `momo-ten-pied.vercel.app`. Home, Join, Adda and the public community API returned HTTP 200, and the live Adda showed the corrected profile copy. The earlier `d06df2d` references above describe the initial Worker activation release.
+
+`node tests/next-instances.integration.mjs` also passed against two independent local Next processes sharing a fresh disposable SQLite database. Wish capacity, cross-instance gang messages, outsider/host denial and cross-instance account deletion passed. The processes and temporary database were removed. This is local app persistence evidence; hosted D1/R2 and sustained-load checks remain open.
+
 1. Completed: merge `d06df2d`, record a D1 restore bookmark, apply `0005` through `0010`, verify the ledger and restore the public API.
 2. Completed: deploy `momo-db-gateway` and `momo-chat` with separate 48-byte random credentials and an exact chat origin; add the five server-only Vercel settings; redeploy `d06df2d`.
 3. Completed smoke: authenticated gateway read, live device seat/profile, successful chat-ticket requests, Worker activity and test-seat deletion. Brief samples showed gateway health p50 139 ms/p95 397 ms (12 requests) and public community GET p50 1322 ms/p95 1462 ms (8 requests), with no failed responses. These do not establish hosted capacity.
