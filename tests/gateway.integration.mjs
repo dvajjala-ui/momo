@@ -32,6 +32,11 @@ try{
   await assert.rejects(ex.batch([['UPDATE sample SET n=99',[]],['INSERT INTO sample VALUES(?,?,?)',['second',0,null]]]),/request failed/);
   assert.equal((await ex.exec('SELECT n FROM sample WHERE id=?',["test's"])).rows[0].n,2);
   console.log('PASS native D1 parameter binding and atomic batch rollback');
+  const measured=await (await raw({sql:'SELECT n FROM sample WHERE id=?',params:["test's"]})).json();
+  const meta=measured.result[0].meta;
+  assert.equal(typeof meta.rows_read,'number');assert.equal(typeof meta.rows_written,'number');assert.equal(typeof meta.duration,'number');
+  assert(Object.keys(meta).every(key=>['changes','rows_read','rows_written','duration','timings','served_by_colo','served_by_region','served_by_primary'].includes(key)));
+  console.log('PASS server-only gateway exposes only allowlisted D1 execution metrics');
   assert.equal((await raw({sql:'DROP TABLE sample',params:[]})).status,400);
   assert.equal((await raw({sql:'SELECT 1; SELECT 2',params:[]})).status,400);
   assert.equal((await raw({sql:'SELECT ?',params:[{}]})).status,400);

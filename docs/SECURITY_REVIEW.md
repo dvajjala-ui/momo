@@ -172,16 +172,17 @@ Completed on 2026-10-13 without using real participant content:
 - community/admin integration suite passed after the optional monitoring sink changes
 - production builds/lint and cleaned Vercel previews passed for the relevant source PRs
 
+## Latest hosted results
+
+The combined isolated Cloudflare/Vercel lifecycle, private Images/R2 path, 25/50/100-client sample and enforced Vercel API perimeter rule are now verified. See `WORK_SUMMARY_2026-10-13.md` for actual metrics, provider error-counter caveats and scope limits. Real Turnstile verification/production activation, production private-photo activation and Axiom sink/alerts remain open. Axiom token setup was left pending at the owner's request. The earlier six-item list below is historical; its first, second and fourth checks have now passed for the recorded isolated workload/policy.
+
 ## Hosted checks still required
 
-These are the material technical blockers before a broad public promotion:
+These are the remaining technical blockers before a broad public promotion:
 
-1. **Longer isolated hosted chat/load run:** execute `tests/hosted-chat-probe.mjs` in a disposable environment and record p50/p95, error rate, reconnect behavior and D1/Durable Object overload/quota observations. The existing 10-client smoke is correctness evidence only.
-2. **Combined isolated hosted lifecycle:** execute `tests/hosted-lifecycle-probe.mjs` against an isolated preview/database. It must prove one-click join, profile-less gang read, host queue/private note, suspension/restore and deletion cleanup together.
-3. **Production Turnstile:** configure the real production widget/site key, secret, seat-signing secret and enable flag; verify the Ghar, one-tap wish, Sidekicks and Host flows from desktop/mobile before activation.
-4. **Actual Vercel Firewall enforcement:** add the current-perimeter rule from `docs/EDGE_RATE_LIMIT_SETUP.md`, then use the disposable firewall probe to prove over-limit requests are mitigated without blocking ordinary flows.
-5. **Production image activation:** verify the reviewed Images binding/private-profile access on the intended production gateway, then deliberately enable `MOMO_IMAGE_UPLOADS_ENABLED`; otherwise leave uploads paused.
-6. **Persistent monitoring activation:** configure the reviewed security sink (or an equivalent privacy-preserving monitored destination), run the one-event probe, create the alerts and verify one controlled failed-host-login event.
+1. **Real Turnstile verification and activation:** complete preview signed-seat/replay/forged-cookie and protected lifecycle checks; create/configure the separately approved production widget, then verify normal desktop/mobile entry flows.
+2. **Production image activation:** the isolated Cloudflare private-media path passed, and the production gateway Images source is deployed. Verify the intended Vercel production private-media path before enabling uploads.
+3. **Persistent monitoring activation:** the Axiom dataset and scoped token exist, but token setup was left pending by the owner. Replace the briefly exposed token before server use, verify one redacted event, configure alerts and prove a controlled failed-host-login event.
 
 ## Candidate verification and capacity statement
 
@@ -189,7 +190,7 @@ The current recommendation remains a controlled pilot capped at **100 active sea
 
 Local Miniflare fanout evidence: 500 clients received one persisted message exactly once; p50 33 ms, p95 42 ms and max 43 ms, zero misses for that tested fanout. A separate hosted 10-client smoke delivered all messages and recovered history after reconnect.
 
-Those results must not be advertised as a production concurrency ceiling. Hosted capacity depends on traffic mix, D1 query duration, Durable Object CPU/memory, network/mobile latency and platform quotas. The longer hosted probe above is required before making a stronger statement.
+Those results must not be advertised as a production concurrency ceiling. Hosted capacity depends on traffic mix, D1 query duration, Durable Object CPU/memory, network/mobile latency and platform quotas. The recorded 100-client run supports the tested pilot workload. A heavier multi-room/long-duration sample and account-wide quota assessment are required before making a stronger statement.
 
 ## Incident checklist
 
@@ -204,4 +205,4 @@ Those results must not be advertised as a production concurrency ceiling. Hosted
 
 ## Launch position
 
-For a controlled pilot, the application source now has the main authorization, privacy, realtime, upload, recovery, monitoring and abuse-control mechanisms plus fail-closed deployment gates. A **large public Reddit-style share is still premature** until the six hosted/activation checks above are recorded as passing and the real first-event details in `docs/PRODUCTION_REQUIREMENTS.md` are confirmed.
+For a controlled pilot, the application source now has the main authorization, privacy, realtime, upload, recovery, monitoring and abuse-control mechanisms plus fail-closed deployment gates. A **large public Reddit-style share is still premature** until the three remaining activation checks above are recorded as passing and the real first-event details in `docs/PRODUCTION_REQUIREMENTS.md` are confirmed.

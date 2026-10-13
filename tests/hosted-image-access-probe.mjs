@@ -2,6 +2,7 @@
 // site, creates only a test profile/photo, and deletes the test seat afterwards.
 import assert from 'node:assert/strict';
 import {randomUUID} from 'node:crypto';
+import {readFileSync} from 'node:fs';
 
 if(process.env.MOMO_HOSTED_IMAGE_DISPOSABLE!=='yes-delete-probe-data'){
   throw Error('Refusing image probe without MOMO_HOSTED_IMAGE_DISPOSABLE=yes-delete-probe-data');
@@ -11,7 +12,16 @@ const app=new URL(raw);
 if(app.protocol!=='https:')throw Error('Hosted image probe requires HTTPS.');
 if(app.hostname==='momo-ten-pied.vercel.app')throw Error('Refusing hosted image probe against the known production site.');
 const optionalTurnstileToken=process.env.MOMO_HOSTED_TURNSTILE_TOKEN||'';
-const png=Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+aWQAAAABJRU5ErkJggg==','base64');
+// Use a valid decodable image, with a CRC-checked ancillary metadata marker.
+// The former one-pixel fixture had an invalid IDAT CRC and real Images rejected it.
+const source=readFileSync(new URL('../public/icon-192.png',import.meta.url));
+const marker='MOMO_DISPOSABLE_METADATA_'+randomUUID();
+const payload=Buffer.from('Comment\0'+marker),chunk=Buffer.alloc(payload.length+12);
+chunk.writeUInt32BE(payload.length);chunk.write('tEXt',4);payload.copy(chunk,8);
+let crc=0xffffffff;
+for(const byte of chunk.subarray(4,-4)){crc^=byte;for(let bit=0;bit<8;bit++)crc=(crc>>>1)^(crc&1?0xedb88320:0)}
+chunk.writeUInt32BE((crc^0xffffffff)>>>0,chunk.length-4);
+const png=Buffer.concat([source.subarray(0,-12),chunk,source.subarray(-12)]);
 const suffix=randomUUID().replaceAll('-','').slice(0,10);
 
 class Session{
@@ -59,6 +69,7 @@ try{
   assert.equal(signed.status,200);assert.equal(signed.headers.get('content-type'),'image/webp');assert.equal(signed.headers.get('cache-control'),'private, no-store');
   const safeBytes=new Uint8Array(await signed.arrayBuffer());assert(safeBytes.length>12,'Sanitized hosted image was empty');
   assert.equal(String.fromCharCode(...safeBytes.slice(0,4)),'RIFF');assert.equal(String.fromCharCode(...safeBytes.slice(8,12)),'WEBP');
+  assert(!Buffer.from(safeBytes).includes(Buffer.from(marker)),'Source metadata marker survived re-encoding');
   console.log('PASS hosted profile photo is re-encoded WebP and private/no-store');
 
   const oldPhoto=latestPhoto,second=await session.upload();assert.equal(second.status,200,JSON.stringify(second.data));assert.notEqual(second.data.id,oldPhoto);latestPhoto=second.data.id;

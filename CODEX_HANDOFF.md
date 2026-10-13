@@ -4,6 +4,10 @@ Last updated: 2026-10-13
 
 Read `AGENTS.md` and `docs/PRODUCTION_REQUIREMENTS.md` before making changes. The requirements file preserves the owner’s full 28-point brief verbatim and is the detailed source of truth.
 
+## Latest continuation
+
+Work directly on `main`, as the owner requested. The latest completed hosted checks, resource inventory, current stage, application flow and next steps are in `docs/WORK_SUMMARY_2026-10-13.md`. Requirements #13/#19/#20 now have isolated hosted pilot evidence; #10 and parts of #14 remain pending. The API perimeter rule is enforced. Production Turnstile, uploads and Axiom delivery remain unactivated until their remaining checks pass. Axiom token setup was left pending at the owner's request. Historical branch/SHA references below describe earlier work and are not the current checkout.
+
 ## Product
 
 Momo to Pizza helps people turn a small food or activity idea into a real public meetup. It uses a playful crayon/scrapbook style and two persistent food editions. Keep the tone warm and low pressure. Do not invent members, events, urgency or safety claims. Do not label personalities.

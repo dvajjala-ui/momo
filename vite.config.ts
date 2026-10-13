@@ -16,7 +16,9 @@ const managedLinux = readExecutionProfile() === "managed-linux";
 
 const localBindingConfig = {
   main: "./build/sites-worker.ts",
-  compatibility_flags: ["nodejs_compat"],
+  // Chat and image processing use authenticated HTTPS calls to sibling Workers.
+  // Route these through the public edge instead of bypassing same-zone Workers.
+  compatibility_flags: ["nodejs_compat", "global_fetch_strictly_public"],
   d1_databases: d1
     ? [
         {

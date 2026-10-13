@@ -19,7 +19,7 @@ if(app.origin==='https://momo-ten-pied.vercel.app'||app.hostname==='momo-ten-pie
 }
 if(hostPasscode.length<12)throw Error('Disposable host passcode must be at least 12 characters.');
 
-const runId=randomUUID().replaceAll('-','').slice(0,12),prefix=`probe-${runId}`;
+const runId=randomUUID().replaceAll('-','').slice(0,12);
 const sha256=value=>createHash('sha256').update(value).digest('hex');
 const memberIdFor=token=>'m_'+sha256('member:'+token).slice(0,32);
 

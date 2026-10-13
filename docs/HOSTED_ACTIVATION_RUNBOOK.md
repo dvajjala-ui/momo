@@ -6,6 +6,10 @@ This is the execution order for the remaining Momo production-readiness checks a
 
 The current known production app is `https://momo-ten-pied.vercel.app`.
 
+## Latest execution results
+
+See [work summary and next steps](WORK_SUMMARY_2026-10-13.md). Isolated Cloudflare/Vercel baseline lifecycle, private media checks, 25/50/100-client hosted sampling and the Vercel perimeter policy are now verified. Resume with real preview Turnstile verification, production widget/private-photo checks, and Axiom sink/alerts; Axiom token setup is pending at the owner's request. Do not rerun completed destructive probes against production.
+
 ## What is already done
 
 Do not repeat these as if they are still missing:
@@ -144,6 +148,10 @@ Record:
 - Durable Object errors/CPU/memory/overload observations available from Cloudflare
 
 Do not convert this into a universal concurrency claim. The product operating cap remains 100 active pilot seats.
+
+### Sustained pilot probe
+
+The 100-client evidence was recorded with `tests/hosted-sustained-probe.mjs`, using exact `momo-readiness-db-<id>.<account>.workers.dev` and matching chat origins. It accepts only these disposable Worker names. Set `MOMO_PROBE_DB_URL`, `MOMO_PROBE_CHAT_URL`, private `MOMO_PROBE_DB_TOKEN` / `MOMO_PROBE_CHAT_SECRET`, and the exact `MOMO_PROBE_APP_ORIGIN` matching the chat Worker setting. Set `MOMO_PROBE_CLIENTS` to 25, 50, then 100; default 18 rounds / 9-second cadence renews leases and recovers an offline delivery. Run `node tests/hosted-sustained-probe.mjs`. Keep credentials in process environment, never in Git or output.
 
 ### 6. Vercel Firewall activation
 

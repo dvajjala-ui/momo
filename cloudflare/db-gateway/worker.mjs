@@ -4,6 +4,16 @@ const MAX_IMAGE=3_000_000;
 const MAX_IMAGE_PIXELS=12_000_000;
 const reply=(body,status=200)=>Response.json(body,{status,headers:{'Cache-Control':'no-store','X-Content-Type-Options':'nosniff'}});
 
+// Server-only, allowlisted execution metrics. Never forward arbitrary provider metadata.
+function queryMetrics(meta={}){
+  const safe={changes:Number(meta.changes||0)};
+  for(const key of ['rows_read','rows_written','duration'])if(Number.isFinite(meta[key])&&meta[key]>=0)safe[key]=meta[key];
+  if(Number.isFinite(meta.timings?.sql_duration_ms)&&meta.timings.sql_duration_ms>=0)safe.timings={sql_duration_ms:meta.timings.sql_duration_ms};
+  for(const key of ['served_by_colo','served_by_region'])if(typeof meta[key]==='string'&&/^[A-Za-z0-9-]{1,20}$/.test(meta[key]))safe[key]=meta[key];
+  if(typeof meta.served_by_primary==='boolean')safe.served_by_primary=meta.served_by_primary;
+  return safe;
+}
+
 async function authorized(request,expected){
   const header=request.headers.get('authorization')||'';
   if(!header.startsWith('Bearer ')||header.length>520)return false;
@@ -76,7 +86,7 @@ const gateway={
     try{
       // Native D1 batches execute sequentially and roll back together on failure.
       const rows=await env.DB.batch(batch.map(query=>env.DB.prepare(query.sql).bind(...query.params)));
-      return reply({success:true,result:rows.map(row=>({success:row.success,results:row.results||[],meta:{changes:Number(row.meta?.changes||0)}}))});
+      return reply({success:true,result:rows.map(row=>({success:row.success,results:row.results||[],meta:queryMetrics(row.meta)}))});
     }catch{
       // SQL, parameters, contact details and provider errors never go into logs or responses.
       return reply({success:false,error:'Database query failed.'},503);
