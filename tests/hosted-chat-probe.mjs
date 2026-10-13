@@ -8,8 +8,8 @@ import {randomUUID} from 'node:crypto';
 import {signChatTicket} from '../lib/chat-ticket.mjs';
 
 const root=fileURLToPath(new URL('..',import.meta.url));
-const require=createRequire(realpathSync(root+'/node_modules/wrangler/package.json'));
-const NodeWebSocket=require('ws');
+const wranglerRequire=createRequire(realpathSync(root+'/node_modules/wrangler/package.json'));
+const NodeWebSocket=createRequire(wranglerRequire.resolve('miniflare'))('ws');
 const required=name=>{const value=process.env[name];if(!value)throw Error(`Missing ${name}`);return value};
 
 if(process.env.MOMO_HOSTED_TEST_DISPOSABLE!=='yes-delete-only-probe-rows'){
