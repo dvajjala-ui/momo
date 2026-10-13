@@ -8,12 +8,12 @@ const forNext = process.env.VERCEL === "1" || process.env.MOMO_TARGET === "next"
 const isDev = process.env.NODE_ENV !== "production";
 const contentSecurityPolicy = [
   "default-src 'self'",
-  `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ""}`,
+  `script-src 'self' 'unsafe-inline' https://challenges.cloudflare.com${isDev ? " 'unsafe-eval'" : ""}`,
   "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
   "font-src 'self' data: https://fonts.gstatic.com",
   "img-src 'self' data: blob: https://upload.wikimedia.org",
   "connect-src 'self' https: wss:",
-  "frame-src 'self'",
+  "frame-src 'self' https://challenges.cloudflare.com",
   "object-src 'none'",
   "base-uri 'self'",
   "form-action 'self'",

@@ -1,6 +1,8 @@
 import {env} from 'cloudflare:workers';
 import {db,json,sameOrigin,readBounded} from '../../../lib/momo-server';
-import {sha256,newToken,sessionToken,sessionCookie,hostCookie,hostProof,clearCookies} from '../../../lib/device-session';
+import {sha256,newToken,rawSessionToken,sessionToken,sessionCookie,seatProofCookie,hostCookie,hostProof,clearCookies} from '../../../lib/device-session';
+import {seatChallengeSettings,verifySeatChallenge} from '../../../lib/seat-turnstile';
+import {seatProof} from '../../../lib/seat-proof';
 
 function withCookies(data:unknown,status:number,cookies:string[]){const r=json(data,status);for(const c of cookies)r.headers.append('Set-Cookie',c);return r}
 
@@ -9,7 +11,19 @@ export async function POST(req:Request){try{
   const b=JSON.parse(new TextDecoder().decode(await readBounded(req,2000))||'{}') as Record<string,unknown>;
   const secure=new URL(req.url).protocol==='https:';
   const current=await sessionToken();
-  if(b.action==='start')return current?json({ok:true}):withCookies({ok:true},200,[sessionCookie(newToken(),secure)]);
+  if(b.action==='start'){
+    if(current)return json({ok:true});
+    const settings=env as unknown as Record<string,string|undefined>;
+    const challenge=seatChallengeSettings(settings);
+    if(challenge.enabled){
+      if(!challenge.ready)return json({error:'Seat verification is temporarily unavailable.'},503);
+      if(!b.turnstileToken)return json({error:'Verify your seat first.',turnstileSiteKey:challenge.siteKey},428);
+      if(!await verifySeatChallenge(b.turnstileToken,new URL(req.url).hostname,settings))return json({error:'Seat verification did not pass. Please try again.'},403);
+      const token=await rawSessionToken()||newToken();
+      return withCookies({ok:true},200,[sessionCookie(token,secure),seatProofCookie(await seatProof(token,challenge.signingSecret),secure)]);
+    }
+    return withCookies({ok:true},200,[sessionCookie(newToken(),secure)]);
+  }
   if(b.action==='signout')return withCookies({ok:true},200,clearCookies(secure));
   if(b.action==='host'){
     if(!current)return json({error:'Open a device seat before host login.'},403);
