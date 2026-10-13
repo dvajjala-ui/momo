@@ -100,11 +100,10 @@ Before opening uploads to a broad audience, add server-side decode/re-encode and
 
 These block a broad public launch until they are completed and recorded:
 
-- Apply migrations `0005` through `0010` to the production D1 database and verify the migration ledger.
-- Deploy the reviewed D1 gateway and realtime Worker to the intended Cloudflare account.
-- Configure exact production origins and 32-byte-or-longer gateway/chat secrets in private settings.
+- Completed 2026-10-13: applied migrations `0005` through `0010` to production D1 after recording a restore bookmark, then verified the migration ledger and public API recovery.
+- Completed 2026-10-13: deployed the reviewed D1 gateway and realtime Worker to the intended Cloudflare account with separate 48-byte random credentials and the exact site origin.
 - Run the gateway, realtime, chat-ticket, community and invitation integration suites against the built candidate without contacting real recipients.
-- Run the local fanout/load probes, then a small production smoke test using test seats. Record p50, p95, error rate, D1 reads/writes and Durable Object overload responses.
+- Run sustained hosted fanout/reconnect probes in a separate disposable environment. A small production seat/profile/chat-access/deletion smoke passed; record p50, p95, error rate, D1 reads/writes and Durable Object overload responses before broader promotion.
 - Add Cloudflare edge rate-limit rules and Turnstile before posting to a large public community.
 - Add server-side image re-encoding or keep uploads unavailable for the public pilot.
 - Add a monitored error/log destination with contact data redaction. Alert on host login failures, access denials, moderation spikes, D1 overload/quota errors and outbound invitation failures.
@@ -119,7 +118,7 @@ A local browser run of the built Worker verified signed-out seat creation, one-c
 
 The 500-client local realtime fanout delivered one persisted message exactly once to every client. Measured local network latency was p50 33 ms, p95 42 ms and max 43 ms. This was one fanout on Windows/Miniflare with disposable data. It is useful regression evidence and does not predict sustained hosted capacity, mobile latency or Cloudflare quota usage.
 
-Production inspection found migrations `0000` through `0004` applied in D1. Migrations `0005` through `0010`, the two Workers, their secrets and the five Vercel gateway/chat variables are not active yet. Those are deployment tasks, so the controls that depend on them are source-complete but not production-active.
+Production D1 now has migrations `0000` through `0010`. Both Workers, separate credentials and all five Vercel Production settings are active; `d06df2d` was redeployed after configuration. An authenticated gateway read and disposable live seat/profile/chat-access/deletion flow passed. Vercel logs showed successful `/api/chat` responses, and Cloudflare's dashboard showed 106 gateway and 10 chat invocations with zero Worker execution errors during the brief inspection. Twelve direct gateway health requests measured p50 139 ms/p95 397 ms, and eight public community reads measured p50 1322 ms/p95 1462 ms, with no failed responses. These small samples do not establish sustained capacity or mobile experience. No public wish, message, event or invitation was created.
 
 ## Incident checklist
 

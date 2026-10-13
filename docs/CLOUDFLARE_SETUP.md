@@ -11,7 +11,7 @@ These are separate from Backline and the existing private Site. No participant d
 
 ## Private runtime settings
 
-The admin/messaging candidate adds an optional native Worker gateway as the preferred Vercel database transport. It is built and locally tested, but has not been deployed or configured. Read `docs/D1_GATEWAY.md` before activation. Configure `MOMO_DB_GATEWAY_URL` and `MOMO_DB_GATEWAY_TOKEN` only on the server; no gateway secret belongs in browser code. The existing management API remains the explicit migration path.
+The native Worker gateway became the preferred Vercel Production database transport on 2026-10-13. It runs at `https://momo-db-gateway.contact-dwarkesh.workers.dev` with a private bearer credential set on both sides. Read `docs/D1_GATEWAY.md` for activation evidence. `MOMO_DB_GATEWAY_URL` and `MOMO_DB_GATEWAY_TOKEN` are server-only; no gateway secret belongs in browser code. The existing management API remains the explicit migration path.
 
 In Vercel project `momo`, set the following server-only environment variables. Use separate disposable resources for preview deployments that accept test writes.
 
@@ -61,4 +61,4 @@ Checked 9 October 2026:
 
 This fixes durability, not a measured speed guarantee. Vercel-to-Cloudflare calls add network time; measure the deployed flows before claiming a performance improvement.
 
-Cloudflare's [management API limit](https://developers.cloudflare.com/fundamentals/api/reference/limits/) is 1,200 calls per five minutes per user/account token. Gang polling now batches access and messages into one call and already pauses in hidden tabs. At a five-second interval, 12 active members consume about 720 read calls per five minutes before writes and other pages. This is suitable for a small pilot; before a broader launch, move database traffic to a private authenticated Worker gateway using a native D1 binding, or change the hosting target. The storage free allowance does not remove this API request limit.
+Cloudflare's [management API limit](https://developers.cloudflare.com/fundamentals/api/reference/limits/) is 1,200 calls per five minutes per user/account token. Production runtime database traffic now uses the native D1 gateway, while explicit migrations still use the management API. Gang polling batches access and messages into one call and pauses in hidden tabs. The gateway avoids the management API limit for configured runtime traffic, but D1/Worker quotas and sustained hosted capacity still need measurement before a wider launch.

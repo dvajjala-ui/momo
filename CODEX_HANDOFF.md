@@ -14,18 +14,22 @@ Reference images under `assest/` have unverified publication rights. The current
 
 ## Current branch and production
 
-- Candidate branch: `codex/production-readiness-2`
-- Candidate base: `b7cf62d`, identical to `origin/main` after fetch on 2026-10-13
+- Production source: `main` at merge commit `d06df2d` (pull request #5)
+- Current continuation branch: `codex/continue-launch-readiness`, created from `d06df2d`
 - Vercel production: `https://momo-ten-pied.vercel.app`
 - Existing Site: `https://momo-weekend-club.dwarkeshprakash.chatgpt.site`, owner-private
 - Site project ID: preserved in `.openai/hosting.json`
 - Cloudflare account: contains D1 `momo-community` and R2 `momo-media`
-- Production D1 ledger: migrations `0000` through `0004`
-- Cloudflare Workers: none deployed as of the inspection
+- Production D1 ledger: migrations `0000` through `0010`, verified after owner-approved application on 2026-10-13
+- Cloudflare Workers: `momo-db-gateway` and `momo-chat` deployed on 2026-10-13 with separate private credentials
 
 GitHub/Vercel and Sites have separate ancestry. A GitHub push does not publish the existing Site. Keep the Site audience and project ID unless the owner explicitly changes them.
 
-Vercel Production already has `HOST_PASSCODE` and existing D1/R2 variables. It does not have the five new gateway/chat variables. Do not expose or read back any secret values.
+Vercel Production has `HOST_PASSCODE`, the existing D1/R2 variables, and all five gateway/chat variables. The deployed Workers are at `https://momo-db-gateway.contact-dwarkesh.workers.dev` and `https://momo-chat.contact-dwarkesh.workers.dev`; `MOMO_CHAT_APP_ORIGIN` is the exact Vercel site origin. Do not expose or read back secret values.
+
+The merged `d06df2d` build reached Vercel before its D1 migrations and `GET /api/community` returned HTTP 503. A restore bookmark was recorded in the ignored local `.wrangler/` directory, migrations `0005` through `0010` were applied in order to `momo-community` with owner approval, the ledger was read back, and the public API returned HTTP 200. This is an incident recovery check, not a complete hosted flow test.
+
+After separate owner approval, the two Workers and their credentials were activated, the five Vercel Production settings were added, and the existing `d06df2d` deployment was rebuilt and aliased to the production URL. The read-only gateway probe passed. A live disposable device seat created a chat profile, opened Adda, and caused successful `/api/chat` requests; it was then permanently deleted with owner approval and the UI returned to signed-out state. A read-only D1 count confirmed zero profiles remain under its test nickname. No public wish, message, event, email or WhatsApp delivery was created. Cloudflare showed 106 gateway and 10 chat invocations with zero Worker errors at inspection. Temporary local copies of the new credentials were removed after verification; the D1 restore bookmark remains ignored under `.wrangler/`. These are small smoke checks, not sustained-load or complete host-flow evidence.
 
 ## Candidate changes
 
@@ -74,18 +78,16 @@ The 500-client local realtime probe delivered one persisted message exactly once
 
 The built local Worker was checked in a browser for signed-out seat creation, edition persistence, invitation covers, one-click wish join, direct gang chat, deferred nickname setup, seat exit, Sidekicks submission, direct host login and administration of named and unnamed seats. A clean test page had no console errors.
 
-After the owner’s simplification request, TypeScript, repository lint, both production builds, community, invitation, chat-ticket and realtime integration checks passed again. These checks include nickname/age/gender persistence and chat output, invitation consent without an age gate, and the complete migration chain through `0010`. Browser checks above describe the earlier layout; the simplified layout has not had a new visual browser pass yet.
+After the owner’s simplification request, TypeScript, repository lint, both production builds, community, invitation, chat-ticket and realtime integration checks passed again. These checks include nickname/age/gender persistence and chat output, invitation consent without an age gate, and the complete migration chain through `0010`. A subsequent narrow-screen browser pass checked the simplified Ghar, Join and Adda pages, seat creation and edition switching with an initialized disposable local D1. It found no browser errors and exposed a stale Adda sentence and wish-profile link, corrected on the continuation branch. The continuation branch passed TypeScript, lint, Vinext build, all eight relevant integration suites and the Next Webpack build; a default Turbopack Next build stalled locally and was interrupted. Desktop and physical-device checks remain pending.
 
 `tests/vercel-storage.integration.mjs` was not rerun because it requires two separately configured Next servers backed by the same durable resources. Earlier production adapter evidence exists; use disposable data if repeating it.
 
 ## Production release order
 
-1. Review and merge the exact candidate commit.
-2. Create a production restore point and apply migrations `0005` through `0010` to D1 `momo-community` in order.
-3. Generate separate strong secrets privately and deploy `momo-db-gateway` and `momo-chat`.
-4. Add `MOMO_DB_GATEWAY_URL`, `MOMO_DB_GATEWAY_TOKEN`, `MOMO_CHAT_URL`, `MOMO_CHAT_SECRET` and `MOMO_CHAT_APP_ORIGIN` to Vercel Production. The app origin is `https://momo-ten-pied.vercel.app` unless the canonical production domain changes.
-5. Deploy the reviewed commit and use disposable seats to check session, one-click join, host controls, gateway, chat reconnect, queue/suspension and deletion. Do not send invitations.
-6. Record live latency, errors, D1 usage and Durable Object behavior before broad promotion.
+1. Completed: merge `d06df2d`, record a D1 restore bookmark, apply `0005` through `0010`, verify the ledger and restore the public API.
+2. Completed: deploy `momo-db-gateway` and `momo-chat` with separate 48-byte random credentials and an exact chat origin; add the five server-only Vercel settings; redeploy `d06df2d`.
+3. Completed smoke: authenticated gateway read, live device seat/profile, successful chat-ticket requests, Worker activity and test-seat deletion. Brief samples showed gateway health p50 139 ms/p95 397 ms (12 requests) and public community GET p50 1322 ms/p95 1462 ms (8 requests), with no failed responses. These do not establish hosted capacity.
+4. Remaining before broader promotion: verify one-click wish/gang access, host controls, reconnect, queue/suspension and deletion in a separate disposable hosted environment; record sustained latency, errors, D1 usage and Durable Object behavior. Do not send invitations or create fake public events.
 
 Before a large Reddit launch, add Cloudflare edge rate limits and Turnstile, add server-side image decode/re-encode or disable uploads, configure redacted monitoring and practice D1 restore. The current recommendation is a controlled pilot of at most 100 active seats after the production smoke check.
 
@@ -97,7 +99,7 @@ The first real meetup still needs a venue with full address, date, named host, c
 
 ## Working-tree care
 
-The owner has separate uncommitted creative work in `docs/video-series.md`, the untracked `docs/video-*.md` files, `assest/` and `output/`. Preserve it. Do not include it in the production-readiness commit unless the owner explicitly asks.
+Preserve unrelated creative work in `docs/video-series.md`, `docs/video-*.md`, `assest/` and `output/`. Keep it out of continuation commits unless the owner explicitly asks.
 
 ## Code map
 
@@ -109,7 +111,7 @@ The owner has separate uncommitted creative work in `docs/video-series.md`, the 
 - `app/sidekicks.tsx`, `app/sidekicks/page.tsx`: Sidekicks application
 - `app/api/community/route.ts`, `app/api/admin/route.ts`: member and host APIs
 - `lib/momo-server.ts`, `lib/member-access.ts`: device identity and access gates
-- `cloudflare/db-gateway/`, `cloudflare/chat/`: inactive production Worker candidates
+- `cloudflare/db-gateway/`, `cloudflare/chat/`: active production Workers; keep credentials private
 - `db/schema.ts`, `drizzle/`, `lib/migrations.generated.ts`: schema and preserved migration chain
 - `docs/PRODUCTION_REQUIREMENTS.md`: exact requirements and status
 - `docs/SECURITY_REVIEW.md`: threats, controls and remaining production work

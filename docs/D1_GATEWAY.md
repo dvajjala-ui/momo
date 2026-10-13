@@ -1,8 +1,8 @@
 # Native D1 gateway candidate
 
-`cloudflare/db-gateway/worker.mjs` is a server-to-server Worker with a native binding to `momo-community`. The candidate is implemented and locally tested; no Worker, new credential or production runtime setting has been created for it yet.
+`cloudflare/db-gateway/worker.mjs` is a server-to-server Worker with a native binding to `momo-community`. It was deployed on 2026-10-13 with a separate private credential and enabled for Vercel Production after owner approval.
 
-Production was inspected read-only on 2026-10-13. D1 `momo-community` exists and its migration ledger contains `0000` through `0004`. The Cloudflare Workers list is empty, and Vercel has the existing D1/R2 credentials but no `MOMO_DB_GATEWAY_URL` or `MOMO_DB_GATEWAY_TOKEN`. Apply `0005` through `0010` and activate this gateway only as part of the reviewed release sequence.
+Production D1 `momo-community` has migrations `0000` through `0010`. The Worker runs at `https://momo-db-gateway.contact-dwarkesh.workers.dev`; Vercel Production has both `MOMO_DB_GATEWAY_URL` and `MOMO_DB_GATEWAY_TOKEN`. The credential is hidden in private settings and absent from Git. The reviewed `d06df2d` Vercel source was redeployed after configuration.
 
 When configured, Vercel's database adapter prefers this gateway over the Cloudflare management API. Momo's authenticated routes still decide member/host permissions. The gateway token permits application-data reads and writes in the bound Momo database, so treat it like a database password. It must exist only in the Worker secret and Vercel server settings. Never expose it with a `NEXT_PUBLIC_` variable or send it to the browser.
 
@@ -17,22 +17,20 @@ node --experimental-strip-types tests/storage.integration.mjs
 
 The disposable Miniflare suite covers unauthorized access, health, input limits, bound values, native batch rollback, private errors, no automatic write retries and 50 simultaneous joins competing for ten seats. This is a correctness smoke check, not production load or latency evidence.
 
-## Activation after candidate review
+## Activation and verification
 
-1. Review the Worker configuration. Its D1 binding points to the existing production `momo-community` database. Use disposable resources for any hosted preview that accepts test writes.
-2. Create a cryptographically random secret with at least 32 bytes and configure `MOMO_DB_GATEWAY_TOKEN` privately in the Worker and Vercel. Do not put its value in a command argument, screenshot, chat or Git. An owner-operated `wrangler secret put MOMO_DB_GATEWAY_TOKEN --config cloudflare/db-gateway/wrangler.jsonc` prompt keeps entry private.
-3. Deploy the reviewed Worker with `wrangler deploy --config cloudflare/db-gateway/wrangler.jsonc`. This is a production infrastructure step; it has not been run by the candidate tests.
-4. Save its HTTPS origin as `MOMO_DB_GATEWAY_URL` in an ignored local environment file along with the token, then run the read-only probe:
+1. Completed: reviewed the binding, deployed the Worker and generated a separate 48-byte random bearer credential in ignored local files. The Worker and Vercel Production received the same credential through stdin, without a command argument or Git commit. Temporary local credential files were removed after verification. The initial Wrangler 4.92 deployment failed while creating its public route; a deployment with Wrangler 4.149 succeeded.
+2. Completed: saved its HTTPS origin as `MOMO_DB_GATEWAY_URL`, redeployed Vercel and ran the read-only probe while the ignored temporary environment file existed:
 
 ```sh
 node --env-file=.env.gateway.local --experimental-strip-types scripts/probe-db-gateway.mjs
 ```
 
-5. Add both settings to the intended Vercel environment. Preserve the Cloudflare credentials privately for explicit migrations; the runtime prefers the gateway while its settings are present. Apply the reviewed pending schema migrations before deploying routes that need them.
-6. Verify the deployed member, host, private-message and deletion flows with disposable data. Record the release SHA and remove test records through the app. Measure real request latency before making a speed claim.
+3. The authenticated read passed without reading participant data. Twelve direct health requests measured p50 139 ms and p95 397 ms with no errors; Cloudflare showed 106 gateway invocations and zero execution errors at inspection. A disposable Vercel device seat/profile and deletion passed through the live app. These are brief smoke observations, not a sustained capacity or speed claim.
+4. Remaining: verify hosted wish/gang, host and private-message flows in a separate disposable environment; measure sustained request latency, D1 usage and failure recovery. Preserve Cloudflare management credentials privately for explicit migrations.
 
 ## Remaining messaging work
 
-This gateway removes runtime database traffic from the management-API path once activated. It does not replace chat polling itself. An optional Durable Object per room with WebSocket delivery, signed room authorization, permission revalidation, idempotent sends and reconnect history is now built and locally tested. It remains disabled until reviewed deployment and private settings. See `REALTIME_CHAT.md` for its 500-client local probe and the remaining hosted capacity checks.
+This gateway removes configured Vercel runtime database traffic from the management-API path. It does not replace chat polling itself. A Durable Object per room with WebSocket delivery, signed room authorization, permission revalidation, idempotent sends and reconnect history is also deployed; see `REALTIME_CHAT.md` for the local fanout probe and remaining hosted capacity checks.
 
 Cloudflare documents native [D1 prepared statements and batches](https://developers.cloudflare.com/d1/worker-api/d1-database/). Its [D1 free allowances](https://developers.cloudflare.com/d1/platform/pricing/) and [Worker request allowances](https://developers.cloudflare.com/workers/platform/pricing/) still apply; a native binding does not make usage unlimited.

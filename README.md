@@ -21,7 +21,7 @@ Two targets share one codebase:
 | Target | Build | Sign-in | Storage |
 |--------|-------|---------|---------|
 | Site (Cloudflare Workers via Vinext) | `pnpm run build` | Pseudonymous device session cookie; host via server settings | D1 `DB`, R2 `BUCKET` |
-| Vercel (`vercel.json`) | `node scripts/embed-migrations.mjs && next build` | Pseudonymous device session cookie; host via `HOST_PASSCODE` | Cloudflare D1 REST + private R2 S3 when configured; alternative Turso/libSQL; otherwise SQLite in `/tmp` ("preview mode", resets) |
+| Vercel (`vercel.json`) | `node scripts/embed-migrations.mjs && next build` | Pseudonymous device session cookie; host via `HOST_PASSCODE` | Native D1 gateway and private R2 S3 in Production; D1 management API remains the explicit migration path. Alternative Turso/libSQL or temporary SQLite `/tmp` can be configured for other environments. |
 
 On Vercel, `cloudflare:workers` is aliased to `lib/vercel-cloudflare-env.ts`. Browser identity headers and browser-provided roles are never trusted on either target. D1 migrations are applied explicitly with `scripts/cloudflare-migrate.mjs`; Turso and local SQLite apply them automatically from `lib/migrations.generated.ts`. Preserve applied migrations. Secrets go in runtime settings, never in Git (see `.env.example`).
 
@@ -29,7 +29,7 @@ Local SQLite is for development. Vercel's `/tmp` fallback is temporary, even whe
 
 ## Still needed for launch
 
-- Cloudflare D1/private R2 and host login are live and verified. The current candidate needs additive migrations `0005` through `0010`, the D1 gateway and realtime Workers, private runtime settings and a production smoke check.
+- Cloudflare D1/private R2 and host login are live. Migrations `0005` through `0010` repaired the merged build's missing-schema 503 on 2026-10-13. The D1 gateway and realtime Workers are deployed with private Production settings; a disposable seat/profile and chat access passed a live smoke check and were deleted. Hosted wish/gang, host-control, reconnect and sustained-load checks remain.
 - Add Cloudflare edge rate limits and Turnstile before broad promotion. Re-encode uploads server-side or keep them unavailable for a broad public pilot.
 - Authorize the dedicated Gmail sender and verify a real confirmation/invitation with an owner-approved test inbox. Sending is disabled until then.
 - Future WhatsApp: the real sender, template and public webhook, plus live ownership-proof testing. No real WhatsApp invitation has been sent.
