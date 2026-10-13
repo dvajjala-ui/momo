@@ -28,6 +28,6 @@ jobs:
       - run: node --check tests/hosted-image-access-probe.mjs
       - run: pnpm exec eslint tests/hosted-turnstile-probe.mjs tests/hosted-image-access-probe.mjs
       - run: node --experimental-strip-types tests/seat-turnstile.integration.mjs
-      - run: node tests/image-sanitizer.integration.mjs
+      - run: node --experimental-strip-types tests/image-sanitizer.integration.mjs
       - run: node tests/storage.integration.mjs
       - run: pnpm lint
