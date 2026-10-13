@@ -2,23 +2,24 @@
 
 Last reviewed: 2026-10-13
 
-This document is the security checklist for the community site, D1 gateway and realtime chat. It records controls that exist in source, checks that must pass before production, and operating work that still needs an owner or deployed Cloudflare account. It does not claim the site is impossible to attack.
+This document is the security checklist for the community site, D1 gateway and realtime chat. It records controls that exist in source, hosted checks that have passed, and deployment/operating work that still blocks a broad public launch. It does not claim the site is impossible to attack.
 
 ## Threat model
 
-The public site accepts pseudonymous device sessions, nicknames, wishes, chat messages, optional profile images, invitation contact details and sidekick applications. A host account can see contact details, moderate members and publish events. The highest impact failures are:
+The public site accepts pseudonymous device sessions, nicknames, wishes, chat messages, optional profile images, invitation contact details and sidekick applications. A host account can see contact details, moderate members and publish events. The highest-impact failures are:
 
 - a visitor gaining host permissions or reading another member’s private data
 - cross-site requests acting with a member or host cookie
-- stored script or markup executing through a nickname, wish, message, caption or event
-- SQL injection, oversized input or high request volume exhausting D1 or a Worker
+- stored script/markup executing through a nickname, wish, message, caption or event
+- SQL injection, oversized input or request volume exhausting D1/Workers
 - chat flooding, replayed sends, forged WebSocket tickets or access continuing after suspension
-- malicious image uploads, public exposure of private profile photos or retained location metadata
+- malicious image uploads, public exposure of private profile photos or retained image metadata
 - email/WhatsApp abuse, duplicate sending or spoofed delivery callbacks
 - leaked deployment secrets, participant contact data or production database contents
-- fake accounts and coordinated disruption during a public Reddit launch
+- fake accounts and coordinated disruption during a large public share
+- monitoring, backup or incident tooling leaking more participant data than the product itself
 
-The [OWASP Top 10](https://top10.owasp.org/2021/) is the baseline for access control, injection, authentication, configuration, dependency, logging and SSRF review. Chat-specific controls follow the [OWASP WebSocket Security Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/WebSocket_Security_Cheat_Sheet.html).
+The OWASP Top 10 is the baseline for access control, injection, authentication, configuration, dependency, logging and SSRF review. Chat-specific controls follow the OWASP WebSocket Security Cheat Sheet.
 
 ## Controls implemented in source
 
@@ -26,121 +27,181 @@ The [OWASP Top 10](https://top10.owasp.org/2021/) is the baseline for access con
 
 - Every deployment uses a random 256-bit device token in an HttpOnly, SameSite cookie. Browser identity headers and browser-provided roles are ignored.
 - The member ID is a one-way hash of the device token. The token is not stored in local storage and is not returned in API JSON.
-- Host access requires the server-only `HOST_PASSCODE`. Its proof is bound to the current device token, so a host cookie copied to another device token is invalid.
+- Host access requires the server-only `HOST_PASSCODE`. Its proof is bound to the current device token, so a host cookie copied to a different device token is invalid.
 - Host passcodes must be at least 12 characters. Comparisons hash both inputs and avoid an early character mismatch.
-- Host login attempts are counted per device seat in D1, delayed after a mismatch and blocked after six attempts in ten minutes. Cloudflare edge rate limiting is still recommended before a broad public launch.
-- All host APIs call `isAdmin()` on the server. Member IDs and `admin` values sent in request JSON are ignored.
+- Host login attempts are counted per device seat in D1, delayed after a mismatch and blocked after six attempts in ten minutes.
+- All host APIs call server-side `isAdmin()`. Member IDs and `admin` values sent in request JSON are never trusted as authorization.
 - The public navigation does not expose the host link. The direct owner URL is `/host`.
 
-This follows OWASP’s guidance that session identifiers be random and protected with Secure, HttpOnly and SameSite attributes. See the [Session Management Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html).
+### Turnstile and seat forgery
+
+- PR #10 merged fail-closed new-seat Turnstile support and `docs/TURNSTILE_SETUP.md`.
+- When `TURNSTILE_ENABLED=true`, a new/unsigned seat is accepted only after server-side Siteverify succeeds.
+- The verifier checks Cloudflare success, the exact request hostname and the expected `seat` action.
+- The browser receives only the public site key. The Turnstile secret and separate `MOMO_SEAT_SIGNING_SECRET` remain server-only.
+- Authenticated requests require a signed seat proof while Turnstile is enabled, so a browser cannot invent a `momo_sid` cookie to bypass the challenge.
+- Missing enabled settings fail closed. Invalid/expired/replayed tokens do not create a seat.
+- Turnstile remains disabled in production until the real production widget/settings and hosted flows are verified. Source readiness is not the same as activation.
 
 ### Cross-site requests and browser isolation
 
-- Every state-changing route checks that `Origin` exactly matches the request URL origin.
-- State changes use POST. Public GET routes do not mutate state.
-- Cookies are host scoped, HttpOnly, SameSite=Lax, and Secure on HTTPS.
+- State-changing routes validate `Origin` against the request origin.
+- State changes use POST. Public GET routes do not mutate application state.
+- Cookies are host-scoped, HttpOnly, SameSite=Lax and Secure on HTTPS.
 - Global response headers set a Content Security Policy, deny framing, disable MIME sniffing, restrict browser permissions, use a same-origin opener policy and enable HSTS on HTTPS deployments.
-- The CSP blocks plugins, foreign form actions, foreign base URLs and framing. It allows the external font and Wikimedia image hosts used by the current UI and HTTPS/WSS connections required by deployments.
-
-Origin checking matches the defense described in the [OWASP CSRF Prevention Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html). Header choices are based on the [OWASP HTTP Headers Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/HTTP_Headers_Cheat_Sheet.html) and [CSP Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Content_Security_Policy_Cheat_Sheet.html).
+- CSP limits plugins, foreign form actions, base URLs and framing while allowing the specifically required font/image/challenge/connect sources.
 
 ### Input, output and database safety
 
-- API bodies are read with hard byte limits before JSON parsing.
-- Text fields have server-side minimum and maximum lengths. Numbers and identifiers are validated before use.
-- SQL values use D1 prepared-statement bindings. User text is never concatenated into SQL.
-- React renders user content as text. User HTML is not accepted. The one `dangerouslySetInnerHTML` use renders application-owned food SVG strings.
-- Nicknames have a normalized, durable claim table. A duplicate cannot be created by racing two browsers; alternatives are returned while the typed value stays in the form.
-- Group capacity uses an atomic `INSERT ... SELECT` check, which prevents concurrent joins from overfilling a wish.
-- One member can have at most three active group joins. The API enforces this for both creating and joining a wish.
-- The 100-seat count is derived from D1. Waiting status and counts are real; the product does not invent members or scarcity.
+- API bodies are read with hard byte limits before parsing.
+- Text, numeric values and identifiers have server-side validation/length bounds.
+- SQL values use D1 prepared-statement bindings. User text is not concatenated into SQL.
+- React renders user content as text. User-provided HTML is not accepted.
+- Nicknames have a normalized durable claim table, so racing clients cannot create duplicate normalized nicknames.
+- Wish capacity uses an atomic insert/select check to prevent concurrent overfill.
+- One member can have at most three active group joins; wish creation is also limited.
+- The 100-seat pilot count is derived from D1. The site does not invent participants or scarcity.
 
 ### Chat and realtime service
 
-- Chat tickets are HMAC signed, expire after 30 seconds, are restricted to the configured app origin and include a server-derived member and host role.
-- The WebSocket handshake checks the browser origin and ticket. API-to-Worker calls use a separate secret in an Authorization header.
-- Room access is checked before history, before sending, after history reads and again for connected recipients.
-- Group rooms require a current wish join. Private threads require shared confirmed attendance, mutual opt-in and no block.
-- Queued or suspended seats cannot enter chat. Revocation closes a realtime connection on the next authorization check.
-- Message IDs are derived from member and client IDs. Receipts make retries idempotent and reject a reused ID with different content.
-- Durable per-member send budgets allow ten saved messages per ten seconds. WebSocket frame budgets, payload limits, connection limits and internal queue limits stop unbounded fanout.
-- Persistence is authoritative. A broadcast failure does not turn a saved message into a failed write; reconnect history recovers it.
-- PR #11 (`1f1f227`) separates read and write authorization so an active signed-in or joined seat may read its available table before profile setup, while `persistChat` still requires nickname, age and gender before the first send. Recipient fanout is revalidated from seat membership/control state instead of requiring a profile row. A focused disposable D1 regression and the full realtime integration suite passed before merge.
-
-The realtime Worker uses Cloudflare’s hibernation API. Cloudflare documents a platform maximum of 32,768 hibernating WebSockets per Durable Object, while practical limits depend on CPU and memory. The application intentionally caps one room at 1,000 sockets and two sockets per member. See [Cloudflare Durable Object WebSocket state](https://developers.cloudflare.com/durable-objects/api/state/) and [Durable Object FAQs](https://developers.cloudflare.com/durable-objects/reference/faq/).
+- Chat tickets are HMAC-signed, expire quickly, are origin-bound and contain a server-derived member/host role.
+- WebSocket handshake checks browser origin and ticket. API-to-Worker calls use a separate server secret.
+- Room access is checked before history, before sending and for connected recipients.
+- Group rooms require a current wish join. Private threads require shared attendance, mutual opt-in and no block.
+- Queued or suspended seats cannot use chat. Access changes revoke connected recipients when the server revalidates them.
+- Message/client IDs and receipts make retries idempotent and reject reused IDs with conflicting content.
+- Per-member send budgets, WebSocket frame/payload/connection limits and Durable Object queue limits bound abuse.
+- Persistence is authoritative. Reconnect/history can recover a saved message after a broadcast problem.
+- PR #11 (`1f1f227`) separated read and write authorization correctly: active signed-in/joined seats can read/history/fanout before profile setup, while nickname/age/gender are still required before the first send.
+- `tests/realtime.integration.mjs` and the focused read-before-profile regression passed before merge.
 
 ### Uploads and participant data
 
-- Upload requests are limited to 3.2 MB and accepted files to 3 MB.
-- The server checks PNG, JPEG and WebP magic bytes instead of trusting the filename or browser MIME type.
+- Upload requests are limited to about 3.2 MB and accepted image files to 3 MB.
+- PNG/JPEG/WebP signatures are checked instead of trusting filename/MIME alone.
 - Gallery uploads require host access. Profile uploads require an existing profile and explicit permission confirmation.
-- Published gallery media is public. Profile media requires a valid member session and uses `private, no-store` caching.
-- Replaced and deleted media is removed from R2.
-- The current source candidate pauses new uploads unless R2, the gateway settings and the explicit server-only `MOMO_IMAGE_UPLOADS_ENABLED=true` flag are present. Existing profile and gallery media remains readable.
-- When enabled, the upload route sends accepted bytes to the authenticated gateway's Cloudflare Images binding. The gateway decodes the image, enforces 4096-pixel side and 12-megapixel limits, scales it to at most 2048 pixels per side, and stores only re-encoded WebP bytes. Cloudflare documents that transformed WebP output discards metadata, including EXIF location data. The route and gateway reject unexpected output types and oversized output. See [Cloudflare Images transformations](https://developers.cloudflare.com/images/optimization/binding/) and [metadata behavior](https://developers.cloudflare.com/images/optimization/features/).
+- Published gallery media is public. Profile media requires a valid member session and uses private/no-store caching.
+- Replaced/deleted media is removed from R2.
+- New uploads are fail-closed unless R2, the reviewed gateway/image settings and `MOMO_IMAGE_UPLOADS_ENABLED=true` are all configured.
+- When enabled, the authenticated gateway decodes the image, checks decoded dimensions/pixels, scales it and stores only re-encoded WebP output.
+- A disposable hosted gateway using a real Cloudflare Images binding already rejected unauthorized/invalid input, returned WebP and removed a test metadata marker.
+- That hosted smoke proves the processor path works, not that production uploads should already be enabled. The intended production Images/private-media path still needs its final smoke before the flag is enabled.
 
-A separate disposable hosted gateway using the real Cloudflare Images binding has now passed the processor smoke: unauthorized and invalid input were rejected, valid input returned WebP, and a test metadata marker was absent from the output. This proves the hosted binding path can sanitize a disposable upload, but it does not prove the intended production gateway has the reviewed binding or that production private-media rules are correct. Keep production uploads paused until those two checks are made, then enable the server-side flag deliberately. The [OWASP File Upload Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/File_Upload_Cheat_Sheet.html) remains the reference.
+### Invitations and outbound providers
 
-### Invitations and outbound services
+- Email and WhatsApp sending fail closed until provider/readiness variables are present.
+- Email ownership verification and send records prevent blind/duplicate sending.
+- WhatsApp remains disabled until sender/template/callback/phone verification are deliberately ready.
+- WhatsApp callbacks require the configured signature and phone-number identity; delivery state cannot move backward.
+- Preview/readiness actions do not send. The host must explicitly send reviewed invitations.
+- Server-side outbound destinations are deployment-controlled; browsers cannot provide arbitrary fetch destinations.
+- Current production-readiness tests do not contact real email or WhatsApp recipients.
 
-- Email and WhatsApp sending fail closed until all readiness variables are present.
-- Email ownership must be confirmed. Send records prevent duplicate sends for the same address and event.
-- WhatsApp sending remains disabled until the sender, approved template, public callback and phone verification are genuinely ready.
-- WhatsApp callbacks require a valid Meta signature and matching phone-number ID. Delivery states cannot move backward.
-- Preview and readiness actions do not send. The host must explicitly send a reviewed invitation.
-- Server-side outbound destinations come from deployment configuration and are validated. The browser cannot supply an arbitrary fetch URL. If new URL-fetch features are added, use a destination allowlist as described in the [OWASP SSRF Prevention Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Server_Side_Request_Forgery_Prevention_Cheat_Sheet.html).
+## Abuse and privacy controls
 
-## Abuse controls and privacy limits
+- Wish creators remain anonymous on the public wall; server ownership is retained for deletion/moderation.
+- Reports, blocks, waiting queue and host suspension are enforced server-side.
+- Device seats are pseudonymous, not verified identity. Clearing storage/using another browser can create another seat.
+- IP addresses are not treated as permanent user identity. Shared networks, carrier NAT, VPNs and address changes make IP-as-account both inaccurate and easy to evade.
+- Product abuse controls include the truthful 100-seat pilot, queue, three-group limit, chat send budgets, host moderation and optional Turnstile.
 
-- Wishes and their creators are anonymous on the public wall. The server keeps the creator ID for deletion and moderation.
-- Reports, blocks, host suspension and waiting-queue controls are enforced on the server.
-- A device seat is pseudonymous, not verified identity. Clearing storage or using another browser creates another seat. IP addresses are not treated as permanent identity because shared networks, carrier NAT, VPNs and changing addresses would block real people and still not stop a determined attacker.
-- The 100-seat pilot, queue, three-group limit, chat rate limit and host moderation reduce casual fake-account abuse. Stronger controls for a public Reddit launch should use Cloudflare Turnstile on seat creation and edge rate limits on session, profile, wish, join, upload and host-login endpoints.
-- Pull request #10 merged fail-closed new-seat Turnstile source and `docs/TURNSTILE_SETUP.md`. It remains disabled until the real widget/site key, secret, enable flag and hosted seat-creation flow are configured and verified. Edge rate-limit rules remain separate production work.
-- Age and gender are self-entered at first chat, stored with the profile and shown to signed-in chat participants. They do not grant or deny access. The site never infers gender from a face or collects Aadhaar. Account deletion removes these profile fields with the rest of the profile.
+## Edge rate limiting
 
-## Production checks still required
+The current public application hostname is `momo-ten-pied.vercel.app`, so requests terminate at Vercel before the application. Therefore the first perimeter WAF/rate-limit rule must be configured in **Vercel Firewall**, not Cloudflare WAF. Cloudflare WAF becomes the perimeter only if a future custom domain is actually proxied through Cloudflare.
 
-These block a broad public launch until they are completed and recorded:
+PR #14 added `docs/EDGE_RATE_LIMIT_SETUP.md` and `tests/hosted-firewall-probe.mjs`:
 
-- Completed 2026-10-13: applied migrations `0005` through `0010` to production D1 after recording a restore bookmark, then verified the migration ledger and public API recovery.
-- Completed 2026-10-13: deployed the reviewed D1 gateway and realtime Worker to the intended Cloudflare account with separate 48-byte random credentials and the exact site origin.
-- Completed 2026-10-13: disposable hosted Images smoke rejected unauthorized/invalid files, returned WebP and removed a test metadata marker.
-- Completed 2026-10-13: disposable hosted realtime smoke connected 10 clients, delivered every test message, reconnected and recovered history.
-- Completed 2026-10-13: a disposable D1 Time Travel drill restored a deliberately changed test record and preserved all 11 migration-ledger entries.
-- Completed 2026-10-13: PR #11's focused read-before-profile D1 regression and full realtime integration suite passed in a temporary branch-only runner with a 20-client local fanout; the cleaned PR head also passed the Vercel preview build. The temporary workflow was removed after verification.
-- Run a longer hosted fanout/reconnect probe in a separate disposable environment. Record p50, p95, error rate, D1 reads/writes and Durable Object overload/quota behavior before broader promotion; the 10-client smoke is correctness evidence, not a capacity result.
-- Run one combined hosted wish/gang + host-control + queue/suspension/deletion scenario using disposable seats only.
-- Configure and verify the real production Turnstile widget/settings, then add Cloudflare edge rate-limit rules before posting to a large public community.
-- Deploy the reviewed Images binding on the intended production gateway and smoke-test private-profile access before enabling `MOMO_IMAGE_UPLOADS_ENABLED`. If any check fails, keep uploads unavailable for the public pilot.
-- Add a monitored error/log destination with contact data redaction. Alert on host login failures, access denials, moderation spikes, D1 overload/quota errors and outbound invitation failures.
-- Establish a written D1 retention/restore schedule. The restore mechanics were exercised on disposable D1; the operating schedule and responsible owner are still missing. Check current [D1 limits](https://developers.cloudflare.com/d1/platform/limits/) and [D1 pricing](https://developers.cloudflare.com/d1/platform/pricing/) before launch.
-- Rotate a secret immediately if it appears in a command, screenshot, Git history, chat transcript or client response.
+- the recommended starting pilot rule is intentionally coarse and IP-based only as a transient firewall counter, never as account identity
+- the rule should be observed first, then enforced
+- the probe refuses the known production hostname and issues only read-only requests against a disposable preview
+- production rate limiting is not marked complete until the actual perimeter rule is active and a controlled over-limit request is observed returning the intended mitigation/429 behavior
 
-## Candidate verification recorded
+## Security observability and privacy
 
-The 2026-10-13 production candidate passed TypeScript, repository lint, the Next production build and the Vinext/Cloudflare build. Disposable integration runs passed for community/member controls, invitation providers, chat tickets, the native D1 gateway, live chat, polling fallback, realtime reconnect and storage. Provider tests use reserved addresses and intercepted transports; they sent no real email or WhatsApp message.
+PR #13 (`3bc6600`) added structured `momo-security` events for:
 
-A local browser run of the built Worker verified signed-out seat creation, one-click wish join, direct gang chat, deferred nickname setup, seat exit, sidekick application, private host login and administration of both named and unnamed seats. A fresh page recorded no console errors after internal link prefetch was disabled for the Vinext runtime.
+- cross-origin mutation blocks
+- failed Turnstile seat verification
+- host-login failures
+- host-login rate limiting
+- unauthorized admin API access
 
-The 500-client local realtime fanout delivered one persisted message exactly once to every client. Measured local network latency was p50 33 ms, p95 42 ms and max 43 ms. This was one fanout on Windows/Miniflare with disposable data. It is useful regression evidence and does not predict sustained hosted capacity, mobile latency or Cloudflare quota usage.
+The event schema intentionally omits query strings, IP addresses, cookies, Authorization headers, member IDs, nicknames, contact data, message/wish content, host credentials and Turnstile tokens. `tests/ops-log.test.mjs` explicitly attempts to leak those values and verifies they do not appear.
 
-Production D1 now has migrations `0000` through `0010`. Both Workers, separate credentials and all five Vercel Production settings are active; `d06df2d` was redeployed after configuration. An authenticated gateway read and disposable live seat/profile/chat-access/deletion flow passed. Vercel logs showed successful `/api/chat` responses, and Cloudflare's dashboard showed 106 gateway and 10 chat invocations with zero Worker execution errors during the brief inspection. Twelve direct gateway health requests measured p50 139 ms/p95 397 ms, and eight public community reads measured p50 1322 ms/p95 1462 ms, with no failed responses. These small samples do not establish sustained capacity or mobile experience. No public wish, message, event or invitation was created.
+PR #15 (`2728e44`) added an optional persistent Axiom sink and `docs/SECURITY_MONITORING_SETUP.md`:
 
-Additional disposable hosted follow-up on 2026-10-13 verified the real Images binding path, a 10-client WebSocket delivery/reconnect/history smoke, and D1 Time Travel recovery. PR #11 then passed its focused read-before-profile regression, the full realtime integration suite and a Vercel preview before merge. These checks close specific correctness questions but do not replace sustained capacity testing, production Turnstile/rate-limit activation, monitoring, or the final combined host/wish lifecycle check.
+- external delivery is **off by default**
+- only HTTPS Axiom edge ingest hosts ending in `.edge.axiom.co` are accepted; arbitrary monitoring URLs are rejected
+- token/dataset/domain are server-only settings
+- noisy anonymous access-denial events are sampled before external delivery to reduce request amplification
+- external delivery has a short timeout, no retries, and fails open for the user/auth/moderation flow
+- the sink receives only the already-redacted security record, not arbitrary runtime logs
+- `tests/hosted-security-sink-probe.mjs` can send exactly one redacted test event without calling the Momo app, D1 or R2
+
+Production persistent monitoring is still pending until a real dataset/ingest-only token/alerts are configured and the one-event probe is observed successfully.
+
+## D1 recovery and retention
+
+A disposable D1 Time Travel drill already restored a deliberately changed test record while preserving all 11 migration-ledger entries.
+
+PR #14 added `docs/D1_RECOVERY_RUNBOOK.md`:
+
+- record a Time Travel bookmark before production schema migrations, bulk repair or destructive data work
+- verify public/host reads and the migration ledger after persistence changes
+- run a disposable recovery drill every 7 days while the public pilot is active so the routine remains exercised within the Free-plan recovery window
+- never automate/unattended production restore; the selected bookmark/timestamp requires an explicit owner decision
+- record the current bookmark before restoring so a bad restore can itself be reversed
+- do not create routine personal-laptop database exports containing participant data
+- define privacy/access/deletion rules before adding long-term exports beyond Time Travel
+
+The source-side operating schedule is now defined. The recurring drill becomes an active operational obligation once the live pilot starts.
+
+## Hosted verification completed
+
+Completed on 2026-10-13 without using real participant content:
+
+- production migrations through `0010` were applied after a restore bookmark and the migration ledger was checked
+- production D1 gateway and realtime Worker were deployed with separate secrets and exact app origin
+- authenticated gateway read and disposable seat/profile/chat/deletion smoke passed
+- real Cloudflare Images binding sanitization smoke passed in a disposable gateway
+- 10-client hosted WebSocket delivery/reconnect/history smoke passed
+- disposable D1 Time Travel recovery drill passed
+- PR #11 read-before-profile regression and full realtime suite passed
+- redacted security event privacy test passed
+- Turnstile integration suite against the built candidate passed
+- community/admin integration suite passed after the optional monitoring sink changes
+- production builds/lint and cleaned Vercel previews passed for the relevant source PRs
+
+## Hosted checks still required
+
+These are the material technical blockers before a broad public promotion:
+
+1. **Longer isolated hosted chat/load run:** execute `tests/hosted-chat-probe.mjs` in a disposable environment and record p50/p95, error rate, reconnect behavior and D1/Durable Object overload/quota observations. The existing 10-client smoke is correctness evidence only.
+2. **Combined isolated hosted lifecycle:** execute `tests/hosted-lifecycle-probe.mjs` against an isolated preview/database. It must prove one-click join, profile-less gang read, host queue/private note, suspension/restore and deletion cleanup together.
+3. **Production Turnstile:** configure the real production widget/site key, secret, seat-signing secret and enable flag; verify the Ghar, one-tap wish, Sidekicks and Host flows from desktop/mobile before activation.
+4. **Actual Vercel Firewall enforcement:** add the current-perimeter rule from `docs/EDGE_RATE_LIMIT_SETUP.md`, then use the disposable firewall probe to prove over-limit requests are mitigated without blocking ordinary flows.
+5. **Production image activation:** verify the reviewed Images binding/private-profile access on the intended production gateway, then deliberately enable `MOMO_IMAGE_UPLOADS_ENABLED`; otherwise leave uploads paused.
+6. **Persistent monitoring activation:** configure the reviewed security sink (or an equivalent privacy-preserving monitored destination), run the one-event probe, create the alerts and verify one controlled failed-host-login event.
+
+## Candidate verification and capacity statement
+
+The current recommendation remains a controlled pilot capped at **100 active seats**. This is an operating/product cap, not a claim that the system fails at 101.
+
+Local Miniflare fanout evidence: 500 clients received one persisted message exactly once; p50 33 ms, p95 42 ms and max 43 ms, zero misses for that tested fanout. A separate hosted 10-client smoke delivered all messages and recovered history after reconnect.
+
+Those results must not be advertised as a production concurrency ceiling. Hosted capacity depends on traffic mix, D1 query duration, Durable Object CPU/memory, network/mobile latency and platform quotas. The longer hosted probe above is required before making a stronger statement.
 
 ## Incident checklist
 
-1. Disable invitation sending and, if needed, realtime chat without deleting data.
-2. Preserve logs and note the first/last observed times, affected routes and request IDs.
-3. Suspend affected seats and rotate only the secrets that may be exposed.
-4. Check D1 audit, message, delivery and moderation records. Do not export unrelated participant data.
-5. Fix and test in an isolated environment, then deploy the smallest verified change.
-6. Tell affected people what happened, what data was involved and what action they should take. Avoid claims that cannot be supported by evidence.
-7. Record the cause, containment, recovery and a concrete prevention task in this document.
+1. Disable invitation sending and, if needed, realtime chat without deleting unrelated data.
+2. Preserve redacted logs and note first/last observed times, routes and safe request IDs.
+3. Suspend affected seats and rotate only secrets that may be exposed.
+4. Check D1 audit/message/delivery/moderation records without exporting unrelated participant data.
+5. Record the current D1 Time Travel bookmark before any restore or destructive recovery operation.
+6. Fix/test in an isolated environment and deploy the smallest verified change.
+7. Tell affected people what happened, what data was involved and what action they should take; avoid unsupported claims.
+8. Record root cause, containment, recovery and a concrete prevention task in this document/checklist.
 
-## Capacity statement
+## Launch position
 
-The product limit is 100 active pilot seats. It is a deliberate operating cap, not a claim that the platform fails at 101. Cloudflare states that each D1 database processes queries serially, so throughput depends on query duration; their example gives about 1,000 queries per second at 1 ms per query and 10 per second at 100 ms. Overload is queued and may eventually return an error. This means a local load result is evidence for the tested workload only, not a universal user count. See [Cloudflare D1 limits](https://developers.cloudflare.com/d1/platform/limits/).
-
-The current recommendation is a controlled pilot capped at 100 active seats. Do not advertise a concurrency figure from either the local 500-client fanout or the hosted 10-client smoke. Keep production uploads paused until the intended Images binding/private-media checks pass, and activate Turnstile plus edge rate limits before posting to a large public community.
+For a controlled pilot, the application source now has the main authorization, privacy, realtime, upload, recovery, monitoring and abuse-control mechanisms plus fail-closed deployment gates. A **large public Reddit-style share is still premature** until the six hosted/activation checks above are recorded as passing and the real first-event details in `docs/PRODUCTION_REQUIREMENTS.md` are confirmed.
