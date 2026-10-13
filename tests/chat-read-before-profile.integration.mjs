@@ -25,6 +25,7 @@ try{
   await db.prepare("INSERT INTO profiles(id,nickname,age,gender,created) VALUES('sender','Chai',24,'Test profile',1)").run();
   const wish=randomUUID(),room='w_'+wish;
   await db.prepare("INSERT INTO wishes(id,user_id,title,when_text,area,spots,status,created) VALUES(?,'sender','Read first','Sunday','Ahmedabad',5,'open',1)").bind(wish).run();
+  await db.prepare("INSERT INTO wish_joins(id,wish_id,user_id,created) VALUES(?,?,?,1)").bind(wish+':sender',wish,'sender').run();
   await db.prepare("INSERT INTO wish_joins(id,wish_id,user_id,created) VALUES(?,?,?,1)").bind(wish+':reader',wish,'reader').run();
 
   assert(await chatAccess(db,'weekend','reader',false),'a signed-in seat can read a public table before profile setup');
