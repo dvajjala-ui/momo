@@ -65,7 +65,7 @@ Origin checking matches the defense described in the [OWASP CSRF Prevention Chea
 - Message IDs are derived from member and client IDs. Receipts make retries idempotent and reject a reused ID with different content.
 - Durable per-member send budgets allow ten saved messages per ten seconds. WebSocket frame budgets, payload limits, connection limits and internal queue limits stop unbounded fanout.
 - Persistence is authoritative. A broadcast failure does not turn a saved message into a failed write; reconnect history recovers it.
-- Draft PR #11 separates read and write authorization so an active joined seat may read its available table before profile setup, while `persistChat` still requires nickname, age and gender before the first send. Recipient fanout is revalidated from seat membership/control state instead of requiring a profile row.
+- PR #11 (`1f1f227`) separates read and write authorization so an active signed-in or joined seat may read its available table before profile setup, while `persistChat` still requires nickname, age and gender before the first send. Recipient fanout is revalidated from seat membership/control state instead of requiring a profile row. A focused disposable D1 regression and the full realtime integration suite passed before merge.
 
 The realtime Worker uses Cloudflare’s hibernation API. Cloudflare documents a platform maximum of 32,768 hibernating WebSockets per Durable Object, while practical limits depend on CPU and memory. The application intentionally caps one room at 1,000 sockets and two sockets per member. See [Cloudflare Durable Object WebSocket state](https://developers.cloudflare.com/durable-objects/api/state/) and [Durable Object FAQs](https://developers.cloudflare.com/durable-objects/reference/faq/).
 
@@ -108,7 +108,7 @@ These block a broad public launch until they are completed and recorded:
 - Completed 2026-10-13: disposable hosted Images smoke rejected unauthorized/invalid files, returned WebP and removed a test metadata marker.
 - Completed 2026-10-13: disposable hosted realtime smoke connected 10 clients, delivered every test message, reconnected and recovered history.
 - Completed 2026-10-13: a disposable D1 Time Travel drill restored a deliberately changed test record and preserved all 11 migration-ledger entries.
-- Run the gateway, realtime, chat-ticket, community and invitation integration suites against the final built candidate without contacting real recipients. PR #11 adds a focused read-before-profile regression test that still needs execution on a connected runner before merge.
+- Completed 2026-10-13: PR #11's focused read-before-profile D1 regression and full realtime integration suite passed in a temporary branch-only runner with a 20-client local fanout; the cleaned PR head also passed the Vercel preview build. The temporary workflow was removed after verification.
 - Run a longer hosted fanout/reconnect probe in a separate disposable environment. Record p50, p95, error rate, D1 reads/writes and Durable Object overload/quota behavior before broader promotion; the 10-client smoke is correctness evidence, not a capacity result.
 - Run one combined hosted wish/gang + host-control + queue/suspension/deletion scenario using disposable seats only.
 - Configure and verify the real production Turnstile widget/settings, then add Cloudflare edge rate-limit rules before posting to a large public community.
@@ -127,7 +127,7 @@ The 500-client local realtime fanout delivered one persisted message exactly onc
 
 Production D1 now has migrations `0000` through `0010`. Both Workers, separate credentials and all five Vercel Production settings are active; `d06df2d` was redeployed after configuration. An authenticated gateway read and disposable live seat/profile/chat-access/deletion flow passed. Vercel logs showed successful `/api/chat` responses, and Cloudflare's dashboard showed 106 gateway and 10 chat invocations with zero Worker execution errors during the brief inspection. Twelve direct gateway health requests measured p50 139 ms/p95 397 ms, and eight public community reads measured p50 1322 ms/p95 1462 ms, with no failed responses. These small samples do not establish sustained capacity or mobile experience. No public wish, message, event or invitation was created.
 
-Additional disposable hosted follow-up on 2026-10-13 verified the real Images binding path, a 10-client WebSocket delivery/reconnect/history smoke, and D1 Time Travel recovery. These checks close specific correctness questions but do not replace sustained capacity testing, production Turnstile/rate-limit activation, monitoring, or the final combined host/wish lifecycle check.
+Additional disposable hosted follow-up on 2026-10-13 verified the real Images binding path, a 10-client WebSocket delivery/reconnect/history smoke, and D1 Time Travel recovery. PR #11 then passed its focused read-before-profile regression, the full realtime integration suite and a Vercel preview before merge. These checks close specific correctness questions but do not replace sustained capacity testing, production Turnstile/rate-limit activation, monitoring, or the final combined host/wish lifecycle check.
 
 ## Incident checklist
 
