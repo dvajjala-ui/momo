@@ -24,5 +24,5 @@ jobs:
           cache: pnpm
       - run: pnpm install --frozen-lockfile
       - run: node tests/ops-log.test.mjs
-      - run: node tests/seat-turnstile.integration.mjs
+      - run: node --experimental-strip-types tests/seat-turnstile.integration.mjs
       - run: pnpm lint
