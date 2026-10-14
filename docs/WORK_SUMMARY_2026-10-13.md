@@ -1,12 +1,14 @@
 # Momo work summary and next steps
 
-Updated: 2026-10-13. Repository: dvajjala-ui/momo. Work continues directly on main.
+Updated: 2026-10-14. Repository: dvajjala-ui/momo. Work continues directly on main.
 
 ## Current stage
 
 The product implementation is in place. Hosted pilot verification is now completed for requirements #13, #19 and #20 at the tested workload. Production security activation (#14) is partially complete; real event information (#10) remains pending.
 
-This is evidence for a controlled 100-seat pilot, not a promise of unlimited capacity or a complete production launch sign-off.
+This is evidence for a controlled 100-seat pilot, not a promise of unlimited capacity or a complete production launch sign-off. The owner prefers a low-friction seat flow, so production Turnstile activation is deferred.
+
+Without a new-seat challenge, automated seat creation and spam remain possible, especially across many IP addresses. The enforced Vercel API limit, 100-seat cap and host moderation reduce abuse but cannot eliminate it. Review this choice if real traffic shows abuse.
 
 ## What changed in this continuation
 
@@ -52,8 +54,9 @@ Source base: main 0e4e2de, plus the reviewed fixes described above. No real part
 | Delivery/errors | Zero missed or duplicate live messages; zero observed gateway, socket, server, unexpected-response or abnormal-close errors |
 | Isolated Vercel firewall burst | PASS: 130 GET requests in 28.727 seconds; 119 HTTP 200, one HTTP 429, ten verified HTTP 403/deny mitigations |
 | Production normal pages | Home, Join, Chat, Sidekicks, Host and public community API returned HTTP 200 |
+| Real preview Turnstile browser check, 2026-10-14 | PARTIAL/FAIL: an anonymous start required verification (428), a completed challenge opened a seat (200), and member access worked (200). A second anonymous request using the same captured token also returned 200, though a tokenless request still returned 428. An invalid token returned 403; a forged seat cookie returned 401. The test seat was deleted and signed out. Do not enable this path in production. |
 
-The lifecycle exercised host login, profile/wish creation, one-click unnamed join, gang reading before profile entry, host lookup, queue/private note, queued denial/restore, suspension denial/restore and account/wish cleanup. These are baseline runs before real Turnstile token verification; the protected combined flow remains part of #14 activation.
+The lifecycle exercised host login, profile/wish creation, one-click unnamed join, gang reading before profile entry, host lookup, queue/private note, queued denial/restore, suspension denial/restore and account/wish cleanup. These are baseline runs with Turnstile disabled. The real preview check exposed an unexpected replay acceptance, and the owner chose to defer production Turnstile because the visible human check adds friction.
 
 ### Provider measurements and their limits
 
@@ -68,7 +71,7 @@ The measured traffic was one room with one message every nine seconds, not a hea
 ## Basic application flow
 
 1. Visitor opens Ghar, browses the wish wall and joins a plan with one click.
-2. A device seat identifies the member. After Turnstile activation, new seats must pass the real challenge and receive signed seat proof.
+2. A device seat identifies the member. Production Turnstile is off by owner choice; the public API perimeter rule and app moderation are the active controls. The optional challenge path must not be activated until its replay failure is resolved.
 3. A joined member can read gang chat immediately; nickname, age and self-described gender are requested when they first send.
 4. Vercel routes the application API. The authenticated Cloudflare gateway persists D1 data; the chat Worker uses Durable Objects for WebSocket delivery and D1 for history.
 5. The private /host page manages named and unnamed seats: queue, restore, suspend, remove and send private in-site notes.
@@ -77,15 +80,16 @@ The measured traffic was one room with one message every nine seconds, not a hea
 
 ## Remaining work, in order
 
-1. Finish real Turnstile verification in a working browser: signed-seat acceptance, replay rejection, forged-cookie rejection and protected lifecycle. The in-app browser failed the preview challenge; this is not recorded as a passing real-token test.
-2. Create the separately approved Momo production widget after preview checks pass; configure its exact hostname and server-only settings, redeploy, then verify normal desktop/mobile seat flows.
-3. Complete Axiom token replacement/setup when the owner resumes it. Observe one redacted event, configure owner alerts and prove a controlled failed-host-login event before production activation. The current token was briefly visible in a tool result, so replace it before server use.
-4. Verify the intended Vercel production private-photo path before enabling MOMO_IMAGE_UPLOADS_ENABLED. The isolated Cloudflare path passed; the production flag remains off.
-5. Supply the real first-event date, exact Kitab Ghar address, named host, end time, capacity, full cost, moderation contact and emergency/exit plan. Confirmed: Ahmedabad, Gujarat; 6 pm; open reading/talking/socialising/exploring.
-6. Record final activation, remove disposable infrastructure/private test files, and begin the monitored 100-seat pilot. Keep email and WhatsApp sending separately gated.
+1. Keep production Turnstile off and do not create the production widget under the current low-friction product decision. If the owner later wants it, first reproduce and fix the preview replay result, then rerun the protected lifecycle and desktop/mobile flow.
+2. Complete Axiom token replacement/setup only when the owner resumes it. Observe one redacted event, configure owner alerts and prove a controlled failed-host-login event before production activation. The current token was briefly visible in a tool result, so replace it before server use.
+3. Verify the intended Vercel production private-photo path before enabling MOMO_IMAGE_UPLOADS_ENABLED. The isolated Cloudflare path passed; the production flag remains off.
+4. Supply the real first-event date, exact Kitab Ghar address, named host, end time, capacity, full cost, moderation contact and emergency/exit plan. Confirmed: Ahmedabad, Gujarat; 6 pm; open reading/talking/socialising/exploring.
+5. Record final activation, remove disposable infrastructure/private test files, and begin the monitored 100-seat pilot. Keep email and WhatsApp sending separately gated.
 
 ## Verification status
 
 Gateway, community, chat-ticket and read-before-profile integrations passed. TypeScript, repository lint, Vinext build and the serial Next Webpack production build passed during this continuation. Final narrow lint of all six changed gateway/probe JavaScript files passed before the push. Earlier local tooling stalls were resolved. Next and Vinext builds must run sequentially because both generate .next files.
+
+On 2026-10-14, the local seat Turnstile integration suite passed. The disposable browser replay result above supersedes its mocked-provider success for activation decisions. No tracked application code or production flag was changed during this check.
 
 No secret values, challenge tokens, host credentials or participant records belong in this document or Git.

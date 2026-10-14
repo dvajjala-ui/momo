@@ -8,7 +8,7 @@ The current known production app is `https://momo-ten-pied.vercel.app`.
 
 ## Latest execution results
 
-See [work summary and next steps](WORK_SUMMARY_2026-10-13.md). Isolated Cloudflare/Vercel baseline lifecycle, private media checks, 25/50/100-client hosted sampling and the Vercel perimeter policy are now verified. Resume with real preview Turnstile verification, production widget/private-photo checks, and Axiom sink/alerts; Axiom token setup is pending at the owner's request. Do not rerun completed destructive probes against production.
+See [work summary and next steps](WORK_SUMMARY_2026-10-13.md). Isolated Cloudflare/Vercel baseline lifecycle, private media checks, 25/50/100-client hosted sampling and the Vercel perimeter policy are now verified. Production Turnstile is deferred by the owner's low-friction product decision, and a 2026-10-14 disposable real-token replay check failed. Do not create or enable a production widget under this decision. Resume with production private-photo checks and Axiom sink/alerts only when the owner resumes token setup. Do not rerun completed destructive probes against production.
 
 ## What is already done
 
@@ -54,7 +54,7 @@ Recommended properties:
 
 Do not reuse production participant storage for convenience.
 
-### 2. Real Turnstile backend verification
+### 2. Optional real Turnstile backend verification (currently deferred)
 
 Configure the disposable preview:
 
@@ -74,7 +74,7 @@ $env:MOMO_HOSTED_TURNSTILE_TOKEN = 'FRESH-TOKEN-FROM-THAT-PREVIEW'
 node tests/hosted-turnstile-probe.mjs
 ```
 
-Required result: challenge/no-cookie, successful signed seat, replay rejection and forged unsigned-seat rejection all pass.
+Required result if this feature is reconsidered: challenge/no-cookie, successful signed seat, replay rejection and forged unsigned-seat rejection all pass. The 2026-10-14 disposable browser check observed 428 without a token, 200 after a real challenge, but 200 again for the same captured token from an anonymous request; a separate invalid token returned 403. The source of the replay acceptance is not yet isolated. Keep production off.
 
 Then manually verify the widget from Ghar, one-tap wish join, Sidekicks and Host on desktop plus a physical mobile device.
 
@@ -94,7 +94,7 @@ node tests/hosted-lifecycle-probe.mjs
 
 Required result: host login, creator profile/wish, one-click profile-less join, gang read, host lookup of unnamed seat, queue/private host note, queued denial, restore, suspension denial, restore and account/wish cleanup all pass.
 
-If the script reports that Turnstile is required, do not disable production Turnstile to make the test pass. Use an isolated preview configuration appropriate for the lifecycle run.
+If the script reports that Turnstile is required, do not change a deployment's security setting just to make the test pass. Use an isolated preview configuration appropriate for the lifecycle run.
 
 ### 4. Production-style private image path
 
@@ -192,16 +192,15 @@ Then create the alerts from `docs/SECURITY_MONITORING_SETUP.md` and verify one c
 
 ### 8. Final production activation
 
-After steps 2 through 7 have passed in isolated environments:
+After the applicable isolated checks have passed:
 
-1. Apply the real production Turnstile widget/site key, secret and seat-signing secret, then enable `TURNSTILE_ENABLED=true`.
-2. Confirm normal new-seat creation in production from desktop/mobile. Do not publish/copy the generated token.
-3. Enable the Vercel Firewall rule on the current public project and watch the first traffic sample.
-4. Configure the reviewed persistent security sink/alerts, if chosen.
-5. Deploy the reviewed Images binding/private-media configuration to the intended production gateway.
-6. Enable `MOMO_IMAGE_UPLOADS_ENABLED=true` only after the production-private media smoke succeeds; otherwise leave uploads paused.
-7. Keep outbound email/WhatsApp disabled unless those providers are separately approved and verified.
-8. Record the exact checks/date/commit in `docs/PRODUCTION_REQUIREMENTS.md` without recording secret values.
+1. Keep `TURNSTILE_ENABLED` unset. A production widget is deferred by owner choice and the replay result above.
+2. Keep the verified Vercel Firewall rule on the current public project and watch the first traffic sample.
+3. Configure the reviewed persistent security sink/alerts only after the owner resumes token setup.
+4. Deploy the reviewed Images binding/private-media configuration to the intended production gateway.
+5. Enable `MOMO_IMAGE_UPLOADS_ENABLED=true` only after the production-private media smoke succeeds; otherwise leave uploads paused.
+6. Keep outbound email/WhatsApp disabled unless those providers are separately approved and verified.
+7. Record the exact checks/date/commit in `docs/PRODUCTION_REQUIREMENTS.md` without recording secret values.
 
 ## Owner/event gate that testing cannot solve
 
