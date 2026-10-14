@@ -88,6 +88,10 @@ The measured traffic was one room with one message every nine seconds, not a hea
 3. Supply the real first-event date, exact Kitab Ghar address, named host, end time, capacity, full cost, moderation contact and emergency/exit plan. Confirmed: Ahmedabad, Gujarat; 6 pm; open reading/talking/socialising/exploring.
 4. After the owner resumes Axiom token setup, record final monitoring activation, remove disposable infrastructure/private test files, and begin the monitored 100-seat pilot. Keep email and WhatsApp sending separately gated.
 
+## Pilot preparation update, 14 October 2026
+
+Pilot preparation has started through `PILOT_OPERATIONS.md`. The code, lifecycle, perimeter, photos, recovery drill and 100-client sample are ready for the tested workload. Real enrollment is not open: Axiom replacement-token setup is still paused, and the date, exact address, named host, end time, capacity, full cost, moderation contact and emergency/exit plan remain incomplete. The seven unverified moodboard JPGs were removed from the current tree; current food-photo attribution remains visible.
+
 ## Verification status
 
 Gateway, community, chat-ticket and read-before-profile integrations passed. TypeScript, repository lint, Vinext build and the serial Next Webpack production build passed during this continuation. Final narrow lint of all six changed gateway/probe JavaScript files passed before the push. Earlier local tooling stalls were resolved. Next and Vinext builds must run sequentially because both generate .next files.

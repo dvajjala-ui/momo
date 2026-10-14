@@ -4,6 +4,8 @@ This source candidate verifies a Cloudflare Turnstile token when a browser opens
 
 The current client implementation in `app/seat-challenge.ts` explicitly renders the widget with `action: 'seat'`, which matches the server-side `result.action === 'seat'` requirement in `lib/seat-turnstile.ts`.
 
+Current production decision (14 October 2026): keep Turnstile disabled. The owner prefers the lower-friction seat flow, and a real disposable-preview check accepted a second anonymous seat using the same captured token. Tokenless, invalid-token and forged-cookie cases were denied, but replay acceptance means the optional activation gate did not pass. Do not create/enable a production widget unless this decision changes and replay behavior is fixed and retested.
+
 Turnstile is disabled until the deployment owner configures all four server-side settings:
 
 | Setting | Purpose |

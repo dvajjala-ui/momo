@@ -85,7 +85,7 @@ The OWASP Top 10 is the baseline for access control, injection, authentication, 
 - New uploads are fail-closed unless R2, the reviewed gateway/image settings and `MOMO_IMAGE_UPLOADS_ENABLED=true` are all configured.
 - When enabled, the authenticated gateway decodes the image, checks decoded dimensions/pixels, scales it and stores only re-encoded WebP output.
 - A disposable hosted gateway using a real Cloudflare Images binding already rejected unauthorized/invalid input, returned WebP and removed a test metadata marker.
-- That hosted smoke proves the processor path works, not that production uploads should already be enabled. The intended production Images/private-media path still needs its final smoke before the flag is enabled.
+- The isolated smoke proved the processor path. The later production private-media check passed conversion, metadata removal, anonymous denial, authenticated access, replacement/deletion and cleanup; uploads are enabled. Continue monitoring processing failures and unexpected retained objects during the pilot.
 
 ### Invitations and outbound providers
 
@@ -174,15 +174,15 @@ Completed on 2026-10-13 without using real participant content:
 
 ## Latest hosted results
 
-The combined isolated Cloudflare/Vercel lifecycle, private Images/R2 path, 25/50/100-client sample and enforced Vercel API perimeter rule are now verified. See `WORK_SUMMARY_2026-10-13.md` for actual metrics, provider error-counter caveats and scope limits. Real Turnstile verification/production activation, production private-photo activation and Axiom sink/alerts remain open. Axiom token setup was left pending at the owner's request. The earlier six-item list below is historical; its first, second and fourth checks have now passed for the recorded isolated workload/policy.
+The combined isolated Cloudflare/Vercel lifecycle, private Images/R2 path, 25/50/100-client sample and enforced Vercel API perimeter rule are verified. The production private-photo smoke also passed on 14 October 2026 and uploads are enabled. See `WORK_SUMMARY_2026-10-13.md` for actual metrics, provider error-counter caveats and scope limits. Persistent Axiom delivery/alerts remain open. Turnstile is deliberately off after the owner selected a lower-friction seat flow and the disposable replay check failed.
 
 ## Hosted checks still required
 
-These are the remaining technical blockers before a broad public promotion:
+These are the remaining technical and operating blockers before a broad public promotion:
 
-1. **Real Turnstile verification and activation:** complete preview signed-seat/replay/forged-cookie and protected lifecycle checks; create/configure the separately approved production widget, then verify normal desktop/mobile entry flows.
-2. **Production image activation:** the isolated Cloudflare private-media path passed, and the production gateway Images source is deployed. Verify the intended Vercel production private-media path before enabling uploads.
-3. **Persistent monitoring activation:** the Axiom dataset and scoped token exist, but token setup was left pending by the owner. Replace the briefly exposed token before server use, verify one redacted event, configure alerts and prove a controlled failed-host-login event.
+1. **Persistent monitoring activation:** the Axiom dataset exists, but token setup was left pending by the owner. Replace the briefly exposed token before server use, verify one redacted event, configure alerts and prove a controlled failed-host-login event.
+2. **Physical accessibility verification:** run the deployed release on VoiceOver, TalkBack and a desktop screen reader and record the result.
+3. **Turnstile only if the product decision changes:** first reproduce and fix the disposable replay acceptance, then rerun protected desktop/mobile entry and lifecycle checks. Keep production disabled until then.
 
 ## Candidate verification and capacity statement
 
@@ -205,4 +205,4 @@ Those results must not be advertised as a production concurrency ceiling. Hosted
 
 ## Launch position
 
-For a controlled pilot, the application source now has the main authorization, privacy, realtime, upload, recovery, monitoring and abuse-control mechanisms plus fail-closed deployment gates. A **large public Reddit-style share is still premature** until the three remaining activation checks above are recorded as passing and the real first-event details in `docs/PRODUCTION_REQUIREMENTS.md` are confirmed.
+For a controlled pilot, the application source now has the main authorization, privacy, realtime, upload, recovery, monitoring and abuse-control mechanisms plus fail-closed deployment gates. A **large public Reddit-style share is still premature** until persistent monitoring, physical accessibility evidence, brand/media/privacy operations and the real first-event details are complete. The exact pilot gate is in `docs/PILOT_OPERATIONS.md`.

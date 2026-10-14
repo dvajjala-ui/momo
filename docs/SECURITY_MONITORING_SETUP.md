@@ -6,6 +6,8 @@ Momo emits small structured `momo-security` records for high-signal abuse events
 
 The reviewed optional sink is **Axiom** because its current Personal plan is $0, provides 30-day retention and alerting, and supports direct HTTP ingestion with a least-privilege ingest-only API token. This is an optional operational provider, not an authentication dependency. If another monitored destination is chosen later, preserve the same redaction and least-privilege requirements rather than adding arbitrary outbound URLs.
 
+Current activation state (14 October 2026): the `momo-security` dataset exists, but the first restricted token was briefly visible during setup and must not be installed. The owner asked to leave replacement-token setup pending. External delivery and alerts remain off; console redacted events continue. The 100-seat pilot must not be described as monitored until a replacement ingest-only token, one-event probe, controlled failed-host-login event and alert rules all pass.
+
 References:
 - Axiom pricing: https://axiom.co/pricing
 - Axiom ingest API: https://axiom.co/docs/restapi/ingest

@@ -1,12 +1,12 @@
 # Momo to Pizza handoff
 
-Last updated: 2026-10-13
+Last updated: 2026-10-14
 
 Read `AGENTS.md` and `docs/PRODUCTION_REQUIREMENTS.md` before making changes. The requirements file preserves the owner’s full 28-point brief verbatim and is the detailed source of truth.
 
 ## Latest continuation
 
-Work directly on `main`, as the owner requested. The latest completed hosted checks, resource inventory, current stage, application flow and next steps are in `docs/WORK_SUMMARY_2026-10-13.md`. Requirements #13/#19/#20 now have isolated hosted pilot evidence; #10 and parts of #14 remain pending. The API perimeter rule is enforced. Production Turnstile, uploads and Axiom delivery remain unactivated until their remaining checks pass. Axiom token setup was left pending at the owner's request. Historical branch/SHA references below describe earlier work and are not the current checkout.
+Work directly on `main`, as the owner requested. Current `main`/production documentation is at `194f233`. Requirements #13/#19/#20 have isolated hosted pilot evidence; production private photos and the Vercel API perimeter rule are active. #10 and persistent monitoring within #14 remain pending. Production Turnstile stays off by owner choice and because the disposable replay check failed. Axiom token setup remains paused at the owner's request. The 100-seat pilot is prepared but must not be described as monitored or open until the Axiom and real-event gates in `docs/PILOT_OPERATIONS.md` pass. Historical branch/SHA references below describe earlier work and are not the current checkout.
 
 ## Product
 
@@ -14,7 +14,7 @@ Momo to Pizza helps people turn a small food or activity idea into a real public
 
 The main experience is Ghar, Adda and Count me in. `/host` is the private direct owner route and is intentionally absent from public navigation. Device sessions provide low-friction pseudonymous seats. The browser cannot grant itself a role or identity.
 
-Reference images under `assest/` have unverified publication rights. The current candidate uses original covers and treats those files as inspiration only. The two film documents are production briefs, not finished films.
+The seven unverified moodboard JPGs were removed from the current tree on 14 October 2026. Earlier Git history still contains them, so do not reuse or redistribute them without verified rights. The current candidate uses original covers. The two film documents are production briefs, not finished films.
 
 ## Current branch and production
 
@@ -90,24 +90,24 @@ After the owner’s simplification request, TypeScript, repository lint, both pr
 
 Release follow-up on 2026-10-13: owner-approved PR #6 merged as `0793a09`. Vercel Production reported Ready for that exact merge commit at `momo-ten-pied.vercel.app`. Home, Join, Adda and the public community API returned HTTP 200, and the live Adda showed the corrected profile copy. The earlier `d06df2d` references above describe the initial Worker activation release.
 
-`node tests/next-instances.integration.mjs` also passed against two independent local Next processes sharing a fresh disposable SQLite database. Wish capacity, cross-instance gang messages, outsider/host denial and cross-instance account deletion passed. The processes and temporary database were removed. This is local app persistence evidence; hosted D1/R2 and sustained-load checks remain open.
+`node tests/next-instances.integration.mjs` also passed against two independent local Next processes sharing a fresh disposable SQLite database. Wish capacity, cross-instance gang messages, outsider/host denial and cross-instance account deletion passed. The processes and temporary database were removed. Later isolated hosted lifecycle, private-media and 25/50/100-client checks supplied the missing hosted evidence; see `docs/WORK_SUMMARY_2026-10-13.md`.
 
 The two-instance host-control checks were added on the continuation branch and merged in pull request #7 as `0b02577`. This records code integration only; a Vercel readiness check for that exact merge was not recorded here.
 
-Pull request #8 merged the image upload protection source as `3a6c18c`. New uploads fail closed unless R2, gateway settings and the server-only `MOMO_IMAGE_UPLOADS_ENABLED=true` flag are configured. The gateway source uses a Cloudflare Images binding to decode, limit dimensions and re-encode to WebP before R2 storage. Local mocked processor, fail-closed community and gateway integration checks passed, as did Next and Vinext builds, TypeScript and lint. The updated gateway and real Images binding have **not** been deployed or smoke-tested; keep the flag unset until a disposable hosted upload confirms conversion, metadata removal and private-media access rules. Existing media remains readable.
+Pull request #8 merged the image upload protection source as `3a6c18c`. The gateway uses a Cloudflare Images binding to decode, limit dimensions and re-encode to WebP before private R2 storage. Isolated and production checks later confirmed conversion, metadata removal, anonymous denial, authenticated access, replacement/deletion and R2 cleanup. Production uploads were enabled on 14 October 2026; keep the fail-closed flag and watch pilot upload failures.
 
 1. Completed: merge `d06df2d`, record a D1 restore bookmark, apply `0005` through `0010`, verify the ledger and restore the public API.
 2. Completed: deploy `momo-db-gateway` and `momo-chat` with separate 48-byte random credentials and an exact chat origin; add the five server-only Vercel settings; redeploy `d06df2d`.
 3. Completed smoke: authenticated gateway read, live device seat/profile, successful chat-ticket requests, Worker activity and test-seat deletion. Brief samples showed gateway health p50 139 ms/p95 397 ms (12 requests) and public community GET p50 1322 ms/p95 1462 ms (8 requests), with no failed responses. These do not establish hosted capacity.
-4. Remaining before broader promotion: verify one-click wish/gang access, host controls, reconnect, queue/suspension and deletion in a separate disposable hosted environment; record sustained latency, errors, D1 usage and Durable Object behavior. Do not send invitations or create fake public events.
+4. Completed for the controlled pilot: isolated one-click wish/gang access, host controls, reconnect, queue/suspension, deletion and 25/50/100-client hosted runs. Measurements and limits are in `docs/WORK_SUMMARY_2026-10-13.md`. Do not send invitations or create fake public events.
 
-Before a large Reddit launch, add Cloudflare edge rate limits and Turnstile, deploy and verify the safe image processor or keep uploads paused, configure redacted monitoring and practice D1 restore. The current recommendation is a controlled pilot of at most 100 active seats after the production smoke check.
+Before a large Reddit-style launch, finish persistent Axiom monitoring, physical-device accessibility, brand/media/privacy operations and the real first-event plan. The Vercel API rule, image processor/private-media path and disposable D1 restore drill are complete. Turnstile stays off under the current owner decision; fix and retest replay behavior before reconsidering it. The controlled pilot remains capped at 100 active seats.
 
 WhatsApp readiness flags remain gates. Do not enable sending until the real sender, approved template, public signed callback and phone verification work. Gmail is also disconnected and has sent no real message.
 
 ## Owner decisions kept last
 
-The first real meetup still needs a venue with full address, date, named host, clear end time, capacity, full cost, moderation contact and emergency/exit plan. The stated options are Kitab Khana/Kitab Ghar or Sindhu Bhavan, starting around 5:00 pm.
+The first real meetup is intended for Kitab Ghar, Ahmedabad, Gujarat, starting at 6:00 pm with an open reading/talking/socialising/exploring format. It still needs a calendar date, exact public address, named host, clear end time, capacity, full cost, moderation contact and emergency/exit plan.
 
 ## Working-tree care
 

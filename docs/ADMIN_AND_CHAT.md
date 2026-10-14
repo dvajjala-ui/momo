@@ -1,6 +1,6 @@
 # Host controls and private notes
 
-The current production-readiness candidate includes these controls plus the member-pilot work. Production activation needs additive migrations `0005` through `0010` and a reviewed deployment.
+The deployed production candidate includes these controls plus the member-pilot work. Production D1 has migrations `0000` through `0010`; the hosted lifecycle and recorded 100-client pilot sample passed.
 
 ## Host access
 
@@ -20,9 +20,9 @@ Adda has a conversation-type switch for community tables and private notes. Memb
 
 ## Capacity limits and next work
 
-The current transport still polls every five seconds, loads the latest 80 messages, and throttles sends to one per three seconds. It is a small-pilot transport. Raising gang capacity to 500 does **not** establish that 500 concurrent chat users are supported. The home page transfers at most eight avatars per wish, and a single conditional SQLite insert prevents concurrent joins from overfilling a group.
+The five-second poll remains the authenticated fallback. The active production path uses the deployed Durable Object/WebSocket service, loads at most the latest 80 messages and keeps bounded member send budgets. Raising gang capacity to 500 does **not** establish that 500 concurrent chat users are supported. The home page transfers at most eight avatars per wish, and a single conditional D1 insert prevents concurrent joins from overfilling a group.
 
-The candidate now includes an optional native D1/Durable Object chat service with WebSocket delivery, idempotent sends, burst budgets, current permission checks and reconnect history. Its isolated suites and one 500-client local fanout pass. It is disabled until reviewed deployment, private settings and exact-SHA hosted reconnect/load/device verification. See `REALTIME_CHAT.md` and `D1_GATEWAY.md`. Check actual [free-tier quotas](https://developers.cloudflare.com/durable-objects/platform/pricing/) before activation; free usage is limited.
+The native D1/Durable Object chat service is deployed with WebSocket delivery, idempotent sends, burst budgets, current permission checks and reconnect history. Isolated lifecycle and 25/50/100-client hosted checks passed, alongside a 500-client local fanout. The recorded hosted run supports the controlled 100-seat pilot workload; it does not prove a 500-person hosted ceiling. Physical-device/screen-reader checks and live quota monitoring remain required before broader promotion. See `REALTIME_CHAT.md`, `D1_GATEWAY.md` and `PILOT_OPERATIONS.md`.
 
 ## Verification
 

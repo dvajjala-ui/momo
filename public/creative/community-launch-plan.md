@@ -24,7 +24,7 @@ Ask 5–8 adult women from your existing circles to review the idea privately: w
 
 Recruit a woman co-host who wants a genuine role in shaping the event, with fair payment or agreed credit. Show the actual hosts, public venue, start/end time, group size, full cost and contact route before commitment. Trial a bring-a-friend option and daylight or early-evening café plans. If participants want it, offer a women-only gathering with an appropriate host. Never imply a gender ratio that has not been established.
 
-Keep phone numbers private. Do not automatically add people to WhatsApp groups. Keep one-to-one chat deferred until there is a clear consent model. Let anyone decline a photo or leave early without explanation. Never turn a refusal into content.
+Keep phone numbers private. Do not automatically add people to WhatsApp groups. Private notes remain limited to people with shared host-confirmed attendance who both opt in, with blocking and opt-out enforced. Let anyone decline a photo or leave early without explanation. Never turn a refusal into content.
 
 ## Instagram
 
@@ -33,7 +33,7 @@ Start one account, not two fragmented audiences. Handle ideas: `kal.milte.hain`,
 Bio draft:
 
 > Good food. A game or two. Kal milte hain? 🖍️
-> Small, hosted get-togethers in Ahmedabad · 18+
+> Small, hosted get-togethers in Ahmedabad
 > The full plan first. Your choice after.
 
 Pinned posts: “What actually happens?” / “Who’s hosting?” / “Different fillings. Same table.” Highlights: The plan / Hosts / Cost / Table rules / Questions / Memories. Use only real, consented meetup photos in Memories.
@@ -71,7 +71,7 @@ Track requests, invitation acceptance, attendance and voluntary repeat attendanc
 
 ## Public-launch checks
 
-Finalize organizer identity, privacy contact, retention and complaint handling, venue/food arrangements, cancellations and public image rights. The supplied movie stills and memes are now used in the private inspiration scrapbook. They are not licensed brand campaign assets or evidence of past meetups. Trademark clearance has not been performed.
+Finalize organizer identity, privacy contact, retention and complaint handling, venue/food arrangements, cancellations and public image rights. The seven unverified moodboard images were removed from the current repository tree and must not be reused without documented rights. The provisional brand/domain/handle check is recorded in `docs/BRAND_AND_MEDIA_RIGHTS.md`; formal trademark clearance has not been completed.
 
 ## Sources
 

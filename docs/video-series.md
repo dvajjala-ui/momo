@@ -38,7 +38,7 @@ The motto behind all of it: **screens are everywhere and making friends as an ad
 | 6 | **Meera** | badminton girl looking for her people | *Smash* |
 | 7 | **You** | a custom character for each real member | *Your episode* |
 
-Everyone is 18+. Nobody is "fixed" by Momo. Each film shows someone who's already fine and finds more fun and more friends.
+Every depicted character is an adult. Nobody is "fixed" by Momo. Each film shows someone who's already fine and finds more fun and more friends.
 
 ### 1. Dhwani — *Garba ke baad* (after garba)
 

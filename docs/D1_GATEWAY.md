@@ -27,10 +27,10 @@ node --env-file=.env.gateway.local --experimental-strip-types scripts/probe-db-g
 ```
 
 3. The authenticated read passed without reading participant data. Twelve direct health requests measured p50 139 ms and p95 397 ms with no errors; Cloudflare showed 106 gateway invocations and zero execution errors at inspection. A disposable Vercel device seat/profile and deletion passed through the live app. These are brief smoke observations, not a sustained capacity or speed claim.
-4. Remaining: verify hosted wish/gang, host and private-message flows in a separate disposable environment; measure sustained request latency, D1 usage and failure recovery. Preserve Cloudflare management credentials privately for explicit migrations.
+4. Completed after this initial smoke: the isolated hosted lifecycle verified wish/gang, host, queue/suspension, private-note and deletion flows. The 25/50/100-client hosted sample recorded gateway latency, D1 usage and reconnect behavior, and the disposable Time Travel recovery drill passed. Preserve Cloudflare management credentials privately for explicit migrations and keep monitoring the real pilot workload.
 
-## Remaining messaging work
+## Messaging relationship
 
-This gateway removes configured Vercel runtime database traffic from the management-API path. It does not replace chat polling itself. A Durable Object per room with WebSocket delivery, signed room authorization, permission revalidation, idempotent sends and reconnect history is also deployed; see `REALTIME_CHAT.md` for the local fanout probe and remaining hosted capacity checks.
+This gateway removes configured Vercel runtime database traffic from the management-API path. It does not replace chat delivery itself. A Durable Object per room with WebSocket delivery, signed room authorization, permission revalidation, idempotent sends and reconnect history is deployed; see `REALTIME_CHAT.md` and `WORK_SUMMARY_2026-10-13.md` for current hosted evidence and its limits.
 
 Cloudflare documents native [D1 prepared statements and batches](https://developers.cloudflare.com/d1/worker-api/d1-database/). Its [D1 free allowances](https://developers.cloudflare.com/d1/platform/pricing/) and [Worker request allowances](https://developers.cloudflare.com/workers/platform/pricing/) still apply; a native binding does not make usage unlimited.

@@ -25,7 +25,7 @@ Enrollment credentials belong to this application. A Gmail connector inside Code
 
 ## Deployment order
 
-Email specifically requires additive migrations `0005_phone_verification` and `0006_email_letters`. The current production-readiness release also depends on `0007` through `0010`, so apply the complete pending chain `0005` through `0010` in order after approval. They have only been applied in disposable local databases. Preserve existing migrations, run the exact-database guarded migration command from `docs/CLOUDFLARE_SETUP.md`, then deploy. Rollback to the prior app leaves the additive tables unused.
+Email specifically requires additive migrations `0005_phone_verification` and `0006_email_letters`. Production D1 now has the complete `0000` through `0010` migration ledger. Preserve those migrations and use the exact-database guarded command from `docs/CLOUDFLARE_SETUP.md` for any future additions. Gmail OAuth authorization, private runtime credentials and a real owner-approved inbox test remain pending; keep `EMAIL_SENDING_ENABLED=false` until those pass.
 
 Verify the live email request and confirmation UI with an owner-approved test inbox. Review a published plan and its letter before sending the one test invitation. Check the real inbox, Spam and the sender’s Sent folder. Do not infer delivery from `accepted`. A timeout or missing message ID records `unknown`; investigate in Gmail before any manual recovery. Gmail has no provider idempotency key; Momo’s durable attempt reservation prevents retries. Concurrent opt-out after an outbound request starts cannot recall that message.
 

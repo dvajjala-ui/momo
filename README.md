@@ -29,18 +29,19 @@ Local SQLite is for development. Vercel's `/tmp` fallback is temporary, even whe
 
 ## Still needed for launch
 
-- Cloudflare D1/private R2 and host login are live. Migrations `0005` through `0010` repaired the merged build's missing-schema 503 on 2026-10-13. The D1 gateway and realtime Workers are deployed with private Production settings; a disposable seat/profile and chat access passed a live smoke check and were deleted. Hosted wish/gang, host-control, reconnect and sustained-load checks remain.
-- Add Cloudflare edge rate limits and Turnstile before broad promotion. Re-encode uploads server-side or keep them unavailable for a broad public pilot.
+- Cloudflare D1/private R2, host login, the D1 gateway and realtime Worker are live. The isolated lifecycle and 25/50/100-client hosted pilot checks passed. This supports the controlled 100-seat pilot workload; it is not an unlimited-capacity claim.
+- The Vercel API perimeter rule is enforced. Production image decode/re-encode, private access, replacement and deletion passed and uploads are enabled. Production Turnstile remains off by owner choice and after a disposable replay check failed; do not enable it without fixing and repeating that check.
+- Replace the paused Axiom ingest token, verify one redacted event and a controlled failed-host-login event, and configure pilot alerts before calling the pilot monitored.
 - Authorize the dedicated Gmail sender and verify a real confirmation/invitation with an owner-approved test inbox. Sending is disabled until then.
 - Future WhatsApp: the real sender, template and public webhook, plus live ownership-proof testing. No real WhatsApp invitation has been sent.
 - A confirmed public venue, named host, full cost, end time and moderation arrangements before listing a real meetup.
-- Review brand availability, image rights, participant photo consent, privacy and event obligations. This is not legal clearance or a security audit.
+- Complete physical-device/screen-reader checks and the organizer/privacy/participant-photo procedures before broad promotion. Current brand/domain/handle findings and their limits are recorded in [`docs/BRAND_AND_MEDIA_RIGHTS.md`](docs/BRAND_AND_MEDIA_RIGHTS.md).
 
 ## Creative files and provenance
 
 - `app/food-art.ts`: original code-drawn food characters (SVG) used on the site and on the postcards.
 - Food photos: Wikimedia Commons, CC BY-SA 4.0, credited on the page (`themePhoto` in `app/brand.tsx`).
-- `docs/moodboard/*`: user-supplied inspiration with unverified rights. These are no longer served by the site.
+- The seven unverified moodboard JPGs were removed from the current repository tree on 14 October 2026. Git history still contains earlier copies; do not reuse or redistribute them without verified rights.
 - `docs/video-series.md`: proposal for the 6-character short-film series (tools, prompts, feasibility). No films exist yet.
 - `docs/art-and-icon-prompts.md`: prompts for the illustrated icon set, gang illustration and postcards.
 - `docs/archive-*-film-brief.md`: earlier single-film briefs, kept for reference.

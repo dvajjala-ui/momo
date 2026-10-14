@@ -54,7 +54,7 @@ Filmy nods to keep **as poses and moods only**: the arms-wide romantic-hero pose
 - **Momo edition:** a real photo of steamed momos.
 - **Menu edition:** a real photo of a Neapolitan pizza.
 
-Current build: the site shows freely licensed Wikimedia Commons photos with credit lines (see `app/photos.ts`). Before a public launch, either keep the attribution visible or replace them with your own photos from the first meetup (best option: it's real, and it's yours).
+Current build: the site shows freely licensed Wikimedia Commons photos with credit lines (see `app/brand.tsx`). Before a public launch, keep the attribution visible or replace them with original photos for which every identifiable participant has recorded permission.
 
 ## 4. Invitation letters
 

@@ -4,7 +4,7 @@ The complete 28-point owner brief, exact expected behavior and per-item status l
 
 ## Current release state
 
-The production-readiness candidate was merged as `d06df2d` on 2026-10-13 and redeployed to Vercel after the six pending D1 migrations and both Workers were activated with owner approval. Pull request #6 later merged as `0793a09` and Vercel reported Ready for that commit. Pull request #7 merged as `0b02577` with two-instance host-control tests; production readiness for that exact merge has not been checked here. Pull request #8 merged the image upload protection source as `3a6c18c`; its updated gateway and real Images binding have not been deployed or smoke-tested, and uploads remain gated. The migration ledger shows `0000` through `0010`, and `GET /api/community` returned HTTP 200 after an earlier missing-schema 503. A disposable device seat/profile reached Adda with successful chat-ticket requests and was deleted. Two local Next instances passed shared wish/chat/access-control/deletion checks. The full hosted wish/gang and host flows still need smoke tests.
+Production is currently sourced from `main` at `194f233` (14 October 2026). D1 migrations `0000` through `0010`, the database gateway, realtime Worker and private R2 path are active. The combined isolated lifecycle, 25/50/100-client hosted sample, Vercel API perimeter rule and production private-photo smoke passed. Uploads are enabled. Persistent Axiom monitoring and complete first-event details remain the two launch gaps from the 28-point brief. Production Turnstile stays off under the owner's low-friction decision and because its disposable replay check failed.
 
 Completed in the candidate:
 
@@ -35,11 +35,14 @@ The newest migration is `0010_profile_details`. It adds nullable age and gender 
 - [x] Create separate private secrets and deploy `momo-db-gateway` and `momo-chat` (2026-10-13).
 - [x] Add `MOMO_DB_GATEWAY_URL`, `MOMO_DB_GATEWAY_TOKEN`, `MOMO_CHAT_URL`, `MOMO_CHAT_SECRET` and `MOMO_CHAT_APP_ORIGIN` to Vercel Production; redeploy `d06df2d`.
 - [x] Smoke-test a disposable live device seat, profile, Adda access and deletion without sending a message or invitation.
-- [ ] Check hosted wish/gang, reconnect and host/queue/suspension flows in a separate disposable environment before claiming full end-to-end readiness.
-- [ ] Record sustained hosted gateway latency, WebSocket fanout/reconnect behavior, errors and quota use. A brief read-only sample and Worker error counts are recorded in the handoff.
-- [ ] Add Cloudflare Turnstile and edge rate limits before posting the link to a large public community.
-- [ ] Deploy and smoke-test the merged image decode/re-encode source with the real Cloudflare Images binding before setting `MOMO_IMAGE_UPLOADS_ENABLED=true`; otherwise keep uploads paused.
-- [ ] Configure redacted error monitoring and perform a D1 restore drill.
+- [x] Verify hosted wish/gang, reconnect and host/queue/suspension flows in a disposable environment.
+- [x] Record hosted 25/50/100-client latency, WebSocket fanout/reconnect behavior, client errors and provider measurements.
+- [x] Enforce and verify the Vercel API perimeter rule.
+- [x] Verify image decode/re-encode, metadata removal, private access, replacement and deletion in isolation and production; enable `MOMO_IMAGE_UPLOADS_ENABLED=true`.
+- [x] Perform the disposable D1 Time Travel recovery drill and document the recurring procedure.
+- [ ] Replace/configure the Axiom ingest-only token, observe one redacted probe and one controlled failed-host-login event, then configure pilot alerts.
+- [ ] Keep Turnstile disabled. If the product decision changes, fix the observed replay acceptance and repeat protected desktop/mobile lifecycle checks before activation.
+- [ ] Confirm the real event details and pass the go/no-go checklist in [`PILOT_OPERATIONS.md`](PILOT_OPERATIONS.md) before opening enrollment.
 
 The existing Site project remains owner-private. Its ID in `.openai/hosting.json` must stay unchanged. GitHub/Vercel and Sites have separate deployment ancestry, so a GitHub push does not publish the Site.
 
@@ -65,7 +68,7 @@ Guests can still leave whenever they want. The product should not publish “unt
 - Add delivery/bounce handling and a reviewed reminder queue after the first email pilot.
 - Decide whether verified email should recover a lost device seat.
 - Complete physical-device and screen-reader testing.
-- Clear rights for user-supplied reference images or continue using original replacements.
+- Keep the seven removed moodboard images out of the working tree unless publication rights are documented. Continue using original replacements and attributed Wikimedia food photos.
 - Produce the two film briefs through a real video workflow. They remain briefs, not finished movies.
 
 ## Continuing rules
