@@ -1,14 +1,14 @@
 # Hosted production activation runbook
 
-Last reviewed: 2026-10-13
+Last reviewed: 2026-10-14
 
-This is the execution order for the remaining Momo production-readiness checks after the source work in PRs #11 through #17. Every probe is designed to use disposable data and, where applicable, refuses the known production hostname. Do not replace a failed check by weakening authorization, hostname validation, image privacy or rate limits.
+This is the execution order for Momo production-readiness checks after the source work in PRs #11 through #17. Probes use disposable data; the image probe permits the exact known production hostname only with its separate one-seat approval switch. Do not replace a failed check by weakening authorization, hostname validation, image privacy or rate limits.
 
 The current known production app is `https://momo-ten-pied.vercel.app`.
 
 ## Latest execution results
 
-See [work summary and next steps](WORK_SUMMARY_2026-10-13.md). Isolated Cloudflare/Vercel baseline lifecycle, private media checks, 25/50/100-client hosted sampling and the Vercel perimeter policy are now verified. Production Turnstile is deferred by the owner's low-friction product decision, and a 2026-10-14 disposable real-token replay check failed. Do not create or enable a production widget under this decision. Resume with production private-photo checks and Axiom sink/alerts only when the owner resumes token setup. Do not rerun completed destructive probes against production.
+See [work summary and next steps](WORK_SUMMARY_2026-10-13.md). Isolated Cloudflare/Vercel baseline lifecycle, private media checks, 25/50/100-client hosted sampling and the Vercel perimeter policy are verified. A one-seat production private-photo smoke passed on 2026-10-14 and uploads are enabled. Production Turnstile is deferred by the owner's low-friction product decision, and a disposable real-token replay check failed. Do not create or enable a production widget under this decision. Resume Axiom sink/alerts only when the owner resumes token setup. Do not rerun completed destructive probes against production.
 
 ## What is already done
 
@@ -26,7 +26,7 @@ Do not repeat these as if they are still missing:
 
 ## Safety rules for every hosted check
 
-- Never point a disposable probe at `momo-ten-pied.vercel.app` if that probe explicitly refuses production.
+- Never point a disposable probe at `momo-ten-pied.vercel.app` if that probe explicitly refuses production. The image probe has a separate exact-host production switch for the already approved one-seat smoke; leave it unset for ordinary runs.
 - Never use real participant profiles, messages, contact details, photos or invitations as test data.
 - Keep Gmail and WhatsApp sending disabled during these checks.
 - Do not paste API tokens, host passcodes, Turnstile secrets, database tokens or fresh Turnstile challenge tokens into Git/PRs/screenshots.
@@ -118,7 +118,16 @@ Required result:
 - replacement removes old media access
 - account deletion removes current profile media access
 
-Only after the same binding/private-media path is deployed intentionally to production should the production `MOMO_IMAGE_UPLOADS_ENABLED=true` flag be considered.
+The isolated Vercel path and the one-seat production smoke both passed on 2026-10-14. The production test used:
+
+```powershell
+$env:MOMO_HOSTED_IMAGE_PRODUCTION = 'yes-test-and-delete-one-live-seat'
+$env:MOMO_HOSTED_TEST_APP_URL = 'https://momo-ten-pied.vercel.app'
+Remove-Item Env:MOMO_HOSTED_IMAGE_DISPOSABLE -ErrorAction SilentlyContinue
+node tests/hosted-image-access-probe.mjs
+```
+
+Use that production switch only with fresh owner authorization for a new live test. The completed run returned WebP with metadata removed, anonymous 401, signed private/no-store 200, old/deleted 404 and a deleted test seat. The production R2 bucket was empty after the run, and the upload flag remains enabled.
 
 ### 5. Longer hosted realtime/load sample
 
@@ -197,8 +206,8 @@ After the applicable isolated checks have passed:
 1. Keep `TURNSTILE_ENABLED` unset. A production widget is deferred by owner choice and the replay result above.
 2. Keep the verified Vercel Firewall rule on the current public project and watch the first traffic sample.
 3. Configure the reviewed persistent security sink/alerts only after the owner resumes token setup.
-4. Deploy the reviewed Images binding/private-media configuration to the intended production gateway.
-5. Enable `MOMO_IMAGE_UPLOADS_ENABLED=true` only after the production-private media smoke succeeds; otherwise leave uploads paused.
+4. Completed 2026-10-14: the reviewed Images binding/private-media configuration was deployed to the intended production gateway.
+5. Completed 2026-10-14: the production-private media smoke passed and `MOMO_IMAGE_UPLOADS_ENABLED=true` was enabled.
 6. Keep outbound email/WhatsApp disabled unless those providers are separately approved and verified.
 7. Record the exact checks/date/commit in `docs/PRODUCTION_REQUIREMENTS.md` without recording secret values.
 

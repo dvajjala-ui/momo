@@ -14,7 +14,7 @@ Without a new-seat challenge, automated seat creation and spam remain possible, 
 
 - The D1 gateway now returns allowlisted execution metrics to authenticated server callers: rows read/written, query duration and routing metadata. Previously the load probe received only changes, hiding actual usage.
 - Added tests/hosted-sustained-probe.mjs: disposable 25/50/100-client fanout, reconnect, lease renewal, history recovery, retry deduplication, telemetry and verified cleanup. It accepts only explicitly named readiness Workers, not production endpoints.
-- Fixed the real hosted image probe fixture. The old PNG had an invalid CRC; the new valid PNG contains a disposable metadata marker and verifies that re-encoding removes it.
+- Fixed the real hosted image probe fixture. The old PNG had an invalid CRC; the new valid PNG contains a disposable metadata marker and verifies that re-encoding removes it. The probe now requires a separate exact-host approval switch for the one-seat production smoke.
 - Fixed the firewall probe to test within one fixed window, use bounded concurrency, reject login redirects, and distinguish Vercel's 429 threshold response from its following 403/deny mitigation.
 - Added global_fetch_strictly_public to the Cloudflare app build. The isolated app's calls to sibling Workers returned 503 without it; the combined lifecycle passed after the fix.
 - Removed an unused lifecycle-probe variable and reconciled the requirements/runbook with the actual hosted results.
@@ -29,24 +29,27 @@ Without a new-seat challenge, automated seat creation and spam remain possible, 
 | momo-readiness-chat-20261013 | Separate Durable Object chat namespace |
 | momo-readiness-app-20261013 | Isolated Cloudflare application for lifecycle, images and Turnstile checks |
 | Vercel momo-readiness-20261013 | Isolated Vercel application using the disposable D1 gateway/chat |
+| One-week readiness R2 key | Object Read & Write only for `momo-readiness-media-20261013`; installed as hidden settings only in the isolated Vercel project; expires 2026-10-21 |
 | Momo readiness Turnstile widget | Exact preview hostname, managed mode, preclearance off; configured on the disposable Cloudflare app |
 | Axiom momo-security dataset | Redacted security events only; 30-day retention shown in the account |
 | Axiom Momo security ingest token | Dataset-scoped token created; not installed on any server. Replacement and remaining setup are pending at the owner's request |
 | Vercel production Momo API pilot budget | Published and read back as enabled/enforcing: 120 API requests per 60 seconds per IP, 5-minute mitigation; WhatsApp webhook excluded |
 
-Production gateway and chat Workers were also redeployed with the reviewed source, preserving their private settings and participant records. Production upload and Turnstile flags have not been activated. Persistent Axiom delivery is still off.
+Production gateway and chat Workers were also redeployed with the reviewed source, preserving their private settings and participant records. Production photo uploads are now enabled after the 2026-10-14 live smoke. Production Turnstile and persistent Axiom delivery remain off.
 
 Temporary readiness resources remain available for the unfinished activation checks. Probe-created profiles, messages, receipts, wishes and photos were cleaned up by the passing probes. Remove the temporary resources after activation evidence is saved; they are not production resources.
 
 ## Actual hosted results
 
-Source base: main 0e4e2de, plus the reviewed fixes described above. No real participants or external message recipients were used.
+Earlier hosted runs used main 0e4e2de plus the reviewed fixes described above. The 2026-10-14 Vercel private-photo checks used main `cae89c2` and a uniquely named disposable seat. No real participants or external message recipients were used.
 
 | Check | Result |
 | --- | --- |
 | Combined lifecycle, Cloudflare | PASS, 8.141 seconds |
 | Combined lifecycle, isolated Vercel | PASS, 28.600 seconds |
 | Private image upload/access/replacement/deletion | PASS on isolated Cloudflare app: WebP, metadata removed, anonymous 401, private/no-store, old/deleted images 404 |
+| Isolated Vercel private image path, 2026-10-14 | PASS on `momo-readiness-20261013.vercel.app`: WebP, metadata removed, anonymous 401, private/no-store, replacement/deletion 404; disposable seat deleted |
+| Production private image path, 2026-10-14 | PASS on `momo-ten-pied.vercel.app` after redeploy `dpl_2BFwTf2QyM8z7LX7RfYbPnPoXqTu`: WebP, metadata removed, anonymous 401, private/no-store, replacement/deletion 404. The unique test seat was deleted; a refreshed Cloudflare `momo-media` listing showed 0 B and no objects afterwards. `MOMO_IMAGE_UPLOADS_ENABLED=true` remains on. |
 | 25 clients, 2 rounds | PASS, delivery p50 169 ms / p95 185 ms / max 362 ms |
 | 50 clients, 2 rounds | PASS, delivery p50 179 ms / p95 272 ms / max 279 ms |
 | 100 clients, 18 rounds over 157.544 seconds | PASS, 1,800 live deliveries; p50 175 ms / p95 199 ms / max 618 ms |
@@ -75,21 +78,20 @@ The measured traffic was one room with one message every nine seconds, not a hea
 3. A joined member can read gang chat immediately; nickname, age and self-described gender are requested when they first send.
 4. Vercel routes the application API. The authenticated Cloudflare gateway persists D1 data; the chat Worker uses Durable Objects for WebSocket delivery and D1 for history.
 5. The private /host page manages named and unnamed seats: queue, restore, suspend, remove and send private in-site notes.
-6. When photo uploads are deliberately enabled, Images decodes/re-encodes to WebP, then private R2 storage serves authenticated no-store media.
+6. Photo uploads are enabled. Images decodes/re-encodes to WebP, then private R2 storage serves authenticated no-store media. Replacement and account deletion remove the prior objects.
 7. Redacted security events are generated by the app. Axiom delivery/alerts will be enabled only after the remaining sink verification.
 
 ## Remaining work, in order
 
 1. Keep production Turnstile off and do not create the production widget under the current low-friction product decision. If the owner later wants it, first reproduce and fix the preview replay result, then rerun the protected lifecycle and desktop/mobile flow.
 2. Complete Axiom token replacement/setup only when the owner resumes it. Observe one redacted event, configure owner alerts and prove a controlled failed-host-login event before production activation. The current token was briefly visible in a tool result, so replace it before server use.
-3. Verify the intended Vercel production private-photo path before enabling MOMO_IMAGE_UPLOADS_ENABLED. The isolated Cloudflare path passed; the production flag remains off.
-4. Supply the real first-event date, exact Kitab Ghar address, named host, end time, capacity, full cost, moderation contact and emergency/exit plan. Confirmed: Ahmedabad, Gujarat; 6 pm; open reading/talking/socialising/exploring.
-5. Record final activation, remove disposable infrastructure/private test files, and begin the monitored 100-seat pilot. Keep email and WhatsApp sending separately gated.
+3. Supply the real first-event date, exact Kitab Ghar address, named host, end time, capacity, full cost, moderation contact and emergency/exit plan. Confirmed: Ahmedabad, Gujarat; 6 pm; open reading/talking/socialising/exploring.
+4. After the owner resumes Axiom token setup, record final monitoring activation, remove disposable infrastructure/private test files, and begin the monitored 100-seat pilot. Keep email and WhatsApp sending separately gated.
 
 ## Verification status
 
 Gateway, community, chat-ticket and read-before-profile integrations passed. TypeScript, repository lint, Vinext build and the serial Next Webpack production build passed during this continuation. Final narrow lint of all six changed gateway/probe JavaScript files passed before the push. Earlier local tooling stalls were resolved. Next and Vinext builds must run sequentially because both generate .next files.
 
-On 2026-10-14, the local seat Turnstile integration suite passed. The disposable browser replay result above supersedes its mocked-provider success for activation decisions. No tracked application code or production flag was changed during this check.
+On 2026-10-14, the local seat Turnstile integration suite passed. The disposable browser replay result above supersedes its mocked-provider success for activation decisions. Production Turnstile remains off. The later photo activation changed only the production upload flag and redeployed the existing approved application source; no participant account was used for the smoke.
 
 No secret values, challenge tokens, host credentials or participant records belong in this document or Git.

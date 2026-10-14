@@ -1,16 +1,22 @@
-// Disposable hosted upload/private-media probe. It refuses the known production
-// site, creates only a test profile/photo, and deletes the test seat afterwards.
+// Hosted upload/private-media probe. Production requires a separate explicit
+// switch and the exact known live hostname; it creates only a test profile/photo
+// and deletes the test seat afterwards.
 import assert from 'node:assert/strict';
 import {randomUUID} from 'node:crypto';
 import {readFileSync} from 'node:fs';
 
-if(process.env.MOMO_HOSTED_IMAGE_DISPOSABLE!=='yes-delete-probe-data'){
-  throw Error('Refusing image probe without MOMO_HOSTED_IMAGE_DISPOSABLE=yes-delete-probe-data');
-}
 const raw=process.env.MOMO_HOSTED_TEST_APP_URL;if(!raw)throw Error('Missing MOMO_HOSTED_TEST_APP_URL');
 const app=new URL(raw);
 if(app.protocol!=='https:')throw Error('Hosted image probe requires HTTPS.');
-if(app.hostname==='momo-ten-pied.vercel.app')throw Error('Refusing hosted image probe against the known production site.');
+if(app.pathname!=='/'||app.search||app.hash||app.username||app.password)throw Error('Hosted image probe requires a bare app origin.');
+const production=app.hostname==='momo-ten-pied.vercel.app';
+if(production){
+  if(process.env.MOMO_HOSTED_IMAGE_PRODUCTION!=='yes-test-and-delete-one-live-seat'||process.env.MOMO_HOSTED_IMAGE_DISPOSABLE){
+    throw Error('Refusing production image probe without its separate exact-host approval switch.');
+  }
+}else if(process.env.MOMO_HOSTED_IMAGE_DISPOSABLE!=='yes-delete-probe-data'||process.env.MOMO_HOSTED_IMAGE_PRODUCTION){
+  throw Error('Refusing disposable image probe without MOMO_HOSTED_IMAGE_DISPOSABLE=yes-delete-probe-data.');
+}
 const optionalTurnstileToken=process.env.MOMO_HOSTED_TURNSTILE_TOKEN||'';
 // Use a valid decodable image, with a CRC-checked ancillary metadata marker.
 // The former one-pixel fixture had an invalid IDAT CRC and real Images rejected it.
@@ -49,17 +55,17 @@ const session=new Session();let latestPhoto=null;
 try{
   let opened=await session.post('/api/session',{action:'start'});
   if(opened.status===428){
-    if(!optionalTurnstileToken)throw Error('Preview requires Turnstile. Supply a fresh MOMO_HOSTED_TURNSTILE_TOKEN from this disposable hostname.');
+    if(!optionalTurnstileToken)throw Error('Hosted app requires Turnstile. Supply a fresh MOMO_HOSTED_TURNSTILE_TOKEN from this hostname.');
     opened=await session.post('/api/session',{action:'start',turnstileToken:optionalTurnstileToken});
   }
-  assert.equal(opened.status,200,`Could not open disposable seat: ${JSON.stringify(opened.data)}`);
-  assert(session.cookies.get('momo_sid'),'Disposable seat cookie missing');
+  assert.equal(opened.status,200,`Could not open test seat: ${JSON.stringify(opened.data)}`);
+  assert(session.cookies.get('momo_sid'),'Test seat cookie missing');
 
   const profile=await session.post('/api/community',{action:'profile',nickname:`Img ${suffix}`.slice(0,30),age:24,gender:'Disposable probe',avatar:0,rules:true});
   assert.equal(profile.status,200,`Could not create disposable profile: ${JSON.stringify(profile.data)}`);
 
   const first=await session.upload();
-  assert.equal(first.status,200,`Hosted upload failed. Confirm preview upload flag, R2 and reviewed image gateway binding: ${JSON.stringify(first.data)}`);
+  assert.equal(first.status,200,`Hosted upload failed. Confirm upload flag, R2 and reviewed image gateway binding: ${JSON.stringify(first.data)}`);
   assert.match(first.data.id,/^[0-9a-f-]{36}$/);latestPhoto=first.data.id;
   const me=await session.json('/api/community?view=me');assert.equal(me.status,200);assert.equal(me.data.profile?.photo,latestPhoto);
 
@@ -85,4 +91,4 @@ try{
   try{await session.post('/api/community',{action:'deleteAccount'})}catch{}
   try{await session.post('/api/session',{action:'signout'})}catch{}
 }
-console.log('PASS disposable hosted image/private-media probe',JSON.stringify({host:app.hostname,productionDataTouched:false}));
+console.log('PASS hosted image/private-media probe',JSON.stringify({host:app.hostname,productionDataTouched:production,disposableSeatDeleted:true}));
