@@ -105,6 +105,10 @@ The group-management continuation adds **Your gangs** on Home and inside an Adda
 
 Local plan-discovery tests, community and invitation integrations, the Worker build, TypeScript and lint cover this continuation. Browser visual/click-through verification is pending because local browser access is disabled.
 
+### Conversation and arrival continuation
+
+The [21 October reference review](REFERENCE_PRODUCT_REVIEW_2026-10-21.md) compares Momo with current official Timeleft and Meetup material and orders the remaining gaps. This continuation adds optional original conversation prompts inside Adda and map/calendar actions on a selected upcoming plan. Prompts can fill an empty draft only after profile setup, never send automatically or overwrite typed text. Group drafts stay in their own rooms and are cleared on a signed-out member refresh. Calendar files save public plan details, a tentative start time and a 15-minute display reminder; they contain no attendee contact or invented end time and do not update automatically. Existing profile, attendance, invitation and launch gates still apply. Browser interactions and calendar-app imports remain pending verification.
+
 ### Inputs after the pilot
 
 After the first monitored pilot, add only the inputs that the host can act on:

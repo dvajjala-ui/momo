@@ -2,6 +2,7 @@ import {CalendarDays,MapPin,Utensils} from 'lucide-react';
 import Link from 'next/link';
 import type {InvitationEvent} from '../lib/invitation-types';
 import CopyPlanLink from './copy-plan-link';
+import PlanTools from './plan-tools';
 
 export default function JoinPlan({event,expired}:{event:InvitationEvent;expired:boolean}){
   return <section className="join-plan" aria-labelledby="join-plan-title">
@@ -15,6 +16,7 @@ export default function JoinPlan({event,expired}:{event:InvitationEvent;expired:
     </dl>
     <p className="hint">{expired?'New requests for this plan are closed. Your existing request remains available below.':'An invitation request is an expression of interest. The host confirms your place separately. Momo collects no payment here.'}</p>
     {!expired&&<CopyPlanLink key={event.id} eventId={event.id}/>}
+    {!expired&&<PlanTools event={event}/>}
     {expired&&<Link prefetch={false} className="hand-link" href="/#the-plan">Find an upcoming plan →</Link>}
   </section>;
 }

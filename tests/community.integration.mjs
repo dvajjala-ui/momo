@@ -68,6 +68,13 @@ const blocked=await call('/api/community?view=chat&room=weekend',null,'other');i
 assert('member cannot publish',await call('/api/community',{action:'event'}),403);
 assert('host can publish',await call('/api/community',{action:'event',title:'Test meetup',date:'2026-11-01T18:00:00+05:30',venue:'Test venue',cost:'Pay at venue',description:'Local testing only',category:'Food'},'host'),200);
 const home=await call('/api/community',null,null);const eventId=home.data.events[0].id;
+const seatsBeforeCalendar=await db.prepare('SELECT COUNT(*) AS n FROM member_controls').first();
+const calendar=await mf.dispatchFetch('https://momo.test/api/plans/'+eventId+'/calendar?verify=private-token');
+if(calendar.status!==200||!calendar.headers.get('content-type')?.startsWith('text/calendar')||calendar.headers.get('content-disposition')!=='attachment; filename="momo-plan-reminder.ics"'||calendar.headers.get('cache-control')!=='no-store'||calendar.headers.has('set-cookie'))throw Error('Public calendar response contract');
+const calendarText=(await calendar.text()).replace(/\r\n /g,'');
+if(!calendarText.includes('STATUS:TENTATIVE')||!calendarText.includes('URL:https://momo.test/join?event='+eventId)||calendarText.includes('private-token')||(await db.prepare('SELECT COUNT(*) AS n FROM member_controls').first()).n!==seatsBeforeCalendar.n)throw Error('Calendar privacy or seat side effect');
+console.log('PASS public calendar reminder downloads without creating a seat or forwarding URL tokens');
+const missingCalendar=await mf.dispatchFetch('https://momo.test/api/plans/00000000-0000-4000-8000-000000000000/calendar');if(missingCalendar.status!==404)throw Error('Missing calendar should return 404');
 const fixtureNow=Date.now(),discoveryIds=Array.from({length:70},(_,i)=>'a1000000-0000-4000-8000-'+String(i).padStart(12,'0'));
 await db.batch(discoveryIds.map((id,i)=>{
  const instant=fixtureNow+(i<35?-(i+1)*86400000:(i-34)*86400000);
@@ -82,6 +89,7 @@ const hiddenId=discoveryIds.at(-1);if(discovery.some(e=>e.id===hiddenId))throw E
 const sharedPlan=await call('/api/community?view=plan&id='+hiddenId,null,null);assert('shared plan resolves outside the public feed',sharedPlan,200);
 if(sharedPlan.data.event.id!==hiddenId||Object.keys(sharedPlan.data.event).sort().join(',')!=='cost,date,description,id,title,venue')throw Error('Shared plan exposed fields outside its public details');
 assert('old shared plan remains readable',await call('/api/community?view=plan&id='+discoveryIds[34],null,null),200);
+const pastCalendar=await mf.dispatchFetch('https://momo.test/api/plans/'+discoveryIds[0]+'/calendar');if(pastCalendar.status!==409)throw Error('Started plan calendar should be closed');console.log('PASS started plans cannot create new calendar reminders');
 assert('missing public plan returns 404',await call('/api/community?view=plan&id=does-not-exist',null,null),404);
 assert('oversized plan id is refused',await call('/api/community?view=plan&id='+'a'.repeat(61),null,null),404);
 const beforeStalePhone=(await call('/api/community?view=me')).data.invite;
