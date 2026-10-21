@@ -68,6 +68,17 @@ const blocked=await call('/api/community?view=chat&room=weekend',null,'other');i
 assert('member cannot publish',await call('/api/community',{action:'event'}),403);
 assert('host can publish',await call('/api/community',{action:'event',title:'Test meetup',date:'2026-11-01T18:00:00+05:30',venue:'Test venue',cost:'Pay at venue',description:'Local testing only',category:'Food'},'host'),200);
 const home=await call('/api/community',null,null);const eventId=home.data.events[0].id;
+const guidedStart=new Date(Date.now()+2*86400000).toISOString(),guidedEnd=new Date(Date.now()+2*86400000+2*3600000).toISOString();
+const guidedInput={action:'event',title:'Local guided plan',date:guidedStart,venue:'Disposable public venue, Test City',cost:'Own order',category:'Food',description:'This raw field must not replace guided details',planDetails:{hostName:'Local Host',endDate:guidedEnd,capacity:8,meetingPoint:'Public entrance',contact:'host@example.test',access:'Ask the venue about access',emergencyPlan:'Ask venue staff for help and use the marked exit.',notes:'Read and chat over a local test chai.',publicDetailsConfirmed:true}};
+assert('member cannot publish a guided plan',await call('/api/community',guidedInput),403);
+const eventCountBefore=await db.prepare('SELECT COUNT(*) AS n FROM events').first();
+assert('guided publishing needs public-detail confirmation',await call('/api/community',{...guidedInput,preview:true,planDetails:{...guidedInput.planDetails,publicDetailsConfirmed:false}},'host'),400);
+assert('guided publishing rejects finish before start',await call('/api/community',{...guidedInput,planDetails:{...guidedInput.planDetails,endDate:guidedStart}},'host'),400);
+if((await db.prepare('SELECT COUNT(*) AS n FROM events').first()).n!==eventCountBefore.n)throw Error('Invalid guided plan created an event');
+const guidedPublished=await call('/api/community',guidedInput,'host');assert('host publishes a guided plan',guidedPublished,200);
+const publishedDetails=(await call('/api/community?view=plan&id='+guidedPublished.data.id,null,null)).data.event;
+if(!publishedDetails.description.includes('Host: Local Host')||!publishedDetails.description.includes('Planned group: 8 people.')||!publishedDetails.description.includes(guidedInput.planDetails.emergencyPlan)||publishedDetails.description.includes(guidedInput.description)||'planDetails' in publishedDetails)throw Error('Guided plan did not retain its public readable details');console.log('PASS guided details appear in the existing public plan without schema changes');
+assert('remove disposable guided plan',await call('/api/community',{action:'removeEvent',id:guidedPublished.data.id},'host'),200);
 const seatsBeforeCalendar=await db.prepare('SELECT COUNT(*) AS n FROM member_controls').first();
 const calendar=await mf.dispatchFetch('https://momo.test/api/plans/'+eventId+'/calendar?verify=private-token');
 if(calendar.status!==200||!calendar.headers.get('content-type')?.startsWith('text/calendar')||calendar.headers.get('content-disposition')!=='attachment; filename="momo-plan-reminder.ics"'||calendar.headers.get('cache-control')!=='no-store'||calendar.headers.has('set-cookie'))throw Error('Public calendar response contract');

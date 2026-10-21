@@ -18,6 +18,8 @@ The next reference-led continuation is documented in `docs/REFERENCE_PRODUCT_REV
 
 Local verification for that continuation passed: Worker build, regenerated Next route types, TypeScript, repository lint, calendar/plan-discovery tests and the full disposable community integration suite. Deployment is checked after pushing.
 
+The host-planning/marketing continuation is in `docs/PRODUCT_AND_MARKETING_ROADMAP.md`. The new guided composer validates real logistics, supports preview and saves a readable description in the existing schema; it is not a normalized event model or automatic RSVP cap. Legacy creation/free-text editing remain compatible. Home summaries are shorter and selected-plan details remain full. The host-only promotion disclosure prepares WhatsApp, Reddit/local-community and Instagram drafts using public event fields and clean event links. It never sends/posts, and it does not activate the held pilot. Newly published selected plans can resolve by direct lookup outside the bounded feed. No migrations, credentials or provider settings change. Final Worker build, regenerated route types, TypeScript, repository lint, host-planning tests and community/invitation integrations passed locally. Browser preview/copy checks remain pending while browser access is disabled.
+
 ## Product
 
 Momo to Pizza helps people turn a small food or activity idea into a real public meetup. It uses a playful crayon/scrapbook style and two persistent food editions. Keep the tone warm and low pressure. Do not invent members, events, urgency or safety claims. Do not label personalities.

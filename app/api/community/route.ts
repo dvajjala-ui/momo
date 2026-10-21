@@ -1,3 +1,4 @@
+import {guidedPlan} from '../../../lib/host-plan';
 import {env} from 'cloudflare:workers';
 import {emailConfig,saveEmailInvite,requestEmailVerification,previewEmailLetter,sendEmailInvitation,maskEmail,emailAddress} from '../../../lib/email';
 import {whatsappConfig,sendInvitation} from '../../../lib/whatsapp';
@@ -123,7 +124,13 @@ if(b.action==='emailRequestStatus'){if(!['requested','reviewed','confirmed','dec
 if(b.action==='previewInvitations')return json(await invitationReadiness(str(b.eventId,1,60)));
 if(b.action==='sendWhatsApp')return json(await sendInvitation(str(b.userId,1,150),str(b.eventId,1,60)));
 if(b.action==='requestStatus'){if(!['requested','reviewed','confirmed','declined'].includes(b.status))return json({error:'Unknown request status'},400);await db().prepare('UPDATE invites SET status=? WHERE user_id=?').bind(b.status,str(b.userId,1,150)).run();return json({ok:true})}
-if(b.action==='event'){const date=str(b.date,10,35);if(!Number.isFinite(Date.parse(date)))return json({error:'Choose a valid date.'},400);const wishId=typeof b.wishId==='string'&&b.wishId?b.wishId:null;if(wishId&&!(await db().prepare('SELECT id FROM wishes WHERE id=?').bind(wishId).first()))return json({error:'That wish is no longer on the wall.'},400);await db().prepare('INSERT INTO events(id,title,date,venue,cost,description,category,wish_id,created) VALUES(?,?,?,?,?,?,?,?,?)').bind(id,str(b.title,3,100),date,str(b.venue,3,150),str(b.cost,1,100),str(b.description,5,1000),str(b.category,2,30),wishId,now).run();return json({ok:true})}
+if(b.action==='event'){
+ const plan=b.planDetails!==undefined?guidedPlan(b,now):{title:str(b.title,3,100),date:str(b.date,10,35),venue:str(b.venue,3,150),cost:str(b.cost,1,100),description:str(b.description,5,1000),category:str(b.category,2,30)};
+ if(!Number.isFinite(Date.parse(plan.date)))return json({error:'Choose a valid date.'},400);
+ const wishId=typeof b.wishId==='string'&&b.wishId?b.wishId:null;
+ if(wishId&&!(await db().prepare('SELECT id FROM wishes WHERE id=?').bind(wishId).first()))return json({error:'That wish is no longer on the wall.'},400);
+ await db().prepare('INSERT INTO events(id,title,date,venue,cost,description,category,wish_id,created) VALUES(?,?,?,?,?,?,?,?,?)').bind(id,plan.title,plan.date,plan.venue,plan.cost,plan.description,plan.category,wishId,now).run();
+ return json({ok:true,id})}
 if(b.action==='removeEvent'){const eventId=str(b.id,1,60);const removed=await db().prepare('DELETE FROM events WHERE id=? AND NOT EXISTS(SELECT 1 FROM email_deliveries WHERE event_id=events.id) AND NOT EXISTS(SELECT 1 FROM deliveries WHERE event_id=events.id) AND NOT EXISTS(SELECT 1 FROM event_attendance WHERE event_id=events.id)').bind(eventId).run();if(!removed.meta.changes)return json({error:'This plan has invitation attempts or attendance, or is no longer available. Keep its record and contact the members.'},409);return json({ok:true})}
 if(b.action==='removeMessage'){await db().batch([db().prepare('DELETE FROM reports WHERE message_id=?').bind(str(b.id,1,60)),db().prepare('DELETE FROM messages WHERE id=?').bind(b.id)]);return json({ok:true})}
 if(b.action==='removePhoto'){await bucket().delete(str(b.id,1,100));await db().prepare('DELETE FROM gallery WHERE id=?').bind(b.id).run();return json({ok:true})}

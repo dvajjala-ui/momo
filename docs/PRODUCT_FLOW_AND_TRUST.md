@@ -109,6 +109,12 @@ Local plan-discovery tests, community and invitation integrations, the Worker bu
 
 The [21 October reference review](REFERENCE_PRODUCT_REVIEW_2026-10-21.md) compares Momo with current official Timeleft and Meetup material and orders the remaining gaps. This continuation adds optional original conversation prompts inside Adda and map/calendar actions on a selected upcoming plan. Prompts can fill an empty draft only after profile setup, never send automatically or overwrite typed text. Group drafts stay in their own rooms and are cleared on a signed-out member refresh. Calendar files save public plan details, a tentative start time and a 15-minute display reminder; they contain no attendee contact or invented end time and do not update automatically. Existing profile, attendance, invitation and launch gates still apply. Browser interactions and calendar-app imports remain pending verification.
 
+### Host planning and promotion continuation
+
+The host notebook now has a guided composer and a local preview. It collects the real host, finish time, planned group size, meeting point, public contact, venue access and exit/help plan. Guided submissions are validated on the server and saved as a readable description using the existing schema. Public plan pages retain those details; Home cards show a short introduction alongside the existing date/venue/cost. Planned size does not enforce event-level capacity. The legacy API and free-text editing remain compatible, so this is not a universal publication-readiness gate.
+
+The selected-plan promotion tool prepares reviewable WhatsApp, Reddit/local-community and Instagram text from public event fields and a clean plan link. It excludes member contact fields and account-token URL parameters. It has no sending, posting or paid-ad integration. See [product and marketing roadmap](PRODUCT_AND_MARKETING_ROADMAP.md) for the launch sequence and remaining data-model work. Real event and monitoring gates remain open.
+
 ### Inputs after the pilot
 
 After the first monitored pilot, add only the inputs that the host can act on:

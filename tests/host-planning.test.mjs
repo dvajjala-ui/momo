@@ -1,0 +1,32 @@
+import assert from 'node:assert/strict';
+import {createRequire} from 'node:module';
+import {mkdirSync,realpathSync} from 'node:fs';
+import {fileURLToPath} from 'node:url';
+import {guidedPlan} from '../lib/host-plan.ts';
+const require=createRequire(realpathSync(new URL('../node_modules/wrangler/package.json',import.meta.url)));
+const {buildSync}=require('esbuild');
+const root=fileURLToPath(new URL('..',import.meta.url));mkdirSync(root+'/work/tests',{recursive:true});
+buildSync({entryPoints:[root+'/lib/plan-promotion.ts'],outfile:root+'/work/tests/plan-promotion.mjs',bundle:true,format:'esm',platform:'browser'});
+const {promotionDraft,PROMOTION_CHANNELS}=await import('../work/tests/plan-promotion.mjs');
+const now=Date.parse('2026-11-01T00:00:00Z');
+const details={hostName:'Local Host',endDate:'2026-11-02T20:00:00+05:30',capacity:8,meetingPoint:'Public entrance by the cafe sign',contact:'host@example.test',access:'Ask the venue about step-free entry',emergencyPlan:'Contact the host or venue staff; use the marked public exit.',notes:'Read a little, order chai and play a round of UNO.',publicDetailsConfirmed:true};
+const input={title:'Books and chai',date:'2026-11-02T18:00:00+05:30',venue:'Local cafe, Test Street, Ahmedabad',cost:'Pay for your own order; no entry charge',category:'Food + play',planDetails:details};
+const plan=guidedPlan(input,now);
+for(const expected of ['Host: Local Host','Planned finish:','IST','Planned group: 8 people. The host confirms places.','Meet here: '+details.meetingPoint,details.contact,details.emergencyPlan,details.notes])assert.ok(plan.description.includes(expected));
+assert.equal(plan.title,input.title);assert.equal(plan.venue,input.venue);assert.ok(plan.description.length<=1000);
+assert.throws(()=>guidedPlan({...input,planDetails:{...details,publicDetailsConfirmed:false}},now),/permission/);
+assert.doesNotThrow(()=>guidedPlan({...input,planDetails:{...details,publicDetailsConfirmed:false}},now,true),'local preview can be reviewed before permission is checked');
+for(const patch of [{endDate:input.date},{endDate:'not-a-date'},{capacity:101},{capacity:1},{capacity:2.5},{hostName:''},{meetingPoint:''},{contact:''},{emergencyPlan:''},{notes:{}}])assert.throws(()=>guidedPlan({...input,planDetails:{...details,...patch}},now));
+assert.throws(()=>guidedPlan({...input,date:new Date(now).toISOString()},now),/future/);
+assert.throws(()=>guidedPlan({...input,planDetails:{...details,notes:'n'.repeat(500),meetingPoint:'m'.repeat(150),contact:'c'.repeat(120),access:'a'.repeat(160),emergencyPlan:'e'.repeat(200)}},now),/1,000/);
+assert.ok(guidedPlan({...input,planDetails:{...details,access:''}},now).description.includes('Ask the host about access'),'unknown access must not become an accessibility promise');
+const event={...plan,id:'11111111-1111-4111-8111-111111111111',email:'private-member@example.test',phone:'+12025550123'};
+const copies=PROMOTION_CHANNELS.map(({id})=>promotionDraft(event,id,'https://momo.example/host?verify=private-token#private',now));
+assert.equal(new Set(copies).size,3);
+for(const copy of copies){
+ for(const value of [event.title,event.venue,event.cost,event.description,'IST','https://momo.example/join?event='+event.id,'host confirms your place separately'])assert.ok(copy.includes(value));
+ for(const value of [event.email,event.phone,'private-token','#private'])assert.ok(!copy.includes(value),'private data must not enter promotion copy');
+}
+for(const date of ['not-a-date',new Date(now).toISOString()])assert.throws(()=>promotionDraft({...event,date},'reddit','https://momo.example',now));
+assert.throws(()=>promotionDraft(event,'unknown','https://momo.example',now));
+console.log('PASS guided plan validation, preview, truthful details and public-only channel drafts');

@@ -385,6 +385,18 @@ footer small{grid-column:1/-1;font-size:12px;color:var(--muted)}
 .section h2{font-family:var(--serif);font-size:30px;margin:28px 0 14px}
 .form-card{background:var(--card);border:2px solid var(--ink);border-radius:20px;padding:26px;box-shadow:var(--shadow)}
 .host-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin:16px 0}
+.host-plan-form fieldset{border-top:1px dashed var(--line);padding-top:16px;margin-top:20px;min-width:0}
+.host-plan-form legend{font-weight:900;padding-right:12px}
+.host-plan-form>.hint{margin:12px 0}
+.host-plan-pair{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,180px),1fr));gap:12px}
+.host-plan-preview{margin-top:20px;padding:18px;border:1.5px dashed var(--accent);border-radius:14px;background:var(--paper)}
+.host-plan-preview h3{font:700 26px var(--serif);margin:10px 0}
+.host-plan-preview small{color:var(--muted)}
+.host-promotion>summary{cursor:pointer;font-weight:900;font-size:18px}
+.host-promotion>p{margin-top:16px}
+.host-promotion select{max-width:400px}
+.promotion-copy{font-size:14px;line-height:1.6;min-height:240px;resize:vertical}
+.form-error{color:#9b2434;font-weight:800}
 .host-intro{display:flex;align-items:center;gap:22px}
 .host-count{font:800 64px var(--serif);color:var(--accent)}
 .host-inbox-card{background:#fff;border:2px solid var(--ink);border-radius:16px;padding:20px;margin:16px 0}
