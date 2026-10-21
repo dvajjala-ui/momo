@@ -95,6 +95,18 @@ The group-management continuation adds **Your gangs** on Home and inside an Adda
 
 ## Next product iteration
 
+### Plan discovery delivered on 21 October
+
+- Show upcoming plans in chronological order and remove them when their start time passes. Display the first three with an option to expand the current list; show a simple search for activity, place, description and cost when there are more than three.
+- Keep loading, failure/retry, no upcoming plans and no search matches distinct. Only show wish-wall empty examples and the community count after data loads successfully.
+- Copy a fresh public `/join?event=…` URL. Current email-confirmation tokens, contact details, other query parameters and fragments are excluded. If clipboard access fails, show a selectable link for manual copying.
+- Reserve separate API windows for the next 30 plans and 30 recent past plans, so historical events cannot hide future ones. Read a specific shared plan independently of the feed window. The selected-plan loader aborts obsolete reads and keeps request submission closed until the chosen plan resolves.
+- Apply the same selected plan and expired/missing-plan guard to the email request and the future WhatsApp request. Failed phone requests preserve the previous receipt. Sending remains explicit and separately gated.
+
+Local plan-discovery tests, community and invitation integrations, the Worker build, TypeScript and lint cover this continuation. Browser visual/click-through verification is pending because local browser access is disabled.
+
+### Inputs after the pilot
+
 After the first monitored pilot, add only the inputs that the host can act on:
 
 1. event language;

@@ -68,6 +68,27 @@ const blocked=await call('/api/community?view=chat&room=weekend',null,'other');i
 assert('member cannot publish',await call('/api/community',{action:'event'}),403);
 assert('host can publish',await call('/api/community',{action:'event',title:'Test meetup',date:'2026-11-01T18:00:00+05:30',venue:'Test venue',cost:'Pay at venue',description:'Local testing only',category:'Food'},'host'),200);
 const home=await call('/api/community',null,null);const eventId=home.data.events[0].id;
+const fixtureNow=Date.now(),discoveryIds=Array.from({length:70},(_,i)=>'a1000000-0000-4000-8000-'+String(i).padStart(12,'0'));
+await db.batch(discoveryIds.map((id,i)=>{
+ const instant=fixtureNow+(i<35?-(i+1)*86400000:(i-34)*86400000);
+ const date=i===35?new Date(instant+14*3600000).toISOString().slice(0,-1)+'+14:00':i===36?new Date(instant-12*3600000).toISOString().slice(0,-1)+'-12:00':new Date(instant).toISOString();
+ return db.prepare("INSERT INTO events(id,title,date,venue,cost,description,category,created) VALUES(?,'Discovery local fixture',?,'Local public venue','Own order','Local fixture only','Food',?)").bind(id,date,fixtureNow);
+}));
+const discovery=(await call('/api/community',null,null)).data.events;
+const futureDiscovery=discovery.filter(e=>Date.parse(e.date)>fixtureNow),pastDiscovery=discovery.filter(e=>Date.parse(e.date)<=fixtureNow);
+if(futureDiscovery.length!==30||pastDiscovery.length!==30||discovery[0].id!==discoveryIds[35]||futureDiscovery.some((e,i)=>i&&Date.parse(e.date)<Date.parse(futureDiscovery[i-1].date))||pastDiscovery.some((e,i)=>i&&Date.parse(e.date)>Date.parse(pastDiscovery[i-1].date)))throw Error('Published plans were lost or ordered by date text instead of time');
+console.log('PASS past events cannot crowd future plans out of the bounded feed');
+const hiddenId=discoveryIds.at(-1);if(discovery.some(e=>e.id===hiddenId))throw Error('Expected a plan outside the public feed');
+const sharedPlan=await call('/api/community?view=plan&id='+hiddenId,null,null);assert('shared plan resolves outside the public feed',sharedPlan,200);
+if(sharedPlan.data.event.id!==hiddenId||Object.keys(sharedPlan.data.event).sort().join(',')!=='cost,date,description,id,title,venue')throw Error('Shared plan exposed fields outside its public details');
+assert('old shared plan remains readable',await call('/api/community?view=plan&id='+discoveryIds[34],null,null),200);
+assert('missing public plan returns 404',await call('/api/community?view=plan&id=does-not-exist',null,null),404);
+assert('oversized plan id is refused',await call('/api/community?view=plan&id='+'a'.repeat(61),null,null),404);
+const beforeStalePhone=(await call('/api/community?view=me')).data.invite;
+assert('expired plan cannot replace a phone request',await call('/api/community',{action:'invite',phone:'+12025550124',city:'Changed city',consent:true,eventId:discoveryIds[0]}),400);
+assert('missing plan cannot replace a phone request',await call('/api/community',{action:'invite',phone:'+12025550124',city:'Changed city',consent:true,eventId:'missing-plan'}),400);
+if(JSON.stringify((await call('/api/community?view=me')).data.invite)!==JSON.stringify(beforeStalePhone))throw Error('Rejected phone plan replaced the saved request');console.log('PASS stale phone requests preserve the original receipt');
+await db.batch(discoveryIds.map(id=>db.prepare('DELETE FROM events WHERE id=?').bind(id)));
 assert('WhatsApp fails closed without setup',await call('/api/community',{action:'sendWhatsApp',userId:'member',eventId},'host'),400);
 assert('host can review request',await call('/api/community',{action:'requestStatus',userId:'member',status:'reviewed'},'host'),200);
 assert('member cannot review requests',await call('/api/community',{action:'requestStatus',userId:'member',status:'reviewed'}),403);
