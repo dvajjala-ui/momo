@@ -1,12 +1,14 @@
 # Momo to Pizza handoff
 
-Last updated: 2026-10-14
+Last updated: 2026-10-21
 
 Read `AGENTS.md` and `docs/PRODUCTION_REQUIREMENTS.md` before making changes. The requirements file preserves the owner’s full 28-point brief verbatim and is the detailed source of truth.
 
 ## Latest continuation
 
-Work directly on `main`, as the owner requested. Current `main`/production documentation is at `194f233`. Requirements #13/#19/#20 have isolated hosted pilot evidence; production private photos and the Vercel API perimeter rule are active. #10 and persistent monitoring within #14 remain pending. Production Turnstile stays off by owner choice and because the disposable replay check failed. Axiom token setup remains paused at the owner's request. The 100-seat pilot is prepared but must not be described as monitored or open until the Axiom and real-event gates in `docs/PILOT_OPERATIONS.md` pass. Historical branch/SHA references below describe earlier work and are not the current checkout.
+Work directly on `main`, as the owner requested. Fetch and inspect Git for the current source revision; the deployment history below records earlier releases. Requirements #13/#19/#20 have isolated hosted pilot evidence; production private photos and the Vercel API perimeter rule are active. #10 and persistent monitoring within #14 remain pending. Production Turnstile stays off by owner choice and because the disposable replay check failed. Axiom token setup remains paused at the owner's request. The 100-seat pilot is prepared but must not be described as monitored or open until the Axiom and real-event gates in `docs/PILOT_OPERATIONS.md` pass.
+
+The 21 October product continuation clarifies Explore → Join → Participate → Attend, labels age/gender as self-provided, and adds contact/attendance trust marks. Count me in now opens a device seat as part of submitting the email request. Returning visitors see their saved request and next action first. Plan descriptions, timing, venue and cost appear before the form; expired or missing plans cannot replace a saved request. Switching plans requires an explicit form submission with a replacement notice. Email sends remain explicit and gated. See `docs/PRODUCT_FLOW_AND_TRUST.md`.
 
 ## Product
 
@@ -16,7 +18,7 @@ The main experience is Ghar, Adda and Count me in. `/host` is the private direct
 
 The seven unverified moodboard JPGs were removed from the current tree on 14 October 2026. Earlier Git history still contains them, so do not reuse or redistribute them without verified rights. The current candidate uses original covers. The two film documents are production briefs, not finished films.
 
-## Current branch and production
+## Initial deployment record (historical)
 
 - Production source: `main` at merge commit `d06df2d` (pull request #5)
 - Current continuation branch: `codex/continue-launch-readiness`, created from `d06df2d`

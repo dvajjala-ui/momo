@@ -18,7 +18,12 @@ async function mail(to:string,letter:{subject:string,html:string,text:string},ke
 }
 export async function saveEmailInvite(userId:string,b:EmailInviteInput){
  const email=emailAddress(b.email);if(b.consent!==true)throw Error('Please agree to email invitations.');if(typeof b.city!=='string'||b.city.trim().length<2||b.city.trim().length>60)throw Error('Please enter your city.');
- const eventId=typeof b.eventId==='string'&&b.eventId?b.eventId:null;if(eventId&&!await db().prepare('SELECT id FROM events WHERE id=?').bind(eventId).first())throw Error('Please choose an available plan.');const now=Date.now();
+ const eventId=typeof b.eventId==='string'&&b.eventId?b.eventId:null;
+ const now=Date.now();
+ if(eventId){
+  const event=await db().prepare('SELECT date FROM events WHERE id=?').bind(eventId).first<{date:string}>();
+  if(!event||!Number.isFinite(Date.parse(event.date))||Date.parse(event.date)<=now)throw Error('Please choose an upcoming available plan. Your existing request has not been changed.');
+ }
  await db().prepare("INSERT INTO email_invites(user_id,email,city,event_id,consent,status,food_theme,letter_style,revision,created,updated) VALUES(?,?,?,?,?,'requested',?,?,?,?,?) ON CONFLICT(user_id) DO UPDATE SET email=excluded.email,city=excluded.city,event_id=excluded.event_id,consent=excluded.consent,status='requested',food_theme=excluded.food_theme,letter_style=excluded.letter_style,updated=excluded.updated,verified_at=CASE WHEN email_invites.email=excluded.email THEN email_invites.verified_at ELSE NULL END,verify_hash=CASE WHEN email_invites.email=excluded.email THEN email_invites.verify_hash ELSE NULL END,verify_expires=CASE WHEN email_invites.email=excluded.email THEN email_invites.verify_expires ELSE NULL END,revision=CASE WHEN email_invites.email=excluded.email THEN email_invites.revision ELSE excluded.revision END").bind(userId,email,b.city.trim(),eventId,CONSENT,b.foodTheme==='menu'?'menu':'momo',typeof b.letterStyle==='string'&&['hero','princess','notebook'].includes(b.letterStyle)?b.letterStyle:'notebook',crypto.randomUUID(),now,now).run();return {ok:true};
 }
 export async function requestEmailVerification(userId:string){

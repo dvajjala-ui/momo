@@ -19,7 +19,7 @@ This should remain a friendship-first product. Do not use dating language, match
 | Explore | Read plans, rules and the wish wall | Nothing | Anonymous visitor |
 | Save a seat | Join an existing wish in one tap | Device seat | Interested seat; identity is not verified |
 | Participate | Create a wish or send a group message | Nickname, age, self-described gender, rules acceptance | Complete social profile; age and gender remain self-provided |
-| Request an invitation | Ask for a real hosted plan | Confirmed email, city, consent | Contact checked |
+| Request an invitation | Save a request for a hosted plan or the interest list | Email, city, consent; inbox confirmation before sending | Contact checked only after inbox confirmation |
 | Attend | Join the published event | Host records attendance after the meetup starts | Met at Momo |
 | Continue | Opt into private notes with someone from the same event | Shared confirmed attendance and both people opt in | Mutual post-event contact only |
 
@@ -88,6 +88,8 @@ Implemented on 2026-10-21:
 - chat labels age and gender as self-provided;
 - chat can show **contact checked** and **met at Momo** using existing verified-contact and host-attendance records;
 - the existing one-tap join remains available and is explicitly described as an unverified expression of interest.
+
+The invitation continuation also removes the separate device-seat button from Count me in: the explicit request submission opens the seat and saves the request. No confirmation email is sent automatically. Returning visitors see the saved receipt, confirmation status and next action before an optional edit form. Opening a link to another plan warns that submitting replaces the one existing request. A plain visit to `/join` retains the requested plan. Full published plan details appear before submission; missing or started plans close the form, and the API also rejects stale plan requests without changing saved data.
 
 ## Next product iteration
 
