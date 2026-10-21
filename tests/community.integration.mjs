@@ -74,6 +74,9 @@ assert('member cannot review requests',await call('/api/community',{action:'requ
 const host=await call('/api/community?view=host',null,'host');if(host.data.whatsapp.configured||!host.data.whatsapp.missing.includes('WHATSAPP_ACCESS_TOKEN'))throw Error('Setup guard failed');console.log('PASS WhatsApp missing setup disclosed without secrets');
 if(host.data.email.configured||!host.data.email.missing.includes('GMAIL_REFRESH_TOKEN'))throw Error('Email setup guard failed');console.log('PASS Gmail fails closed without sender authorization');
 assert('email request saves without sender',await call('/api/community',{action:'emailInvite',email:'member@example.test',city:'Test City',consent:true}),200);
+await db.prepare('UPDATE email_invites SET verified_at=? WHERE user_id=?').bind(Date.now(),memberDbId).run();
+const contactCheckedChat=await call('/api/community?view=chat&room=weekend');
+if(!contactCheckedChat.data.messages[0]?.contactChecked||contactCheckedChat.data.messages[0]?.attended)throw Error('Chat trust marks did not distinguish confirmed contact from attendance');console.log('PASS chat exposes evidence-based contact and attendance marks');
 assert('email verification waits for sender',await call('/api/community',{action:'verifyEmail'}),400);
 await db.prepare("INSERT INTO deliveries(id,user_id,event_id,message_id,status,created,updated) VALUES('test',?,?,'wamid.test','accepted',1,1)").bind(memberDbId,eventId).run();
 async function webhook(value,valid=true){const body=JSON.stringify({object:'whatsapp_business_account',entry:[{changes:[{field:'messages',value:{metadata:{phone_number_id:'123456789'},...value}}]}]});const signature=createHmac('sha256',valid?'local-test-secret':'wrong').update(body).digest('hex');const r=await mf.dispatchFetch('https://momo.test/api/whatsapp/webhook',{method:'POST',headers:{'Content-Type':'application/json','x-hub-signature-256':'sha256='+signature},body});return {status:r.status,data:await r.json()}}
@@ -84,6 +87,9 @@ if((await db.prepare("SELECT status FROM deliveries WHERE id='test'").first()).s
 assert('signed STOP processed',await webhook({messages:[{type:'text',from:'12025550123',text:{body:'STOP'}}]}),200);
 if((await call('/api/community?view=me')).data.invite!==null)throw Error('STOP did not remove request');console.log('PASS STOP removes request');
 assert('wish needs a nickname',await call('/api/community',{action:'wish',title:'Badminton',whenText:'Sunday',area:'Test',spots:2},'nobody'),400);
+await db.prepare('UPDATE profiles SET age=NULL WHERE id=?').bind(memberDbId).run();
+assert('wish needs the complete social profile',await call('/api/community',{action:'wish',title:'Incomplete profile plan',whenText:'Sunday',area:'Test',spots:2}),400);
+await db.prepare('UPDATE profiles SET age=16 WHERE id=?').bind(memberDbId).run();
 assert('wish saved',await call('/api/community',{action:'wish',title:'Sunday badminton',whenText:'Sunday 7am',area:'Test City',spots:2}),200);
 assert('other member profile',await call('/api/community',{action:'profile',nickname:'Gary',age:28,gender:'Man',avatar:1,rules:true},'other'),200);
 const wishes=(await call('/api/community',null,'other')).data.wishes;const wish=wishes[0];if(!wish||wish.by!==null||wish.joined!==1||'user_id' in wish)throw Error('Wish board shape');console.log('PASS wish board keeps its creator anonymous');
@@ -138,6 +144,8 @@ assert('private opt-in needs attendance',await call('/api/direct',{action:'prefe
 assert('host cannot mark a stranger attended',await call('/api/admin',{action:'attendance',eventId:attendedEvent.id,userId:'third',attended:true},'host'),403);
 assert('host confirms first attendance',await call('/api/admin',{action:'attendance',eventId:attendedEvent.id,userId:'member',attended:true},'host'),200);
 assert('host confirms second attendance',await call('/api/admin',{action:'attendance',eventId:attendedEvent.id,userId:'other',attended:true},'host'),200);
+const attendedChat=await call('/api/community?view=chat&room=weekend');
+if(!attendedChat.data.messages[0]?.attended)throw Error('Host-recorded attendance trust mark missing from chat');console.log('PASS chat marks a host-confirmed attendee');
 assert('first person opts in',await call('/api/direct',{action:'preference',enabled:true},'member'),200);
 assert('second person opts in',await call('/api/direct',{action:'preference',enabled:true},'other'),200);
 assert('existing block prevents private notes',await call('/api/direct',{action:'start',peerId:'other'},'member'),403);

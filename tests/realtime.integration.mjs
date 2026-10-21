@@ -33,6 +33,7 @@ try{
   const db=await mf.getD1Database('DB');
   for(const file of readdirSync(root+'/drizzle').filter(f=>f.endsWith('.sql')).sort())for(const statement of readFileSync(root+'/drizzle/'+file,'utf8').split('--> statement-breakpoint'))if(statement.trim())await db.prepare(statement).run();
   for(const [id,nick] of [['a','Chai'],['b','Momo'],['c','Noodles']])await db.prepare('INSERT INTO profiles(id,nickname,age,gender,created,dm_opt_in) VALUES(?,?,24,?,1,1)').bind(id,nick,'Test profile').run();
+  await db.prepare("INSERT INTO phone_verifications(user_id,phone,expires,created,verified_at) VALUES('a','+12025550123',9999999999999,1,1)").run();
   assert.equal((await post('history',seat('a'),'wrong')).status,401);
   assert.equal((await connect('a','weekend',{},'https://outsider.test')).status,403);
   assert.equal((await connect('a','weekend',{expires:Date.now()-1})).status,401);
@@ -51,7 +52,7 @@ try{
   const clientId=randomUUID();a.ws.send(JSON.stringify({type:'send',clientId,body:'A live local note'}));
   await until(()=>a.received.some(x=>x.type==='ack'&&x.clientId===clientId)&&b.received.some(x=>x.type==='message'));
   const note=b.received.find(x=>x.type==='message').message;
-  assert.equal(note.body,'A live local note');assert.equal(note.mine,false);assert.equal(note.nickname,'Chai');
+  assert.equal(note.body,'A live local note');assert.equal(note.mine,false);assert.equal(note.nickname,'Chai');assert.equal(note.contactChecked,true);assert.equal(note.attended,false);
   assert.equal(a.received.find(x=>x.type==='message').message.mine,true);
   assert(!JSON.stringify(note).includes('user_id'));assert(!('email' in note));assert(!('phone' in note));
   const duplicate=await post('send',{...seat('a'),clientId,body:'A live local note'});assert.equal(duplicate.status,200);assert.equal(duplicate.data.duplicate,true);
@@ -88,6 +89,8 @@ try{
   await db.prepare("INSERT INTO direct_threads(id,user_a,user_b,created) VALUES(?,'a','b',1)").bind(thread).run();
   assert.equal((await connect('a',direct)).status,403);
   for(const id of ['a','b'])await db.prepare("INSERT INTO event_attendance(id,event_id,user_id,confirmed_by,attended_at) VALUES(?,?,?,'host',1)").bind(event+':'+id,event,id).run();
+  const attendedHistory=await post('history',seat('b'));
+  assert.equal(attendedHistory.data.messages.find(message=>message.body==='Hidden by block')?.attended,true);
   const directB=await connect('b',direct);await until(()=>directB.received.some(x=>x.type==='history'));
   await db.prepare("UPDATE profiles SET dm_opt_in=0 WHERE id='b'").run();
   assert.equal((await post('send',{...seat('a',direct),clientId:randomUUID(),body:'Must not save'})).status,403);
