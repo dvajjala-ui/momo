@@ -6,10 +6,12 @@ import Wishes,{WishData} from './wishes';
 import {Run} from './client';
 import {useCurrentTime} from './use-current-time';
 import {InvitationEvent} from './invitation';
+import YourGangs from './your-gangs';
+import type {MemberState} from './community-types';
 
 type HomeEvent=InvitationEvent&{id:string;description:string};
 type HomeData={events:HomeEvent[];gallery:{id:string;caption:string}[];wishes:WishData[];pilot?:{active:number;capacity:number}};
-type HomeMember={signedIn?:boolean;profile?:{age?:number|null;gender?:string|null}|null;admin?:boolean;emailInvite?:unknown;invite?:unknown}|null;
+type HomeMember=MemberState|null;
 export default function PlayfulHome({data,me,busy,run,reload,signIn,previewBanner}:{data:HomeData,me:HomeMember,busy:boolean,run:Run,reload:()=>Promise<void>,signIn:React.ReactNode,previewBanner?:React.ReactNode}){
   const{theme}=useBrand();const now=useCurrentTime();const photo=themePhoto(theme);const kinds=themeKinds(theme);const upcoming=data.events.filter(e=>Date.parse(e.date)>now-6*3600000);
   return <main id="main-content" tabIndex={-1} className="home">
@@ -30,6 +32,7 @@ export default function PlayfulHome({data,me,busy,run,reload,signIn,previewBanne
         <details className="photo-credits"><summary>Photo credits</summary><small>Photo: <a href={photo.page} target="_blank" rel="noreferrer">{photo.credit}</a>, <a href={photo.licenseUrl} target="_blank" rel="noreferrer">{photo.license}</a>, via Wikimedia Commons. Display cropped for layout.</small></details>
       </div>
     </section>
+    {me?.signedIn&&<YourGangs gangs={me.gangs} busy={busy} run={run} reload={reload}/>}
     <section className="how" id="the-plan">
       <div className="section-heading"><span className="handwritten">the whole plan.</span><h2>One clear path from curious to confirmed.</h2></div>
       <div className="steps"><article><b>01</b><h3>Explore first</h3><p>Read the plans and wish wall without giving Momo personal details.</p></article><article><b>02</b><h3>Save a seat</h3><p>Join a wish in one tap. This only reserves a device seat; it does not claim your identity is verified.</p></article><article><b>03</b><h3>Introduce yourself</h3><p>Before creating a wish or speaking, add one nickname, your age and self-described gender. The same profile is used everywhere.</p></article><article><b>04</b><h3>Meet in public</h3><p>The host shares the date, public venue and full cost. After you attend, your profile can show that a host met you.</p></article></div>
