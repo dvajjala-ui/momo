@@ -35,8 +35,9 @@ Passed on the final source candidate:
 - `node tests/community.integration.mjs` on disposable local Worker/D1/R2 bindings.
 - Browser checks against the final local Worker with synthetic records: host login, selected-plan and general-interest views, filtering, no results, requested-plan switching, review/save, letter preview and disabled sending, guided plan preview without publication, and public-only promotion copy feedback. At 390 px, the inbox had no overflowing controls and its scroll/client widths matched. A screenshot is saved at `outputs/host-inbox-mobile-2026-10-22.jpg` (ignored local artifact).
 - Live read-only navigation to the production invitation form. No production participant record was created or changed.
+- After deployment, anonymous HTTP reads returned 200 for Home, Join and public community data; private `view=host` and `view=me` returned 401.
 
-The previous commit `023da47` has a successful Vercel deployment check. Check this continuation's exact commit after pushing. Local UI/integration results do not establish live host sending or clear the existing launch gates.
+Implementation commit `08914cf25d7bfb828f9f0aa11ff90febde76a4cd` was pushed directly to `main`. Its Vercel deployment check reports **success / Deployment has completed**: [deployment](https://vercel.com/dvajjala-2765s-projects/momo/82Xmi62cwTn9XuG7cG2QWxmPD3Ez). The preceding `023da47` deployment is also successful. Local UI/integration results do not establish live host sending or clear the existing launch gates.
 
 Host clients must refresh after deployment: `emailRequestStatus` requires `requestVersion`; `sendEmail` requires both `requestVersion` and `letterVersion` from the current preview. Missing or stale snapshots return HTTP 409. These are concurrency/content checks in addition to existing host authorization, not new member credentials.
 
