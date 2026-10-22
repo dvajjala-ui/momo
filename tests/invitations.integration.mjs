@@ -26,7 +26,12 @@ try{
  async function call(data,user='member',path='/api/community',origin='https://momo.test'){
   const headers={Origin:origin,'Content-Type':'application/json'};if(user)headers.Cookie=cookieFor(user);const r=await mf.dispatchFetch('https://momo.test'+path,{method:data?'POST':'GET',headers,body:data?JSON.stringify(translateIds(data)):undefined});return {status:r.status,data:await r.json().catch(()=>({}))};
  }
- const action=(data,user)=>call(data,user);
+ const requestFor=async user=>(await call(null,'host','/api/community?view=host')).data.emailInvites.find(i=>i.user_id===userIdFor(user));
+ const action=async(data,user)=>{
+  if(user==='host'&&data.action==='emailRequestStatus'&&!Object.hasOwn(data,'requestVersion'))data={...data,requestVersion:(await requestFor(data.userId))?.requestVersion};
+  if(user==='host'&&data.action==='sendEmail'&&!Object.hasOwn(data,'requestVersion')){const preview=(await call({action:'previewEmail',userId:data.userId,eventId:data.eventId},user)).data;data={...data,requestVersion:preview.requestVersion,letterVersion:preview.letterVersion}}
+  return call(data,user);
+ };
  const save=(user,email=user+'@example.test',extra={})=>action({action:'emailInvite',email,city:'Test city',consent:true,foodTheme:'menu',letterStyle:'notebook',...extra},user);
  const verify=async user=>{assert('confirmation letter accepted', (await action({action:'verifyEmail'},user)).status===200);const token=sent.at(-1).data.text.match(/#email-confirm=([a-f0-9]{64})/)[1];assert('anonymous inbox confirmation works',(await call({action:'confirm',token},null,'/api/email')).status===200);return token};
  await action({action:'event',title:'A <script>tiny</script> plan',date:new Date(Date.now()+7*86400000).toISOString(),venue:'Public venue & Test City',cost:'Pay for your own food',description:'Host: Local tester. Ends 8pm. Contact the host. Local only.',category:'Food'},'host');
@@ -51,6 +56,12 @@ try{
  assert('missing plan cannot become a general signup',(await save('plan-link','plan-link@example.test',{eventId:'missing-plan'})).status===400);
  const preserved=(await call(null,'plan-link','/api/community?view=me')).data.emailInvite;
  assert('rejected plan links preserve original request',preserved.eventId===eventId&&preserved.status==='requested');
+ const parallelSnapshot=(await requestFor('plan-link')).requestVersion;
+ const parallelStatuses=await Promise.all(['reviewed','declined'].map(status=>call({action:'emailRequestStatus',userId:'plan-link',status,requestVersion:parallelSnapshot},'host')));
+ assert('concurrent host decisions only apply one snapshot',parallelStatuses.map(r=>r.status).sort().join(',')==='200,409');
+ await action({action:'emailRequestStatus',userId:'plan-link',status:'confirmed'},'host');
+ const unverifiedConfirmed=(await call(null,'plan-link','/api/community?view=me')).data.emailInvite;
+ assert('host confirmation never invents inbox proof',unverifiedConfirmed.status==='confirmed'&&!unverifiedConfirmed.verified&&sent.length===0);
  let me=(await call(null,'member','/api/community?view=me')).data;
  assert('member receipt masks address and hides proof',me.emailInvite.maskedEmail==='m•••@example.test'&&!JSON.stringify(me).includes('member@example.test')&&!JSON.stringify(me).includes('verify_hash'));
  assert('member cannot preview host letter',(await action({action:'previewEmail',userId:'member',eventId})).status===403);
@@ -58,6 +69,10 @@ try{
  const preview=await action({action:'previewEmail',userId:'member',eventId},'host');
  assert('letter includes full plan, text and escaped HTML',preview.status===200&&preview.data.html.includes('&lt;script&gt;')&&!preview.data.html.includes('<script>')&&preview.data.text.includes('Public venue & Test City')&&preview.data.text.includes('Full cost: Pay for your own food'));
  assert('preview sends nothing',sent.length===0);
+ const beforeReview=await requestFor('member');
+ assert('host gets an opaque request version without consent or proof material',/^[a-f0-9]{64}$/.test(beforeReview.requestVersion)&&!JSON.stringify(beforeReview).includes('verify_hash')&&!JSON.stringify(beforeReview).includes('revision'));
+ assert('status changes require a current snapshot',(await call({action:'emailRequestStatus',userId:'member',status:'reviewed'},'host')).status===409);
+ assert('general interest cannot be marked as a confirmed place',(await action({action:'emailRequestStatus',userId:'member',status:'confirmed'},'host')).status===400);
  assert('confirmation requested',(await action({action:'verifyEmail'})).status===200);
  const confirmation=sent.at(-1),token=confirmation.data.text.match(/#email-confirm=([a-f0-9]{64})/)[1];
  const challenge=await db.prepare('SELECT verify_hash FROM email_invites WHERE user_id=?').bind(memberDbId).first();assert('confirmation stores only hashed random token',challenge.verify_hash!==token&&challenge.verify_hash.length===64);
@@ -70,6 +85,13 @@ try{
  assert('confirmation token single use',(await call({action:'confirm',token},null,'/api/email')).status===400);
  assert('unreviewed verified recipient still blocked',(await action({action:'sendEmail',userId:'member',eventId},'host')).status===400);
  await action({action:'emailRequestStatus',userId:'member',status:'reviewed'},'host');
+ assert('old snapshot cannot overwrite a later host decision',(await call({action:'emailRequestStatus',userId:'member',status:'declined',requestVersion:beforeReview.requestVersion},'host')).status===409);
+ assert('send requires a current request snapshot',(await call({action:'sendEmail',userId:'member',eventId},'host')).status===409);
+ const planPreview=(await action({action:'previewEmail',userId:'member',eventId},'host')).data;
+ assert('send requires the letter snapshot as well',(await call({action:'sendEmail',userId:'member',eventId,requestVersion:planPreview.requestVersion},'host')).status===409);
+ await db.prepare('UPDATE events SET venue=? WHERE id=?').bind('Changed after preview',eventId).run();
+ assert('changed plan requires a fresh preview before sending',(await call({action:'sendEmail',userId:'member',eventId,requestVersion:planPreview.requestVersion,letterVersion:planPreview.letterVersion},'host')).status===409&&sent.length===1);
+ await db.prepare('UPDATE events SET venue=? WHERE id=?').bind('Public venue & Test City',eventId).run();
  assert('host sends reviewed verified letter',(await action({action:'sendEmail',userId:'member',eventId},'host')).status===200);
  const invitation=sent.at(-1),unsubscribe=invitation.data.text.match(/#email-unsubscribe=([a-f0-9]{64})/)[1];assert('letter includes opt-out and durable provider key',invitation.key.startsWith(provider==='gmail'?'invite':'invite/')&&invitation.data.html.includes('#email-unsubscribe='));
  assert('duplicate event send blocked',(await action({action:'sendEmail',userId:'member',eventId},'host')).status===400&&sent.length===2);
@@ -82,6 +104,28 @@ try{
  await save('change');await action({action:'verifyEmail'},'change');const oldCode=sent.at(-1).data.text.match(/#email-confirm=([a-f0-9]{64})/)[1];await save('change','new-address@example.test');
  assert('changed address invalidates old confirmation',(await call({action:'confirm',token:oldCode},null,'/api/email')).status===400);
  await verify('change');await save('change','new-address@example.test',{city:'Another city'});assert('same email retains proof',(await call(null,'change','/api/community?view=me')).data.emailInvite.verified);
+ // Same-address edits preserve inbox proof but invalidate every host decision/preview snapshot.
+ await action({action:'emailRequestStatus',userId:'change',status:'reviewed'},'host');
+ const stalePreview=(await action({action:'previewEmail',userId:'change',eventId},'host')).data;
+ const sendsBeforeChange=sent.length;
+ await save('change','new-address@example.test',{city:'Changed after preview',eventId});
+ assert('same-address edit invalidates old letter preview',(await call({action:'sendEmail',userId:'change',eventId,requestVersion:stalePreview.requestVersion},'host')).status===409&&sent.length===sendsBeforeChange);
+ assert('same-address edit invalidates host decisions',(await call({action:'emailRequestStatus',userId:'change',status:'confirmed',requestVersion:stalePreview.requestVersion},'host')).status===409);
+ await action({action:'emailRequestStatus',userId:'change',status:'confirmed'},'host');
+ assert('a published plan can be confirmed without inventing email proof',(await call(null,'change','/api/community?view=me')).data.emailInvite.status==='confirmed');
+ assert('host snapshot includes requested plan title',(await requestFor('change')).event_title==='A <script>tiny</script> plan');
+ assert('sending confirmed place succeeds',(await action({action:'sendEmail',userId:'change',eventId},'host')).status===200);
+ assert('email acceptance preserves a host-confirmed place',(await call(null,'change','/api/community?view=me')).data.emailInvite.status==='confirmed');
+ assert('confirmed letter agrees with the saved place',sent.at(-1).data.text.includes('host has marked your place confirmed')&&sent.at(-1).data.html.includes('host has marked your place confirmed'));
+ // Do not apply the result of an in-flight send to the person's newly edited request.
+ await save('edit-during-send','edited@example.test',{eventId});await verify('edit-during-send');
+ await action({action:'emailRequestStatus',userId:'edit-during-send',status:'reviewed'},'host');
+ duringSend=async()=>{await save('edit-during-send','edited@example.test',{city:'New request during send'})};
+ assert('in-flight provider result is recorded',(await action({action:'sendEmail',userId:'edit-during-send',eventId},'host')).status===200);
+ const editedReceipt=(await call(null,'edit-during-send','/api/community?view=me')).data.emailInvite;
+ assert('in-flight send does not mark a changed request invited',editedReceipt.status==='requested'&&editedReceipt.eventId===null&&editedReceipt.city==='New request during send');
+ const removedVersion=(await requestFor('edit-during-send')).requestVersion;await action({action:'withdrawEmail'},'edit-during-send');
+ assert('withdrawn request cannot be revived by stale host action',(await call({action:'emailRequestStatus',userId:'edit-during-send',status:'confirmed',requestVersion:removedVersion},'host')).status===409);
  await save('expiry');await action({action:'verifyEmail'},'expiry');const expired=sent.at(-1).data.text.match(/#email-confirm=([a-f0-9]{64})/)[1];await db.prepare('UPDATE email_invites SET verify_expires=1 WHERE user_id=?').bind(userIdFor('expiry')).run();assert('expired proof denied',(await call({action:'confirm',token:expired},null,'/api/email')).status===400);
  await save('withdraw');await action({action:'verifyEmail'},'withdraw');const removed=sent.at(-1).data.text.match(/#email-confirm=([a-f0-9]{64})/)[1];await action({action:'withdraw'},'withdraw');assert('withdraw invalidates proof',(await call({action:'confirm',token:removed},null,'/api/email')).status===400);
  await save('no-id');await verify('no-id');await action({action:'emailRequestStatus',userId:'no-id',status:'reviewed'},'host');mode='no-id';assert('missing provider identifier fails',(await action({action:'sendEmail',userId:'no-id',eventId},'host')).status===400);mode='ok';assert('unknown outcome persisted',(await db.prepare('SELECT status FROM email_deliveries WHERE user_id=?').bind(userIdFor('no-id')).first()).status==='unknown');const before=sent.length;assert('unknown outcome never retried',(await action({action:'sendEmail',userId:'no-id',eventId},'host')).status===400&&sent.length===before);
@@ -100,4 +144,10 @@ try{
  await action({action:'requestStatus',userId:'member',status:'reviewed'},'host');const ready=await action({action:'previewInvitations',eventId},'host');assert('phone readiness preview counts eligible without sending',ready.status===200&&ready.data.eligible===1&&!JSON.stringify(ready.data).includes('+12025550123'));assert('future reviewed phone send works only against stub',(await action({action:'sendWhatsApp',userId:'member',eventId},'host')).status===200);const sends=sent.length;assert('phone invite deduplicates',(await action({action:'sendWhatsApp',userId:'member',eventId},'host')).status===400&&sent.length===sends);
  await action({action:'invite',phone:'+12025550124',city:'Test city',consent:true});assert('changed number loses old ownership proof',!(await call(null,'member','/api/community?view=me')).data.invite.phoneVerified);
  console.log('All invitation tests used local fake providers; no real emails or WhatsApp messages.');
+ // Bounded host reads disclose overflow and keep proof/consent data private.
+ const overflow=[];for(let n=0;n<201;n++)overflow.push(db.prepare("INSERT INTO email_invites(user_id,email,city,consent,status,food_theme,letter_style,revision,created,updated) VALUES(?,?,?,'email-weekend-letters-v1:2026-10-09','requested','momo','notebook',?,?,?)").bind('overflow-'+n,'overflow-'+n+'@example.test','Test city','private-revision-'+n,Date.now()+n,Date.now()+n));await db.batch(overflow);
+ const notebook=await call(null,'host','/api/community?view=host');
+ assert('bounded inbox reports overflow',notebook.status===200&&notebook.data.emailInvites.length===200&&notebook.data.emailInvitesTruncated===true);
+ assert('host request snapshots omit consent proof material',!JSON.stringify(notebook.data.emailInvites).includes('private-revision-')&&!JSON.stringify(notebook.data.emailInvites).includes('verify_hash'));
+ assert('ordinary members cannot read private request notebook',(await call(null,'member','/api/community?view=host')).status===403);
 }finally{await mf.dispose()}

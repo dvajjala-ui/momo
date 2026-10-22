@@ -1,4 +1,4 @@
-import type {InvitationEvent} from '../lib/invitation-types';
+import type {InvitationEvent,HostEmailRequest} from '../lib/invitation-types';
 import type {WishData} from './wishes';
 
 export type CommunityEvent=InvitationEvent&{category:string;wish_id?:string|null};
@@ -17,6 +17,6 @@ export type MemberState=SignedOutMember|SignedInMember;
 export type HostInvite={user_id:string;nickname?:string|null;city:string;phone:string;status:string;phone_verified_at?:number|null;created:number;food_theme:string;letter_style?:'hero'|'princess'|'notebook'|null};
 export type HostDelivery={user_id:string;event_id:string;status:string;error?:string|null};
 export type HostReport={id:string;kind:'wish'|'message';message_id:string;body?:string|null;reason:string};
-export type HostEmailInvite={user_id:string;email:string;city:string;event_id:string|null;status:string;verified_at:number|null;nickname?:string|null;food_theme:string;letter_style:string};
-export type HostState={error?:string;email?:{configured:boolean};emailInvites?:HostEmailInvite[];emailDeliveries?:HostDelivery[];whatsapp?:{configured:boolean;missing:string[]};deliveries:HostDelivery[];invites:HostInvite[];reports:HostReport[]};
+export type HostEmailInvite=HostEmailRequest;
+export type HostState={error?:string;email?:{configured:boolean};emailInvites?:HostEmailInvite[];emailInvitesTruncated?:boolean;emailDeliveries?:HostDelivery[];whatsapp?:{configured:boolean;missing:string[]};deliveries:HostDelivery[];invites:HostInvite[];reports:HostReport[]};
 export type InvitationReadiness={eventId:string;title:string;configured:boolean;eligible:number;entries:{nickname:string;maskedPhone:string;label:string}[]};

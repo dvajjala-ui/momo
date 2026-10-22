@@ -1,6 +1,6 @@
 # Momo product and marketing plan
 
-Updated: 21 October 2026
+Updated: 22 October 2026
 
 ## The promise
 
@@ -20,6 +20,8 @@ Keep the public flow on Home, Adda and Count me in. Make the host notebook easie
 The composer stores a human-readable description using the existing schema. Its details are validated on the server when a guided payload is submitted. Existing event records, the legacy host API and the free-text editor remain compatible. Planned group size is descriptive: it is not an automatic event RSVP cap or a remaining-seat count. Normalized event fields and per-event capacity enforcement still need a separate implementation.
 
 ## Product order from here
+
+The 22 October continuation improves host email triage and request/letter consistency using the existing schema. Selected-plan and general-interest views, search, stage counts and stale-snapshot checks are documented in `WORK_SUMMARY_2026-10-22.md`. It does not add automatic event capacity or a waiting list. The notebook still reads at most 200 requests and discloses that limit; full pagination remains pending.
 
 1. **Finish the real pilot gate.** Confirm the event details and resume the owner-paused monitoring setup when requested. Follow `PILOT_OPERATIONS.md`; a new host form does not complete these real-world steps.
 2. **Normalize event logistics.** Add dedicated fields for host, finish, group size, meeting point and contacts, compatibility for old plans, invitation/calendar coverage and an additive migration plan. Preserve the rule against silently editing plans after delivery or attendance.
@@ -62,4 +64,4 @@ Start with one event and one primary format. Use actual attendance and participa
 
 ## Remaining verification
 
-Passed locally for this continuation: final Worker build, generated Next route types, TypeScript, repository lint, host-planning tests and the community/invitation suites. The tests use disposable local records and fake providers. Check the exact Vercel commit after pushing. Browser form/preview/copy checks remain pending while local browser access is disabled. No live event or promotion was published for testing.
+Passed locally for the host-planning continuation: final Worker build, generated Next route types, TypeScript, repository lint, host-planning tests and the community/invitation suites. On 22 October, browser access returned: the guided local preview and public promotion-copy feedback passed against the final local Worker with synthetic records. No live event or promotion was published. The 22 October inbox changes also passed the final Worker build, types, lint, request-inbox tests, community integration and invitation integrations with fake Resend/Gmail providers; see `WORK_SUMMARY_2026-10-22.md`. Check each exact Vercel commit after pushing. Local checks do not prove live host delivery or resolve launch gates.

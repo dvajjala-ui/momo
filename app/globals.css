@@ -462,6 +462,12 @@ footer small{grid-column:1/-1;font-size:12px;color:var(--muted)}
 .future-channel summary{cursor:pointer;font-weight:700}
 .future-channel>p{margin:16px 0}
 .email-host{margin:32px 0}
+.inbox-toolbar{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,190px),1fr));gap:12px;align-items:end;margin:20px 0}
+.inbox-toolbar .button{min-height:46px}
+.inbox-status-control{min-width:180px;flex:1}
+.host-inbox-card dd{min-width:0;overflow-wrap:anywhere}
+.host-inbox-card .status-badge{white-space:normal;text-align:center}
+.inbox-empty{padding:18px;border:1px dashed var(--line);border-radius:14px}
 .email-confirm{margin-bottom:24px}
 .email-request-form{margin-top:22px}
 .email-request-form h3,.join-plan h2{font-family:var(--serif);margin:0 0 12px}

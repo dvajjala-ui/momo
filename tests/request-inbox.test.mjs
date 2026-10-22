@@ -1,0 +1,33 @@
+import assert from 'node:assert/strict';
+import {inboxEntries,filterInbox,inboxMatches,requestNextStep} from '../lib/request-inbox.ts';
+import {invitationLetter} from '../lib/email-letter.ts';
+const base={email:'person@example.test',city:'Ahmedabad',nickname:null,food_theme:'momo',letter_style:'notebook',verified_at:null,updated:20,requestVersion:'a'.repeat(64)};
+const row=(id,status,event,created)=>({...base,user_id:id,status,event_id:event,event_title:event==='one'?'Books and chai':event==='two'?'Evening UNO':null,created});
+const requests=[row('new','requested','one',10),row('old','requested','one',5),row('confirmed','confirmed','one',3),row('different','requested','two',1),row('general','reviewed',null,2),row('attention','reviewed','one',15)];
+requests[1].nickname='Ｃｈａｉ Friend';requests[2].verified_at=2;
+const deliveries=[{user_id:'attention',event_id:'one',status:'unknown'},{user_id:'confirmed',event_id:'two',status:'failed'}];
+const before=JSON.stringify(requests);
+const selected=inboxEntries(requests,deliveries,'one','selected');
+assert.equal(selected.length,4);
+assert.deepEqual(filterInbox(selected,'all','').map(e=>e.request.user_id),['attention','old','new','confirmed']);
+assert.deepEqual(filterInbox(selected,'requested','').map(e=>e.request.user_id),['old','new']);
+assert.deepEqual(filterInbox(selected,'all','  chai   friend ').map(e=>e.request.user_id),['old']);
+assert.equal(filterInbox(selected,'all','PERSON@example.test').length,4);
+assert.equal(filterInbox(selected,'all','missing').length,0);
+assert.equal(selected.filter(e=>inboxMatches(e,'unverified')).length,3);
+assert.equal(selected.filter(e=>inboxMatches(e,'attention')).length,1,'an attempt for another plan must not become a warning for this one');
+assert.equal(inboxEntries(requests,deliveries,'one','interest')[0].request.user_id,'general');
+assert.equal(inboxEntries(requests,deliveries,undefined,'selected').length,0);
+assert.equal(inboxEntries(requests,deliveries,'one','all').length,requests.length);
+assert.equal(JSON.stringify(requests),before,'filtering must preserve the source notebook');
+assert.match(requestNextStep({status:'confirmed',verified:false,eventId:'one'},false).title,/place is confirmed/,'host confirmation and email ownership are independent');
+assert.doesNotMatch(requestNextStep({status:'confirmed',verified:true,eventId:null},true).title,/place is confirmed/,'legacy interest-list records cannot imply a reserved place');
+assert.match(requestNextStep({status:'invited',verified:true},true).body,/does not confirm delivery or your attendance/);
+assert.match(requestNextStep({status:'requested',verified:false},false).body,/No email has been sent/);
+const event={id:'one',title:'Books & chai',date:'2026-11-01T18:00:00+05:30',venue:'Public test venue',description:'Test plan',cost:'Pay for your chai'};
+for(const confirmed of [false,true]){
+ const letter=invitationLetter(event,{...requests[2],status:confirmed?'confirmed':'reviewed'},'https://momo.test/join?event=one','https://momo.test/join#email-unsubscribe=test');
+ for(const format of [letter.text,letter.html])assert.equal(format.includes('host has marked your place confirmed'),confirmed);
+}
+assert.ok(invitationLetter(event,{...requests[2],event_id:null},'https://momo.test','https://momo.test').text.includes('not a confirmed booking'));
+console.log('PASS inbox scopes, search, triage order, counts and independent confirmation/letter states');

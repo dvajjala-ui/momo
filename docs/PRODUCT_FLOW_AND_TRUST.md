@@ -115,6 +115,10 @@ The host notebook now has a guided composer and a local preview. It collects the
 
 The selected-plan promotion tool prepares reviewable WhatsApp, Reddit/local-community and Instagram text from public event fields and a clean plan link. It excludes member contact fields and account-token URL parameters. It has no sending, posting or paid-ad integration. See [product and marketing roadmap](PRODUCT_AND_MARKETING_ROADMAP.md) for the launch sequence and remaining data-model work. Real event and monitoring gates remain open.
 
+### Host request workflow continued on 22 October
+
+The host email notebook separates the selected plan from general interest, supports local search/stage filters and shows counts for loaded records. Each request keeps host confirmation, contact proof and the provider attempt distinct. Host decisions require the current snapshot; sending also requires the current letter-preview snapshot. A stale request or edited plan requires a refresh and preview. General interest cannot be confirmed as a place. Email acceptance preserves existing host confirmation, and an in-flight result cannot mark a person's newer request invited. The member sees the consequences of updating or withdrawing a confirmed request. No messages are sent by reviewing or filtering. See `WORK_SUMMARY_2026-10-22.md` for exact scope, tests and remaining pagination work.
+
 ### Inputs after the pilot
 
 After the first monitored pilot, add only the inputs that the host can act on:

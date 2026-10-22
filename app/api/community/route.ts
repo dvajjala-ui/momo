@@ -1,6 +1,7 @@
 import {guidedPlan} from '../../../lib/host-plan';
 import {env} from 'cloudflare:workers';
-import {emailConfig,saveEmailInvite,requestEmailVerification,previewEmailLetter,sendEmailInvitation,maskEmail,emailAddress} from '../../../lib/email';
+import {emailConfig,saveEmailInvite,requestEmailVerification,previewEmailLetter,sendEmailInvitation,setEmailRequestStatus,emailRequestVersion,EmailRequestChanged,maskEmail,emailAddress} from '../../../lib/email';
+import type {EmailInviteRow as FullEmailInviteRow} from '../../../lib/invitation-types';
 import {whatsappConfig,sendInvitation} from '../../../lib/whatsapp';
 import {invitationReadiness} from '../../../lib/invitation-readiness';
 import {beginPhoneVerification,verificationSetup,PHONE_VERIFICATION_WINDOW} from '../../../lib/phone-verification';
@@ -79,7 +80,12 @@ if(q==='chat'){
   if(!(allowed.results?.[0] as {allowed?:number})?.allowed)return json({error:'This room is only for that gang.'},403);
   return json({messages:(rows.results||[]).reverse()});
 }
-if(q==='host'){if(!admin)return json({error:'Host access is restricted.',auth:authMode()},403);return json({email:emailConfig(),emailInvites:(await db().prepare('SELECT i.user_id,i.email,i.city,i.event_id,i.status,i.created,i.food_theme,i.letter_style,i.verified_at,p.nickname FROM email_invites i LEFT JOIN profiles p ON p.id=i.user_id ORDER BY i.created DESC LIMIT 200').all()).results,emailDeliveries:(await db().prepare('SELECT id,user_id,event_id,status,error,created FROM email_deliveries ORDER BY created DESC LIMIT 200').all()).results,whatsapp:whatsappConfig(),deliveries:(await db().prepare('SELECT * FROM deliveries ORDER BY created DESC LIMIT 200').all()).results,invites:(await db().prepare('SELECT i.*,p.nickname,v.verified_at AS phone_verified_at FROM invites i LEFT JOIN profiles p ON i.user_id=p.id LEFT JOIN phone_verifications v ON v.user_id=i.user_id AND v.phone=i.phone AND v.verified_at>=? ORDER BY i.created DESC LIMIT 200').bind(Date.now()-PHONE_VERIFICATION_WINDOW).all()).results,reports:(await db().prepare("SELECT r.*,CASE WHEN r.kind='wish' THEN 'Wish: '||w.title ELSE m.body END AS body FROM reports r LEFT JOIN messages m ON r.kind='message' AND r.message_id=m.id LEFT JOIN wishes w ON r.kind='wish' AND r.message_id=w.id ORDER BY r.created DESC LIMIT 100").all()).results})}return json({error:'Not found'},404)
+if(q==='host'){
+ if(!admin)return json({error:'Host access is restricted.',auth:authMode()},403);
+ const requests=(await db().prepare('SELECT i.*,p.nickname,e.title AS event_title FROM email_invites i LEFT JOIN profiles p ON p.id=i.user_id LEFT JOIN events e ON e.id=i.event_id ORDER BY i.created DESC,i.user_id LIMIT 201').all<FullEmailInviteRow&{event_title:string|null}>()).results;
+ const emailInvites=await Promise.all(requests.slice(0,200).map(async i=>({user_id:i.user_id,email:i.email,city:i.city,event_id:i.event_id,event_title:i.event_title,status:i.status,created:i.created,updated:i.updated,food_theme:i.food_theme,letter_style:i.letter_style,verified_at:i.verified_at,nickname:i.nickname,requestVersion:await emailRequestVersion(i)})));
+ return json({email:emailConfig(),emailInvites,emailInvitesTruncated:requests.length>200,emailDeliveries:(await db().prepare('SELECT id,user_id,event_id,status,error,created FROM email_deliveries ORDER BY created DESC LIMIT 200').all()).results,whatsapp:whatsappConfig(),deliveries:(await db().prepare('SELECT * FROM deliveries ORDER BY created DESC LIMIT 200').all()).results,invites:(await db().prepare('SELECT i.*,p.nickname,v.verified_at AS phone_verified_at FROM invites i LEFT JOIN profiles p ON i.user_id=p.id LEFT JOIN phone_verifications v ON v.user_id=i.user_id AND v.phone=i.phone AND v.verified_at>=? ORDER BY i.created DESC LIMIT 200').bind(Date.now()-PHONE_VERIFICATION_WINDOW).all()).results,reports:(await db().prepare("SELECT r.*,CASE WHEN r.kind='wish' THEN 'Wish: '||w.title ELSE m.body END AS body FROM reports r LEFT JOIN messages m ON r.kind='message' AND r.message_id=m.id LEFT JOIN wishes w ON r.kind='wish' AND r.message_id=w.id ORDER BY r.created DESC LIMIT 100").all()).results});
+}return json({error:'Not found'},404)
 }catch(e){console.error('momo read failed',e);return json({error:'We could not load this right now. Please try again.'},503)}}
 export async function POST(req:Request){try{if(!sameOrigin(req))return json({error:'Please submit from this site.'},403);const user=await identity();if(!user)return json({error:'Pull up a chair first.'},401);if(Number(req.headers.get('content-length')||0)>10000)return json({error:'Request too large.'},413);const raw=new TextDecoder().decode(await readBounded(req,10000));if(raw.length>10000)return json({error:'Request too large.'},413);const b=JSON.parse(raw),now=Date.now(),id=crypto.randomUUID();
 if(!isAdmin(user)&&!['deleteAccount','withdraw','withdrawEmail','leaveWish','removeWish','report','block','profile','sidekickApply'].includes(b.action)){const status=await ensureMemberAccess(user.userId);if(status!=='active')return json({error:status==='queued'?'The 100-seat pilot is full. Your seat is in the waiting queue and the host can message you here.':'This seat is paused. Contact the host if this seems wrong.'},403)}
@@ -119,8 +125,8 @@ if(b.action==='joinWish'||b.action==='leaveWish'||b.action==='removeWish'||b.act
 if(b.action==='deleteAccount'){await deleteMemberData(user.userId,now);return json({ok:true})}
 if(!isAdmin(user))return json({error:'Host access required.'},403);
 if(b.action==='previewEmail')return json(await previewEmailLetter(str(b.userId,1,150),str(b.eventId,1,60)));
-if(b.action==='sendEmail')return json(await sendEmailInvitation(str(b.userId,1,150),str(b.eventId,1,60)));
-if(b.action==='emailRequestStatus'){if(!['requested','reviewed','confirmed','declined'].includes(b.status))return json({error:'Unknown request status'},400);await db().prepare('UPDATE email_invites SET status=? WHERE user_id=?').bind(b.status,str(b.userId,1,150)).run();return json({ok:true})}
+if(b.action==='sendEmail')return json(await sendEmailInvitation(str(b.userId,1,150),str(b.eventId,1,60),b.requestVersion,b.letterVersion));
+if(b.action==='emailRequestStatus')return json(await setEmailRequestStatus(str(b.userId,1,150),b.status,b.requestVersion));
 if(b.action==='previewInvitations')return json(await invitationReadiness(str(b.eventId,1,60)));
 if(b.action==='sendWhatsApp')return json(await sendInvitation(str(b.userId,1,150),str(b.eventId,1,60)));
 if(b.action==='requestStatus'){if(!['requested','reviewed','confirmed','declined'].includes(b.status))return json({error:'Unknown request status'},400);await db().prepare('UPDATE invites SET status=? WHERE user_id=?').bind(b.status,str(b.userId,1,150)).run();return json({ok:true})}
@@ -136,4 +142,4 @@ if(b.action==='removeMessage'){await db().batch([db().prepare('DELETE FROM repor
 if(b.action==='removePhoto'){await bucket().delete(str(b.id,1,100));await db().prepare('DELETE FROM gallery WHERE id=?').bind(b.id).run();return json({ok:true})}
 if(b.action==='resolveReport'){await db().prepare('DELETE FROM reports WHERE id=?').bind(str(b.id,1,60)).run();return json({ok:true})}
 return json({error:'Unknown action.'},400)
-}catch(e){return json({error:e instanceof Error&&e.message.startsWith('Please')?e.message:'We could not save that. Please try again.'},400)}}
+}catch(e){return json({error:e instanceof Error&&e.message.startsWith('Please')?e.message:'We could not save that. Please try again.'},e instanceof EmailRequestChanged?409:400)}}

@@ -195,6 +195,7 @@ No missing event detail will be invented or published before it is real.
 
 ## Change log
 
+- 2026-10-22: Continued host email request workflow: selected-plan/general-interest/all-loaded views, search and stage counts, oldest-awaiting-review ordering after attempts needing a check, requested-plan selection and explicit read-window limits. Added current-snapshot checks for host decisions and request/letter checks for sends, including changed public plan details. Provider acceptance preserves a confirmed place, and an in-flight send cannot update a newer request. General interest cannot be marked as a confirmed place. Member receipt/letter/update/withdrawal copy now reflects these separate states. No migration, provider activation, live messages or pilot opening; see WORK_SUMMARY_2026-10-22.md for final verification. Full inbox pagination and normalized event capacity remain future work. #10/#14 remain open.
 - 2026-10-13: Created this source of truth from the 28-point owner brief and the reference-image folder.
 - 2026-10-13: Completed all unblocked product work, security hardening, disposable integrations and local browser flow checks. Recorded the exact production migration, Worker and runtime-setting gap; left public activation and owner decisions last.
 - 2026-10-13: Removed the postcard preview and badge/profile clutter from Join, restored the real momo/pizza photo as a prominent visual, simplified Home to the core plan and wish wall, and implemented nickname, age and self-described gender at first chat with no age eligibility rule.

@@ -1,6 +1,6 @@
 # Momo to Pizza handoff
 
-Last updated: 2026-10-21
+Last updated: 2026-10-22
 
 Read `AGENTS.md` and `docs/PRODUCTION_REQUIREMENTS.md` before making changes. The requirements file preserves the owner’s full 28-point brief verbatim and is the detailed source of truth.
 
@@ -19,6 +19,8 @@ The next reference-led continuation is documented in `docs/REFERENCE_PRODUCT_REV
 Local verification for that continuation passed: Worker build, regenerated Next route types, TypeScript, repository lint, calendar/plan-discovery tests and the full disposable community integration suite. Deployment is checked after pushing.
 
 The host-planning/marketing continuation is in `docs/PRODUCT_AND_MARKETING_ROADMAP.md`. The new guided composer validates real logistics, supports preview and saves a readable description in the existing schema; it is not a normalized event model or automatic RSVP cap. Legacy creation/free-text editing remain compatible. Home summaries are shorter and selected-plan details remain full. The host-only promotion disclosure prepares WhatsApp, Reddit/local-community and Instagram drafts using public event fields and clean event links. It never sends/posts, and it does not activate the held pilot. Newly published selected plans can resolve by direct lookup outside the bounded feed. No migrations, credentials or provider settings change. Final Worker build, regenerated route types, TypeScript, repository lint, host-planning tests and community/invitation integrations passed locally. Browser preview/copy checks remain pending while browser access is disabled.
+
+The 22 October continuation adds host email triage and consistent request/letter states. See `docs/WORK_SUMMARY_2026-10-22.md` for flow and verification. Inbox search, selected-plan/interest/all views, stage counts and attention/oldest-first ordering use loaded host-only records. Requests return opaque snapshot versions without consent revisions or proof hashes; status changes require a current snapshot, and sends require the current request and letter preview snapshots. Concurrent decisions, same-address edits, withdrawals and changed public plan details are covered by regression checks. Provider acceptance preserves confirmed places, and an in-flight send cannot mark a newer request invited. General interest cannot be confirmed as a place. Receipts/letters explain contact proof, confirmation, updates and withdrawal separately. No schema/provider change or live send. The newest-200 window is disclosed; full inbox pagination remains pending. The previous `023da47` deployment is successful. Final verification for this continuation is recorded in its work summary.
 
 ## Product
 
