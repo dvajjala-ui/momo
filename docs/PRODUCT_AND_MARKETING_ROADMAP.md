@@ -21,7 +21,7 @@ The composer stores a human-readable description using the existing schema. Its 
 
 ## Product order from here
 
-The 22 October continuation improves host email triage and request/letter consistency using the existing schema. Selected-plan and general-interest views, search, stage counts and stale-snapshot checks are documented in `WORK_SUMMARY_2026-10-22.md`. It does not add automatic event capacity or a waiting list. The notebook now traverses full email history in 200-request pages; its search and stage counts apply to the current page.
+The 22 October continuation improves host email triage and request/letter consistency using the existing schema. Selected-plan and general-interest views, search, stage counts and stale-snapshot checks are documented in `WORK_SUMMARY_2026-10-22.md`. It does not add automatic event capacity or a waiting list. The notebook traverses full email history in 200-request pages, with search and stage counts across all matching requests.
 
 1. **Finish the real pilot gate.** Confirm the event details and resume the owner-paused monitoring setup when requested. Follow `PILOT_OPERATIONS.md`; a new host form does not complete these real-world steps.
 2. **Normalize event logistics.** Add dedicated fields for host, finish, group size, meeting point and contacts, compatibility for old plans, invitation/calendar coverage and an additive migration plan. Preserve the rule against silently editing plans after delivery or attendance.

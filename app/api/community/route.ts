@@ -82,8 +82,8 @@ if(q==='chat'){
 }
 if(q==='hostEmailRequests'){
  if(!admin)return json({error:'Host access is restricted.',auth:authMode()},403);
- const cursor=new URL(req.url).searchParams.get('cursor');
- try{return json(await hostEmailPage(cursor))}catch(e){if(e instanceof Error&&e.message==='Invalid inbox page cursor.')return json({error:e.message},400);throw e}
+ const params=new URL(req.url).searchParams;
+ try{return json(await hostEmailPage({cursor:params.get('cursor'),scope:params.get('scope'),eventId:params.get('eventId'),filter:params.get('filter'),search:params.get('search')}))}catch(e){if(e instanceof Error&&['Invalid inbox page cursor.','Invalid inbox filter.'].includes(e.message))return json({error:e.message},400);throw e}
 }
 if(q==='host'){
  if(!admin)return json({error:'Host access is restricted.',auth:authMode()},403);

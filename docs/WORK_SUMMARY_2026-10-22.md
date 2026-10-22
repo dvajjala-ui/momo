@@ -4,10 +4,11 @@ Updated: 22 October 2026
 
 ## What changed
 
-- The email notebook separates requests for the selected plan, the general interest list and all loaded requests. Search covers nickname, email, city and plan. Stage filters show counts for the current view.
+- The email notebook separates requests for the selected plan, the general interest list and all requests. Search covers nickname, email, city and plan. Stage filters show counts for the current view.
 - Attempts needing a check appear first, followed by the oldest requests waiting for review. Each card shows its requested plan, contact-check state, timestamps, host decision and email attempt separately.
 - A request for another plan offers a **Select requested plan** action. General interest cannot be marked as a confirmed place; the person must request a published upcoming plan first.
-- Refresh, no-requests and no-matches states are explicit. The host notebook uses 200-request cursor pages with Older/Newer controls, so older requests remain reachable. Search and stage counts describe the current page, not whole-database analytics. Changing the selected plan keeps the current page in view. Each page includes the email attempts for its requests.
+- Refresh, no-requests and no-matches states are explicit. The host notebook uses 200-request cursor pages with Older/Newer controls, so older requests remain reachable. Each page includes the email attempts for its requests.
+- The next inbox refinement moves search and stage filtering to the host-only D1 query. Nickname, email, city and plan-title searches now reach the full email request history. Stage counts cover the selected plan, general-interest list or whole inbox after applying the search; cards still use bounded 200-request pages. A changed search, scope, stage or selected plan starts at page one, and a failed read has retry feedback. No external messages are sent by filtering.
 - Host decisions require the current request snapshot. Concurrent decisions and changed/withdrawn requests return HTTP 409 instead of silently overwriting the latest state.
 - Email sending requires the current request and letter snapshots from preview. Editing a request, its nickname or the public plan invalidates an older preview. The send path rechecks the request before calling the provider.
 - Provider acceptance preserves a host-confirmed place. A result from an in-flight send cannot mark a newer request as invited. Existing consent, ownership verification, sender gates, deduplication and daily limits remain in the send path.
@@ -37,6 +38,8 @@ Passed on the final source candidate:
 - The cursor-page browser check used 206 synthetic email requests. The host saw 200 on page 1, reached the six older requests on page 2, marked an older request reviewed, and returned to page 1. The local fixture had no outbound sender.
 - Live read-only navigation to the production invitation form. No production participant record was created or changed.
 - After deployment, anonymous HTTP reads returned 200 for Home, Join and public community data; private `view=host` and `view=me` returned 401.
+
+Full-history host inbox search continuation on 22 October: the Vinext Worker build, regenerated Next route types, TypeScript, changed-file lint, `tests/request-inbox.test.mjs`, both fake-provider invitation integrations and the community integration passed. The invitation fixture finds an older request by email beyond the newest page, verifies full-scope stage totals and host-only access, and checks that a newer accepted attempt clears an older failure from the attention filter. Browser automation was unavailable in this task's Work settings, so the new search/filter controls have not received a fresh visual check; the earlier browser checks above apply to the preceding page-local UI. No production host session, live email or participant record was used.
 
 Implementation commit `08914cf25d7bfb828f9f0aa11ff90febde76a4cd` was pushed directly to `main`. Its Vercel deployment check reports **success / Deployment has completed**: [deployment](https://vercel.com/dvajjala-2765s-projects/momo/82Xmi62cwTn9XuG7cG2QWxmPD3Ez). The preceding `023da47` deployment is also successful. Local UI/integration results do not establish live host sending or clear the existing launch gates.
 

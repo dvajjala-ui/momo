@@ -162,4 +162,19 @@ try{
  await db.prepare('INSERT INTO email_deliveries(id,user_id,event_id,revision,status,created,updated) VALUES(?,?,?,?,?,?,?)').bind('older-page-attempt',olderRequest.user_id,eventId,'test-revision','unknown',overflowAt,overflowAt).run();
  const refreshedOlder=await call(null,'host','/api/community?view=hostEmailRequests&cursor='+encodeURIComponent(notebook.data.nextCursor));
  assert('older page refresh includes status and its attempt',refreshedOlder.data.emailInvites.find(i=>i.user_id===olderRequest.user_id)?.status==='reviewed'&&refreshedOlder.data.emailDeliveries.some(d=>d.user_id===olderRequest.user_id&&d.event_id===eventId&&d.status==='unknown'));
+ const searchPath='/api/community?view=hostEmailRequests&scope=interest&filter=reviewed&search='+encodeURIComponent(olderRequest.email);
+ const found=await call(null,'host',searchPath);
+ assert('full-history search finds a request beyond the newest page',found.status===200&&found.data.total===1&&found.data.emailInvites[0]?.user_id===olderRequest.user_id&&found.data.nextCursor===null);
+ assert('stage counts cover all matching requests',found.data.stageCounts.all===1&&found.data.stageCounts.reviewed===1&&found.data.stageCounts.requested===0);
+ const scoped=await call(null,'host',searchPath+'&eventId='+encodeURIComponent(eventId));
+ assert('interest search remains separate from a selected event',scoped.data.total===1);
+ const noPlanMatch=await call(null,'host','/api/community?view=hostEmailRequests&scope=selected&eventId='+encodeURIComponent(eventId)+'&search='+encodeURIComponent(olderRequest.email));
+ assert('selected plan search excludes general interest',noPlanMatch.data.total===0&&noPlanMatch.data.emailInvites.length===0);
+ const attemptSearch=await call(null,'host','/api/community?view=hostEmailRequests&scope=interest&filter=attention&eventId='+encodeURIComponent(eventId)+'&search='+encodeURIComponent(olderRequest.email));
+ assert('full-history attempt filter uses the selected plan',attemptSearch.data.total===1&&attemptSearch.data.emailInvites[0]?.user_id===olderRequest.user_id&&attemptSearch.data.stageCounts.attention===1);
+ await db.prepare('INSERT INTO email_deliveries(id,user_id,event_id,revision,status,created,updated) VALUES(?,?,?,?,?,?,?)').bind('newer-page-attempt',olderRequest.user_id,eventId,'test-revision','accepted',overflowAt+1,overflowAt+1).run();
+ const resolvedAttempt=await call(null,'host','/api/community?view=hostEmailRequests&scope=interest&filter=attention&eventId='+encodeURIComponent(eventId)+'&search='+encodeURIComponent(olderRequest.email));
+ assert('a newer accepted attempt removes the older request from attention',resolvedAttempt.data.total===0&&resolvedAttempt.data.stageCounts.attention===0&&resolvedAttempt.data.emailInvites.length===0);
+ assert('invalid host filter rejected',(await call(null,'host','/api/community?view=hostEmailRequests&filter=unexpected')).status===400);
+ assert('member cannot search host request history',(await call(null,'member',searchPath)).status===403);
 }finally{await mf.dispose()}
