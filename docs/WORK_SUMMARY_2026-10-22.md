@@ -7,7 +7,7 @@ Updated: 22 October 2026
 - The email notebook separates requests for the selected plan, the general interest list and all loaded requests. Search covers nickname, email, city and plan. Stage filters show counts for the current view.
 - Attempts needing a check appear first, followed by the oldest requests waiting for review. Each card shows its requested plan, contact-check state, timestamps, host decision and email attempt separately.
 - A request for another plan offers a **Select requested plan** action. General interest cannot be marked as a confirmed place; the person must request a published upcoming plan first.
-- Refresh, no-requests and no-matches states are explicit. The existing 200-request read window is disclosed when more records exist. Search/counts are for loaded records, not whole-database analytics. Cursor pagination remains future work.
+- Refresh, no-requests and no-matches states are explicit. The host notebook uses 200-request cursor pages with Older/Newer controls, so older requests remain reachable. Search and stage counts describe the current page, not whole-database analytics. Changing the selected plan keeps the current page in view. Each page includes the email attempts for its requests.
 - Host decisions require the current request snapshot. Concurrent decisions and changed/withdrawn requests return HTTP 409 instead of silently overwriting the latest state.
 - Email sending requires the current request and letter snapshots from preview. Editing a request, its nickname or the public plan invalidates an older preview. The send path rechecks the request before calling the provider.
 - Provider acceptance preserves a host-confirmed place. A result from an in-flight send cannot mark a newer request as invited. Existing consent, ownership verification, sender gates, deduplication and daily limits remain in the send path.
@@ -31,9 +31,10 @@ Passed on the final source candidate:
 - Next route type generation and `tsc --noEmit` after the build.
 - Repository lint and a final lint of every changed code/test file.
 - `node tests/request-inbox.test.mjs` for scopes, Unicode/case/space search, stage counts, triage order, unrelated-plan attempts and confirmation/letter wording.
-- `node tests/invitations.integration.mjs` with both fake Resend and fake Gmail providers: stale/missing snapshots, concurrent host decisions, changed plan details, same-address edits, in-flight edits/withdrawals, confirmation preservation, ownership, deduplication, budgets, overflow disclosure and private host reads.
+- `node tests/invitations.integration.mjs` with both fake Resend and fake Gmail providers: stale/missing snapshots, concurrent host decisions, changed plan details, same-address edits, in-flight edits/withdrawals, confirmation preservation, ownership, deduplication, budgets, overflow disclosure and private host reads. A 201-record shared-timestamp fixture now walks every cursor page without gaps or duplicates, rejects invalid/member cursors, reviews an older request using its current snapshot and refreshes that page's attempt history.
 - `node tests/community.integration.mjs` on disposable local Worker/D1/R2 bindings.
 - Browser checks against the final local Worker with synthetic records: host login, selected-plan and general-interest views, filtering, no results, requested-plan switching, review/save, letter preview and disabled sending, guided plan preview without publication, and public-only promotion copy feedback. At 390 px, the inbox had no overflowing controls and its scroll/client widths matched. A screenshot is saved at `outputs/host-inbox-mobile-2026-10-22.jpg` (ignored local artifact).
+- The cursor-page browser check used 206 synthetic email requests. The host saw 200 on page 1, reached the six older requests on page 2, marked an older request reviewed, and returned to page 1. The local fixture had no outbound sender.
 - Live read-only navigation to the production invitation form. No production participant record was created or changed.
 - After deployment, anonymous HTTP reads returned 200 for Home, Join and public community data; private `view=host` and `view=me` returned 401.
 
@@ -43,6 +44,5 @@ Host clients must refresh after deployment: `emailRequestStatus` requires `reque
 
 ## Next work
 
-1. Add full host-inbox pagination before treating the 200-record window as complete history.
-2. Continue the normalized logistics and per-event confirmation/waitlist design in `PRODUCT_AND_MARKETING_ROADMAP.md`; automatic event capacity is not implemented by this batch.
-3. Obtain the missing real-event details. Resume replacement Axiom monitoring only when the owner requests it. Follow `PILOT_OPERATIONS.md` before opening the monitored pilot.
+1. Continue the normalized logistics and per-event confirmation/waitlist design in `PRODUCT_AND_MARKETING_ROADMAP.md`; automatic event capacity is not implemented by this batch.
+2. Obtain the missing real-event details. Resume replacement Axiom monitoring only when the owner requests it. Follow `PILOT_OPERATIONS.md` before opening the monitored pilot.

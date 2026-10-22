@@ -18,5 +18,5 @@ export type HostInvite={user_id:string;nickname?:string|null;city:string;phone:s
 export type HostDelivery={user_id:string;event_id:string;status:string;error?:string|null};
 export type HostReport={id:string;kind:'wish'|'message';message_id:string;body?:string|null;reason:string};
 export type HostEmailInvite=HostEmailRequest;
-export type HostState={error?:string;email?:{configured:boolean};emailInvites?:HostEmailInvite[];emailInvitesTruncated?:boolean;emailDeliveries?:HostDelivery[];whatsapp?:{configured:boolean;missing:string[]};deliveries:HostDelivery[];invites:HostInvite[];reports:HostReport[]};
+export type HostState={error?:string;email?:{configured:boolean};emailInvites?:HostEmailInvite[];emailInvitesTruncated?:boolean;nextCursor?:string|null;emailDeliveries?:HostDelivery[];whatsapp?:{configured:boolean;missing:string[]};deliveries:HostDelivery[];invites:HostInvite[];reports:HostReport[]};
 export type InvitationReadiness={eventId:string;title:string;configured:boolean;eligible:number;entries:{nickname:string;maskedPhone:string;label:string}[]};

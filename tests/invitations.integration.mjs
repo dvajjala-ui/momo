@@ -144,10 +144,22 @@ try{
  await action({action:'requestStatus',userId:'member',status:'reviewed'},'host');const ready=await action({action:'previewInvitations',eventId},'host');assert('phone readiness preview counts eligible without sending',ready.status===200&&ready.data.eligible===1&&!JSON.stringify(ready.data).includes('+12025550123'));assert('future reviewed phone send works only against stub',(await action({action:'sendWhatsApp',userId:'member',eventId},'host')).status===200);const sends=sent.length;assert('phone invite deduplicates',(await action({action:'sendWhatsApp',userId:'member',eventId},'host')).status===400&&sent.length===sends);
  await action({action:'invite',phone:'+12025550124',city:'Test city',consent:true});assert('changed number loses old ownership proof',!(await call(null,'member','/api/community?view=me')).data.invite.phoneVerified);
  console.log('All invitation tests used local fake providers; no real emails or WhatsApp messages.');
- // Bounded host reads disclose overflow and keep proof/consent data private.
- const overflow=[];for(let n=0;n<201;n++)overflow.push(db.prepare("INSERT INTO email_invites(user_id,email,city,consent,status,food_theme,letter_style,revision,created,updated) VALUES(?,?,?,'email-weekend-letters-v1:2026-10-09','requested','momo','notebook',?,?,?)").bind('overflow-'+n,'overflow-'+n+'@example.test','Test city','private-revision-'+n,Date.now()+n,Date.now()+n));await db.batch(overflow);
+ // A shared timestamp at the page boundary proves the cursor's user-id tie-breaker.
+ const overflow=[],overflowAt=Date.now()+100000;for(let n=0;n<201;n++)overflow.push(db.prepare("INSERT INTO email_invites(user_id,email,city,consent,status,food_theme,letter_style,revision,created,updated) VALUES(?,?,?,'email-weekend-letters-v1:2026-10-09','requested','momo','notebook',?,?,?)").bind('overflow-'+n,'overflow-'+n+'@example.test','Test city','private-revision-'+n,overflowAt,overflowAt));await db.batch(overflow);
  const notebook=await call(null,'host','/api/community?view=host');
- assert('bounded inbox reports overflow',notebook.status===200&&notebook.data.emailInvites.length===200&&notebook.data.emailInvitesTruncated===true);
+ assert('bounded inbox reports overflow',notebook.status===200&&notebook.data.emailInvites.length===200&&notebook.data.emailInvitesTruncated===true&&!!notebook.data.nextCursor);
  assert('host request snapshots omit consent proof material',!JSON.stringify(notebook.data.emailInvites).includes('private-revision-')&&!JSON.stringify(notebook.data.emailInvites).includes('verify_hash'));
  assert('ordinary members cannot read private request notebook',(await call(null,'member','/api/community?view=host')).status===403);
+ const seen=new Set(notebook.data.emailInvites.map(i=>i.user_id));let cursor=notebook.data.nextCursor,older=null,pages=1;
+ while(cursor){const response=await call(null,'host','/api/community?view=hostEmailRequests&cursor='+encodeURIComponent(cursor));assert('older request page is host readable',response.status===200&&response.data.emailInvites.length>0&&response.data.emailInvites.length<=200);older??=response;for(const item of response.data.emailInvites){assert('request appears on one page only',!seen.has(item.user_id));seen.add(item.user_id)}cursor=response.data.nextCursor;pages++;if(pages>10)throw Error('Host inbox cursor did not end')}
+ assert('all request pages reach full history',pages>=2&&seen.size===(await db.prepare('SELECT COUNT(*) AS n FROM email_invites').first()).n);
+ assert('older page hides consent and proof material',!JSON.stringify(older.data).includes('private-revision-')&&!JSON.stringify(older.data).includes('verify_hash'));
+ assert('invalid cursor rejected',(await call(null,'host','/api/community?view=hostEmailRequests&cursor=bad')).status===400);
+ assert('member cannot page through host requests',(await call(null,'member','/api/community?view=hostEmailRequests&cursor='+encodeURIComponent(notebook.data.nextCursor))).status===403);
+ const olderRequest=older.data.emailInvites.find(i=>i.user_id.startsWith('overflow-'));
+ const olderDecision=await mf.dispatchFetch('https://momo.test/api/community',{method:'POST',headers:{Origin:'https://momo.test','Content-Type':'application/json',Cookie:cookieFor('host')},body:JSON.stringify({action:'emailRequestStatus',userId:olderRequest.user_id,status:'reviewed',requestVersion:olderRequest.requestVersion})});
+ assert('host can review an older request using its snapshot',olderDecision.status===200);
+ await db.prepare('INSERT INTO email_deliveries(id,user_id,event_id,revision,status,created,updated) VALUES(?,?,?,?,?,?,?)').bind('older-page-attempt',olderRequest.user_id,eventId,'test-revision','unknown',overflowAt,overflowAt).run();
+ const refreshedOlder=await call(null,'host','/api/community?view=hostEmailRequests&cursor='+encodeURIComponent(notebook.data.nextCursor));
+ assert('older page refresh includes status and its attempt',refreshedOlder.data.emailInvites.find(i=>i.user_id===olderRequest.user_id)?.status==='reviewed'&&refreshedOlder.data.emailDeliveries.some(d=>d.user_id===olderRequest.user_id&&d.event_id===eventId&&d.status==='unknown'));
 }finally{await mf.dispose()}
