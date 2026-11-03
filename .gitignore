@@ -50,3 +50,13 @@ next-env.d.ts
 
 # local SQLite for the Node/Vercel runtime
 /.data/
+
+# Heavy and scratch media from AI generation passes. Keep the compressed web
+# copies in Git; never the multi-megabyte masters or one-off QA frames.
+/vibe_videos/
+/vibe_images/
+/docs/video-assets/frames/
+/docs/video-assets/*.mp4
+!/docs/video-assets/momo-film-05-make-a-wish-30s-web.mp4
+# Superseded sheet carrying a swoosh-like mark; do not publish it.
+/docs/video-assets/sameer-character-sheet.png
