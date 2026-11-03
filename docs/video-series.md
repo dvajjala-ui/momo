@@ -403,7 +403,8 @@ Mean per-frame luma difference on a 0–256 scale: **shot 01 = 2.1, shot 03 = 0.
 ## Still open
 
 1. Fix the logo on Sameer's shoes, or crop footwear out of every shot.
-2. Whether the trek hill in film 5 gets a real name. Keep it "a ridge outside the city" until a venue is actually confirmed — the films must not imply a live event.
+2. **Film 5's trek location is wrong for this city.** Ahmedabad sits on the flat Sabarmati plain, so the misty mountain sunrise trek in beats 6–7 reads as a different country. Replace the wish with something the city actually offers: a sunrise walk on the Sabarmati riverside front, a morning cycle on the canal path, a pottery workshop in the old city, or a Kankaria evening. Every film stays urban — turf, grounds, food streets, society courts, cafés. This is also the setting rule for the other five films.
 3. The narrator voice itself: one generated voice, or one person we know reading the six lines slowly into a phone. The second is cheaper and warmer.
 4. Whether the 30-second cut or the 40-second master is the deliverable for the first film.
 5. Rights on any user-supplied reference image before it enters a prompt.
+6. **Generation is blocked by a credit limit** — image and video submissions both return HTTP 403, code 112, with a pricing link. Nothing further can be rendered until that resets or is topped up.
