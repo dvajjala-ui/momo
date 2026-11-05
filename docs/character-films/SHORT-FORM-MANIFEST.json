@@ -1,0 +1,1876 @@
+{
+  "status": "draft writing only",
+  "films": [
+    {
+      "kind": "brand-campaign",
+      "code": "AD01",
+      "slug": "01-ek-chhota-plan-60s",
+      "title": "Ek Chhota Plan — brand film",
+      "goal": "Introduce Momo to Pizza through a small act of showing up and sharing a table. One simple CTA, no testimonial or claim that the brand guarantees a friend group.",
+      "cast": [
+        "Tara",
+        "Rohan",
+        "Dhwani",
+        "Gary",
+        "Sameer",
+        "Meera"
+      ],
+      "place": "Fictional Ahmedabad homes, public café and short riverfront walk on separate days; cuts deliberately mark separate situations.",
+      "wardrobe": "All proposed casual wardrobe IDs from the ensemble bible. Tara opening uses existing lavender home kit and a later deliberate cut to TA-CAS1; no magical outfit change.",
+      "arc": "0–15: three small decisions. 15–30: meeting becomes physical. 30–45: specific shared moments. 45–55: a warmer ordinary table. 55–60: brand and invitation to explore.",
+      "shots": [
+        {
+          "title": "Not another perfect Saturday",
+          "camera": "Medium Tara at bed edge, static.",
+          "action": "She looks from a modest fictional plan card toward the open window, places the phone down and stands with a real weight shift.",
+          "sound": "Cloth and room air.",
+          "lines": [],
+          "text": "No readable screen text.",
+          "duration": 5,
+          "pose_in": "Tara in lavender home tee, phone in hand.",
+          "pose_out": "Standing; no dress change inside shot.",
+          "start": 0,
+          "end": 5,
+          "id": "AD01-S01",
+          "batch": "AD01-B01",
+          "prompt": "Original adult Indian cast in consistent reviewed 2D cel treatment, with the exact character references, brown skin and fixed adult body proportions. Wardrobe: All proposed casual wardrobe IDs from the ensemble bible. Tara opening uses existing lavender home kit and a later deliberate cut to TA-CAS1; no magical outfit change. Place: Fictional Ahmedabad homes, public café and short riverfront walk on separate days; cuts deliberately mark separate situations. Framing: Medium Tara at bed edge, static. Start: Tara in lavender home tee, phone in hand. Animate: She looks from a modest fictional plan card toward the open window, places the phone down and stands with a real weight shift. Finish: Standing; no dress change inside shot. No spoken line; keep mouths at natural rest or silent reaction. Sound: Cloth and room air. Preserve prop ownership, eye lines, garment construction and lighting. No unrelated gesture, outfit morph, new character, fake readable UI or exaggerated camera movement. Put precise text/brand in a clean separate graphic layer."
+        },
+        {
+          "title": "Rohan closes a page",
+          "camera": "Medium Rohan at home table.",
+          "action": "He marks his place, closes the notebook and picks up his shoulder bag. Same calm adult face, no office-zombie transformation.",
+          "sound": "Paper and strap.",
+          "lines": [],
+          "text": "No readable screen text.",
+          "duration": 5,
+          "pose_in": "Casual outfit, one personal notebook open.",
+          "pose_out": "Bag lifted, notebook left at home.",
+          "start": 5,
+          "end": 10,
+          "id": "AD01-S02",
+          "batch": "AD01-B01",
+          "prompt": "Original adult Indian cast in consistent reviewed 2D cel treatment, with the exact character references, brown skin and fixed adult body proportions. Wardrobe: All proposed casual wardrobe IDs from the ensemble bible. Tara opening uses existing lavender home kit and a later deliberate cut to TA-CAS1; no magical outfit change. Place: Fictional Ahmedabad homes, public café and short riverfront walk on separate days; cuts deliberately mark separate situations. Framing: Medium Rohan at home table. Start: Casual outfit, one personal notebook open. Animate: He marks his place, closes the notebook and picks up his shoulder bag. Same calm adult face, no office-zombie transformation. Finish: Bag lifted, notebook left at home. No spoken line; keep mouths at natural rest or silent reaction. Sound: Paper and strap. Preserve prop ownership, eye lines, garment construction and lighting. No unrelated gesture, outfit morph, new character, fake readable UI or exaggerated camera movement. Put precise text/brand in a clean separate graphic layer."
+        },
+        {
+          "title": "Sameer checks the plan",
+          "camera": "Medium Sameer by door.",
+          "action": "He checks the already-agreed fictional outing details, pockets phone and reaches for the door handle.",
+          "sound": "Small tap, handle click.",
+          "lines": [],
+          "text": "No readable screen text.",
+          "duration": 5,
+          "pose_in": "Bag ready, phone held at waist.",
+          "pose_out": "Ready to leave, one phone stowed.",
+          "start": 10,
+          "end": 15,
+          "id": "AD01-S03",
+          "batch": "AD01-B01",
+          "prompt": "Original adult Indian cast in consistent reviewed 2D cel treatment, with the exact character references, brown skin and fixed adult body proportions. Wardrobe: All proposed casual wardrobe IDs from the ensemble bible. Tara opening uses existing lavender home kit and a later deliberate cut to TA-CAS1; no magical outfit change. Place: Fictional Ahmedabad homes, public café and short riverfront walk on separate days; cuts deliberately mark separate situations. Framing: Medium Sameer by door. Start: Bag ready, phone held at waist. Animate: He checks the already-agreed fictional outing details, pockets phone and reaches for the door handle. Finish: Ready to leave, one phone stowed. No spoken line; keep mouths at natural rest or silent reaction. Sound: Small tap, handle click. Preserve prop ownership, eye lines, garment construction and lighting. No unrelated gesture, outfit morph, new character, fake readable UI or exaggerated camera movement. Put precise text/brand in a clean separate graphic layer."
+        },
+        {
+          "title": "A real arrival",
+          "camera": "Medium public café entrance.",
+          "action": "She reaches a chair; Gary removes his own bag from the neighbouring floor space and gestures toward the seat.",
+          "sound": "Café tone, bag fabric.",
+          "lines": [
+            {
+              "speaker": "Gary",
+              "text": "Yahan baitho.",
+              "delivery": "Friendly, no command.",
+              "id": "AD01-L01",
+              "shot": "AD01-S04",
+              "estimate_seconds": 1.0
+            }
+          ],
+          "text": "No readable screen text.",
+          "duration": 5,
+          "pose_in": "Tara now in TA-CAS1 after clear day/outfit cut, Gary already at table.",
+          "pose_out": "Tara has clear access to chair.",
+          "start": 15,
+          "end": 20,
+          "id": "AD01-S04",
+          "batch": "AD01-B02",
+          "prompt": "Original adult Indian cast in consistent reviewed 2D cel treatment, with the exact character references, brown skin and fixed adult body proportions. Wardrobe: All proposed casual wardrobe IDs from the ensemble bible. Tara opening uses existing lavender home kit and a later deliberate cut to TA-CAS1; no magical outfit change. Place: Fictional Ahmedabad homes, public café and short riverfront walk on separate days; cuts deliberately mark separate situations. Framing: Medium public café entrance. Start: Tara now in TA-CAS1 after clear day/outfit cut, Gary already at table. Animate: She reaches a chair; Gary removes his own bag from the neighbouring floor space and gestures toward the seat. Finish: Tara has clear access to chair. Gary says exactly: Yahan baitho. Friendly, no command. Sound: Café tone, bag fabric. Preserve prop ownership, eye lines, garment construction and lighting. No unrelated gesture, outfit morph, new character, fake readable UI or exaggerated camera movement. Put precise text/brand in a clean separate graphic layer."
+        },
+        {
+          "title": "One name",
+          "camera": "Medium Tara and Gary.",
+          "action": "She introduces herself and he replies once. Keep their listening reactions distinct and small.",
+          "sound": "Quiet café ambience.",
+          "lines": [
+            {
+              "speaker": "Tara",
+              "text": "Tara.",
+              "delivery": "Simple.",
+              "id": "AD01-L02",
+              "shot": "AD01-S05",
+              "estimate_seconds": 0.8
+            },
+            {
+              "speaker": "Gary",
+              "text": "Gary.",
+              "delivery": "Warm.",
+              "id": "AD01-L03",
+              "shot": "AD01-S05",
+              "estimate_seconds": 0.8
+            }
+          ],
+          "text": "No readable screen text.",
+          "duration": 5,
+          "pose_in": "Tara seated, Gary facing her.",
+          "pose_out": "Names exchanged.",
+          "start": 20,
+          "end": 25,
+          "id": "AD01-S05",
+          "batch": "AD01-B02",
+          "prompt": "Original adult Indian cast in consistent reviewed 2D cel treatment, with the exact character references, brown skin and fixed adult body proportions. Wardrobe: All proposed casual wardrobe IDs from the ensemble bible. Tara opening uses existing lavender home kit and a later deliberate cut to TA-CAS1; no magical outfit change. Place: Fictional Ahmedabad homes, public café and short riverfront walk on separate days; cuts deliberately mark separate situations. Framing: Medium Tara and Gary. Start: Tara seated, Gary facing her. Animate: She introduces herself and he replies once. Keep their listening reactions distinct and small. Finish: Names exchanged. Tara says exactly: Tara. Simple. Gary says exactly: Gary. Warm. Sound: Quiet café ambience. Preserve prop ownership, eye lines, garment construction and lighting. No unrelated gesture, outfit morph, new character, fake readable UI or exaggerated camera movement. Put precise text/brand in a clean separate graphic layer."
+        },
+        {
+          "title": "Food at the middle",
+          "camera": "Table insert, normal lens.",
+          "action": "Two clean match cuts show a serving plate placed centrally and hands withdrawing. Food looks warm and believable; no cartoon oil explosion.",
+          "sound": "Ceramic and soft original rhythm.",
+          "lines": [],
+          "text": "No readable screen text.",
+          "duration": 5,
+          "pose_in": "A momo plate and a pizza plate in separate small compositions.",
+          "pose_out": "A shared table is ready.",
+          "start": 25,
+          "end": 30,
+          "id": "AD01-S06",
+          "batch": "AD01-B02",
+          "prompt": "Original adult Indian cast in consistent reviewed 2D cel treatment, with the exact character references, brown skin and fixed adult body proportions. Wardrobe: All proposed casual wardrobe IDs from the ensemble bible. Tara opening uses existing lavender home kit and a later deliberate cut to TA-CAS1; no magical outfit change. Place: Fictional Ahmedabad homes, public café and short riverfront walk on separate days; cuts deliberately mark separate situations. Framing: Table insert, normal lens. Start: A momo plate and a pizza plate in separate small compositions. Animate: Two clean match cuts show a serving plate placed centrally and hands withdrawing. Food looks warm and believable; no cartoon oil explosion. Finish: A shared table is ready. No spoken line; keep mouths at natural rest or silent reaction. Sound: Ceramic and soft original rhythm. Preserve prop ownership, eye lines, garment construction and lighting. No unrelated gesture, outfit morph, new character, fake readable UI or exaggerated camera movement. Put precise text/brand in a clean separate graphic layer."
+        },
+        {
+          "title": "A shared mistake",
+          "camera": "Medium Rohan/Dhwani at café.",
+          "action": "He turns his awkward original doodle around; she first studies it, then laughs. He joins the laugh rather than shrinking in embarrassment.",
+          "sound": "Paper turn, small laugh.",
+          "lines": [],
+          "text": "No readable screen text.",
+          "duration": 5,
+          "pose_in": "Rohan holds a plain drawing card, Dhwani listening.",
+          "pose_out": "Both amused by the same object.",
+          "start": 30,
+          "end": 35,
+          "id": "AD01-S07",
+          "batch": "AD01-B03",
+          "prompt": "Original adult Indian cast in consistent reviewed 2D cel treatment, with the exact character references, brown skin and fixed adult body proportions. Wardrobe: All proposed casual wardrobe IDs from the ensemble bible. Tara opening uses existing lavender home kit and a later deliberate cut to TA-CAS1; no magical outfit change. Place: Fictional Ahmedabad homes, public café and short riverfront walk on separate days; cuts deliberately mark separate situations. Framing: Medium Rohan/Dhwani at café. Start: Rohan holds a plain drawing card, Dhwani listening. Animate: He turns his awkward original doodle around; she first studies it, then laughs. He joins the laugh rather than shrinking in embarrassment. Finish: Both amused by the same object. No spoken line; keep mouths at natural rest or silent reaction. Sound: Paper turn, small laugh. Preserve prop ownership, eye lines, garment construction and lighting. No unrelated gesture, outfit morph, new character, fake readable UI or exaggerated camera movement. Put precise text/brand in a clean separate graphic layer."
+        },
+        {
+          "title": "A short walk",
+          "camera": "Medium-wide Gary/Sameer, riverfront on another day.",
+          "action": "Sameer notices the view and slows; Gary matches his pace. The camera tracks only a short distance while feet show real movement.",
+          "sound": "Footsteps and breeze.",
+          "lines": [],
+          "text": "No readable screen text.",
+          "duration": 5,
+          "pose_in": "Both walking side by side with bags.",
+          "pose_out": "Both pause at a clear public space.",
+          "start": 35,
+          "end": 40,
+          "id": "AD01-S08",
+          "batch": "AD01-B03",
+          "prompt": "Original adult Indian cast in consistent reviewed 2D cel treatment, with the exact character references, brown skin and fixed adult body proportions. Wardrobe: All proposed casual wardrobe IDs from the ensemble bible. Tara opening uses existing lavender home kit and a later deliberate cut to TA-CAS1; no magical outfit change. Place: Fictional Ahmedabad homes, public café and short riverfront walk on separate days; cuts deliberately mark separate situations. Framing: Medium-wide Gary/Sameer, riverfront on another day. Start: Both walking side by side with bags. Animate: Sameer notices the view and slows; Gary matches his pace. The camera tracks only a short distance while feet show real movement. Finish: Both pause at a clear public space. No spoken line; keep mouths at natural rest or silent reaction. Sound: Footsteps and breeze. Preserve prop ownership, eye lines, garment construction and lighting. No unrelated gesture, outfit morph, new character, fake readable UI or exaggerated camera movement. Put precise text/brand in a clean separate graphic layer."
+        },
+        {
+          "title": "Someone remembers",
+          "camera": "Medium Meera/Dhwani at later café table.",
+          "action": "Dhwani asks about practice. Meera looks up, pleased the detail was remembered, and answers without a performance montage.",
+          "sound": "Room tone.",
+          "lines": [
+            {
+              "speaker": "Dhwani",
+              "text": "Practice kaisi thi?",
+              "delivery": "Remembered interest.",
+              "id": "AD01-L04",
+              "shot": "AD01-S09",
+              "estimate_seconds": 1.4
+            },
+            {
+              "speaker": "Meera",
+              "text": "Achhi thi.",
+              "delivery": "Warm.",
+              "id": "AD01-L05",
+              "shot": "AD01-S09",
+              "estimate_seconds": 1.0
+            }
+          ],
+          "text": "No readable screen text.",
+          "duration": 5,
+          "pose_in": "Meera holds folded practice notes, not a stage costume.",
+          "pose_out": "Small smile, notes placed in bag.",
+          "start": 40,
+          "end": 45,
+          "id": "AD01-S09",
+          "batch": "AD01-B03",
+          "prompt": "Original adult Indian cast in consistent reviewed 2D cel treatment, with the exact character references, brown skin and fixed adult body proportions. Wardrobe: All proposed casual wardrobe IDs from the ensemble bible. Tara opening uses existing lavender home kit and a later deliberate cut to TA-CAS1; no magical outfit change. Place: Fictional Ahmedabad homes, public café and short riverfront walk on separate days; cuts deliberately mark separate situations. Framing: Medium Meera/Dhwani at later café table. Start: Meera holds folded practice notes, not a stage costume. Animate: Dhwani asks about practice. Meera looks up, pleased the detail was remembered, and answers without a performance montage. Finish: Small smile, notes placed in bag. Dhwani says exactly: Practice kaisi thi? Remembered interest. Meera says exactly: Achhi thi. Warm. Sound: Room tone. Preserve prop ownership, eye lines, garment construction and lighting. No unrelated gesture, outfit morph, new character, fake readable UI or exaggerated camera movement. Put precise text/brand in a clean separate graphic layer."
+        },
+        {
+          "title": "A name comes easily now",
+          "camera": "Medium Tara/Rohan.",
+          "action": "Tara calls his name while offering water. He takes the bottle after eye contact; hands release cleanly.",
+          "sound": "Bottle contact.",
+          "lines": [
+            {
+              "speaker": "Tara",
+              "text": "Rohan, paani?",
+              "delivery": "Easy familiarity.",
+              "id": "AD01-L06",
+              "shot": "AD01-S10",
+              "estimate_seconds": 1.0
+            }
+          ],
+          "text": "No readable screen text.",
+          "duration": 5,
+          "pose_in": "Both seated at a later familiar table.",
+          "pose_out": "Bottle with Rohan, Tara hand returns to table.",
+          "start": 45,
+          "end": 50,
+          "id": "AD01-S10",
+          "batch": "AD01-B04",
+          "prompt": "Original adult Indian cast in consistent reviewed 2D cel treatment, with the exact character references, brown skin and fixed adult body proportions. Wardrobe: All proposed casual wardrobe IDs from the ensemble bible. Tara opening uses existing lavender home kit and a later deliberate cut to TA-CAS1; no magical outfit change. Place: Fictional Ahmedabad homes, public café and short riverfront walk on separate days; cuts deliberately mark separate situations. Framing: Medium Tara/Rohan. Start: Both seated at a later familiar table. Animate: Tara calls his name while offering water. He takes the bottle after eye contact; hands release cleanly. Finish: Bottle with Rohan, Tara hand returns to table. Tara says exactly: Rohan, paani? Easy familiarity. Sound: Bottle contact. Preserve prop ownership, eye lines, garment construction and lighting. No unrelated gesture, outfit morph, new character, fake readable UI or exaggerated camera movement. Put precise text/brand in a clean separate graphic layer."
+        },
+        {
+          "title": "Leave the moment alive",
+          "camera": "Wide original six-person table composition.",
+          "action": "Different listening gestures continue naturally; no synchronized toast or brand cheering. Hold the scene long enough to feel ordinary.",
+          "sound": "Warm original motif, soft room tone.",
+          "lines": [],
+          "text": "No readable screen text.",
+          "duration": 5,
+          "pose_in": "Six adults in stable seats, small servings and bags accounted for.",
+          "pose_out": "Conversation continues under transition.",
+          "start": 50,
+          "end": 55,
+          "id": "AD01-S11",
+          "batch": "AD01-B04",
+          "prompt": "Original adult Indian cast in consistent reviewed 2D cel treatment, with the exact character references, brown skin and fixed adult body proportions. Wardrobe: All proposed casual wardrobe IDs from the ensemble bible. Tara opening uses existing lavender home kit and a later deliberate cut to TA-CAS1; no magical outfit change. Place: Fictional Ahmedabad homes, public café and short riverfront walk on separate days; cuts deliberately mark separate situations. Framing: Wide original six-person table composition. Start: Six adults in stable seats, small servings and bags accounted for. Animate: Different listening gestures continue naturally; no synchronized toast or brand cheering. Hold the scene long enough to feel ordinary. Finish: Conversation continues under transition. No spoken line; keep mouths at natural rest or silent reaction. Sound: Warm original motif, soft room tone. Preserve prop ownership, eye lines, garment construction and lighting. No unrelated gesture, outfit morph, new character, fake readable UI or exaggerated camera movement. Put precise text/brand in a clean separate graphic layer."
+        },
+        {
+          "title": "One clear invitation",
+          "camera": "Flat original paper end card.",
+          "action": "Brand title resolves with one restrained crayon underline. Keep the CTA readable for the full final four seconds; no competing slogans.",
+          "sound": "One soft paper cue, music resolves.",
+          "lines": [],
+          "text": "Momo to Pizza / Ek chhota sa plan. Baaki, milkar. / Explore Momo to Pizza. Small label: Fictional animated story. Working tagline.",
+          "duration": 5,
+          "pose_in": "Cream paper, two original food-edition doodles.",
+          "pose_out": "Readable clean end card.",
+          "start": 55,
+          "end": 60,
+          "id": "AD01-S12",
+          "batch": "AD01-B04",
+          "prompt": "Original adult Indian cast in consistent reviewed 2D cel treatment, with the exact character references, brown skin and fixed adult body proportions. Wardrobe: All proposed casual wardrobe IDs from the ensemble bible. Tara opening uses existing lavender home kit and a later deliberate cut to TA-CAS1; no magical outfit change. Place: Fictional Ahmedabad homes, public café and short riverfront walk on separate days; cuts deliberately mark separate situations. Framing: Flat original paper end card. Start: Cream paper, two original food-edition doodles. Animate: Brand title resolves with one restrained crayon underline. Keep the CTA readable for the full final four seconds; no competing slogans. Finish: Readable clean end card. No spoken line; keep mouths at natural rest or silent reaction. Sound: One soft paper cue, music resolves. Preserve prop ownership, eye lines, garment construction and lighting. No unrelated gesture, outfit morph, new character, fake readable UI or exaggerated camera movement. Put precise text/brand in a clean separate graphic layer."
+        }
+      ],
+      "duration_seconds": 60,
+      "voice_lines": [
+        {
+          "speaker": "Gary",
+          "text": "Yahan baitho.",
+          "delivery": "Friendly, no command.",
+          "id": "AD01-L01",
+          "shot": "AD01-S04",
+          "estimate_seconds": 1.0
+        },
+        {
+          "speaker": "Tara",
+          "text": "Tara.",
+          "delivery": "Simple.",
+          "id": "AD01-L02",
+          "shot": "AD01-S05",
+          "estimate_seconds": 0.8
+        },
+        {
+          "speaker": "Gary",
+          "text": "Gary.",
+          "delivery": "Warm.",
+          "id": "AD01-L03",
+          "shot": "AD01-S05",
+          "estimate_seconds": 0.8
+        },
+        {
+          "speaker": "Dhwani",
+          "text": "Practice kaisi thi?",
+          "delivery": "Remembered interest.",
+          "id": "AD01-L04",
+          "shot": "AD01-S09",
+          "estimate_seconds": 1.4
+        },
+        {
+          "speaker": "Meera",
+          "text": "Achhi thi.",
+          "delivery": "Warm.",
+          "id": "AD01-L05",
+          "shot": "AD01-S09",
+          "estimate_seconds": 1.0
+        },
+        {
+          "speaker": "Tara",
+          "text": "Rohan, paani?",
+          "delivery": "Easy familiarity.",
+          "id": "AD01-L06",
+          "shot": "AD01-S10",
+          "estimate_seconds": 1.0
+        }
+      ],
+      "batch_count": 4
+    },
+    {
+      "kind": "brand-campaign",
+      "code": "AD02",
+      "slug": "02-momo-steam-se-baat-30s",
+      "title": "Steam Se Baat Tak — momo edition",
+      "goal": "A food-edition ad where the attractive momo leads to a human conversation. The invitation is to explore a small plan, not order delivery or assume a specific restaurant partnership.",
+      "cast": [
+        "Dhwani",
+        "Gary"
+      ],
+      "place": "Fictional public Ahmedabad café table, mild late afternoon.",
+      "wardrobe": "Dhwani DH-CAS1 and Gary GA-CAS1; braid down back, casual maroon turban, no sport kit or garba costume.",
+      "arc": "Steam catches attention → share with permission → a tiny waiting joke → two people start talking → momo edition end card.",
+      "shots": [
+        {
+          "title": "Warm, not magical",
+          "camera": "Close steamed-momo plate, realistic scale.",
+          "action": "A slight ribbon of steam rises and disperses; soft moist wrapper folds catch light. No faces on food, huge smoke plume or melted cheese.",
+          "sound": "Subtle room tone, plate set-down.",
+          "lines": [],
+          "text": "No readable screen text.",
+          "duration": 5,
+          "pose_in": "Five pale folded steamed momos on a small ceramic plate with separate chutney bowl.",
+          "pose_out": "Plate still full, steam gentle.",
+          "start": 0,
+          "end": 5,
+          "id": "AD02-S01",
+          "batch": "AD02-B01",
+          "prompt": "Original adult Indian cast in consistent reviewed 2D cel treatment, with the exact character references, brown skin and fixed adult body proportions. Wardrobe: Dhwani DH-CAS1 and Gary GA-CAS1; braid down back, casual maroon turban, no sport kit or garba costume. Place: Fictional public Ahmedabad café table, mild late afternoon. Framing: Close steamed-momo plate, realistic scale. Start: Five pale folded steamed momos on a small ceramic plate with separate chutney bowl. Animate: A slight ribbon of steam rises and disperses; soft moist wrapper folds catch light. No faces on food, huge smoke plume or melted cheese. Finish: Plate still full, steam gentle. No spoken line; keep mouths at natural rest or silent reaction. Sound: Subtle room tone, plate set-down. Preserve prop ownership, eye lines, garment construction and lighting. No unrelated gesture, outfit morph, new character, fake readable UI or exaggerated camera movement. Put precise text/brand in a clean separate graphic layer."
+        },
+        {
+          "title": "Offer",
+          "camera": "Medium Dhwani/Gary.",
+          "action": "Dhwani asks if they should share. Gary nods and draws his own empty plate closer, not the entire serving plate.",
+          "sound": "Ceramic slide.",
+          "lines": [
+            {
+              "speaker": "Dhwani",
+              "text": "Share karein?",
+              "delivery": "Warm.",
+              "id": "AD02-L01",
+              "shot": "AD02-S02",
+              "estimate_seconds": 1.0
+            },
+            {
+              "speaker": "Gary",
+              "text": "Haan.",
+              "delivery": "Easy.",
+              "id": "AD02-L02",
+              "shot": "AD02-S02",
+              "estimate_seconds": 0.8
+            }
+          ],
+          "text": "No readable screen text.",
+          "duration": 5,
+          "pose_in": "Plate at centre, serving tongs resting on its own small dish.",
+          "pose_out": "Both ready to serve.",
+          "start": 5,
+          "end": 10,
+          "id": "AD02-S02",
+          "batch": "AD02-B01",
+          "prompt": "Original adult Indian cast in consistent reviewed 2D cel treatment, with the exact character references, brown skin and fixed adult body proportions. Wardrobe: Dhwani DH-CAS1 and Gary GA-CAS1; braid down back, casual maroon turban, no sport kit or garba costume. Place: Fictional public Ahmedabad café table, mild late afternoon. Framing: Medium Dhwani/Gary. Start: Plate at centre, serving tongs resting on its own small dish. Animate: Dhwani asks if they should share. Gary nods and draws his own empty plate closer, not the entire serving plate. Finish: Both ready to serve. Dhwani says exactly: Share karein? Warm. Gary says exactly: Haan. Easy. Sound: Ceramic slide. Preserve prop ownership, eye lines, garment construction and lighting. No unrelated gesture, outfit morph, new character, fake readable UI or exaggerated camera movement. Put precise text/brand in a clean separate graphic layer."
+        },
+        {
+          "title": "Hot food has time",
+          "camera": "Close-medium Gary with serving action.",
+          "action": "He notices steam and pauses before taking a bite. Dhwani mirrors the pause with an amused look; no mouth burn slapstick.",
+          "sound": "Small breath, soft music.",
+          "lines": [
+            {
+              "speaker": "Gary",
+              "text": "Thoda rukte hain.",
+              "delivery": "Practical, smiling.",
+              "id": "AD02-L03",
+              "shot": "AD02-S03",
+              "estimate_seconds": 1.4
+            }
+          ],
+          "text": "No readable screen text.",
+          "duration": 5,
+          "pose_in": "Gary has transferred one momo to his plate; serving tongs returned.",
+          "pose_out": "One momo on each personal plate after deliberate serving cut.",
+          "start": 10,
+          "end": 15,
+          "id": "AD02-S03",
+          "batch": "AD02-B01",
+          "prompt": "Original adult Indian cast in consistent reviewed 2D cel treatment, with the exact character references, brown skin and fixed adult body proportions. Wardrobe: Dhwani DH-CAS1 and Gary GA-CAS1; braid down back, casual maroon turban, no sport kit or garba costume. Place: Fictional public Ahmedabad café table, mild late afternoon. Framing: Close-medium Gary with serving action. Start: Gary has transferred one momo to his plate; serving tongs returned. Animate: He notices steam and pauses before taking a bite. Dhwani mirrors the pause with an amused look; no mouth burn slapstick. Finish: One momo on each personal plate after deliberate serving cut. Gary says exactly: Thoda rukte hain. Practical, smiling. Sound: Small breath, soft music. Preserve prop ownership, eye lines, garment construction and lighting. No unrelated gesture, outfit morph, new character, fake readable UI or exaggerated camera movement. Put precise text/brand in a clean separate graphic layer."
+        },
+        {
+          "title": "Conversation starts in the wait",
+          "camera": "Medium Dhwani.",
+          "action": "She asks about his morning match. His offscreen brief answer is accompanied by her listening nod. Food remains on plates.",
+          "sound": "Low café tone.",
+          "lines": [
+            {
+              "speaker": "Dhwani",
+              "text": "Match kaisa tha?",
+              "delivery": "Curious.",
+              "id": "AD02-L04",
+              "shot": "AD02-S04",
+              "estimate_seconds": 1.4
+            },
+            {
+              "speaker": "Gary",
+              "text": "Mazaa aaya.",
+              "delivery": "Offscreen, warm.",
+              "id": "AD02-L05",
+              "shot": "AD02-S04",
+              "estimate_seconds": 1.0
+            }
+          ],
+          "text": "No readable screen text.",
+          "duration": 5,
+          "pose_in": "Her hands free while food cools.",
+          "pose_out": "A genuine topic has started.",
+          "start": 15,
+          "end": 20,
+          "id": "AD02-S04",
+          "batch": "AD02-B02",
+          "prompt": "Original adult Indian cast in consistent reviewed 2D cel treatment, with the exact character references, brown skin and fixed adult body proportions. Wardrobe: Dhwani DH-CAS1 and Gary GA-CAS1; braid down back, casual maroon turban, no sport kit or garba costume. Place: Fictional public Ahmedabad café table, mild late afternoon. Framing: Medium Dhwani. Start: Her hands free while food cools. Animate: She asks about his morning match. His offscreen brief answer is accompanied by her listening nod. Food remains on plates. Finish: A genuine topic has started. Dhwani says exactly: Match kaisa tha? Curious. Gary says exactly: Mazaa aaya. Offscreen, warm. Sound: Low café tone. Preserve prop ownership, eye lines, garment construction and lighting. No unrelated gesture, outfit morph, new character, fake readable UI or exaggerated camera movement. Put precise text/brand in a clean separate graphic layer."
+        },
+        {
+          "title": "Now a shared laugh",
+          "camera": "Medium two-shot.",
+          "action": "He gestures toward his plate with an empty hand and makes the short joke. Dhwani laughs and reaches for water.",
+          "sound": "Natural laugh.",
+          "lines": [
+            {
+              "speaker": "Gary",
+              "text": "Ab yeh extra time hai.",
+              "delivery": "Warm football callback.",
+              "id": "AD02-L06",
+              "shot": "AD02-S05",
+              "estimate_seconds": 2.2
+            }
+          ],
+          "text": "No readable screen text.",
+          "duration": 5,
+          "pose_in": "Gary has finished a small bite before speaking.",
+          "pose_out": "Both comfortable, serving plate count now lower.",
+          "start": 20,
+          "end": 25,
+          "id": "AD02-S05",
+          "batch": "AD02-B02",
+          "prompt": "Original adult Indian cast in consistent reviewed 2D cel treatment, with the exact character references, brown skin and fixed adult body proportions. Wardrobe: Dhwani DH-CAS1 and Gary GA-CAS1; braid down back, casual maroon turban, no sport kit or garba costume. Place: Fictional public Ahmedabad café table, mild late afternoon. Framing: Medium two-shot. Start: Gary has finished a small bite before speaking. Animate: He gestures toward his plate with an empty hand and makes the short joke. Dhwani laughs and reaches for water. Finish: Both comfortable, serving plate count now lower. Gary says exactly: Ab yeh extra time hai. Warm football callback. Sound: Natural laugh. Preserve prop ownership, eye lines, garment construction and lighting. No unrelated gesture, outfit morph, new character, fake readable UI or exaggerated camera movement. Put precise text/brand in a clean separate graphic layer."
+        },
+        {
+          "title": "Momo edition card",
+          "camera": "Original paper card, static.",
+          "action": "Steam accent moves once, then all text holds still. Keep the pizza edition as a small alternate mark, not deleted from the brand.",
+          "sound": "Soft paper/music close.",
+          "lines": [],
+          "text": "Momo to Pizza / Momo edition / Ek plate. Ek chhota plan. / Explore Momo to Pizza. Fictional story.",
+          "duration": 5,
+          "pose_in": "Momo doodle and small steam curl beside brand.",
+          "pose_out": "Readable end card.",
+          "start": 25,
+          "end": 30,
+          "id": "AD02-S06",
+          "batch": "AD02-B02",
+          "prompt": "Original adult Indian cast in consistent reviewed 2D cel treatment, with the exact character references, brown skin and fixed adult body proportions. Wardrobe: Dhwani DH-CAS1 and Gary GA-CAS1; braid down back, casual maroon turban, no sport kit or garba costume. Place: Fictional public Ahmedabad café table, mild late afternoon. Framing: Original paper card, static. Start: Momo doodle and small steam curl beside brand. Animate: Steam accent moves once, then all text holds still. Keep the pizza edition as a small alternate mark, not deleted from the brand. Finish: Readable end card. No spoken line; keep mouths at natural rest or silent reaction. Sound: Soft paper/music close. Preserve prop ownership, eye lines, garment construction and lighting. No unrelated gesture, outfit morph, new character, fake readable UI or exaggerated camera movement. Put precise text/brand in a clean separate graphic layer."
+        }
+      ],
+      "duration_seconds": 30,
+      "voice_lines": [
+        {
+          "speaker": "Dhwani",
+          "text": "Share karein?",
+          "delivery": "Warm.",
+          "id": "AD02-L01",
+          "shot": "AD02-S02",
+          "estimate_seconds": 1.0
+        },
+        {
+          "speaker": "Gary",
+          "text": "Haan.",
+          "delivery": "Easy.",
+          "id": "AD02-L02",
+          "shot": "AD02-S02",
+          "estimate_seconds": 0.8
+        },
+        {
+          "speaker": "Gary",
+          "text": "Thoda rukte hain.",
+          "delivery": "Practical, smiling.",
+          "id": "AD02-L03",
+          "shot": "AD02-S03",
+          "estimate_seconds": 1.4
+        },
+        {
+          "speaker": "Dhwani",
+          "text": "Match kaisa tha?",
+          "delivery": "Curious.",
+          "id": "AD02-L04",
+          "shot": "AD02-S04",
+          "estimate_seconds": 1.4
+        },
+        {
+          "speaker": "Gary",
+          "text": "Mazaa aaya.",
+          "delivery": "Offscreen, warm.",
+          "id": "AD02-L05",
+          "shot": "AD02-S04",
+          "estimate_seconds": 1.0
+        },
+        {
+          "speaker": "Gary",
+          "text": "Ab yeh extra time hai.",
+          "delivery": "Warm football callback.",
+          "id": "AD02-L06",
+          "shot": "AD02-S05",
+          "estimate_seconds": 2.2
+        }
+      ],
+      "batch_count": 2
+    },
+    {
+      "kind": "brand-campaign",
+      "code": "AD03",
+      "slug": "03-pizza-last-slice-45s",
+      "title": "Last Slice, Next Plan — pizza edition",
+      "goal": "Show an easy, considerate food-table connection without competition, forced generosity or fake social proof. Pizza texture matters, but people carry the story.",
+      "cast": [
+        "Rohan",
+        "Sameer",
+        "Meera"
+      ],
+      "place": "Fictional modest Ahmedabad café table, evening.",
+      "wardrobe": "RO-CAS1, SA-CAS1, ME-CAS1. Casual low bun, glasses and curls stable. Sameer hoodie fits mild-season evening.",
+      "arc": "One remaining shared slice → ask before taking → optional split → tiny knife problem solved → possible next activity → clear pizza edition sign-off.",
+      "shots": [
+        {
+          "title": "The remaining slice",
+          "camera": "Close plate and three personal settings.",
+          "action": "A hand approaches, pauses before touching and withdraws to ask. No cheese stretching across the room.",
+          "sound": "Plate scrape, low café ambience.",
+          "lines": [],
+          "text": "No readable screen text.",
+          "duration": 5,
+          "pose_in": "One realistic Neapolitan-style pizza slice remains on a shared plate; char-speckled puffy crust and modest cheese.",
+          "pose_out": "Slice remains whole.",
+          "start": 0,
+          "end": 5,
+          "id": "AD03-S01",
+          "batch": "AD03-B01",
+          "prompt": "Original adult Indian cast in consistent reviewed 2D cel treatment, with the exact character references, brown skin and fixed adult body proportions. Wardrobe: RO-CAS1, SA-CAS1, ME-CAS1. Casual low bun, glasses and curls stable. Sameer hoodie fits mild-season evening. Place: Fictional modest Ahmedabad café table, evening. Framing: Close plate and three personal settings. Start: One realistic Neapolitan-style pizza slice remains on a shared plate; char-speckled puffy crust and modest cheese. Animate: A hand approaches, pauses before touching and withdraws to ask. No cheese stretching across the room. Finish: Slice remains whole. No spoken line; keep mouths at natural rest or silent reaction. Sound: Plate scrape, low café ambience. Preserve prop ownership, eye lines, garment construction and lighting. No unrelated gesture, outfit morph, new character, fake readable UI or exaggerated camera movement. Put precise text/brand in a clean separate graphic layer."
+        },
+        {
+          "title": "Rohan checks",
+          "camera": "Medium Rohan with listeners.",
+          "action": "He asks if anyone wants the last slice. Leave a little genuine time for an answer.",
+          "sound": "Room tone.",
+          "lines": [
+            {
+              "speaker": "Rohan",
+              "text": "Kisi ko last slice?",
+              "delivery": "Ordinary courtesy.",
+              "id": "AD03-L01",
+              "shot": "AD03-S02",
+              "estimate_seconds": 1.8
+            }
+          ],
+          "text": "No readable screen text.",
+          "duration": 5,
+          "pose_in": "His personal plate empty, hands clear.",
+          "pose_out": "Question open, no grabbing.",
+          "start": 5,
+          "end": 10,
+          "id": "AD03-S02",
+          "batch": "AD03-B01",
+          "prompt": "Original adult Indian cast in consistent reviewed 2D cel treatment, with the exact character references, brown skin and fixed adult body proportions. Wardrobe: RO-CAS1, SA-CAS1, ME-CAS1. Casual low bun, glasses and curls stable. Sameer hoodie fits mild-season evening. Place: Fictional modest Ahmedabad café table, evening. Framing: Medium Rohan with listeners. Start: His personal plate empty, hands clear. Animate: He asks if anyone wants the last slice. Leave a little genuine time for an answer. Finish: Question open, no grabbing. Rohan says exactly: Kisi ko last slice? Ordinary courtesy. Sound: Room tone. Preserve prop ownership, eye lines, garment construction and lighting. No unrelated gesture, outfit morph, new character, fake readable UI or exaggerated camera movement. Put precise text/brand in a clean separate graphic layer."
+        },
+        {
+          "title": "Sameer says yes",
+          "camera": "Medium Sameer.",
+          "action": "He admits he would have some. Rohan nods rather than pretending he was not hungry.",
+          "sound": "Small amused breath.",
+          "lines": [
+            {
+              "speaker": "Sameer",
+              "text": "Thoda sa main lunga.",
+              "delivery": "Honest.",
+              "id": "AD03-L02",
+              "shot": "AD03-S03",
+              "estimate_seconds": 1.8
+            }
+          ],
+          "text": "No readable screen text.",
+          "duration": 5,
+          "pose_in": "Sameer looking at shared plate then Rohan.",
+          "pose_out": "Two people interested, no rivalry.",
+          "start": 10,
+          "end": 15,
+          "id": "AD03-S03",
+          "batch": "AD03-B01",
+          "prompt": "Original adult Indian cast in consistent reviewed 2D cel treatment, with the exact character references, brown skin and fixed adult body proportions. Wardrobe: RO-CAS1, SA-CAS1, ME-CAS1. Casual low bun, glasses and curls stable. Sameer hoodie fits mild-season evening. Place: Fictional modest Ahmedabad café table, evening. Framing: Medium Sameer. Start: Sameer looking at shared plate then Rohan. Animate: He admits he would have some. Rohan nods rather than pretending he was not hungry. Finish: Two people interested, no rivalry. Sameer says exactly: Thoda sa main lunga. Honest. Sound: Small amused breath. Preserve prop ownership, eye lines, garment construction and lighting. No unrelated gesture, outfit morph, new character, fake readable UI or exaggerated camera movement. Put precise text/brand in a clean separate graphic layer."
+        },
+        {
+          "title": "Meera has a simple solution",
+          "camera": "Medium Meera and shared plate.",
+          "action": "She offers to divide the slice. Both nod; she draws the serving plate toward a clear table area.",
+          "sound": "Ceramic slide.",
+          "lines": [
+            {
+              "speaker": "Meera",
+              "text": "Dono le lo. Aadha-aadha.",
+              "delivery": "Practical.",
+              "id": "AD03-L03",
+              "shot": "AD03-S04",
+              "estimate_seconds": 1.8
+            }
+          ],
+          "text": "No readable screen text.",
+          "duration": 5,
+          "pose_in": "Clean serving knife rests on a side dish, not pointed at anyone.",
+          "pose_out": "Plate positioned safely for cut.",
+          "start": 15,
+          "end": 20,
+          "id": "AD03-S04",
+          "batch": "AD03-B02",
+          "prompt": "Original adult Indian cast in consistent reviewed 2D cel treatment, with the exact character references, brown skin and fixed adult body proportions. Wardrobe: RO-CAS1, SA-CAS1, ME-CAS1. Casual low bun, glasses and curls stable. Sameer hoodie fits mild-season evening. Place: Fictional modest Ahmedabad café table, evening. Framing: Medium Meera and shared plate. Start: Clean serving knife rests on a side dish, not pointed at anyone. Animate: She offers to divide the slice. Both nod; she draws the serving plate toward a clear table area. Finish: Plate positioned safely for cut. Meera says exactly: Dono le lo. Aadha-aadha. Practical. Sound: Ceramic slide. Preserve prop ownership, eye lines, garment construction and lighting. No unrelated gesture, outfit morph, new character, fake readable UI or exaggerated camera movement. Put precise text/brand in a clean separate graphic layer."
+        },
+        {
+          "title": "Not a dramatic operation",
+          "camera": "Close-medium hands with face at top.",
+          "action": "She makes one ordinary controlled cut while the plate is steady. Keep hands/knife contact plausible; cut away before demanding complex food deformation if needed.",
+          "sound": "Soft crust crunch.",
+          "lines": [],
+          "text": "No readable screen text.",
+          "duration": 5,
+          "pose_in": "Slice on plate, clean knife held normally.",
+          "pose_out": "Two pieces after clean edit, knife returned to dish.",
+          "start": 20,
+          "end": 25,
+          "id": "AD03-S05",
+          "batch": "AD03-B02",
+          "prompt": "Original adult Indian cast in consistent reviewed 2D cel treatment, with the exact character references, brown skin and fixed adult body proportions. Wardrobe: RO-CAS1, SA-CAS1, ME-CAS1. Casual low bun, glasses and curls stable. Sameer hoodie fits mild-season evening. Place: Fictional modest Ahmedabad café table, evening. Framing: Close-medium hands with face at top. Start: Slice on plate, clean knife held normally. Animate: She makes one ordinary controlled cut while the plate is steady. Keep hands/knife contact plausible; cut away before demanding complex food deformation if needed. Finish: Two pieces after clean edit, knife returned to dish. No spoken line; keep mouths at natural rest or silent reaction. Sound: Soft crust crunch. Preserve prop ownership, eye lines, garment construction and lighting. No unrelated gesture, outfit morph, new character, fake readable UI or exaggerated camera movement. Put precise text/brand in a clean separate graphic layer."
+        },
+        {
+          "title": "Unequal halves",
+          "camera": "Medium Rohan/Sameer.",
+          "action": "Sameer notices his smaller piece and jokes about the tiny difference, then smiles to show no complaint. Rohan offers the other piece; Sameer waves it off with empty hand.",
+          "sound": "A quiet laugh.",
+          "lines": [
+            {
+              "speaker": "Sameer",
+              "text": "Measurement thoda artistic hai.",
+              "delivery": "Amused, not accusing.",
+              "id": "AD03-L04",
+              "shot": "AD03-S06",
+              "estimate_seconds": 1.8
+            }
+          ],
+          "text": "No readable screen text.",
+          "duration": 5,
+          "pose_in": "Two pieces are slightly unequal, on separate plates after serving cut.",
+          "pose_out": "Each keeps their own piece willingly.",
+          "start": 25,
+          "end": 30,
+          "id": "AD03-S06",
+          "batch": "AD03-B02",
+          "prompt": "Original adult Indian cast in consistent reviewed 2D cel treatment, with the exact character references, brown skin and fixed adult body proportions. Wardrobe: RO-CAS1, SA-CAS1, ME-CAS1. Casual low bun, glasses and curls stable. Sameer hoodie fits mild-season evening. Place: Fictional modest Ahmedabad café table, evening. Framing: Medium Rohan/Sameer. Start: Two pieces are slightly unequal, on separate plates after serving cut. Animate: Sameer notices his smaller piece and jokes about the tiny difference, then smiles to show no complaint. Rohan offers the other piece; Sameer waves it off with empty hand. Finish: Each keeps their own piece willingly. Sameer says exactly: Measurement thoda artistic hai. Amused, not accusing. Sound: A quiet laugh. Preserve prop ownership, eye lines, garment construction and lighting. No unrelated gesture, outfit morph, new character, fake readable UI or exaggerated camera movement. Put precise text/brand in a clean separate graphic layer."
+        },
+        {
+          "title": "Something after food",
+          "camera": "Medium Meera/Rohan.",
+          "action": "Meera asks about a small walk after eating. Rohan looks toward the window and agrees, no instant location jump.",
+          "sound": "Music warms.",
+          "lines": [
+            {
+              "speaker": "Meera",
+              "text": "Baad mein chhota walk?",
+              "delivery": "Easy.",
+              "id": "AD03-L05",
+              "shot": "AD03-S07",
+              "estimate_seconds": 1.8
+            },
+            {
+              "speaker": "Rohan",
+              "text": "Haan, chalega.",
+              "delivery": "Relaxed.",
+              "id": "AD03-L06",
+              "shot": "AD03-S07",
+              "estimate_seconds": 1.0
+            }
+          ],
+          "text": "No readable screen text.",
+          "duration": 5,
+          "pose_in": "They have finished chewing, plates remain.",
+          "pose_out": "Another optional shared action considered.",
+          "start": 30,
+          "end": 35,
+          "id": "AD03-S07",
+          "batch": "AD03-B03",
+          "prompt": "Original adult Indian cast in consistent reviewed 2D cel treatment, with the exact character references, brown skin and fixed adult body proportions. Wardrobe: RO-CAS1, SA-CAS1, ME-CAS1. Casual low bun, glasses and curls stable. Sameer hoodie fits mild-season evening. Place: Fictional modest Ahmedabad café table, evening. Framing: Medium Meera/Rohan. Start: They have finished chewing, plates remain. Animate: Meera asks about a small walk after eating. Rohan looks toward the window and agrees, no instant location jump. Finish: Another optional shared action considered. Meera says exactly: Baad mein chhota walk? Easy. Rohan says exactly: Haan, chalega. Relaxed. Sound: Music warms. Preserve prop ownership, eye lines, garment construction and lighting. No unrelated gesture, outfit morph, new character, fake readable UI or exaggerated camera movement. Put precise text/brand in a clean separate graphic layer."
+        },
+        {
+          "title": "The table can continue",
+          "camera": "Wide three-shot.",
+          "action": "They finish the conversation, reach for water and start packing bags at a natural pace. Avoid a rehearsed toast.",
+          "sound": "Bag strap, cup, warm motif.",
+          "lines": [],
+          "text": "No readable screen text.",
+          "duration": 5,
+          "pose_in": "All seated, no extra food spawned.",
+          "pose_out": "Ready to leave only after meal is finished.",
+          "start": 35,
+          "end": 40,
+          "id": "AD03-S08",
+          "batch": "AD03-B03",
+          "prompt": "Original adult Indian cast in consistent reviewed 2D cel treatment, with the exact character references, brown skin and fixed adult body proportions. Wardrobe: RO-CAS1, SA-CAS1, ME-CAS1. Casual low bun, glasses and curls stable. Sameer hoodie fits mild-season evening. Place: Fictional modest Ahmedabad café table, evening. Framing: Wide three-shot. Start: All seated, no extra food spawned. Animate: They finish the conversation, reach for water and start packing bags at a natural pace. Avoid a rehearsed toast. Finish: Ready to leave only after meal is finished. No spoken line; keep mouths at natural rest or silent reaction. Sound: Bag strap, cup, warm motif. Preserve prop ownership, eye lines, garment construction and lighting. No unrelated gesture, outfit morph, new character, fake readable UI or exaggerated camera movement. Put precise text/brand in a clean separate graphic layer."
+        },
+        {
+          "title": "Pizza edition card",
+          "camera": "Original cream paper card.",
+          "action": "A crayon underline settles beneath the brand. Hold exact copy, no fake offer badge.",
+          "sound": "Soft musical close.",
+          "lines": [],
+          "text": "Momo to Pizza / Pizza edition / Ek slice. Phir thoda sa bahar. / Explore Momo to Pizza. Fictional story.",
+          "duration": 5,
+          "pose_in": "Original pizza-slice doodle and small secondary momo mark.",
+          "pose_out": "Clean end card.",
+          "start": 40,
+          "end": 45,
+          "id": "AD03-S09",
+          "batch": "AD03-B03",
+          "prompt": "Original adult Indian cast in consistent reviewed 2D cel treatment, with the exact character references, brown skin and fixed adult body proportions. Wardrobe: RO-CAS1, SA-CAS1, ME-CAS1. Casual low bun, glasses and curls stable. Sameer hoodie fits mild-season evening. Place: Fictional modest Ahmedabad café table, evening. Framing: Original cream paper card. Start: Original pizza-slice doodle and small secondary momo mark. Animate: A crayon underline settles beneath the brand. Hold exact copy, no fake offer badge. Finish: Clean end card. No spoken line; keep mouths at natural rest or silent reaction. Sound: Soft musical close. Preserve prop ownership, eye lines, garment construction and lighting. No unrelated gesture, outfit morph, new character, fake readable UI or exaggerated camera movement. Put precise text/brand in a clean separate graphic layer."
+        }
+      ],
+      "duration_seconds": 45,
+      "voice_lines": [
+        {
+          "speaker": "Rohan",
+          "text": "Kisi ko last slice?",
+          "delivery": "Ordinary courtesy.",
+          "id": "AD03-L01",
+          "shot": "AD03-S02",
+          "estimate_seconds": 1.8
+        },
+        {
+          "speaker": "Sameer",
+          "text": "Thoda sa main lunga.",
+          "delivery": "Honest.",
+          "id": "AD03-L02",
+          "shot": "AD03-S03",
+          "estimate_seconds": 1.8
+        },
+        {
+          "speaker": "Meera",
+          "text": "Dono le lo. Aadha-aadha.",
+          "delivery": "Practical.",
+          "id": "AD03-L03",
+          "shot": "AD03-S04",
+          "estimate_seconds": 1.8
+        },
+        {
+          "speaker": "Sameer",
+          "text": "Measurement thoda artistic hai.",
+          "delivery": "Amused, not accusing.",
+          "id": "AD03-L04",
+          "shot": "AD03-S06",
+          "estimate_seconds": 1.8
+        },
+        {
+          "speaker": "Meera",
+          "text": "Baad mein chhota walk?",
+          "delivery": "Easy.",
+          "id": "AD03-L05",
+          "shot": "AD03-S07",
+          "estimate_seconds": 1.8
+        },
+        {
+          "speaker": "Rohan",
+          "text": "Haan, chalega.",
+          "delivery": "Relaxed.",
+          "id": "AD03-L06",
+          "shot": "AD03-S07",
+          "estimate_seconds": 1.0
+        }
+      ],
+      "batch_count": 3
+    },
+    {
+      "kind": "brand-campaign",
+      "code": "AD04",
+      "slug": "04-people-make-an-effort-15s",
+      "title": "People Still Make an Effort — invitation teaser",
+      "goal": "A short invitation-led teaser adapted from the emotional centre of Tara, preserving the effort/appreciation motive without pretending every sign-up automatically receives a confirmed invitation.",
+      "cast": [
+        "Tara"
+      ],
+      "place": "Her established shared-flat bedroom, later afternoon; use existing Tara C 2D identity, not a new ensemble redraw.",
+      "wardrobe": "Existing lavender home tee, blue piped shorts, wolf cut and light blanket. Do not use outing wardrobe until a later deliberate dressing cut outside this teaser.",
+      "arc": "Thoughtful letter → appreciative reaction → a physical decision and simple brand close. The teaser ends before the whole outing.",
+      "shots": [
+        {
+          "title": "A little care on a screen",
+          "camera": "Medium Tara in three-quarter.",
+          "action": "Warm reflected light catches her face as the postcard opens. She reads, blinks and lets a small smile grow. Light stays plausible and reveals the same brown skin; no face replacement.",
+          "sound": "Soft paper-like opening cue.",
+          "lines": [
+            {
+              "speaker": "Tara",
+              "text": "Aww...",
+              "delivery": "Sincere, not squealed.",
+              "id": "AD04-L01",
+              "shot": "AD04-S01",
+              "estimate_seconds": 0.8
+            }
+          ],
+          "text": "No readable screen text.",
+          "duration": 5,
+          "pose_in": "Tara seated with phone; an already-received fictional invitation open.",
+          "pose_out": "Smile visible, phone still held.",
+          "start": 0,
+          "end": 5,
+          "id": "AD04-S01",
+          "batch": "AD04-B01",
+          "prompt": "Original adult Indian cast in consistent reviewed 2D cel treatment, with the exact character references, brown skin and fixed adult body proportions. Wardrobe: Existing lavender home tee, blue piped shorts, wolf cut and light blanket. Do not use outing wardrobe until a later deliberate dressing cut outside this teaser. Place: Her established shared-flat bedroom, later afternoon; use existing Tara C 2D identity, not a new ensemble redraw. Framing: Medium Tara in three-quarter. Start: Tara seated with phone; an already-received fictional invitation open. Animate: Warm reflected light catches her face as the postcard opens. She reads, blinks and lets a small smile grow. Light stays plausible and reveals the same brown skin; no face replacement. Finish: Smile visible, phone still held. Tara says exactly: Aww... Sincere, not squealed. Sound: Soft paper-like opening cue. Preserve prop ownership, eye lines, garment construction and lighting. No unrelated gesture, outfit morph, new character, fake readable UI or exaggerated camera movement. Put precise text/brand in a clean separate graphic layer."
+        },
+        {
+          "title": "The central thought",
+          "camera": "Close-medium adult face and hands.",
+          "action": "She looks from screen toward the room and speaks the key thought, with a small amazed exhale. Do not put another action on top of the whole line.",
+          "sound": "Room tone, music low.",
+          "lines": [
+            {
+              "speaker": "Tara",
+              "text": "Iss zamaane mein bhi koi itna effort daalta hai?",
+              "delivery": "Natural warm pace; this line may need the entire five-second window.",
+              "id": "AD04-L02",
+              "shot": "AD04-S02",
+              "estimate_seconds": 3.7
+            }
+          ],
+          "text": "No readable screen text.",
+          "duration": 5,
+          "pose_in": "She has finished reading; phone angled away from audience.",
+          "pose_out": "Smile settles into a decision.",
+          "start": 5,
+          "end": 10,
+          "id": "AD04-S02",
+          "batch": "AD04-B01",
+          "prompt": "Original adult Indian cast in consistent reviewed 2D cel treatment, with the exact character references, brown skin and fixed adult body proportions. Wardrobe: Existing lavender home tee, blue piped shorts, wolf cut and light blanket. Do not use outing wardrobe until a later deliberate dressing cut outside this teaser. Place: Her established shared-flat bedroom, later afternoon; use existing Tara C 2D identity, not a new ensemble redraw. Framing: Close-medium adult face and hands. Start: She has finished reading; phone angled away from audience. Animate: She looks from screen toward the room and speaks the key thought, with a small amazed exhale. Do not put another action on top of the whole line. Finish: Smile settles into a decision. Tara says exactly: Iss zamaane mein bhi koi itna effort daalta hai? Natural warm pace; this line may need the entire five-second window. Sound: Room tone, music low. Preserve prop ownership, eye lines, garment construction and lighting. No unrelated gesture, outfit morph, new character, fake readable UI or exaggerated camera movement. Put precise text/brand in a clean separate graphic layer."
+        },
+        {
+          "title": "Stand and title",
+          "camera": "Medium full body with margin for graphic.",
+          "action": "She places phone on bed, pushes blanket aside and starts standing. Brand text enters cleanly in a free side margin during the final two seconds without covering her face. If action is too dense, use a deliberate cut from phone-down to standing; never a frozen portrait zoom.",
+          "sound": "Fabric, feet, small musical lift.",
+          "lines": [],
+          "text": "Momo to Pizza / A little effort. A small plan. Fictional invitation concept. No send/confirmation claim.",
+          "duration": 5,
+          "pose_in": "Phone in hand, blanket across lap, feet can reach floor.",
+          "pose_out": "She chooses to move; outfit/body unchanged.",
+          "start": 10,
+          "end": 15,
+          "id": "AD04-S03",
+          "batch": "AD04-B01",
+          "prompt": "Original adult Indian cast in consistent reviewed 2D cel treatment, with the exact character references, brown skin and fixed adult body proportions. Wardrobe: Existing lavender home tee, blue piped shorts, wolf cut and light blanket. Do not use outing wardrobe until a later deliberate dressing cut outside this teaser. Place: Her established shared-flat bedroom, later afternoon; use existing Tara C 2D identity, not a new ensemble redraw. Framing: Medium full body with margin for graphic. Start: Phone in hand, blanket across lap, feet can reach floor. Animate: She places phone on bed, pushes blanket aside and starts standing. Brand text enters cleanly in a free side margin during the final two seconds without covering her face. If action is too dense, use a deliberate cut from phone-down to standing; never a frozen portrait zoom. Finish: She chooses to move; outfit/body unchanged. No spoken line; keep mouths at natural rest or silent reaction. Sound: Fabric, feet, small musical lift. Preserve prop ownership, eye lines, garment construction and lighting. No unrelated gesture, outfit morph, new character, fake readable UI or exaggerated camera movement. Put precise text/brand in a clean separate graphic layer."
+        }
+      ],
+      "duration_seconds": 15,
+      "voice_lines": [
+        {
+          "speaker": "Tara",
+          "text": "Aww...",
+          "delivery": "Sincere, not squealed.",
+          "id": "AD04-L01",
+          "shot": "AD04-S01",
+          "estimate_seconds": 0.8
+        },
+        {
+          "speaker": "Tara",
+          "text": "Iss zamaane mein bhi koi itna effort daalta hai?",
+          "delivery": "Natural warm pace; this line may need the entire five-second window.",
+          "id": "AD04-L02",
+          "shot": "AD04-S02",
+          "estimate_seconds": 3.7
+        }
+      ],
+      "batch_count": 1
+    },
+    {
+      "kind": "conversations",
+      "code": "CV01",
+      "slug": "01-job-title-nahi-32s",
+      "title": "Job Title Nahi",
+      "goal": "A tiny first-meeting conversation that makes room for an interest beyond work, without insulting a job.",
+      "cast": [
+        "Tara",
+        "Rohan"
+      ],
+      "place": "L01 fictional café, between E01 and the later familiar-table episodes.",
+      "wardrobe": "TA-CAS1 and RO-CAS1; two seated at adjacent sides, bags at feet.",
+      "arc": "Default job question → answer honestly → choose a fun ordinary question → laugh at a small interest.",
+      "shots": [
+        {
+          "title": "A familiar opening",
+          "camera": "Medium two-shot.",
+          "action": "Rohan starts the usual job question and Tara answers briefly, then asks what he does after work.",
+          "sound": "Café room tone.",
+          "lines": [
+            {
+              "speaker": "Rohan",
+              "text": "Tum kya karti ho?",
+              "delivery": "Neutral.",
+              "id": "CV01-L01",
+              "shot": "CV01-S01",
+              "estimate_seconds": 1.8
+            },
+            {
+              "speaker": "Tara",
+              "text": "Corporate job. Uske baad wali baat karein?",
+              "delivery": "Playful invitation, no contempt.",
+              "id": "CV01-L02",
+              "shot": "CV01-S01",
+              "estimate_seconds": 2.9
+            }
+          ],
+          "text": "No readable screen text.",
+          "duration": 8,
+          "pose_in": "Both seated with drinks, hands not around hot cup rims.",
+          "pose_out": "Conversation shifts without dismissing his question.",
+          "start": 0,
+          "end": 8,
+          "id": "CV01-S01",
+          "batch": "CV01-B01",
+          "prompt": "Original adult Indian cast in consistent reviewed 2D cel treatment, with the exact character references, brown skin and fixed adult body proportions. Wardrobe: TA-CAS1 and RO-CAS1; two seated at adjacent sides, bags at feet. Place: L01 fictional café, between E01 and the later familiar-table episodes. Framing: Medium two-shot. Start: Both seated with drinks, hands not around hot cup rims. Animate: Rohan starts the usual job question and Tara answers briefly, then asks what he does after work. Finish: Conversation shifts without dismissing his question. Rohan says exactly: Tum kya karti ho? Neutral. Tara says exactly: Corporate job. Uske baad wali baat karein? Playful invitation, no contempt. Sound: Café room tone. Preserve prop ownership, eye lines, garment construction and lighting. No unrelated gesture, outfit morph, new character, fake readable UI or exaggerated camera movement. Put precise text/brand in a clean separate graphic layer."
+        },
+        {
+          "title": "He has an actual interest",
+          "camera": "Medium Rohan.",
+          "action": "He admits he likes trying new breakfast places. His shoulders open a little, and he makes a small hand gesture rather than a speech.",
+          "sound": "Spoon in distant background.",
+          "lines": [
+            {
+              "speaker": "Rohan",
+              "text": "Naye breakfast places try karta hoon.",
+              "delivery": "Warm, a little surprised to be asked.",
+              "id": "CV01-L03",
+              "shot": "CV01-S02",
+              "estimate_seconds": 2.6
+            }
+          ],
+          "text": "No readable screen text.",
+          "duration": 8,
+          "pose_in": "He considers the question, cup on saucer.",
+          "pose_out": "Interest offered.",
+          "start": 8,
+          "end": 16,
+          "id": "CV01-S02",
+          "batch": "CV01-B01",
+          "prompt": "Original adult Indian cast in consistent reviewed 2D cel treatment, with the exact character references, brown skin and fixed adult body proportions. Wardrobe: TA-CAS1 and RO-CAS1; two seated at adjacent sides, bags at feet. Place: L01 fictional café, between E01 and the later familiar-table episodes. Framing: Medium Rohan. Start: He considers the question, cup on saucer. Animate: He admits he likes trying new breakfast places. His shoulders open a little, and he makes a small hand gesture rather than a speech. Finish: Interest offered. Rohan says exactly: Naye breakfast places try karta hoon. Warm, a little surprised to be asked. Sound: Spoon in distant background. Preserve prop ownership, eye lines, garment construction and lighting. No unrelated gesture, outfit morph, new character, fake readable UI or exaggerated camera movement. Put precise text/brand in a clean separate graphic layer."
+        },
+        {
+          "title": "A practical follow-up",
+          "camera": "Medium Tara.",
+          "action": "She asks the obvious useful question. He answers offscreen after a small amused breath.",
+          "sound": "A brief laugh.",
+          "lines": [
+            {
+              "speaker": "Tara",
+              "text": "List hai?",
+              "delivery": "Quick.",
+              "id": "CV01-L04",
+              "shot": "CV01-S03",
+              "estimate_seconds": 1.0
+            },
+            {
+              "speaker": "Rohan",
+              "text": "Of course.",
+              "delivery": "Dry, offscreen.",
+              "id": "CV01-L05",
+              "shot": "CV01-S03",
+              "estimate_seconds": 1.0
+            }
+          ],
+          "text": "No readable screen text.",
+          "duration": 8,
+          "pose_in": "She listens, one eyebrow rising with interest.",
+          "pose_out": "Her grin grows.",
+          "start": 16,
+          "end": 24,
+          "id": "CV01-S03",
+          "batch": "CV01-B01",
+          "prompt": "Original adult Indian cast in consistent reviewed 2D cel treatment, with the exact character references, brown skin and fixed adult body proportions. Wardrobe: TA-CAS1 and RO-CAS1; two seated at adjacent sides, bags at feet. Place: L01 fictional café, between E01 and the later familiar-table episodes. Framing: Medium Tara. Start: She listens, one eyebrow rising with interest. Animate: She asks the obvious useful question. He answers offscreen after a small amused breath. Finish: Her grin grows. Tara says exactly: List hai? Quick. Rohan says exactly: Of course. Dry, offscreen. Sound: A brief laugh. Preserve prop ownership, eye lines, garment construction and lighting. No unrelated gesture, outfit morph, new character, fake readable UI or exaggerated camera movement. Put precise text/brand in a clean separate graphic layer."
+        },
+        {
+          "title": "One recommendation is enough",
+          "camera": "Medium two-shot.",
+          "action": "He starts to offer the whole list. Tara holds up one finger for a first place. He nods and leaves the phone down; a conversation can start with one memory.",
+          "sound": "Light warm music.",
+          "lines": [
+            {
+              "speaker": "Tara",
+              "text": "Pehle ek batao.",
+              "delivery": "Amused.",
+              "id": "CV01-L06",
+              "shot": "CV01-S04",
+              "estimate_seconds": 1.4
+            },
+            {
+              "speaker": "Rohan",
+              "text": "Theek hai.",
+              "delivery": "Easy.",
+              "id": "CV01-L07",
+              "shot": "CV01-S04",
+              "estimate_seconds": 1.0
+            }
+          ],
+          "text": "Small series mark only; no real restaurant claim.",
+          "duration": 8,
+          "pose_in": "Phone remains pocketed until he gestures toward it.",
+          "pose_out": "Both continue talking, no app demo.",
+          "start": 24,
+          "end": 32,
+          "id": "CV01-S04",
+          "batch": "CV01-B02",
+          "prompt": "Original adult Indian cast in consistent reviewed 2D cel treatment, with the exact character references, brown skin and fixed adult body proportions. Wardrobe: TA-CAS1 and RO-CAS1; two seated at adjacent sides, bags at feet. Place: L01 fictional café, between E01 and the later familiar-table episodes. Framing: Medium two-shot. Start: Phone remains pocketed until he gestures toward it. Animate: He starts to offer the whole list. Tara holds up one finger for a first place. He nods and leaves the phone down; a conversation can start with one memory. Finish: Both continue talking, no app demo. Tara says exactly: Pehle ek batao. Amused. Rohan says exactly: Theek hai. Easy. Sound: Light warm music. Preserve prop ownership, eye lines, garment construction and lighting. No unrelated gesture, outfit morph, new character, fake readable UI or exaggerated camera movement. Put precise text/brand in a clean separate graphic layer."
+        }
+      ],
+      "duration_seconds": 32,
+      "voice_lines": [
+        {
+          "speaker": "Rohan",
+          "text": "Tum kya karti ho?",
+          "delivery": "Neutral.",
+          "id": "CV01-L01",
+          "shot": "CV01-S01",
+          "estimate_seconds": 1.8
+        },
+        {
+          "speaker": "Tara",
+          "text": "Corporate job. Uske baad wali baat karein?",
+          "delivery": "Playful invitation, no contempt.",
+          "id": "CV01-L02",
+          "shot": "CV01-S01",
+          "estimate_seconds": 2.9
+        },
+        {
+          "speaker": "Rohan",
+          "text": "Naye breakfast places try karta hoon.",
+          "delivery": "Warm, a little surprised to be asked.",
+          "id": "CV01-L03",
+          "shot": "CV01-S02",
+          "estimate_seconds": 2.6
+        },
+        {
+          "speaker": "Tara",
+          "text": "List hai?",
+          "delivery": "Quick.",
+          "id": "CV01-L04",
+          "shot": "CV01-S03",
+          "estimate_seconds": 1.0
+        },
+        {
+          "speaker": "Rohan",
+          "text": "Of course.",
+          "delivery": "Dry, offscreen.",
+          "id": "CV01-L05",
+          "shot": "CV01-S03",
+          "estimate_seconds": 1.0
+        },
+        {
+          "speaker": "Tara",
+          "text": "Pehle ek batao.",
+          "delivery": "Amused.",
+          "id": "CV01-L06",
+          "shot": "CV01-S04",
+          "estimate_seconds": 1.4
+        },
+        {
+          "speaker": "Rohan",
+          "text": "Theek hai.",
+          "delivery": "Easy.",
+          "id": "CV01-L07",
+          "shot": "CV01-S04",
+          "estimate_seconds": 1.0
+        }
+      ],
+      "batch_count": 2
+    },
+    {
+      "kind": "conversations",
+      "code": "CV02",
+      "slug": "02-group-photo-permission-24s",
+      "title": "Photo Rakhein?",
+      "goal": "A social moment about choosing what to keep and share, with no lecture or pressure.",
+      "cast": [
+        "Tara",
+        "Gary"
+      ],
+      "place": "L02 Atal Bridge pause area after E02 photo.",
+      "wardrobe": "TA-CAS1 cap, GA-CAS1 turban; same calm breeze direction.",
+      "arc": "Review image → funny face accepted → ask about sharing → keep it within the agreed choice.",
+      "shots": [
+        {
+          "title": "The blink",
+          "camera": "Medium Tara/Gary, phone low in Gary hand.",
+          "action": "Tara points at her own blink and chuckles. Gary waits to hear whether she wants another take.",
+          "sound": "Air and footsteps.",
+          "lines": [
+            {
+              "speaker": "Tara",
+              "text": "Meri aankh band hai.",
+              "delivery": "Amused.",
+              "id": "CV02-L01",
+              "shot": "CV02-S01",
+              "estimate_seconds": 1.8
+            }
+          ],
+          "text": "No readable screen text.",
+          "duration": 6,
+          "pose_in": "Both looking at a single accepted photo, no new generated faces.",
+          "pose_out": "Both amused, phone secure.",
+          "start": 0,
+          "end": 6,
+          "id": "CV02-S01",
+          "batch": "CV02-B01",
+          "prompt": "Original adult Indian cast in consistent reviewed 2D cel treatment, with the exact character references, brown skin and fixed adult body proportions. Wardrobe: TA-CAS1 cap, GA-CAS1 turban; same calm breeze direction. Place: L02 Atal Bridge pause area after E02 photo. Framing: Medium Tara/Gary, phone low in Gary hand. Start: Both looking at a single accepted photo, no new generated faces. Animate: Tara points at her own blink and chuckles. Gary waits to hear whether she wants another take. Finish: Both amused, phone secure. Tara says exactly: Meri aankh band hai. Amused. Sound: Air and footsteps. Preserve prop ownership, eye lines, garment construction and lighting. No unrelated gesture, outfit morph, new character, fake readable UI or exaggerated camera movement. Put precise text/brand in a clean separate graphic layer."
+        },
+        {
+          "title": "It still feels right",
+          "camera": "Medium Tara.",
+          "action": "She decides to keep the photo and relaxes her hand from the cap brim.",
+          "sound": "Small laugh.",
+          "lines": [
+            {
+              "speaker": "Tara",
+              "text": "Rehne do. Hasi toh asli hai.",
+              "delivery": "Warm.",
+              "id": "CV02-L02",
+              "shot": "CV02-S02",
+              "estimate_seconds": 2.6
+            }
+          ],
+          "text": "No readable screen text.",
+          "duration": 6,
+          "pose_in": "She lifts eyes from screen.",
+          "pose_out": "Choice clear, hand lowered.",
+          "start": 6,
+          "end": 12,
+          "id": "CV02-S02",
+          "batch": "CV02-B01",
+          "prompt": "Original adult Indian cast in consistent reviewed 2D cel treatment, with the exact character references, brown skin and fixed adult body proportions. Wardrobe: TA-CAS1 cap, GA-CAS1 turban; same calm breeze direction. Place: L02 Atal Bridge pause area after E02 photo. Framing: Medium Tara. Start: She lifts eyes from screen. Animate: She decides to keep the photo and relaxes her hand from the cap brim. Finish: Choice clear, hand lowered. Tara says exactly: Rehne do. Hasi toh asli hai. Warm. Sound: Small laugh. Preserve prop ownership, eye lines, garment construction and lighting. No unrelated gesture, outfit morph, new character, fake readable UI or exaggerated camera movement. Put precise text/brand in a clean separate graphic layer."
+        },
+        {
+          "title": "A quick check",
+          "camera": "Medium Gary.",
+          "action": "He asks whether to share in the agreed group. Tara answers from offscreen, choosing no public post.",
+          "sound": "Light breeze.",
+          "lines": [
+            {
+              "speaker": "Gary",
+              "text": "Group mein?",
+              "delivery": "Simple question.",
+              "id": "CV02-L03",
+              "shot": "CV02-S03",
+              "estimate_seconds": 1.0
+            },
+            {
+              "speaker": "Tara",
+              "text": "Haan. Post nahi abhi.",
+              "delivery": "Comfortable.",
+              "id": "CV02-L04",
+              "shot": "CV02-S03",
+              "estimate_seconds": 1.8
+            }
+          ],
+          "text": "No readable screen text.",
+          "duration": 6,
+          "pose_in": "Phone still lowered, no share tap yet.",
+          "pose_out": "Permission limited to the stated place.",
+          "start": 12,
+          "end": 18,
+          "id": "CV02-S03",
+          "batch": "CV02-B01",
+          "prompt": "Original adult Indian cast in consistent reviewed 2D cel treatment, with the exact character references, brown skin and fixed adult body proportions. Wardrobe: TA-CAS1 cap, GA-CAS1 turban; same calm breeze direction. Place: L02 Atal Bridge pause area after E02 photo. Framing: Medium Gary. Start: Phone still lowered, no share tap yet. Animate: He asks whether to share in the agreed group. Tara answers from offscreen, choosing no public post. Finish: Permission limited to the stated place. Gary says exactly: Group mein? Simple question. Tara says exactly: Haan. Post nahi abhi. Comfortable. Sound: Light breeze. Preserve prop ownership, eye lines, garment construction and lighting. No unrelated gesture, outfit morph, new character, fake readable UI or exaggerated camera movement. Put precise text/brand in a clean separate graphic layer."
+        },
+        {
+          "title": "Return to the walk",
+          "camera": "Wide two-shot with Sameer receiving hand at frame edge.",
+          "action": "He nods and places the phone into Sameer open palm at the edge of frame, releasing only when the grip is secure. Tara and Gary then turn toward the path. Keep the sleeve and hand matched to Sameer SA-CAS1; no new third face needs to enter this shot.",
+          "sound": "Case contact and steps.",
+          "lines": [],
+          "text": "Continuity follows E02. No automatic social upload shown.",
+          "duration": 6,
+          "pose_in": "Gary lowers the phone completely; it belongs to Sameer from E02.",
+          "pose_out": "Phone with Sameer; Tara and Gary hands empty.",
+          "start": 18,
+          "end": 24,
+          "id": "CV02-S04",
+          "batch": "CV02-B02",
+          "prompt": "Original adult Indian cast in consistent reviewed 2D cel treatment, with the exact character references, brown skin and fixed adult body proportions. Wardrobe: TA-CAS1 cap, GA-CAS1 turban; same calm breeze direction. Place: L02 Atal Bridge pause area after E02 photo. Framing: Wide two-shot with Sameer receiving hand at frame edge. Start: Gary lowers the phone completely; it belongs to Sameer from E02. Animate: He nods and places the phone into Sameer open palm at the edge of frame, releasing only when the grip is secure. Tara and Gary then turn toward the path. Keep the sleeve and hand matched to Sameer SA-CAS1; no new third face needs to enter this shot. Finish: Phone with Sameer; Tara and Gary hands empty. No spoken line; keep mouths at natural rest or silent reaction. Sound: Case contact and steps. Preserve prop ownership, eye lines, garment construction and lighting. No unrelated gesture, outfit morph, new character, fake readable UI or exaggerated camera movement. Put precise text/brand in a clean separate graphic layer."
+        }
+      ],
+      "duration_seconds": 24,
+      "voice_lines": [
+        {
+          "speaker": "Tara",
+          "text": "Meri aankh band hai.",
+          "delivery": "Amused.",
+          "id": "CV02-L01",
+          "shot": "CV02-S01",
+          "estimate_seconds": 1.8
+        },
+        {
+          "speaker": "Tara",
+          "text": "Rehne do. Hasi toh asli hai.",
+          "delivery": "Warm.",
+          "id": "CV02-L02",
+          "shot": "CV02-S02",
+          "estimate_seconds": 2.6
+        },
+        {
+          "speaker": "Gary",
+          "text": "Group mein?",
+          "delivery": "Simple question.",
+          "id": "CV02-L03",
+          "shot": "CV02-S03",
+          "estimate_seconds": 1.0
+        },
+        {
+          "speaker": "Tara",
+          "text": "Haan. Post nahi abhi.",
+          "delivery": "Comfortable.",
+          "id": "CV02-L04",
+          "shot": "CV02-S03",
+          "estimate_seconds": 1.8
+        }
+      ],
+      "batch_count": 2
+    },
+    {
+      "kind": "conversations",
+      "code": "CV03",
+      "slug": "03-voice-note-30s",
+      "title": "Itna Long Voice Note?",
+      "goal": "A playful conversation about communication preferences, with the joke on the length of a message rather than on a person being needy.",
+      "cast": [
+        "Dhwani",
+        "Sameer"
+      ],
+      "place": "Fictional café table after an outing, separate day.",
+      "wardrobe": "DH-CAS1, SA-TEE. Dhwani phone is in her own hand; Sameer phone pocketed.",
+      "arc": "Start recording → realize there are too many details → ask preference → send a concise useful plan in the fictional story.",
+      "shots": [
+        {
+          "title": "The enthusiastic draft",
+          "camera": "Medium Dhwani.",
+          "action": "She starts listing plan details, pauses before a long tangent and lifts her eyes toward Sameer.",
+          "sound": "Soft café tone.",
+          "lines": [
+            {
+              "speaker": "Dhwani",
+              "text": "Aur phir wahan se...",
+              "delivery": "Trail off naturally, not an entire itinerary.",
+              "id": "CV03-L01",
+              "shot": "CV03-S01",
+              "estimate_seconds": 1.8
+            }
+          ],
+          "text": "No readable screen text.",
+          "duration": 6,
+          "pose_in": "She holds phone below mouth, already recording a draft voice note.",
+          "pose_out": "Draft not sent, thumb away from send.",
+          "start": 0,
+          "end": 6,
+          "id": "CV03-S01",
+          "batch": "CV03-B01",
+          "prompt": "Original adult Indian cast in consistent reviewed 2D cel treatment, with the exact character references, brown skin and fixed adult body proportions. Wardrobe: DH-CAS1, SA-TEE. Dhwani phone is in her own hand; Sameer phone pocketed. Place: Fictional café table after an outing, separate day. Framing: Medium Dhwani. Start: She holds phone below mouth, already recording a draft voice note. Animate: She starts listing plan details, pauses before a long tangent and lifts her eyes toward Sameer. Finish: Draft not sent, thumb away from send. Dhwani says exactly: Aur phir wahan se... Trail off naturally, not an entire itinerary. Sound: Soft café tone. Preserve prop ownership, eye lines, garment construction and lighting. No unrelated gesture, outfit morph, new character, fake readable UI or exaggerated camera movement. Put precise text/brand in a clean separate graphic layer."
+        },
+        {
+          "title": "The estimate",
+          "camera": "Medium Sameer.",
+          "action": "He asks whether the message is a plan or a podcast, with an obviously affectionate smile.",
+          "sound": "Tiny breath-laugh.",
+          "lines": [
+            {
+              "speaker": "Sameer",
+              "text": "Plan hai ya podcast?",
+              "delivery": "Playful, never dismissive.",
+              "id": "CV03-L02",
+              "shot": "CV03-S02",
+              "estimate_seconds": 1.8
+            }
+          ],
+          "text": "No readable screen text.",
+          "duration": 6,
+          "pose_in": "He has listened politely, hands on table.",
+          "pose_out": "A small joke offered, no eye roll.",
+          "start": 6,
+          "end": 12,
+          "id": "CV03-S02",
+          "batch": "CV03-B01",
+          "prompt": "Original adult Indian cast in consistent reviewed 2D cel treatment, with the exact character references, brown skin and fixed adult body proportions. Wardrobe: DH-CAS1, SA-TEE. Dhwani phone is in her own hand; Sameer phone pocketed. Place: Fictional café table after an outing, separate day. Framing: Medium Sameer. Start: He has listened politely, hands on table. Animate: He asks whether the message is a plan or a podcast, with an obviously affectionate smile. Finish: A small joke offered, no eye roll. Sameer says exactly: Plan hai ya podcast? Playful, never dismissive. Sound: Tiny breath-laugh. Preserve prop ownership, eye lines, garment construction and lighting. No unrelated gesture, outfit morph, new character, fake readable UI or exaggerated camera movement. Put precise text/brand in a clean separate graphic layer."
+        },
+        {
+          "title": "She can laugh too",
+          "camera": "Medium Dhwani.",
+          "action": "She laughs at the draft length and asks whether they prefer text. Her eyes stay on Sameer, not a judgmental screen closeup.",
+          "sound": "Natural laugh.",
+          "lines": [
+            {
+              "speaker": "Dhwani",
+              "text": "Achha, text bhej doon?",
+              "delivery": "Light.",
+              "id": "CV03-L03",
+              "shot": "CV03-S03",
+              "estimate_seconds": 1.8
+            }
+          ],
+          "text": "No readable screen text.",
+          "duration": 6,
+          "pose_in": "Thumb pauses over her own phone.",
+          "pose_out": "Ready to revise voluntarily.",
+          "start": 12,
+          "end": 18,
+          "id": "CV03-S03",
+          "batch": "CV03-B01",
+          "prompt": "Original adult Indian cast in consistent reviewed 2D cel treatment, with the exact character references, brown skin and fixed adult body proportions. Wardrobe: DH-CAS1, SA-TEE. Dhwani phone is in her own hand; Sameer phone pocketed. Place: Fictional café table after an outing, separate day. Framing: Medium Dhwani. Start: Thumb pauses over her own phone. Animate: She laughs at the draft length and asks whether they prefer text. Her eyes stay on Sameer, not a judgmental screen closeup. Finish: Ready to revise voluntarily. Dhwani says exactly: Achha, text bhej doon? Light. Sound: Natural laugh. Preserve prop ownership, eye lines, garment construction and lighting. No unrelated gesture, outfit morph, new character, fake readable UI or exaggerated camera movement. Put precise text/brand in a clean separate graphic layer."
+        },
+        {
+          "title": "A useful answer",
+          "camera": "Medium Sameer.",
+          "action": "He asks for place and time first, noting they can talk about the rest in person.",
+          "sound": "Room tone.",
+          "lines": [
+            {
+              "speaker": "Sameer",
+              "text": "Jagah, time. Baaki milke.",
+              "delivery": "Short, smiling.",
+              "id": "CV03-L04",
+              "shot": "CV03-S04",
+              "estimate_seconds": 1.8
+            }
+          ],
+          "text": "No readable screen text.",
+          "duration": 6,
+          "pose_in": "He nods once, still relaxed.",
+          "pose_out": "Practical clarity, no lecture.",
+          "start": 18,
+          "end": 24,
+          "id": "CV03-S04",
+          "batch": "CV03-B02",
+          "prompt": "Original adult Indian cast in consistent reviewed 2D cel treatment, with the exact character references, brown skin and fixed adult body proportions. Wardrobe: DH-CAS1, SA-TEE. Dhwani phone is in her own hand; Sameer phone pocketed. Place: Fictional café table after an outing, separate day. Framing: Medium Sameer. Start: He nods once, still relaxed. Animate: He asks for place and time first, noting they can talk about the rest in person. Finish: Practical clarity, no lecture. Sameer says exactly: Jagah, time. Baaki milke. Short, smiling. Sound: Room tone. Preserve prop ownership, eye lines, garment construction and lighting. No unrelated gesture, outfit morph, new character, fake readable UI or exaggerated camera movement. Put precise text/brand in a clean separate graphic layer."
+        },
+        {
+          "title": "The shorter version",
+          "camera": "Medium Dhwani phone turned away.",
+          "action": "She discards her own draft, types a concise fictional message and shows Sameer before sending in the story. Both nod; no real contact data shown.",
+          "sound": "Soft typing and warm closing note.",
+          "lines": [],
+          "text": "Edited fictional message uses [place/time/cost] placeholders. No live sends occur.",
+          "duration": 6,
+          "pose_in": "Unsent voice draft visible only as a blank plate.",
+          "pose_out": "A useful short plan ready.",
+          "start": 24,
+          "end": 30,
+          "id": "CV03-S05",
+          "batch": "CV03-B02",
+          "prompt": "Original adult Indian cast in consistent reviewed 2D cel treatment, with the exact character references, brown skin and fixed adult body proportions. Wardrobe: DH-CAS1, SA-TEE. Dhwani phone is in her own hand; Sameer phone pocketed. Place: Fictional café table after an outing, separate day. Framing: Medium Dhwani phone turned away. Start: Unsent voice draft visible only as a blank plate. Animate: She discards her own draft, types a concise fictional message and shows Sameer before sending in the story. Both nod; no real contact data shown. Finish: A useful short plan ready. No spoken line; keep mouths at natural rest or silent reaction. Sound: Soft typing and warm closing note. Preserve prop ownership, eye lines, garment construction and lighting. No unrelated gesture, outfit morph, new character, fake readable UI or exaggerated camera movement. Put precise text/brand in a clean separate graphic layer."
+        }
+      ],
+      "duration_seconds": 30,
+      "voice_lines": [
+        {
+          "speaker": "Dhwani",
+          "text": "Aur phir wahan se...",
+          "delivery": "Trail off naturally, not an entire itinerary.",
+          "id": "CV03-L01",
+          "shot": "CV03-S01",
+          "estimate_seconds": 1.8
+        },
+        {
+          "speaker": "Sameer",
+          "text": "Plan hai ya podcast?",
+          "delivery": "Playful, never dismissive.",
+          "id": "CV03-L02",
+          "shot": "CV03-S02",
+          "estimate_seconds": 1.8
+        },
+        {
+          "speaker": "Dhwani",
+          "text": "Achha, text bhej doon?",
+          "delivery": "Light.",
+          "id": "CV03-L03",
+          "shot": "CV03-S03",
+          "estimate_seconds": 1.8
+        },
+        {
+          "speaker": "Sameer",
+          "text": "Jagah, time. Baaki milke.",
+          "delivery": "Short, smiling.",
+          "id": "CV03-L04",
+          "shot": "CV03-S04",
+          "estimate_seconds": 1.8
+        }
+      ],
+      "batch_count": 2
+    },
+    {
+      "kind": "conversations",
+      "code": "CV04",
+      "slug": "04-thirty-minutes-32s",
+      "title": "Bas Aadha Ghanta",
+      "goal": "Normalize joining for a short time without making a person earn permission or promise more.",
+      "cast": [
+        "Meera",
+        "Gary"
+      ],
+      "place": "Fictional public café before Meera leaves for practice.",
+      "wardrobe": "ME-CAS1 and GA-CAS1; no dance costume in café, practice bag at Meera feet.",
+      "arc": "State available time → welcome it → enjoy one small exchange → leave without guilt.",
+      "shots": [
+        {
+          "title": "A clear limit",
+          "camera": "Medium Meera/Gary.",
+          "action": "She explains she has half an hour before practice. Gary looks at the free chair and invites her to sit for that amount of time.",
+          "sound": "Chair and room tone.",
+          "lines": [
+            {
+              "speaker": "Meera",
+              "text": "Mere paas aadha ghanta hai.",
+              "delivery": "Comfortable.",
+              "id": "CV04-L01",
+              "shot": "CV04-S01",
+              "estimate_seconds": 2.2
+            },
+            {
+              "speaker": "Gary",
+              "text": "Utna bhi kaafi hai. Baitho.",
+              "delivery": "Warm.",
+              "id": "CV04-L02",
+              "shot": "CV04-S01",
+              "estimate_seconds": 2.2
+            }
+          ],
+          "text": "No readable screen text.",
+          "duration": 8,
+          "pose_in": "Meera has just arrived, hand on chair back.",
+          "pose_out": "She sits, bag by feet.",
+          "start": 0,
+          "end": 8,
+          "id": "CV04-S01",
+          "batch": "CV04-B01",
+          "prompt": "Original adult Indian cast in consistent reviewed 2D cel treatment, with the exact character references, brown skin and fixed adult body proportions. Wardrobe: ME-CAS1 and GA-CAS1; no dance costume in café, practice bag at Meera feet. Place: Fictional public café before Meera leaves for practice. Framing: Medium Meera/Gary. Start: Meera has just arrived, hand on chair back. Animate: She explains she has half an hour before practice. Gary looks at the free chair and invites her to sit for that amount of time. Finish: She sits, bag by feet. Meera says exactly: Mere paas aadha ghanta hai. Comfortable. Gary says exactly: Utna bhi kaafi hai. Baitho. Warm. Sound: Chair and room tone. Preserve prop ownership, eye lines, garment construction and lighting. No unrelated gesture, outfit morph, new character, fake readable UI or exaggerated camera movement. Put precise text/brand in a clean separate graphic layer."
+        },
+        {
+          "title": "No full story required",
+          "camera": "Medium Gary.",
+          "action": "He asks one concrete question about the day, leaving room for a short answer. Meera replies offscreen with an ordinary small success.",
+          "sound": "Soft spoon sound.",
+          "lines": [
+            {
+              "speaker": "Gary",
+              "text": "Aaj kya achha hua?",
+              "delivery": "Curious.",
+              "id": "CV04-L03",
+              "shot": "CV04-S02",
+              "estimate_seconds": 1.8
+            },
+            {
+              "speaker": "Meera",
+              "text": "Bus time pe mil gayi.",
+              "delivery": "Dry pleased answer.",
+              "id": "CV04-L04",
+              "shot": "CV04-S02",
+              "estimate_seconds": 2.2
+            }
+          ],
+          "text": "No readable screen text.",
+          "duration": 8,
+          "pose_in": "His cup on table, body open toward her.",
+          "pose_out": "Conversation underway.",
+          "start": 8,
+          "end": 16,
+          "id": "CV04-S02",
+          "batch": "CV04-B01",
+          "prompt": "Original adult Indian cast in consistent reviewed 2D cel treatment, with the exact character references, brown skin and fixed adult body proportions. Wardrobe: ME-CAS1 and GA-CAS1; no dance costume in café, practice bag at Meera feet. Place: Fictional public café before Meera leaves for practice. Framing: Medium Gary. Start: His cup on table, body open toward her. Animate: He asks one concrete question about the day, leaving room for a short answer. Meera replies offscreen with an ordinary small success. Finish: Conversation underway. Gary says exactly: Aaj kya achha hua? Curious. Meera says exactly: Bus time pe mil gayi. Dry pleased answer. Sound: Soft spoon sound. Preserve prop ownership, eye lines, garment construction and lighting. No unrelated gesture, outfit morph, new character, fake readable UI or exaggerated camera movement. Put precise text/brand in a clean separate graphic layer."
+        },
+        {
+          "title": "A little shared laugh",
+          "camera": "Medium two-shot.",
+          "action": "Gary agrees that counts. Meera laughs and takes a sip; show the sip after her laugh, never speech through a full mouth.",
+          "sound": "A short laugh.",
+          "lines": [
+            {
+              "speaker": "Gary",
+              "text": "Yeh toh badi baat hai.",
+              "delivery": "Warm understatement.",
+              "id": "CV04-L05",
+              "shot": "CV04-S03",
+              "estimate_seconds": 2.2
+            }
+          ],
+          "text": "No readable screen text.",
+          "duration": 8,
+          "pose_in": "Both smiling at the small success.",
+          "pose_out": "Small ease, no clock pressure.",
+          "start": 16,
+          "end": 24,
+          "id": "CV04-S03",
+          "batch": "CV04-B01",
+          "prompt": "Original adult Indian cast in consistent reviewed 2D cel treatment, with the exact character references, brown skin and fixed adult body proportions. Wardrobe: ME-CAS1 and GA-CAS1; no dance costume in café, practice bag at Meera feet. Place: Fictional public café before Meera leaves for practice. Framing: Medium two-shot. Start: Both smiling at the small success. Animate: Gary agrees that counts. Meera laughs and takes a sip; show the sip after her laugh, never speech through a full mouth. Finish: Small ease, no clock pressure. Gary says exactly: Yeh toh badi baat hai. Warm understatement. Sound: A short laugh. Preserve prop ownership, eye lines, garment construction and lighting. No unrelated gesture, outfit morph, new character, fake readable UI or exaggerated camera movement. Put precise text/brand in a clean separate graphic layer."
+        },
+        {
+          "title": "Time passes, departure works",
+          "camera": "Wide with a deliberate later cut.",
+          "action": "Meera stands, says she must go and waves. Gary returns the wave without trying to bargain for more time.",
+          "sound": "Strap and footsteps.",
+          "lines": [
+            {
+              "speaker": "Meera",
+              "text": "Main chalun. Milte hain.",
+              "delivery": "Warm.",
+              "id": "CV04-L06",
+              "shot": "CV04-S04",
+              "estimate_seconds": 1.8
+            },
+            {
+              "speaker": "Gary",
+              "text": "Haan, achhi practice ho.",
+              "delivery": "Supportive.",
+              "id": "CV04-L07",
+              "shot": "CV04-S04",
+              "estimate_seconds": 1.8
+            }
+          ],
+          "text": "Small Later cut establishes elapsed time; no claim thirty minutes passed in real shot duration.",
+          "duration": 8,
+          "pose_in": "Her cup finished, bag at feet.",
+          "pose_out": "She leaves with bag; chair empty.",
+          "start": 24,
+          "end": 32,
+          "id": "CV04-S04",
+          "batch": "CV04-B02",
+          "prompt": "Original adult Indian cast in consistent reviewed 2D cel treatment, with the exact character references, brown skin and fixed adult body proportions. Wardrobe: ME-CAS1 and GA-CAS1; no dance costume in café, practice bag at Meera feet. Place: Fictional public café before Meera leaves for practice. Framing: Wide with a deliberate later cut. Start: Her cup finished, bag at feet. Animate: Meera stands, says she must go and waves. Gary returns the wave without trying to bargain for more time. Finish: She leaves with bag; chair empty. Meera says exactly: Main chalun. Milte hain. Warm. Gary says exactly: Haan, achhi practice ho. Supportive. Sound: Strap and footsteps. Preserve prop ownership, eye lines, garment construction and lighting. No unrelated gesture, outfit morph, new character, fake readable UI or exaggerated camera movement. Put precise text/brand in a clean separate graphic layer."
+        }
+      ],
+      "duration_seconds": 32,
+      "voice_lines": [
+        {
+          "speaker": "Meera",
+          "text": "Mere paas aadha ghanta hai.",
+          "delivery": "Comfortable.",
+          "id": "CV04-L01",
+          "shot": "CV04-S01",
+          "estimate_seconds": 2.2
+        },
+        {
+          "speaker": "Gary",
+          "text": "Utna bhi kaafi hai. Baitho.",
+          "delivery": "Warm.",
+          "id": "CV04-L02",
+          "shot": "CV04-S01",
+          "estimate_seconds": 2.2
+        },
+        {
+          "speaker": "Gary",
+          "text": "Aaj kya achha hua?",
+          "delivery": "Curious.",
+          "id": "CV04-L03",
+          "shot": "CV04-S02",
+          "estimate_seconds": 1.8
+        },
+        {
+          "speaker": "Meera",
+          "text": "Bus time pe mil gayi.",
+          "delivery": "Dry pleased answer.",
+          "id": "CV04-L04",
+          "shot": "CV04-S02",
+          "estimate_seconds": 2.2
+        },
+        {
+          "speaker": "Gary",
+          "text": "Yeh toh badi baat hai.",
+          "delivery": "Warm understatement.",
+          "id": "CV04-L05",
+          "shot": "CV04-S03",
+          "estimate_seconds": 2.2
+        },
+        {
+          "speaker": "Meera",
+          "text": "Main chalun. Milte hain.",
+          "delivery": "Warm.",
+          "id": "CV04-L06",
+          "shot": "CV04-S04",
+          "estimate_seconds": 1.8
+        },
+        {
+          "speaker": "Gary",
+          "text": "Haan, achhi practice ho.",
+          "delivery": "Supportive.",
+          "id": "CV04-L07",
+          "shot": "CV04-S04",
+          "estimate_seconds": 1.8
+        }
+      ],
+      "batch_count": 2
+    },
+    {
+      "kind": "conversations",
+      "code": "CV05",
+      "slug": "05-budget-bhi-plan-hai-32s",
+      "title": "Budget Bhi Plan Hai",
+      "goal": "Let friends discuss a spending limit plainly. No person is teased, pitied or pushed into a surprise bill.",
+      "cast": [
+        "Rohan",
+        "Sameer"
+      ],
+      "place": "Fictional café menu review before ordering.",
+      "wardrobe": "RO-CAS1 and SA-TEE, no work accessories. Two plain menus without real prices.",
+      "arc": "Say the budget preference → consider an affordable alternative → choose without embarrassment → enjoy the conversation.",
+      "shots": [
+        {
+          "title": "Before ordering",
+          "camera": "Medium Rohan/Sameer.",
+          "action": "Rohan says he wants to keep spending light today. He says it with normal eye contact, not a shameful closeup.",
+          "sound": "Menu rustle.",
+          "lines": [
+            {
+              "speaker": "Rohan",
+              "text": "Aaj budget halka rakhna hai.",
+              "delivery": "Matter-of-fact.",
+              "id": "CV05-L01",
+              "shot": "CV05-S01",
+              "estimate_seconds": 2.2
+            }
+          ],
+          "text": "No readable screen text.",
+          "duration": 8,
+          "pose_in": "Menus open, no food ordered.",
+          "pose_out": "Preference heard before any order.",
+          "start": 0,
+          "end": 8,
+          "id": "CV05-S01",
+          "batch": "CV05-B01",
+          "prompt": "Original adult Indian cast in consistent reviewed 2D cel treatment, with the exact character references, brown skin and fixed adult body proportions. Wardrobe: RO-CAS1 and SA-TEE, no work accessories. Two plain menus without real prices. Place: Fictional café menu review before ordering. Framing: Medium Rohan/Sameer. Start: Menus open, no food ordered. Animate: Rohan says he wants to keep spending light today. He says it with normal eye contact, not a shameful closeup. Finish: Preference heard before any order. Rohan says exactly: Aaj budget halka rakhna hai. Matter-of-fact. Sound: Menu rustle. Preserve prop ownership, eye lines, garment construction and lighting. No unrelated gesture, outfit morph, new character, fake readable UI or exaggerated camera movement. Put precise text/brand in a clean separate graphic layer."
+        },
+        {
+          "title": "An easy alternative",
+          "camera": "Medium Sameer.",
+          "action": "He suggests just tea here or a simple walk afterward. No one promises a named café price or pays without asking.",
+          "sound": "Café room tone.",
+          "lines": [
+            {
+              "speaker": "Sameer",
+              "text": "Chai lete hain. Phir walk?",
+              "delivery": "Easy proposal.",
+              "id": "CV05-L02",
+              "shot": "CV05-S02",
+              "estimate_seconds": 2.2
+            }
+          ],
+          "text": "No readable screen text.",
+          "duration": 8,
+          "pose_in": "His menu lies flat, hands open.",
+          "pose_out": "Two realistic options offered.",
+          "start": 8,
+          "end": 16,
+          "id": "CV05-S02",
+          "batch": "CV05-B01",
+          "prompt": "Original adult Indian cast in consistent reviewed 2D cel treatment, with the exact character references, brown skin and fixed adult body proportions. Wardrobe: RO-CAS1 and SA-TEE, no work accessories. Two plain menus without real prices. Place: Fictional café menu review before ordering. Framing: Medium Sameer. Start: His menu lies flat, hands open. Animate: He suggests just tea here or a simple walk afterward. No one promises a named café price or pays without asking. Finish: Two realistic options offered. Sameer says exactly: Chai lete hain. Phir walk? Easy proposal. Sound: Café room tone. Preserve prop ownership, eye lines, garment construction and lighting. No unrelated gesture, outfit morph, new character, fake readable UI or exaggerated camera movement. Put precise text/brand in a clean separate graphic layer."
+        },
+        {
+          "title": "Choose together",
+          "camera": "Medium Rohan.",
+          "action": "Rohan agrees and closes his menu. His expression shows ordinary relief from clarity, not a dramatic rescue.",
+          "sound": "Paper fold.",
+          "lines": [
+            {
+              "speaker": "Rohan",
+              "text": "Perfect. Bas chai.",
+              "delivery": "Clear.",
+              "id": "CV05-L03",
+              "shot": "CV05-S03",
+              "estimate_seconds": 1.4
+            }
+          ],
+          "text": "No readable screen text.",
+          "duration": 8,
+          "pose_in": "He looks at menu then Sameer.",
+          "pose_out": "Order choice settled.",
+          "start": 16,
+          "end": 24,
+          "id": "CV05-S03",
+          "batch": "CV05-B01",
+          "prompt": "Original adult Indian cast in consistent reviewed 2D cel treatment, with the exact character references, brown skin and fixed adult body proportions. Wardrobe: RO-CAS1 and SA-TEE, no work accessories. Two plain menus without real prices. Place: Fictional café menu review before ordering. Framing: Medium Rohan. Start: He looks at menu then Sameer. Animate: Rohan agrees and closes his menu. His expression shows ordinary relief from clarity, not a dramatic rescue. Finish: Order choice settled. Rohan says exactly: Perfect. Bas chai. Clear. Sound: Paper fold. Preserve prop ownership, eye lines, garment construction and lighting. No unrelated gesture, outfit morph, new character, fake readable UI or exaggerated camera movement. Put precise text/brand in a clean separate graphic layer."
+        },
+        {
+          "title": "The value is the meeting",
+          "camera": "Wide after later service cut.",
+          "action": "They continue talking. Sameer points to the walking direction through the window, Rohan nods after a sip. Keep the ending on conversation rather than money graphics.",
+          "sound": "Cups and warm low ambience.",
+          "lines": [],
+          "text": "No actual amount or promotional free-food claim.",
+          "duration": 8,
+          "pose_in": "Two small tea cups on table, no surprise feast.",
+          "pose_out": "A simple afternoon underway.",
+          "start": 24,
+          "end": 32,
+          "id": "CV05-S04",
+          "batch": "CV05-B02",
+          "prompt": "Original adult Indian cast in consistent reviewed 2D cel treatment, with the exact character references, brown skin and fixed adult body proportions. Wardrobe: RO-CAS1 and SA-TEE, no work accessories. Two plain menus without real prices. Place: Fictional café menu review before ordering. Framing: Wide after later service cut. Start: Two small tea cups on table, no surprise feast. Animate: They continue talking. Sameer points to the walking direction through the window, Rohan nods after a sip. Keep the ending on conversation rather than money graphics. Finish: A simple afternoon underway. No spoken line; keep mouths at natural rest or silent reaction. Sound: Cups and warm low ambience. Preserve prop ownership, eye lines, garment construction and lighting. No unrelated gesture, outfit morph, new character, fake readable UI or exaggerated camera movement. Put precise text/brand in a clean separate graphic layer."
+        }
+      ],
+      "duration_seconds": 32,
+      "voice_lines": [
+        {
+          "speaker": "Rohan",
+          "text": "Aaj budget halka rakhna hai.",
+          "delivery": "Matter-of-fact.",
+          "id": "CV05-L01",
+          "shot": "CV05-S01",
+          "estimate_seconds": 2.2
+        },
+        {
+          "speaker": "Sameer",
+          "text": "Chai lete hain. Phir walk?",
+          "delivery": "Easy proposal.",
+          "id": "CV05-L02",
+          "shot": "CV05-S02",
+          "estimate_seconds": 2.2
+        },
+        {
+          "speaker": "Rohan",
+          "text": "Perfect. Bas chai.",
+          "delivery": "Clear.",
+          "id": "CV05-L03",
+          "shot": "CV05-S03",
+          "estimate_seconds": 1.4
+        }
+      ],
+      "batch_count": 2
+    },
+    {
+      "kind": "conversations",
+      "code": "CV06",
+      "slug": "06-home-text-24s",
+      "title": "Ghar Pahunch Gayi",
+      "goal": "A short after-outing friendship exchange with voluntary check-in and no implication of tracking, guaranteed safety or automatic attendance.",
+      "cast": [
+        "Tara",
+        "Dhwani"
+      ],
+      "place": "Separate home interiors after E07; a clear two-location edit.",
+      "wardrobe": "Tara changed by deliberate cut to her existing lavender home kit; Dhwani in simple comfortable home cotton, braid loosened only at tip; same adult faces.",
+      "arc": "Return home → choose to send a short note → friend reads and replies → end on a real memory, not more endless scrolling.",
+      "shots": [
+        {
+          "title": "Home again",
+          "camera": "Medium Tara at her bedroom doorway.",
+          "action": "She puts bag on the chair, takes out the closed container and places it on the desk before sitting. Phone remains in bag until next shot.",
+          "sound": "Door latch and room fan.",
+          "lines": [],
+          "text": "No readable screen text.",
+          "duration": 6,
+          "pose_in": "Bag at shoulder, blue food container inside.",
+          "pose_out": "Objects accounted for, shoulders relaxed.",
+          "start": 0,
+          "end": 6,
+          "id": "CV06-S01",
+          "batch": "CV06-B01",
+          "prompt": "Original adult Indian cast in consistent reviewed 2D cel treatment, with the exact character references, brown skin and fixed adult body proportions. Wardrobe: Tara changed by deliberate cut to her existing lavender home kit; Dhwani in simple comfortable home cotton, braid loosened only at tip; same adult faces. Place: Separate home interiors after E07; a clear two-location edit. Framing: Medium Tara at her bedroom doorway. Start: Bag at shoulder, blue food container inside. Animate: She puts bag on the chair, takes out the closed container and places it on the desk before sitting. Phone remains in bag until next shot. Finish: Objects accounted for, shoulders relaxed. No spoken line; keep mouths at natural rest or silent reaction. Sound: Door latch and room fan. Preserve prop ownership, eye lines, garment construction and lighting. No unrelated gesture, outfit morph, new character, fake readable UI or exaggerated camera movement. Put precise text/brand in a clean separate graphic layer."
+        },
+        {
+          "title": "A chosen note",
+          "camera": "Medium Tara with phone low.",
+          "action": "She records a short message, smiling at the memory, then stops recording. The message is optional friendship, not app tracking.",
+          "sound": "Room tone.",
+          "lines": [
+            {
+              "speaker": "Tara",
+              "text": "Ghar pahunch gayi. Aaj mazaa aaya yaar.",
+              "delivery": "Warm and unperformed.",
+              "id": "CV06-L01",
+              "shot": "CV06-S02",
+              "estimate_seconds": 2.9
+            }
+          ],
+          "text": "No readable screen text.",
+          "duration": 6,
+          "pose_in": "She takes phone from bag and taps a voice note.",
+          "pose_out": "One voice note ready in fictional edit.",
+          "start": 6,
+          "end": 12,
+          "id": "CV06-S02",
+          "batch": "CV06-B01",
+          "prompt": "Original adult Indian cast in consistent reviewed 2D cel treatment, with the exact character references, brown skin and fixed adult body proportions. Wardrobe: Tara changed by deliberate cut to her existing lavender home kit; Dhwani in simple comfortable home cotton, braid loosened only at tip; same adult faces. Place: Separate home interiors after E07; a clear two-location edit. Framing: Medium Tara with phone low. Start: She takes phone from bag and taps a voice note. Animate: She records a short message, smiling at the memory, then stops recording. The message is optional friendship, not app tracking. Finish: One voice note ready in fictional edit. Tara says exactly: Ghar pahunch gayi. Aaj mazaa aaya yaar. Warm and unperformed. Sound: Room tone. Preserve prop ownership, eye lines, garment construction and lighting. No unrelated gesture, outfit morph, new character, fake readable UI or exaggerated camera movement. Put precise text/brand in a clean separate graphic layer."
+        },
+        {
+          "title": "Another home, another person",
+          "camera": "Medium Dhwani in separate room.",
+          "action": "She listens, smiles and records a short reply. Same voice identity, softer late-evening volume.",
+          "sound": "Different room tone, quiet fan.",
+          "lines": [
+            {
+              "speaker": "Dhwani",
+              "text": "Haan, mujhe bhi. Good night!",
+              "delivery": "Friendly.",
+              "id": "CV06-L02",
+              "shot": "CV06-S03",
+              "estimate_seconds": 2.2
+            }
+          ],
+          "text": "No readable screen text.",
+          "duration": 6,
+          "pose_in": "Dhwani holds her own phone, seated with a closed steel container on side table.",
+          "pose_out": "Reply complete, phone lowered.",
+          "start": 12,
+          "end": 18,
+          "id": "CV06-S03",
+          "batch": "CV06-B01",
+          "prompt": "Original adult Indian cast in consistent reviewed 2D cel treatment, with the exact character references, brown skin and fixed adult body proportions. Wardrobe: Tara changed by deliberate cut to her existing lavender home kit; Dhwani in simple comfortable home cotton, braid loosened only at tip; same adult faces. Place: Separate home interiors after E07; a clear two-location edit. Framing: Medium Dhwani in separate room. Start: Dhwani holds her own phone, seated with a closed steel container on side table. Animate: She listens, smiles and records a short reply. Same voice identity, softer late-evening volume. Finish: Reply complete, phone lowered. Dhwani says exactly: Haan, mujhe bhi. Good night! Friendly. Sound: Different room tone, quiet fan. Preserve prop ownership, eye lines, garment construction and lighting. No unrelated gesture, outfit morph, new character, fake readable UI or exaggerated camera movement. Put precise text/brand in a clean separate graphic layer."
+        },
+        {
+          "title": "The phone can rest",
+          "camera": "Medium Tara at desk/bed edge.",
+          "action": "She places it face-down on the desk, looks at the blue food box and smiles once before stretching her shoulders. End on the room and a calmer posture, no body change.",
+          "sound": "Case contact, small breath, music ends.",
+          "lines": [],
+          "text": "No automatic check-in feature claim or real personal information.",
+          "duration": 6,
+          "pose_in": "She has heard reply, phone in hand.",
+          "pose_out": "Phone down, evening continues offline.",
+          "start": 18,
+          "end": 24,
+          "id": "CV06-S04",
+          "batch": "CV06-B02",
+          "prompt": "Original adult Indian cast in consistent reviewed 2D cel treatment, with the exact character references, brown skin and fixed adult body proportions. Wardrobe: Tara changed by deliberate cut to her existing lavender home kit; Dhwani in simple comfortable home cotton, braid loosened only at tip; same adult faces. Place: Separate home interiors after E07; a clear two-location edit. Framing: Medium Tara at desk/bed edge. Start: She has heard reply, phone in hand. Animate: She places it face-down on the desk, looks at the blue food box and smiles once before stretching her shoulders. End on the room and a calmer posture, no body change. Finish: Phone down, evening continues offline. No spoken line; keep mouths at natural rest or silent reaction. Sound: Case contact, small breath, music ends. Preserve prop ownership, eye lines, garment construction and lighting. No unrelated gesture, outfit morph, new character, fake readable UI or exaggerated camera movement. Put precise text/brand in a clean separate graphic layer."
+        }
+      ],
+      "duration_seconds": 24,
+      "voice_lines": [
+        {
+          "speaker": "Tara",
+          "text": "Ghar pahunch gayi. Aaj mazaa aaya yaar.",
+          "delivery": "Warm and unperformed.",
+          "id": "CV06-L01",
+          "shot": "CV06-S02",
+          "estimate_seconds": 2.9
+        },
+        {
+          "speaker": "Dhwani",
+          "text": "Haan, mujhe bhi. Good night!",
+          "delivery": "Friendly.",
+          "id": "CV06-L02",
+          "shot": "CV06-S03",
+          "estimate_seconds": 2.2
+        }
+      ],
+      "batch_count": 2
+    }
+  ]
+}

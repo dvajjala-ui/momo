@@ -1,0 +1,3774 @@
+{
+  "status": "draft writing only; no new media generated",
+  "created_date": "2026-11-05",
+  "base_git_revision": "9975581",
+  "stats": {
+    "films": 24,
+    "shots": 379,
+    "batches": 90,
+    "seconds": 2292,
+    "markdown_files": 92
+  },
+  "films": [
+    {
+      "id": "AD01",
+      "source": "brand-campaign/01-ek-chhota-plan-60s.md",
+      "duration_seconds": 60,
+      "shots": [
+        {
+          "id": "AD01-S01",
+          "start_seconds": 0,
+          "end_seconds": 5,
+          "title": "Not another perfect Saturday",
+          "batch": "AD01-B01",
+          "line_ids": []
+        },
+        {
+          "id": "AD01-S02",
+          "start_seconds": 5,
+          "end_seconds": 10,
+          "title": "Rohan closes a page",
+          "batch": "AD01-B01",
+          "line_ids": []
+        },
+        {
+          "id": "AD01-S03",
+          "start_seconds": 10,
+          "end_seconds": 15,
+          "title": "Sameer checks the plan",
+          "batch": "AD01-B01",
+          "line_ids": []
+        },
+        {
+          "id": "AD01-S04",
+          "start_seconds": 15,
+          "end_seconds": 20,
+          "title": "A real arrival",
+          "batch": "AD01-B02",
+          "line_ids": [
+            "AD01-L01"
+          ]
+        },
+        {
+          "id": "AD01-S05",
+          "start_seconds": 20,
+          "end_seconds": 25,
+          "title": "One name",
+          "batch": "AD01-B02",
+          "line_ids": [
+            "AD01-L02",
+            "AD01-L03"
+          ]
+        },
+        {
+          "id": "AD01-S06",
+          "start_seconds": 25,
+          "end_seconds": 30,
+          "title": "Food at the middle",
+          "batch": "AD01-B02",
+          "line_ids": []
+        },
+        {
+          "id": "AD01-S07",
+          "start_seconds": 30,
+          "end_seconds": 35,
+          "title": "A shared mistake",
+          "batch": "AD01-B03",
+          "line_ids": []
+        },
+        {
+          "id": "AD01-S08",
+          "start_seconds": 35,
+          "end_seconds": 40,
+          "title": "A short walk",
+          "batch": "AD01-B03",
+          "line_ids": []
+        },
+        {
+          "id": "AD01-S09",
+          "start_seconds": 40,
+          "end_seconds": 45,
+          "title": "Someone remembers",
+          "batch": "AD01-B03",
+          "line_ids": [
+            "AD01-L04",
+            "AD01-L05"
+          ]
+        },
+        {
+          "id": "AD01-S10",
+          "start_seconds": 45,
+          "end_seconds": 50,
+          "title": "A name comes easily now",
+          "batch": "AD01-B04",
+          "line_ids": [
+            "AD01-L06"
+          ]
+        },
+        {
+          "id": "AD01-S11",
+          "start_seconds": 50,
+          "end_seconds": 55,
+          "title": "Leave the moment alive",
+          "batch": "AD01-B04",
+          "line_ids": []
+        },
+        {
+          "id": "AD01-S12",
+          "start_seconds": 55,
+          "end_seconds": 60,
+          "title": "One clear invitation",
+          "batch": "AD01-B04",
+          "line_ids": []
+        }
+      ],
+      "shot_count": 12,
+      "batch_count": 4
+    },
+    {
+      "id": "AD02",
+      "source": "brand-campaign/02-momo-steam-se-baat-30s.md",
+      "duration_seconds": 30,
+      "shots": [
+        {
+          "id": "AD02-S01",
+          "start_seconds": 0,
+          "end_seconds": 5,
+          "title": "Warm, not magical",
+          "batch": "AD02-B01",
+          "line_ids": []
+        },
+        {
+          "id": "AD02-S02",
+          "start_seconds": 5,
+          "end_seconds": 10,
+          "title": "Offer",
+          "batch": "AD02-B01",
+          "line_ids": [
+            "AD02-L01",
+            "AD02-L02"
+          ]
+        },
+        {
+          "id": "AD02-S03",
+          "start_seconds": 10,
+          "end_seconds": 15,
+          "title": "Hot food has time",
+          "batch": "AD02-B01",
+          "line_ids": [
+            "AD02-L03"
+          ]
+        },
+        {
+          "id": "AD02-S04",
+          "start_seconds": 15,
+          "end_seconds": 20,
+          "title": "Conversation starts in the wait",
+          "batch": "AD02-B02",
+          "line_ids": [
+            "AD02-L04",
+            "AD02-L05"
+          ]
+        },
+        {
+          "id": "AD02-S05",
+          "start_seconds": 20,
+          "end_seconds": 25,
+          "title": "Now a shared laugh",
+          "batch": "AD02-B02",
+          "line_ids": [
+            "AD02-L06"
+          ]
+        },
+        {
+          "id": "AD02-S06",
+          "start_seconds": 25,
+          "end_seconds": 30,
+          "title": "Momo edition card",
+          "batch": "AD02-B02",
+          "line_ids": []
+        }
+      ],
+      "shot_count": 6,
+      "batch_count": 2
+    },
+    {
+      "id": "AD03",
+      "source": "brand-campaign/03-pizza-last-slice-45s.md",
+      "duration_seconds": 45,
+      "shots": [
+        {
+          "id": "AD03-S01",
+          "start_seconds": 0,
+          "end_seconds": 5,
+          "title": "The remaining slice",
+          "batch": "AD03-B01",
+          "line_ids": []
+        },
+        {
+          "id": "AD03-S02",
+          "start_seconds": 5,
+          "end_seconds": 10,
+          "title": "Rohan checks",
+          "batch": "AD03-B01",
+          "line_ids": [
+            "AD03-L01"
+          ]
+        },
+        {
+          "id": "AD03-S03",
+          "start_seconds": 10,
+          "end_seconds": 15,
+          "title": "Sameer says yes",
+          "batch": "AD03-B01",
+          "line_ids": [
+            "AD03-L02"
+          ]
+        },
+        {
+          "id": "AD03-S04",
+          "start_seconds": 15,
+          "end_seconds": 20,
+          "title": "Meera has a simple solution",
+          "batch": "AD03-B02",
+          "line_ids": [
+            "AD03-L03"
+          ]
+        },
+        {
+          "id": "AD03-S05",
+          "start_seconds": 20,
+          "end_seconds": 25,
+          "title": "Not a dramatic operation",
+          "batch": "AD03-B02",
+          "line_ids": []
+        },
+        {
+          "id": "AD03-S06",
+          "start_seconds": 25,
+          "end_seconds": 30,
+          "title": "Unequal halves",
+          "batch": "AD03-B02",
+          "line_ids": [
+            "AD03-L04"
+          ]
+        },
+        {
+          "id": "AD03-S07",
+          "start_seconds": 30,
+          "end_seconds": 35,
+          "title": "Something after food",
+          "batch": "AD03-B03",
+          "line_ids": [
+            "AD03-L05",
+            "AD03-L06"
+          ]
+        },
+        {
+          "id": "AD03-S08",
+          "start_seconds": 35,
+          "end_seconds": 40,
+          "title": "The table can continue",
+          "batch": "AD03-B03",
+          "line_ids": []
+        },
+        {
+          "id": "AD03-S09",
+          "start_seconds": 40,
+          "end_seconds": 45,
+          "title": "Pizza edition card",
+          "batch": "AD03-B03",
+          "line_ids": []
+        }
+      ],
+      "shot_count": 9,
+      "batch_count": 3
+    },
+    {
+      "id": "AD04",
+      "source": "brand-campaign/04-people-make-an-effort-15s.md",
+      "duration_seconds": 15,
+      "shots": [
+        {
+          "id": "AD04-S01",
+          "start_seconds": 0,
+          "end_seconds": 5,
+          "title": "A little care on a screen",
+          "batch": "AD04-B01",
+          "line_ids": [
+            "AD04-L01"
+          ]
+        },
+        {
+          "id": "AD04-S02",
+          "start_seconds": 5,
+          "end_seconds": 10,
+          "title": "The central thought",
+          "batch": "AD04-B01",
+          "line_ids": [
+            "AD04-L02"
+          ]
+        },
+        {
+          "id": "AD04-S03",
+          "start_seconds": 10,
+          "end_seconds": 15,
+          "title": "Stand and title",
+          "batch": "AD04-B01",
+          "line_ids": []
+        }
+      ],
+      "shot_count": 3,
+      "batch_count": 1
+    },
+    {
+      "id": "CV01",
+      "source": "conversations/01-job-title-nahi-32s.md",
+      "duration_seconds": 32,
+      "shots": [
+        {
+          "id": "CV01-S01",
+          "start_seconds": 0,
+          "end_seconds": 8,
+          "title": "A familiar opening",
+          "batch": "CV01-B01",
+          "line_ids": [
+            "CV01-L01",
+            "CV01-L02"
+          ]
+        },
+        {
+          "id": "CV01-S02",
+          "start_seconds": 8,
+          "end_seconds": 16,
+          "title": "He has an actual interest",
+          "batch": "CV01-B01",
+          "line_ids": [
+            "CV01-L03"
+          ]
+        },
+        {
+          "id": "CV01-S03",
+          "start_seconds": 16,
+          "end_seconds": 24,
+          "title": "A practical follow-up",
+          "batch": "CV01-B01",
+          "line_ids": [
+            "CV01-L04",
+            "CV01-L05"
+          ]
+        },
+        {
+          "id": "CV01-S04",
+          "start_seconds": 24,
+          "end_seconds": 32,
+          "title": "One recommendation is enough",
+          "batch": "CV01-B02",
+          "line_ids": [
+            "CV01-L06",
+            "CV01-L07"
+          ]
+        }
+      ],
+      "shot_count": 4,
+      "batch_count": 2
+    },
+    {
+      "id": "CV02",
+      "source": "conversations/02-group-photo-permission-24s.md",
+      "duration_seconds": 24,
+      "shots": [
+        {
+          "id": "CV02-S01",
+          "start_seconds": 0,
+          "end_seconds": 6,
+          "title": "The blink",
+          "batch": "CV02-B01",
+          "line_ids": [
+            "CV02-L01"
+          ]
+        },
+        {
+          "id": "CV02-S02",
+          "start_seconds": 6,
+          "end_seconds": 12,
+          "title": "It still feels right",
+          "batch": "CV02-B01",
+          "line_ids": [
+            "CV02-L02"
+          ]
+        },
+        {
+          "id": "CV02-S03",
+          "start_seconds": 12,
+          "end_seconds": 18,
+          "title": "A quick check",
+          "batch": "CV02-B01",
+          "line_ids": [
+            "CV02-L03",
+            "CV02-L04"
+          ]
+        },
+        {
+          "id": "CV02-S04",
+          "start_seconds": 18,
+          "end_seconds": 24,
+          "title": "Return to the walk",
+          "batch": "CV02-B02",
+          "line_ids": []
+        }
+      ],
+      "shot_count": 4,
+      "batch_count": 2
+    },
+    {
+      "id": "CV03",
+      "source": "conversations/03-voice-note-30s.md",
+      "duration_seconds": 30,
+      "shots": [
+        {
+          "id": "CV03-S01",
+          "start_seconds": 0,
+          "end_seconds": 6,
+          "title": "The enthusiastic draft",
+          "batch": "CV03-B01",
+          "line_ids": [
+            "CV03-L01"
+          ]
+        },
+        {
+          "id": "CV03-S02",
+          "start_seconds": 6,
+          "end_seconds": 12,
+          "title": "The estimate",
+          "batch": "CV03-B01",
+          "line_ids": [
+            "CV03-L02"
+          ]
+        },
+        {
+          "id": "CV03-S03",
+          "start_seconds": 12,
+          "end_seconds": 18,
+          "title": "She can laugh too",
+          "batch": "CV03-B01",
+          "line_ids": [
+            "CV03-L03"
+          ]
+        },
+        {
+          "id": "CV03-S04",
+          "start_seconds": 18,
+          "end_seconds": 24,
+          "title": "A useful answer",
+          "batch": "CV03-B02",
+          "line_ids": [
+            "CV03-L04"
+          ]
+        },
+        {
+          "id": "CV03-S05",
+          "start_seconds": 24,
+          "end_seconds": 30,
+          "title": "The shorter version",
+          "batch": "CV03-B02",
+          "line_ids": []
+        }
+      ],
+      "shot_count": 5,
+      "batch_count": 2
+    },
+    {
+      "id": "CV04",
+      "source": "conversations/04-thirty-minutes-32s.md",
+      "duration_seconds": 32,
+      "shots": [
+        {
+          "id": "CV04-S01",
+          "start_seconds": 0,
+          "end_seconds": 8,
+          "title": "A clear limit",
+          "batch": "CV04-B01",
+          "line_ids": [
+            "CV04-L01",
+            "CV04-L02"
+          ]
+        },
+        {
+          "id": "CV04-S02",
+          "start_seconds": 8,
+          "end_seconds": 16,
+          "title": "No full story required",
+          "batch": "CV04-B01",
+          "line_ids": [
+            "CV04-L03",
+            "CV04-L04"
+          ]
+        },
+        {
+          "id": "CV04-S03",
+          "start_seconds": 16,
+          "end_seconds": 24,
+          "title": "A little shared laugh",
+          "batch": "CV04-B01",
+          "line_ids": [
+            "CV04-L05"
+          ]
+        },
+        {
+          "id": "CV04-S04",
+          "start_seconds": 24,
+          "end_seconds": 32,
+          "title": "Time passes, departure works",
+          "batch": "CV04-B02",
+          "line_ids": [
+            "CV04-L06",
+            "CV04-L07"
+          ]
+        }
+      ],
+      "shot_count": 4,
+      "batch_count": 2
+    },
+    {
+      "id": "CV05",
+      "source": "conversations/05-budget-bhi-plan-hai-32s.md",
+      "duration_seconds": 32,
+      "shots": [
+        {
+          "id": "CV05-S01",
+          "start_seconds": 0,
+          "end_seconds": 8,
+          "title": "Before ordering",
+          "batch": "CV05-B01",
+          "line_ids": [
+            "CV05-L01"
+          ]
+        },
+        {
+          "id": "CV05-S02",
+          "start_seconds": 8,
+          "end_seconds": 16,
+          "title": "An easy alternative",
+          "batch": "CV05-B01",
+          "line_ids": [
+            "CV05-L02"
+          ]
+        },
+        {
+          "id": "CV05-S03",
+          "start_seconds": 16,
+          "end_seconds": 24,
+          "title": "Choose together",
+          "batch": "CV05-B01",
+          "line_ids": [
+            "CV05-L03"
+          ]
+        },
+        {
+          "id": "CV05-S04",
+          "start_seconds": 24,
+          "end_seconds": 32,
+          "title": "The value is the meeting",
+          "batch": "CV05-B02",
+          "line_ids": []
+        }
+      ],
+      "shot_count": 4,
+      "batch_count": 2
+    },
+    {
+      "id": "CV06",
+      "source": "conversations/06-home-text-24s.md",
+      "duration_seconds": 24,
+      "shots": [
+        {
+          "id": "CV06-S01",
+          "start_seconds": 0,
+          "end_seconds": 6,
+          "title": "Home again",
+          "batch": "CV06-B01",
+          "line_ids": []
+        },
+        {
+          "id": "CV06-S02",
+          "start_seconds": 6,
+          "end_seconds": 12,
+          "title": "A chosen note",
+          "batch": "CV06-B01",
+          "line_ids": [
+            "CV06-L01"
+          ]
+        },
+        {
+          "id": "CV06-S03",
+          "start_seconds": 12,
+          "end_seconds": 18,
+          "title": "Another home, another person",
+          "batch": "CV06-B01",
+          "line_ids": [
+            "CV06-L02"
+          ]
+        },
+        {
+          "id": "CV06-S04",
+          "start_seconds": 18,
+          "end_seconds": 24,
+          "title": "The phone can rest",
+          "batch": "CV06-B02",
+          "line_ids": []
+        }
+      ],
+      "shot_count": 4,
+      "batch_count": 2
+    },
+    {
+      "id": "dhwani",
+      "source": "dhwani/03-SHOT-BY-SHOT.md",
+      "duration_seconds": 160,
+      "shots": [
+        {
+          "id": "DH01",
+          "start_seconds": 0,
+          "end_seconds": 5,
+          "title": "Feet find the beat",
+          "batch": "B01",
+          "line_ids": []
+        },
+        {
+          "id": "DH02",
+          "start_seconds": 5,
+          "end_seconds": 10,
+          "title": "One more round",
+          "batch": "B01",
+          "line_ids": [
+            "DH-L01"
+          ]
+        },
+        {
+          "id": "DH03",
+          "start_seconds": 10,
+          "end_seconds": 15,
+          "title": "A friend's question",
+          "batch": "B01",
+          "line_ids": [
+            "DH-L02",
+            "DH-L03"
+          ]
+        },
+        {
+          "id": "DH04",
+          "start_seconds": 15,
+          "end_seconds": 20,
+          "title": "The finishing turn",
+          "batch": "B01",
+          "line_ids": []
+        },
+        {
+          "id": "DH05",
+          "start_seconds": 20,
+          "end_seconds": 25,
+          "title": "When the music stops",
+          "batch": "B01",
+          "line_ids": []
+        },
+        {
+          "id": "DH06",
+          "start_seconds": 25,
+          "end_seconds": 30,
+          "title": "A small breath",
+          "batch": "B01",
+          "line_ids": []
+        },
+        {
+          "id": "DH07",
+          "start_seconds": 30,
+          "end_seconds": 35,
+          "title": "People have their own plans",
+          "batch": "B02",
+          "line_ids": [
+            "DH-L04",
+            "DH-L05"
+          ]
+        },
+        {
+          "id": "DH08",
+          "start_seconds": 35,
+          "end_seconds": 40,
+          "title": "A different dhol",
+          "batch": "B02",
+          "line_ids": [
+            "DH-L06"
+          ]
+        },
+        {
+          "id": "DH09",
+          "start_seconds": 40,
+          "end_seconds": 45,
+          "title": "Phone from the zipped pocket",
+          "batch": "B02",
+          "line_ids": []
+        },
+        {
+          "id": "DH10",
+          "start_seconds": 45,
+          "end_seconds": 50,
+          "title": "Food-plan curiosity",
+          "batch": "B02",
+          "line_ids": [
+            "DH-L07"
+          ]
+        },
+        {
+          "id": "DH11",
+          "start_seconds": 50,
+          "end_seconds": 55,
+          "title": "Read the practical details",
+          "batch": "B02",
+          "line_ids": []
+        },
+        {
+          "id": "DH12",
+          "start_seconds": 55,
+          "end_seconds": 60,
+          "title": "A small yes",
+          "batch": "B03",
+          "line_ids": [
+            "DH-L08"
+          ]
+        },
+        {
+          "id": "DH13",
+          "start_seconds": 60,
+          "end_seconds": 65,
+          "title": "Night air after the crowd",
+          "batch": "B03",
+          "line_ids": []
+        },
+        {
+          "id": "DH14",
+          "start_seconds": 65,
+          "end_seconds": 70,
+          "title": "The little invitation",
+          "batch": "B03",
+          "line_ids": []
+        },
+        {
+          "id": "DH15",
+          "start_seconds": 70,
+          "end_seconds": 75,
+          "title": "Where and until when",
+          "batch": "B03",
+          "line_ids": [
+            "DH-L09"
+          ]
+        },
+        {
+          "id": "DH16",
+          "start_seconds": 75,
+          "end_seconds": 80,
+          "title": "Now, food",
+          "batch": "B03",
+          "line_ids": [
+            "DH-L10"
+          ]
+        },
+        {
+          "id": "DH17",
+          "start_seconds": 80,
+          "end_seconds": 85,
+          "title": "Sticks get their own rest",
+          "batch": "B04",
+          "line_ids": [
+            "DH-L11"
+          ]
+        },
+        {
+          "id": "DH18",
+          "start_seconds": 85,
+          "end_seconds": 90,
+          "title": "The gajra adjustment",
+          "batch": "B04",
+          "line_ids": []
+        },
+        {
+          "id": "DH19",
+          "start_seconds": 90,
+          "end_seconds": 95,
+          "title": "Skirt around the chair",
+          "batch": "B04",
+          "line_ids": []
+        },
+        {
+          "id": "DH20",
+          "start_seconds": 95,
+          "end_seconds": 100,
+          "title": "A short urban transition",
+          "batch": "B04",
+          "line_ids": []
+        },
+        {
+          "id": "DH21",
+          "start_seconds": 100,
+          "end_seconds": 105,
+          "title": "A visible hello",
+          "batch": "B04",
+          "line_ids": [
+            "DH-L12"
+          ]
+        },
+        {
+          "id": "DH22",
+          "start_seconds": 105,
+          "end_seconds": 110,
+          "title": "Where the sticks go",
+          "batch": "B05",
+          "line_ids": [
+            "DH-L13"
+          ]
+        },
+        {
+          "id": "DH23",
+          "start_seconds": 110,
+          "end_seconds": 115,
+          "title": "Names before instant friendship",
+          "batch": "B05",
+          "line_ids": [
+            "DH-L14"
+          ]
+        },
+        {
+          "id": "DH24",
+          "start_seconds": 115,
+          "end_seconds": 120,
+          "title": "The first steam",
+          "batch": "B05",
+          "line_ids": []
+        },
+        {
+          "id": "DH25",
+          "start_seconds": 120,
+          "end_seconds": 125,
+          "title": "Chutney has rhythm",
+          "batch": "B05",
+          "line_ids": [
+            "DH-L15"
+          ]
+        },
+        {
+          "id": "DH26",
+          "start_seconds": 125,
+          "end_seconds": 130,
+          "title": "Two fingers keep dancing",
+          "batch": "B05",
+          "line_ids": [
+            "DH-L16"
+          ]
+        },
+        {
+          "id": "DH27",
+          "start_seconds": 130,
+          "end_seconds": 135,
+          "title": "Only the fingers' last round",
+          "batch": "B06",
+          "line_ids": [
+            "DH-L17"
+          ]
+        },
+        {
+          "id": "DH28",
+          "start_seconds": 135,
+          "end_seconds": 140,
+          "title": "Give the laugh room",
+          "batch": "B06",
+          "line_ids": []
+        },
+        {
+          "id": "DH29",
+          "start_seconds": 140,
+          "end_seconds": 145,
+          "title": "Photo only if everyone wants",
+          "batch": "B06",
+          "line_ids": [
+            "DH-L18"
+          ]
+        },
+        {
+          "id": "DH30",
+          "start_seconds": 145,
+          "end_seconds": 150,
+          "title": "Keep the connection optional",
+          "batch": "B06",
+          "line_ids": []
+        },
+        {
+          "id": "DH31",
+          "start_seconds": 150,
+          "end_seconds": 155,
+          "title": "A tired, happy body",
+          "batch": "B06",
+          "line_ids": [
+            "DH-L19"
+          ]
+        },
+        {
+          "id": "DH32",
+          "start_seconds": 155,
+          "end_seconds": 160,
+          "title": "The evening found another beat",
+          "batch": "B06",
+          "line_ids": [
+            "DH-L20"
+          ]
+        }
+      ],
+      "shot_count": 32,
+      "batch_count": 6
+    },
+    {
+      "id": "gurpreet-gary",
+      "source": "gurpreet-gary/03-SHOT-BY-SHOT.md",
+      "duration_seconds": 150,
+      "shots": [
+        {
+          "id": "GA01",
+          "start_seconds": 0,
+          "end_seconds": 4,
+          "title": "Read the pass",
+          "batch": "B01",
+          "line_ids": []
+        },
+        {
+          "id": "GA02",
+          "start_seconds": 4,
+          "end_seconds": 9,
+          "title": "An easy call",
+          "batch": "B01",
+          "line_ids": [
+            "GA-L01"
+          ]
+        },
+        {
+          "id": "GA03",
+          "start_seconds": 9,
+          "end_seconds": 15,
+          "title": "Controlled contact",
+          "batch": "B01",
+          "line_ids": []
+        },
+        {
+          "id": "GA04",
+          "start_seconds": 15,
+          "end_seconds": 20,
+          "title": "Catch the breath",
+          "batch": "B01",
+          "line_ids": []
+        },
+        {
+          "id": "GA05",
+          "start_seconds": 20,
+          "end_seconds": 24,
+          "title": "Others have a day too",
+          "batch": "B01",
+          "line_ids": [
+            "GA-L02"
+          ]
+        },
+        {
+          "id": "GA06",
+          "start_seconds": 24,
+          "end_seconds": 30,
+          "title": "A friendly wave",
+          "batch": "B01",
+          "line_ids": [
+            "GA-L03"
+          ]
+        },
+        {
+          "id": "GA07",
+          "start_seconds": 30,
+          "end_seconds": 34,
+          "title": "Water first",
+          "batch": "B02",
+          "line_ids": []
+        },
+        {
+          "id": "GA08",
+          "start_seconds": 34,
+          "end_seconds": 39,
+          "title": "Hunger joke",
+          "batch": "B02",
+          "line_ids": [
+            "GA-L04"
+          ]
+        },
+        {
+          "id": "GA09",
+          "start_seconds": 39,
+          "end_seconds": 45,
+          "title": "A nearby idea",
+          "batch": "B02",
+          "line_ids": []
+        },
+        {
+          "id": "GA10",
+          "start_seconds": 45,
+          "end_seconds": 50,
+          "title": "Ask, do not assume",
+          "batch": "B02",
+          "line_ids": [
+            "GA-L05"
+          ]
+        },
+        {
+          "id": "GA11",
+          "start_seconds": 50,
+          "end_seconds": 54,
+          "title": "Make details readable",
+          "batch": "B02",
+          "line_ids": []
+        },
+        {
+          "id": "GA12",
+          "start_seconds": 54,
+          "end_seconds": 60,
+          "title": "A deliberate shoe change",
+          "batch": "B02",
+          "line_ids": [
+            "GA-L06"
+          ]
+        },
+        {
+          "id": "GA13",
+          "start_seconds": 60,
+          "end_seconds": 64,
+          "title": "Arrive normally",
+          "batch": "B03",
+          "line_ids": []
+        },
+        {
+          "id": "GA14",
+          "start_seconds": 64,
+          "end_seconds": 69,
+          "title": "Make room",
+          "batch": "B03",
+          "line_ids": []
+        },
+        {
+          "id": "GA15",
+          "start_seconds": 69,
+          "end_seconds": 75,
+          "title": "A genuine question",
+          "batch": "B03",
+          "line_ids": [
+            "GA-L07"
+          ]
+        },
+        {
+          "id": "GA16",
+          "start_seconds": 75,
+          "end_seconds": 80,
+          "title": "A small answer",
+          "batch": "B03",
+          "line_ids": [
+            "GA-L08"
+          ]
+        },
+        {
+          "id": "GA17",
+          "start_seconds": 80,
+          "end_seconds": 84,
+          "title": "An invitation with space",
+          "batch": "B03",
+          "line_ids": [
+            "GA-L09"
+          ]
+        },
+        {
+          "id": "GA18",
+          "start_seconds": 84,
+          "end_seconds": 90,
+          "title": "Listen to someone else",
+          "batch": "B03",
+          "line_ids": []
+        },
+        {
+          "id": "GA19",
+          "start_seconds": 90,
+          "end_seconds": 94,
+          "title": "The tiny tactics board",
+          "batch": "B04",
+          "line_ids": [
+            "GA-L10"
+          ]
+        },
+        {
+          "id": "GA20",
+          "start_seconds": 94,
+          "end_seconds": 99,
+          "title": "The better joke",
+          "batch": "B04",
+          "line_ids": [
+            "GA-L11"
+          ]
+        },
+        {
+          "id": "GA21",
+          "start_seconds": 99,
+          "end_seconds": 105,
+          "title": "Accept their joke",
+          "batch": "B04",
+          "line_ids": [
+            "GA-L12"
+          ]
+        },
+        {
+          "id": "GA22",
+          "start_seconds": 105,
+          "end_seconds": 110,
+          "title": "A living table pause",
+          "batch": "B04",
+          "line_ids": []
+        },
+        {
+          "id": "GA23",
+          "start_seconds": 110,
+          "end_seconds": 114,
+          "title": "Offer next Sunday",
+          "batch": "B04",
+          "line_ids": [
+            "GA-L13"
+          ]
+        },
+        {
+          "id": "GA24",
+          "start_seconds": 114,
+          "end_seconds": 120,
+          "title": "Confirm before promising",
+          "batch": "B04",
+          "line_ids": [
+            "GA-L14"
+          ]
+        },
+        {
+          "id": "GA25",
+          "start_seconds": 120,
+          "end_seconds": 124,
+          "title": "A new Sunday",
+          "batch": "B05",
+          "line_ids": []
+        },
+        {
+          "id": "GA26",
+          "start_seconds": 124,
+          "end_seconds": 129,
+          "title": "Set up one pass",
+          "batch": "B05",
+          "line_ids": []
+        },
+        {
+          "id": "GA27",
+          "start_seconds": 129,
+          "end_seconds": 135,
+          "title": "A good small moment",
+          "batch": "B05",
+          "line_ids": [
+            "GA-L15"
+          ]
+        },
+        {
+          "id": "GA28",
+          "start_seconds": 135,
+          "end_seconds": 140,
+          "title": "Rest and water",
+          "batch": "B05",
+          "line_ids": [
+            "GA-L16"
+          ]
+        },
+        {
+          "id": "GA29",
+          "start_seconds": 140,
+          "end_seconds": 144,
+          "title": "Extra time meant talking",
+          "batch": "B05",
+          "line_ids": [
+            "GA-L17"
+          ]
+        },
+        {
+          "id": "GA30",
+          "start_seconds": 144,
+          "end_seconds": 150,
+          "title": "A warm shared ending",
+          "batch": "B05",
+          "line_ids": []
+        }
+      ],
+      "shot_count": 30,
+      "batch_count": 5
+    },
+    {
+      "id": "meera",
+      "source": "meera/03-SHOT-BY-SHOT.md",
+      "duration_seconds": 160,
+      "shots": [
+        {
+          "id": "ME01",
+          "start_seconds": 0,
+          "end_seconds": 5,
+          "title": "The sound of practice",
+          "batch": "B01",
+          "line_ids": []
+        },
+        {
+          "id": "ME02",
+          "start_seconds": 5,
+          "end_seconds": 10,
+          "title": "The same attentive face",
+          "batch": "B01",
+          "line_ids": []
+        },
+        {
+          "id": "ME03",
+          "start_seconds": 10,
+          "end_seconds": 15,
+          "title": "Two activities, one person",
+          "batch": "B01",
+          "line_ids": []
+        },
+        {
+          "id": "ME04",
+          "start_seconds": 15,
+          "end_seconds": 20,
+          "title": "A rally needs another side",
+          "batch": "B01",
+          "line_ids": []
+        },
+        {
+          "id": "ME05",
+          "start_seconds": 20,
+          "end_seconds": 25,
+          "title": "Saath kaun",
+          "batch": "B01",
+          "line_ids": [
+            "ME-L01"
+          ]
+        },
+        {
+          "id": "ME06",
+          "start_seconds": 25,
+          "end_seconds": 30,
+          "title": "A small invitation to play",
+          "batch": "B02",
+          "line_ids": [
+            "ME-L02"
+          ]
+        },
+        {
+          "id": "ME07",
+          "start_seconds": 30,
+          "end_seconds": 35,
+          "title": "The practical part of yes",
+          "batch": "B02",
+          "line_ids": []
+        },
+        {
+          "id": "ME08",
+          "start_seconds": 35,
+          "end_seconds": 40,
+          "title": "A reply, later",
+          "batch": "B02",
+          "line_ids": [
+            "ME-L03"
+          ]
+        },
+        {
+          "id": "ME09",
+          "start_seconds": 40,
+          "end_seconds": 45,
+          "title": "Details before the game",
+          "batch": "B02",
+          "line_ids": [
+            "ME-L04"
+          ]
+        },
+        {
+          "id": "ME10",
+          "start_seconds": 45,
+          "end_seconds": 50,
+          "title": "First hello at the boundary",
+          "batch": "B02",
+          "line_ids": [
+            "ME-L05"
+          ]
+        },
+        {
+          "id": "ME11",
+          "start_seconds": 50,
+          "end_seconds": 55,
+          "title": "Whose shuttle",
+          "batch": "B03",
+          "line_ids": [
+            "ME-L06"
+          ]
+        },
+        {
+          "id": "ME12",
+          "start_seconds": 55,
+          "end_seconds": 60,
+          "title": "A point for neither",
+          "batch": "B03",
+          "line_ids": [
+            "ME-L07"
+          ]
+        },
+        {
+          "id": "ME13",
+          "start_seconds": 60,
+          "end_seconds": 65,
+          "title": "Chai is easy to share",
+          "batch": "B03",
+          "line_ids": [
+            "ME-L08"
+          ]
+        },
+        {
+          "id": "ME14",
+          "start_seconds": 65,
+          "end_seconds": 70,
+          "title": "Second Sunday, a longer rally",
+          "batch": "B03",
+          "line_ids": []
+        },
+        {
+          "id": "ME15",
+          "start_seconds": 70,
+          "end_seconds": 75,
+          "title": "A familiar question",
+          "batch": "B03",
+          "line_ids": [
+            "ME-L09"
+          ]
+        },
+        {
+          "id": "ME16",
+          "start_seconds": 75,
+          "end_seconds": 80,
+          "title": "The programme in her bag",
+          "batch": "B03",
+          "line_ids": []
+        },
+        {
+          "id": "ME17",
+          "start_seconds": 80,
+          "end_seconds": 85,
+          "title": "Something I do, too",
+          "batch": "B04",
+          "line_ids": [
+            "ME-L10"
+          ]
+        },
+        {
+          "id": "ME18",
+          "start_seconds": 85,
+          "end_seconds": 90,
+          "title": "An honest interested answer",
+          "batch": "B04",
+          "line_ids": [
+            "ME-L11"
+          ]
+        },
+        {
+          "id": "ME19",
+          "start_seconds": 90,
+          "end_seconds": 95,
+          "title": "A personal invite, not spam",
+          "batch": "B04",
+          "line_ids": []
+        },
+        {
+          "id": "ME20",
+          "start_seconds": 95,
+          "end_seconds": 100,
+          "title": "Practice, with a new thought",
+          "batch": "B04",
+          "line_ids": [
+            "ME-L12"
+          ]
+        },
+        {
+          "id": "ME21",
+          "start_seconds": 100,
+          "end_seconds": 105,
+          "title": "Performance day, a different room",
+          "batch": "B04",
+          "line_ids": []
+        },
+        {
+          "id": "ME22",
+          "start_seconds": 105,
+          "end_seconds": 110,
+          "title": "A secure ankle strap",
+          "batch": "B05",
+          "line_ids": []
+        },
+        {
+          "id": "ME23",
+          "start_seconds": 110,
+          "end_seconds": 115,
+          "title": "A breath is a beginning",
+          "batch": "B05",
+          "line_ids": [
+            "ME-L13"
+          ]
+        },
+        {
+          "id": "ME24",
+          "start_seconds": 115,
+          "end_seconds": 120,
+          "title": "A glance beyond the curtain",
+          "batch": "B05",
+          "line_ids": []
+        },
+        {
+          "id": "ME25",
+          "start_seconds": 120,
+          "end_seconds": 125,
+          "title": "Familiar faces take seats",
+          "batch": "B05",
+          "line_ids": [
+            "ME-L14"
+          ]
+        },
+        {
+          "id": "ME26",
+          "start_seconds": 125,
+          "end_seconds": 130,
+          "title": "Recognition, then the mark",
+          "batch": "B05",
+          "line_ids": []
+        },
+        {
+          "id": "ME27",
+          "start_seconds": 130,
+          "end_seconds": 135,
+          "title": "One clear dance phrase",
+          "batch": "B05",
+          "line_ids": []
+        },
+        {
+          "id": "ME28",
+          "start_seconds": 135,
+          "end_seconds": 140,
+          "title": "Expression carries the phrase",
+          "batch": "B06",
+          "line_ids": []
+        },
+        {
+          "id": "ME29",
+          "start_seconds": 140,
+          "end_seconds": 145,
+          "title": "The final held position",
+          "batch": "B06",
+          "line_ids": []
+        },
+        {
+          "id": "ME30",
+          "start_seconds": 145,
+          "end_seconds": 150,
+          "title": "The cheer belongs here",
+          "batch": "B06",
+          "line_ids": [
+            "ME-L15"
+          ]
+        },
+        {
+          "id": "ME31",
+          "start_seconds": 150,
+          "end_seconds": 155,
+          "title": "Tea after the performance",
+          "batch": "B06",
+          "line_ids": [
+            "ME-L16"
+          ]
+        },
+        {
+          "id": "ME32",
+          "start_seconds": 155,
+          "end_seconds": 160,
+          "title": "Another small plan",
+          "batch": "B06",
+          "line_ids": [
+            "ME-L17"
+          ]
+        }
+      ],
+      "shot_count": 32,
+      "batch_count": 6
+    },
+    {
+      "id": "rohan",
+      "source": "rohan/03-SHOT-BY-SHOT.md",
+      "duration_seconds": 160,
+      "shots": [
+        {
+          "id": "RO01",
+          "start_seconds": 0,
+          "end_seconds": 5,
+          "title": "A page that will not line up",
+          "batch": "B01",
+          "line_ids": [
+            "RO-L01"
+          ]
+        },
+        {
+          "id": "RO02",
+          "start_seconds": 5,
+          "end_seconds": 10,
+          "title": "The glasses check",
+          "batch": "B01",
+          "line_ids": []
+        },
+        {
+          "id": "RO03",
+          "start_seconds": 10,
+          "end_seconds": 15,
+          "title": "Friday still has a clock",
+          "batch": "B01",
+          "line_ids": []
+        },
+        {
+          "id": "RO04",
+          "start_seconds": 15,
+          "end_seconds": 20,
+          "title": "The printer pause",
+          "batch": "B01",
+          "line_ids": []
+        },
+        {
+          "id": "RO05",
+          "start_seconds": 20,
+          "end_seconds": 25,
+          "title": "One page, recovered",
+          "batch": "B01",
+          "line_ids": []
+        },
+        {
+          "id": "RO06",
+          "start_seconds": 25,
+          "end_seconds": 30,
+          "title": "A colleague's own evening",
+          "batch": "B01",
+          "line_ids": [
+            "RO-L02",
+            "RO-L03"
+          ]
+        },
+        {
+          "id": "RO07",
+          "start_seconds": 30,
+          "end_seconds": 35,
+          "title": "Put work away properly",
+          "batch": "B02",
+          "line_ids": []
+        },
+        {
+          "id": "RO08",
+          "start_seconds": 35,
+          "end_seconds": 40,
+          "title": "The lid closes",
+          "batch": "B02",
+          "line_ids": [
+            "RO-L04"
+          ]
+        },
+        {
+          "id": "RO09",
+          "start_seconds": 40,
+          "end_seconds": 45,
+          "title": "Still Friday outside",
+          "batch": "B02",
+          "line_ids": []
+        },
+        {
+          "id": "RO10",
+          "start_seconds": 45,
+          "end_seconds": 50,
+          "title": "Home is a separate scene",
+          "batch": "B02",
+          "line_ids": [
+            "RO-L05"
+          ]
+        },
+        {
+          "id": "RO11",
+          "start_seconds": 50,
+          "end_seconds": 55,
+          "title": "An unhurried Saturday",
+          "batch": "B02",
+          "line_ids": [
+            "RO-L06"
+          ]
+        },
+        {
+          "id": "RO12",
+          "start_seconds": 55,
+          "end_seconds": 60,
+          "title": "Existing friends have plans too",
+          "batch": "B03",
+          "line_ids": [
+            "RO-L07",
+            "RO-L08"
+          ]
+        },
+        {
+          "id": "RO13",
+          "start_seconds": 60,
+          "end_seconds": 65,
+          "title": "A small plan catches interest",
+          "batch": "B03",
+          "line_ids": [
+            "RO-L09"
+          ]
+        },
+        {
+          "id": "RO14",
+          "start_seconds": 65,
+          "end_seconds": 70,
+          "title": "Details before a place",
+          "batch": "B03",
+          "line_ids": []
+        },
+        {
+          "id": "RO15",
+          "start_seconds": 70,
+          "end_seconds": 75,
+          "title": "Ask one practical question",
+          "batch": "B03",
+          "line_ids": [
+            "RO-L10"
+          ]
+        },
+        {
+          "id": "RO16",
+          "start_seconds": 75,
+          "end_seconds": 80,
+          "title": "A welcome with room to choose",
+          "batch": "B03",
+          "line_ids": [
+            "RO-L11"
+          ]
+        },
+        {
+          "id": "RO17",
+          "start_seconds": 80,
+          "end_seconds": 85,
+          "title": "Choose comfortable clothes",
+          "batch": "B04",
+          "line_ids": []
+        },
+        {
+          "id": "RO18",
+          "start_seconds": 85,
+          "end_seconds": 90,
+          "title": "One game is enough for a start",
+          "batch": "B04",
+          "line_ids": [
+            "RO-L12"
+          ]
+        },
+        {
+          "id": "RO19",
+          "start_seconds": 90,
+          "end_seconds": 95,
+          "title": "The city between rooms",
+          "batch": "B04",
+          "line_ids": []
+        },
+        {
+          "id": "RO20",
+          "start_seconds": 95,
+          "end_seconds": 100,
+          "title": "An ordinary welcome",
+          "batch": "B04",
+          "line_ids": [
+            "RO-L13"
+          ]
+        },
+        {
+          "id": "RO21",
+          "start_seconds": 100,
+          "end_seconds": 105,
+          "title": "Learn by taking a turn",
+          "batch": "B04",
+          "line_ids": [
+            "RO-L14",
+            "RO-L15"
+          ]
+        },
+        {
+          "id": "RO22",
+          "start_seconds": 105,
+          "end_seconds": 110,
+          "title": "The score-sheet reflex",
+          "batch": "B05",
+          "line_ids": [
+            "RO-L16"
+          ]
+        },
+        {
+          "id": "RO23",
+          "start_seconds": 110,
+          "end_seconds": 115,
+          "title": "The card waits",
+          "batch": "B05",
+          "line_ids": []
+        },
+        {
+          "id": "RO24",
+          "start_seconds": 115,
+          "end_seconds": 120,
+          "title": "Just take the turn",
+          "batch": "B05",
+          "line_ids": [
+            "RO-L17"
+          ]
+        },
+        {
+          "id": "RO25",
+          "start_seconds": 120,
+          "end_seconds": 125,
+          "title": "A surprising rule",
+          "batch": "B05",
+          "line_ids": [
+            "RO-L18"
+          ]
+        },
+        {
+          "id": "RO26",
+          "start_seconds": 125,
+          "end_seconds": 130,
+          "title": "The laugh is its own shot",
+          "batch": "B05",
+          "line_ids": []
+        },
+        {
+          "id": "RO27",
+          "start_seconds": 130,
+          "end_seconds": 135,
+          "title": "Last card",
+          "batch": "B06",
+          "line_ids": [
+            "RO-L19"
+          ]
+        },
+        {
+          "id": "RO28",
+          "start_seconds": 135,
+          "end_seconds": 140,
+          "title": "One more, if everyone wants",
+          "batch": "B06",
+          "line_ids": [
+            "RO-L20"
+          ]
+        },
+        {
+          "id": "RO29",
+          "start_seconds": 140,
+          "end_seconds": 145,
+          "title": "Tell the old friend, kindly",
+          "batch": "B06",
+          "line_ids": [
+            "RO-L21"
+          ]
+        },
+        {
+          "id": "RO30",
+          "start_seconds": 145,
+          "end_seconds": 150,
+          "title": "Put the screen back down",
+          "batch": "B06",
+          "line_ids": []
+        },
+        {
+          "id": "RO31",
+          "start_seconds": 150,
+          "end_seconds": 155,
+          "title": "The score is not the memory",
+          "batch": "B06",
+          "line_ids": [
+            "RO-L22"
+          ]
+        },
+        {
+          "id": "RO32",
+          "start_seconds": 155,
+          "end_seconds": 160,
+          "title": "A weekend that felt shared",
+          "batch": "B06",
+          "line_ids": [
+            "RO-L23"
+          ]
+        }
+      ],
+      "shot_count": 32,
+      "batch_count": 6
+    },
+    {
+      "id": "sameer",
+      "source": "sameer/03-SHOT-BY-SHOT.md",
+      "duration_seconds": 150,
+      "shots": [
+        {
+          "id": "SA01",
+          "start_seconds": 0,
+          "end_seconds": 4,
+          "title": "An idea catches him",
+          "batch": "B01",
+          "line_ids": []
+        },
+        {
+          "id": "SA02",
+          "start_seconds": 4,
+          "end_seconds": 9,
+          "title": "Try something small",
+          "batch": "B01",
+          "line_ids": [
+            "SA-L01"
+          ]
+        },
+        {
+          "id": "SA03",
+          "start_seconds": 9,
+          "end_seconds": 15,
+          "title": "Possible weekends",
+          "batch": "B01",
+          "line_ids": []
+        },
+        {
+          "id": "SA04",
+          "start_seconds": 15,
+          "end_seconds": 20,
+          "title": "Ask old friends",
+          "batch": "B01",
+          "line_ids": [
+            "SA-L02"
+          ]
+        },
+        {
+          "id": "SA05",
+          "start_seconds": 20,
+          "end_seconds": 24,
+          "title": "A normal reply",
+          "batch": "B01",
+          "line_ids": [
+            "SA-L03"
+          ]
+        },
+        {
+          "id": "SA06",
+          "start_seconds": 24,
+          "end_seconds": 30,
+          "title": "Let it settle",
+          "batch": "B01",
+          "line_ids": []
+        },
+        {
+          "id": "SA07",
+          "start_seconds": 30,
+          "end_seconds": 34,
+          "title": "The plan still exists",
+          "batch": "B02",
+          "line_ids": [
+            "SA-L04"
+          ]
+        },
+        {
+          "id": "SA08",
+          "start_seconds": 34,
+          "end_seconds": 39,
+          "title": "Sit forward",
+          "batch": "B02",
+          "line_ids": []
+        },
+        {
+          "id": "SA09",
+          "start_seconds": 39,
+          "end_seconds": 45,
+          "title": "Make it achievable",
+          "batch": "B02",
+          "line_ids": [
+            "SA-L05"
+          ]
+        },
+        {
+          "id": "SA10",
+          "start_seconds": 45,
+          "end_seconds": 50,
+          "title": "Read before posting",
+          "batch": "B02",
+          "line_ids": []
+        },
+        {
+          "id": "SA11",
+          "start_seconds": 50,
+          "end_seconds": 54,
+          "title": "One small wish",
+          "batch": "B02",
+          "line_ids": [
+            "SA-L06"
+          ]
+        },
+        {
+          "id": "SA12",
+          "start_seconds": 54,
+          "end_seconds": 60,
+          "title": "Choose to wait",
+          "batch": "B02",
+          "line_ids": []
+        },
+        {
+          "id": "SA13",
+          "start_seconds": 60,
+          "end_seconds": 64,
+          "title": "Time has passed",
+          "batch": "B03",
+          "line_ids": []
+        },
+        {
+          "id": "SA14",
+          "start_seconds": 64,
+          "end_seconds": 69,
+          "title": "Someone else is interested",
+          "batch": "B03",
+          "line_ids": [
+            "SA-L07"
+          ]
+        },
+        {
+          "id": "SA15",
+          "start_seconds": 69,
+          "end_seconds": 75,
+          "title": "A normal yes",
+          "batch": "B03",
+          "line_ids": [
+            "SA-L08"
+          ]
+        },
+        {
+          "id": "SA16",
+          "start_seconds": 75,
+          "end_seconds": 80,
+          "title": "Confirm details",
+          "batch": "B03",
+          "line_ids": []
+        },
+        {
+          "id": "SA17",
+          "start_seconds": 80,
+          "end_seconds": 84,
+          "title": "Pack less",
+          "batch": "B03",
+          "line_ids": [
+            "SA-L09"
+          ]
+        },
+        {
+          "id": "SA18",
+          "start_seconds": 84,
+          "end_seconds": 90,
+          "title": "Shoes and doorway",
+          "batch": "B03",
+          "line_ids": []
+        },
+        {
+          "id": "SA19",
+          "start_seconds": 90,
+          "end_seconds": 94,
+          "title": "Urban meeting point",
+          "batch": "B04",
+          "line_ids": []
+        },
+        {
+          "id": "SA20",
+          "start_seconds": 94,
+          "end_seconds": 99,
+          "title": "First hello",
+          "batch": "B04",
+          "line_ids": [
+            "SA-L10"
+          ]
+        },
+        {
+          "id": "SA21",
+          "start_seconds": 99,
+          "end_seconds": 105,
+          "title": "Start walking",
+          "batch": "B04",
+          "line_ids": [
+            "SA-L11"
+          ]
+        },
+        {
+          "id": "SA22",
+          "start_seconds": 105,
+          "end_seconds": 110,
+          "title": "Listen as they walk",
+          "batch": "B04",
+          "line_ids": []
+        },
+        {
+          "id": "SA23",
+          "start_seconds": 110,
+          "end_seconds": 114,
+          "title": "Stop before chai",
+          "batch": "B04",
+          "line_ids": [
+            "SA-L12"
+          ]
+        },
+        {
+          "id": "SA24",
+          "start_seconds": 114,
+          "end_seconds": 120,
+          "title": "A shared laugh",
+          "batch": "B04",
+          "line_ids": []
+        },
+        {
+          "id": "SA25",
+          "start_seconds": 120,
+          "end_seconds": 124,
+          "title": "Ask about a photo",
+          "batch": "B05",
+          "line_ids": [
+            "SA-L13"
+          ]
+        },
+        {
+          "id": "SA26",
+          "start_seconds": 124,
+          "end_seconds": 129,
+          "title": "A free agreement",
+          "batch": "B05",
+          "line_ids": [
+            "SA-L14"
+          ]
+        },
+        {
+          "id": "SA27",
+          "start_seconds": 129,
+          "end_seconds": 135,
+          "title": "One imperfect photo",
+          "batch": "B05",
+          "line_ids": []
+        },
+        {
+          "id": "SA28",
+          "start_seconds": 135,
+          "end_seconds": 140,
+          "title": "A next possibility",
+          "batch": "B05",
+          "line_ids": [
+            "SA-L15"
+          ]
+        },
+        {
+          "id": "SA29",
+          "start_seconds": 140,
+          "end_seconds": 144,
+          "title": "A better joke back",
+          "batch": "B05",
+          "line_ids": [
+            "SA-L16"
+          ]
+        },
+        {
+          "id": "SA30",
+          "start_seconds": 144,
+          "end_seconds": 150,
+          "title": "Warm table ending",
+          "batch": "B05",
+          "line_ids": []
+        }
+      ],
+      "shot_count": 30,
+      "batch_count": 5
+    },
+    {
+      "id": "tara",
+      "source": "tara/03-SHOT-BY-SHOT.md",
+      "duration_seconds": 132,
+      "shots": [
+        {
+          "id": "TA01",
+          "start_seconds": 0,
+          "end_seconds": 4,
+          "title": "wake under the blanket",
+          "batch": "B01",
+          "line_ids": [
+            "TA-L01"
+          ]
+        },
+        {
+          "id": "TA02",
+          "start_seconds": 4,
+          "end_seconds": 8,
+          "title": "bed edge to standing",
+          "batch": "B01",
+          "line_ids": [
+            "TA-L02"
+          ]
+        },
+        {
+          "id": "TA03",
+          "start_seconds": 8,
+          "end_seconds": 12,
+          "title": "curtain and window",
+          "batch": "B01",
+          "line_ids": [
+            "TA-L03"
+          ]
+        },
+        {
+          "id": "TA04",
+          "start_seconds": 12,
+          "end_seconds": 14,
+          "title": "feel the air",
+          "batch": "B01",
+          "line_ids": [
+            "TA-L03"
+          ]
+        },
+        {
+          "id": "TA05",
+          "start_seconds": 14,
+          "end_seconds": 17,
+          "title": "phone notice and pickup",
+          "batch": "B01",
+          "line_ids": []
+        },
+        {
+          "id": "TA06",
+          "start_seconds": 17,
+          "end_seconds": 20,
+          "title": "read the plan",
+          "batch": "B01",
+          "line_ids": [
+            "TA-L04"
+          ]
+        },
+        {
+          "id": "TA07",
+          "start_seconds": 20,
+          "end_seconds": 23,
+          "title": "interest and planning chat insert",
+          "batch": "B02",
+          "line_ids": [
+            "TA-L04"
+          ]
+        },
+        {
+          "id": "TA08",
+          "start_seconds": 23,
+          "end_seconds": 26,
+          "title": "“not going” and back to reels",
+          "batch": "B02",
+          "line_ids": [
+            "TA-L05"
+          ]
+        },
+        {
+          "id": "TA09",
+          "start_seconds": 26,
+          "end_seconds": 29,
+          "title": "+1h",
+          "batch": "B02",
+          "line_ids": []
+        },
+        {
+          "id": "TA10",
+          "start_seconds": 29,
+          "end_seconds": 32,
+          "title": "+2h",
+          "batch": "B02",
+          "line_ids": []
+        },
+        {
+          "id": "TA11",
+          "start_seconds": 32,
+          "end_seconds": 35,
+          "title": "+3h, optional cocoon insert",
+          "batch": "B02",
+          "line_ids": []
+        },
+        {
+          "id": "TA12",
+          "start_seconds": 35,
+          "end_seconds": 38,
+          "title": "+4h, last reel",
+          "batch": "B02",
+          "line_ids": [
+            "TA-L06"
+          ]
+        },
+        {
+          "id": "TA13",
+          "start_seconds": 38,
+          "end_seconds": 41,
+          "title": "new email, 16:15",
+          "batch": "B03",
+          "line_ids": []
+        },
+        {
+          "id": "TA14",
+          "start_seconds": 41,
+          "end_seconds": 44,
+          "title": "phone, face, phone",
+          "batch": "B03",
+          "line_ids": []
+        },
+        {
+          "id": "TA15",
+          "start_seconds": 44,
+          "end_seconds": 49,
+          "title": "thought burst",
+          "batch": "B03",
+          "line_ids": [
+            "TA-L07",
+            "TA-L08"
+          ]
+        },
+        {
+          "id": "TA16",
+          "start_seconds": 49,
+          "end_seconds": 52,
+          "title": "tap, warm light begins",
+          "batch": "B03",
+          "line_ids": []
+        },
+        {
+          "id": "TA17",
+          "start_seconds": 52,
+          "end_seconds": 56,
+          "title": "the wide-eye “aww”",
+          "batch": "B03",
+          "line_ids": [
+            "TA-L09"
+          ]
+        },
+        {
+          "id": "TA18",
+          "start_seconds": 56,
+          "end_seconds": 63,
+          "title": "central line and pause",
+          "batch": "B03",
+          "line_ids": [
+            "TA-L10"
+          ]
+        },
+        {
+          "id": "TA19",
+          "start_seconds": 63,
+          "end_seconds": 68,
+          "title": "postcard reveal",
+          "batch": "B04",
+          "line_ids": []
+        },
+        {
+          "id": "TA20",
+          "start_seconds": 68,
+          "end_seconds": 73,
+          "title": "phone down, blanket aside",
+          "batch": "B04",
+          "line_ids": [
+            "TA-L11"
+          ]
+        },
+        {
+          "id": "TA21",
+          "start_seconds": 73,
+          "end_seconds": 76,
+          "title": "stand with purpose",
+          "batch": "B04",
+          "line_ids": []
+        },
+        {
+          "id": "TA22",
+          "start_seconds": 76,
+          "end_seconds": 79,
+          "title": "clothes bag and music",
+          "batch": "B04",
+          "line_ids": []
+        },
+        {
+          "id": "TA23",
+          "start_seconds": 79,
+          "end_seconds": 81,
+          "title": "one mismatched-outfit joke",
+          "batch": "B04",
+          "line_ids": []
+        },
+        {
+          "id": "TA24",
+          "start_seconds": 81,
+          "end_seconds": 85,
+          "title": "sleeve snag",
+          "batch": "B04",
+          "line_ids": []
+        },
+        {
+          "id": "TA25",
+          "start_seconds": 85,
+          "end_seconds": 90,
+          "title": "outfit details",
+          "batch": "B05",
+          "line_ids": []
+        },
+        {
+          "id": "TA26",
+          "start_seconds": 90,
+          "end_seconds": 96,
+          "title": "denim cap and joke",
+          "batch": "B05",
+          "line_ids": [
+            "TA-L13"
+          ]
+        },
+        {
+          "id": "TA27",
+          "start_seconds": 96,
+          "end_seconds": 99,
+          "title": "small uncertain pause",
+          "batch": "B05",
+          "line_ids": [
+            "TA-L14"
+          ]
+        },
+        {
+          "id": "TA28",
+          "start_seconds": 99,
+          "end_seconds": 100,
+          "title": "imagined panda",
+          "batch": "B05",
+          "line_ids": []
+        },
+        {
+          "id": "TA29",
+          "start_seconds": 100,
+          "end_seconds": 104,
+          "title": "scarf and reassurance",
+          "batch": "B05",
+          "line_ids": [
+            "TA-L15"
+          ]
+        },
+        {
+          "id": "TA30",
+          "start_seconds": 104,
+          "end_seconds": 108,
+          "title": "kajal dot",
+          "batch": "B05",
+          "line_ids": [
+            "TA-L16"
+          ]
+        },
+        {
+          "id": "TA31",
+          "start_seconds": 108,
+          "end_seconds": 112,
+          "title": "ready, in her own way",
+          "batch": "B06",
+          "line_ids": []
+        },
+        {
+          "id": "TA32",
+          "start_seconds": 112,
+          "end_seconds": 117,
+          "title": "bag, keys, door",
+          "batch": "B06",
+          "line_ids": []
+        },
+        {
+          "id": "TA33",
+          "start_seconds": 117,
+          "end_seconds": 121,
+          "title": "café glimpse",
+          "batch": "B06",
+          "line_ids": []
+        },
+        {
+          "id": "TA34",
+          "start_seconds": 121,
+          "end_seconds": 125,
+          "title": "home voice note",
+          "batch": "B06",
+          "line_ids": [
+            "TA-L17"
+          ]
+        },
+        {
+          "id": "TA35",
+          "start_seconds": 125,
+          "end_seconds": 128,
+          "title": "optional attendee-group opt-in",
+          "batch": "B06",
+          "line_ids": []
+        },
+        {
+          "id": "TA36",
+          "start_seconds": 128,
+          "end_seconds": 132,
+          "title": "scrapbook end card",
+          "batch": "B06",
+          "line_ids": []
+        }
+      ],
+      "shot_count": 36,
+      "batch_count": 6
+    },
+    {
+      "id": "E01",
+      "source": "ensemble-series/e01-ek-chair-aur/01-SHOTS.md",
+      "duration_seconds": 128,
+      "shots": [
+        {
+          "id": "E01-S01",
+          "start_seconds": 0,
+          "end_seconds": 8,
+          "title": "A cup nearly lands",
+          "batch": "E01-B01",
+          "line_ids": []
+        },
+        {
+          "id": "E01-S02",
+          "start_seconds": 8,
+          "end_seconds": 16,
+          "title": "Finding the table",
+          "batch": "E01-B01",
+          "line_ids": [
+            "E01-L01",
+            "E01-L02"
+          ]
+        },
+        {
+          "id": "E01-S03",
+          "start_seconds": 16,
+          "end_seconds": 24,
+          "title": "Actually a little early",
+          "batch": "E01-B01",
+          "line_ids": [
+            "E01-L03",
+            "E01-L04"
+          ]
+        },
+        {
+          "id": "E01-S04",
+          "start_seconds": 24,
+          "end_seconds": 32,
+          "title": "Dhwani arrives",
+          "batch": "E01-B01",
+          "line_ids": [
+            "E01-L05",
+            "E01-L06"
+          ]
+        },
+        {
+          "id": "E01-S05",
+          "start_seconds": 32,
+          "end_seconds": 40,
+          "title": "Names have space",
+          "batch": "E01-B02",
+          "line_ids": [
+            "E01-L07",
+            "E01-L08",
+            "E01-L09"
+          ]
+        },
+        {
+          "id": "E01-S06",
+          "start_seconds": 40,
+          "end_seconds": 48,
+          "title": "The default question",
+          "batch": "E01-B02",
+          "line_ids": [
+            "E01-L10",
+            "E01-L11"
+          ]
+        },
+        {
+          "id": "E01-S07",
+          "start_seconds": 48,
+          "end_seconds": 56,
+          "title": "The table answers",
+          "batch": "E01-B02",
+          "line_ids": [
+            "E01-L12"
+          ]
+        },
+        {
+          "id": "E01-S08",
+          "start_seconds": 56,
+          "end_seconds": 64,
+          "title": "Coaster solution",
+          "batch": "E01-B02",
+          "line_ids": [
+            "E01-L13"
+          ]
+        },
+        {
+          "id": "E01-S09",
+          "start_seconds": 64,
+          "end_seconds": 72,
+          "title": "Test and nod",
+          "batch": "E01-B03",
+          "line_ids": [
+            "E01-L14"
+          ]
+        },
+        {
+          "id": "E01-S10",
+          "start_seconds": 72,
+          "end_seconds": 80,
+          "title": "Choose and order",
+          "batch": "E01-B03",
+          "line_ids": [
+            "E01-L15",
+            "E01-L16"
+          ]
+        },
+        {
+          "id": "E01-S11",
+          "start_seconds": 80,
+          "end_seconds": 88,
+          "title": "A little later",
+          "batch": "E01-B03",
+          "line_ids": [
+            "E01-L17"
+          ]
+        },
+        {
+          "id": "E01-S12",
+          "start_seconds": 88,
+          "end_seconds": 96,
+          "title": "One small game",
+          "batch": "E01-B03",
+          "line_ids": [
+            "E01-L18"
+          ]
+        },
+        {
+          "id": "E01-S13",
+          "start_seconds": 96,
+          "end_seconds": 104,
+          "title": "Tara draws",
+          "batch": "E01-B04",
+          "line_ids": [
+            "E01-L19"
+          ]
+        },
+        {
+          "id": "E01-S14",
+          "start_seconds": 104,
+          "end_seconds": 112,
+          "title": "Rohan notices the change",
+          "batch": "E01-B04",
+          "line_ids": [
+            "E01-L20",
+            "E01-L21"
+          ]
+        },
+        {
+          "id": "E01-S15",
+          "start_seconds": 112,
+          "end_seconds": 120,
+          "title": "Name remembered",
+          "batch": "E01-B04",
+          "line_ids": [
+            "E01-L22",
+            "E01-L23"
+          ]
+        },
+        {
+          "id": "E01-S16",
+          "start_seconds": 120,
+          "end_seconds": 128,
+          "title": "Keep that coaster",
+          "batch": "E01-B04",
+          "line_ids": [
+            "E01-L24"
+          ]
+        }
+      ],
+      "shot_count": 16,
+      "batch_count": 4
+    },
+    {
+      "id": "E02",
+      "source": "ensemble-series/e02-perfect-photo-nahi/01-SHOTS.md",
+      "duration_seconds": 128,
+      "shots": [
+        {
+          "id": "E02-S01",
+          "start_seconds": 0,
+          "end_seconds": 8,
+          "title": "Three paces",
+          "batch": "E02-B01",
+          "line_ids": []
+        },
+        {
+          "id": "E02-S02",
+          "start_seconds": 8,
+          "end_seconds": 16,
+          "title": "One photo?",
+          "batch": "E02-B01",
+          "line_ids": [
+            "E02-L01",
+            "E02-L02"
+          ]
+        },
+        {
+          "id": "E02-S03",
+          "start_seconds": 16,
+          "end_seconds": 24,
+          "title": "Find the frame",
+          "batch": "E02-B01",
+          "line_ids": []
+        },
+        {
+          "id": "E02-S04",
+          "start_seconds": 24,
+          "end_seconds": 32,
+          "title": "Natural is difficult",
+          "batch": "E02-B01",
+          "line_ids": [
+            "E02-L03",
+            "E02-L04"
+          ]
+        },
+        {
+          "id": "E02-S05",
+          "start_seconds": 32,
+          "end_seconds": 40,
+          "title": "The first attempt",
+          "batch": "E02-B02",
+          "line_ids": [
+            "E02-L05"
+          ]
+        },
+        {
+          "id": "E02-S06",
+          "start_seconds": 40,
+          "end_seconds": 48,
+          "title": "The practical offer",
+          "batch": "E02-B02",
+          "line_ids": [
+            "E02-L06",
+            "E02-L07"
+          ]
+        },
+        {
+          "id": "E02-S07",
+          "start_seconds": 48,
+          "end_seconds": 56,
+          "title": "Squeeze without squashing",
+          "batch": "E02-B02",
+          "line_ids": [
+            "E02-L08"
+          ]
+        },
+        {
+          "id": "E02-S08",
+          "start_seconds": 56,
+          "end_seconds": 64,
+          "title": "Wind interruption",
+          "batch": "E02-B02",
+          "line_ids": []
+        },
+        {
+          "id": "E02-S09",
+          "start_seconds": 64,
+          "end_seconds": 72,
+          "title": "A real smile",
+          "batch": "E02-B03",
+          "line_ids": [
+            "E02-L09"
+          ]
+        },
+        {
+          "id": "E02-S10",
+          "start_seconds": 72,
+          "end_seconds": 80,
+          "title": "Look at the result",
+          "batch": "E02-B03",
+          "line_ids": [
+            "E02-L10",
+            "E02-L11"
+          ]
+        },
+        {
+          "id": "E02-S11",
+          "start_seconds": 80,
+          "end_seconds": 88,
+          "title": "Keep or retry",
+          "batch": "E02-B03",
+          "line_ids": [
+            "E02-L12",
+            "E02-L13"
+          ]
+        },
+        {
+          "id": "E02-S12",
+          "start_seconds": 88,
+          "end_seconds": 96,
+          "title": "A choice about sharing",
+          "batch": "E02-B03",
+          "line_ids": [
+            "E02-L14"
+          ]
+        },
+        {
+          "id": "E02-S13",
+          "start_seconds": 96,
+          "end_seconds": 104,
+          "title": "Pocket and view",
+          "batch": "E02-B04",
+          "line_ids": []
+        },
+        {
+          "id": "E02-S14",
+          "start_seconds": 104,
+          "end_seconds": 112,
+          "title": "How long is this walk",
+          "batch": "E02-B04",
+          "line_ids": [
+            "E02-L15",
+            "E02-L16"
+          ]
+        },
+        {
+          "id": "E02-S15",
+          "start_seconds": 112,
+          "end_seconds": 120,
+          "title": "Gary gives room",
+          "batch": "E02-B04",
+          "line_ids": []
+        },
+        {
+          "id": "E02-S16",
+          "start_seconds": 120,
+          "end_seconds": 128,
+          "title": "Remember this one",
+          "batch": "E02-B04",
+          "line_ids": [
+            "E02-L17"
+          ]
+        }
+      ],
+      "shot_count": 16,
+      "batch_count": 4
+    },
+    {
+      "id": "E03",
+      "source": "ensemble-series/e03-rasta-dheere-dekho/01-SHOTS.md",
+      "duration_seconds": 128,
+      "shots": [
+        {
+          "id": "E03-S01",
+          "start_seconds": 0,
+          "end_seconds": 8,
+          "title": "The lane already lives",
+          "batch": "E03-B01",
+          "line_ids": []
+        },
+        {
+          "id": "E03-S02",
+          "start_seconds": 8,
+          "end_seconds": 16,
+          "title": "One detail each",
+          "batch": "E03-B01",
+          "line_ids": [
+            "E03-L01",
+            "E03-L02"
+          ]
+        },
+        {
+          "id": "E03-S03",
+          "start_seconds": 16,
+          "end_seconds": 24,
+          "title": "Different answers allowed",
+          "batch": "E03-B01",
+          "line_ids": [
+            "E03-L03"
+          ]
+        },
+        {
+          "id": "E03-S04",
+          "start_seconds": 24,
+          "end_seconds": 32,
+          "title": "Rohan frames too much",
+          "batch": "E03-B01",
+          "line_ids": []
+        },
+        {
+          "id": "E03-S05",
+          "start_seconds": 32,
+          "end_seconds": 40,
+          "title": "A smaller frame",
+          "batch": "E03-B02",
+          "line_ids": [
+            "E03-L04",
+            "E03-L05"
+          ]
+        },
+        {
+          "id": "E03-S06",
+          "start_seconds": 40,
+          "end_seconds": 48,
+          "title": "Light moves",
+          "batch": "E03-B02",
+          "line_ids": []
+        },
+        {
+          "id": "E03-S07",
+          "start_seconds": 48,
+          "end_seconds": 56,
+          "title": "The local person",
+          "batch": "E03-B02",
+          "line_ids": [
+            "E03-L06"
+          ]
+        },
+        {
+          "id": "E03-S08",
+          "start_seconds": 56,
+          "end_seconds": 64,
+          "title": "A limited yes",
+          "batch": "E03-B02",
+          "line_ids": [
+            "E03-L07",
+            "E03-L08"
+          ]
+        },
+        {
+          "id": "E03-S09",
+          "start_seconds": 64,
+          "end_seconds": 72,
+          "title": "One chosen photograph",
+          "batch": "E03-B03",
+          "line_ids": []
+        },
+        {
+          "id": "E03-S10",
+          "start_seconds": 72,
+          "end_seconds": 80,
+          "title": "Dhwani picks texture",
+          "batch": "E03-B03",
+          "line_ids": [
+            "E03-L09"
+          ]
+        },
+        {
+          "id": "E03-S11",
+          "start_seconds": 80,
+          "end_seconds": 88,
+          "title": "Meera picks motion",
+          "batch": "E03-B03",
+          "line_ids": [
+            "E03-L10"
+          ]
+        },
+        {
+          "id": "E03-S12",
+          "start_seconds": 88,
+          "end_seconds": 96,
+          "title": "Rohan changes his answer",
+          "batch": "E03-B03",
+          "line_ids": [
+            "E03-L11"
+          ]
+        },
+        {
+          "id": "E03-S13",
+          "start_seconds": 96,
+          "end_seconds": 104,
+          "title": "No big reaction",
+          "batch": "E03-B04",
+          "line_ids": [
+            "E03-L12"
+          ]
+        },
+        {
+          "id": "E03-S14",
+          "start_seconds": 104,
+          "end_seconds": 112,
+          "title": "Water stop",
+          "batch": "E03-B04",
+          "line_ids": []
+        },
+        {
+          "id": "E03-S15",
+          "start_seconds": 112,
+          "end_seconds": 120,
+          "title": "The tempting next turn",
+          "batch": "E03-B04",
+          "line_ids": [
+            "E03-L13",
+            "E03-L14",
+            "E03-L15"
+          ]
+        },
+        {
+          "id": "E03-S16",
+          "start_seconds": 120,
+          "end_seconds": 128,
+          "title": "Three different memories",
+          "batch": "E03-B04",
+          "line_ids": []
+        }
+      ],
+      "shot_count": 16,
+      "batch_count": 4
+    },
+    {
+      "id": "E04",
+      "source": "ensemble-series/e04-baarish-ka-plan-b/01-SHOTS.md",
+      "duration_seconds": 128,
+      "shots": [
+        {
+          "id": "E04-S01",
+          "start_seconds": 0,
+          "end_seconds": 8,
+          "title": "Outdoor plan meets rain",
+          "batch": "E04-B01",
+          "line_ids": []
+        },
+        {
+          "id": "E04-S02",
+          "start_seconds": 8,
+          "end_seconds": 16,
+          "title": "A proposed alternative",
+          "batch": "E04-B01",
+          "line_ids": []
+        },
+        {
+          "id": "E04-S03",
+          "start_seconds": 16,
+          "end_seconds": 24,
+          "title": "Two replies, not a teleport",
+          "batch": "E04-B01",
+          "line_ids": []
+        },
+        {
+          "id": "E04-S04",
+          "start_seconds": 24,
+          "end_seconds": 32,
+          "title": "Arrivals after travel",
+          "batch": "E04-B01",
+          "line_ids": []
+        },
+        {
+          "id": "E04-S05",
+          "start_seconds": 32,
+          "end_seconds": 40,
+          "title": "Umbrella logistics",
+          "batch": "E04-B02",
+          "line_ids": [
+            "E04-L01"
+          ]
+        },
+        {
+          "id": "E04-S06",
+          "start_seconds": 40,
+          "end_seconds": 48,
+          "title": "A different kind of plan",
+          "batch": "E04-B02",
+          "line_ids": [
+            "E04-L02"
+          ]
+        },
+        {
+          "id": "E04-S07",
+          "start_seconds": 48,
+          "end_seconds": 56,
+          "title": "Settle at the table",
+          "batch": "E04-B02",
+          "line_ids": []
+        },
+        {
+          "id": "E04-S08",
+          "start_seconds": 56,
+          "end_seconds": 64,
+          "title": "Check the actual feeling",
+          "batch": "E04-B02",
+          "line_ids": [
+            "E04-L03",
+            "E04-L04"
+          ]
+        },
+        {
+          "id": "E04-S09",
+          "start_seconds": 64,
+          "end_seconds": 72,
+          "title": "Another day is allowed",
+          "batch": "E04-B03",
+          "line_ids": [
+            "E04-L05"
+          ]
+        },
+        {
+          "id": "E04-S10",
+          "start_seconds": 72,
+          "end_seconds": 80,
+          "title": "The small race",
+          "batch": "E04-B03",
+          "line_ids": []
+        },
+        {
+          "id": "E04-S11",
+          "start_seconds": 80,
+          "end_seconds": 88,
+          "title": "Choose a drop",
+          "batch": "E04-B03",
+          "line_ids": [
+            "E04-L06",
+            "E04-L07"
+          ]
+        },
+        {
+          "id": "E04-S12",
+          "start_seconds": 88,
+          "end_seconds": 96,
+          "title": "Rohan joins",
+          "batch": "E04-B03",
+          "line_ids": [
+            "E04-L08"
+          ]
+        },
+        {
+          "id": "E04-S13",
+          "start_seconds": 96,
+          "end_seconds": 104,
+          "title": "Drinks come later",
+          "batch": "E04-B04",
+          "line_ids": [
+            "E04-L09"
+          ]
+        },
+        {
+          "id": "E04-S14",
+          "start_seconds": 104,
+          "end_seconds": 112,
+          "title": "A time limit is fine",
+          "batch": "E04-B04",
+          "line_ids": [
+            "E04-L10",
+            "E04-L11"
+          ]
+        },
+        {
+          "id": "E04-S15",
+          "start_seconds": 112,
+          "end_seconds": 120,
+          "title": "The drop finally moves",
+          "batch": "E04-B04",
+          "line_ids": []
+        },
+        {
+          "id": "E04-S16",
+          "start_seconds": 120,
+          "end_seconds": 128,
+          "title": "Still a good afternoon",
+          "batch": "E04-B04",
+          "line_ids": [
+            "E04-L12"
+          ]
+        }
+      ],
+      "shot_count": 16,
+      "batch_count": 4
+    },
+    {
+      "id": "E05",
+      "source": "ensemble-series/e05-trip-itni-si/01-SHOTS.md",
+      "duration_seconds": 144,
+      "shots": [
+        {
+          "id": "E05-S01",
+          "start_seconds": 0,
+          "end_seconds": 8,
+          "title": "A modest bag",
+          "batch": "E05-B01",
+          "line_ids": []
+        },
+        {
+          "id": "E05-S02",
+          "start_seconds": 8,
+          "end_seconds": 16,
+          "title": "Plan before departure",
+          "batch": "E05-B01",
+          "line_ids": []
+        },
+        {
+          "id": "E05-S03",
+          "start_seconds": 16,
+          "end_seconds": 24,
+          "title": "Public pickup",
+          "batch": "E05-B01",
+          "line_ids": [
+            "E05-L01",
+            "E05-L02"
+          ]
+        },
+        {
+          "id": "E05-S04",
+          "start_seconds": 24,
+          "end_seconds": 32,
+          "title": "Sameer arrives",
+          "batch": "E05-B01",
+          "line_ids": [
+            "E05-L03",
+            "E05-L04"
+          ]
+        },
+        {
+          "id": "E05-S05",
+          "start_seconds": 32,
+          "end_seconds": 40,
+          "title": "Seat and belt",
+          "batch": "E05-B02",
+          "line_ids": []
+        },
+        {
+          "id": "E05-S06",
+          "start_seconds": 40,
+          "end_seconds": 48,
+          "title": "Leaving the city",
+          "batch": "E05-B02",
+          "line_ids": []
+        },
+        {
+          "id": "E05-S07",
+          "start_seconds": 48,
+          "end_seconds": 56,
+          "title": "The overpacked pouch",
+          "batch": "E05-B02",
+          "line_ids": [
+            "E05-L05",
+            "E05-L06"
+          ]
+        },
+        {
+          "id": "E05-S08",
+          "start_seconds": 56,
+          "end_seconds": 64,
+          "title": "Arrival is a separate place",
+          "batch": "E05-B02",
+          "line_ids": []
+        },
+        {
+          "id": "E05-S09",
+          "start_seconds": 64,
+          "end_seconds": 72,
+          "title": "Let the place lead",
+          "batch": "E05-B03",
+          "line_ids": []
+        },
+        {
+          "id": "E05-S10",
+          "start_seconds": 72,
+          "end_seconds": 80,
+          "title": "Sameer looks first",
+          "batch": "E05-B03",
+          "line_ids": [
+            "E05-L07"
+          ]
+        },
+        {
+          "id": "E05-S11",
+          "start_seconds": 80,
+          "end_seconds": 88,
+          "title": "Dhwani agrees quietly",
+          "batch": "E05-B03",
+          "line_ids": [
+            "E05-L08"
+          ]
+        },
+        {
+          "id": "E05-S12",
+          "start_seconds": 88,
+          "end_seconds": 96,
+          "title": "A held moment",
+          "batch": "E05-B03",
+          "line_ids": []
+        },
+        {
+          "id": "E05-S13",
+          "start_seconds": 96,
+          "end_seconds": 104,
+          "title": "Outside later",
+          "batch": "E05-B04",
+          "line_ids": []
+        },
+        {
+          "id": "E05-S14",
+          "start_seconds": 104,
+          "end_seconds": 112,
+          "title": "Ask before offering",
+          "batch": "E05-B04",
+          "line_ids": [
+            "E05-L09",
+            "E05-L10"
+          ]
+        },
+        {
+          "id": "E05-S15",
+          "start_seconds": 112,
+          "end_seconds": 120,
+          "title": "What counted as a trip",
+          "batch": "E05-B04",
+          "line_ids": [
+            "E05-L11",
+            "E05-L12"
+          ]
+        },
+        {
+          "id": "E05-S16",
+          "start_seconds": 120,
+          "end_seconds": 128,
+          "title": "Pack what came with you",
+          "batch": "E05-B04",
+          "line_ids": []
+        },
+        {
+          "id": "E05-S17",
+          "start_seconds": 128,
+          "end_seconds": 136,
+          "title": "Return journey",
+          "batch": "E05-B05",
+          "line_ids": []
+        },
+        {
+          "id": "E05-S18",
+          "start_seconds": 136,
+          "end_seconds": 144,
+          "title": "Small is enough today",
+          "batch": "E05-B05",
+          "line_ids": [
+            "E05-L13",
+            "E05-L14"
+          ]
+        }
+      ],
+      "shot_count": 18,
+      "batch_count": 5
+    },
+    {
+      "id": "E06",
+      "source": "ensemble-series/e06-kuch-bolna-zaroori-hai/01-SHOTS.md",
+      "duration_seconds": 128,
+      "shots": [
+        {
+          "id": "E06-S01",
+          "start_seconds": 0,
+          "end_seconds": 8,
+          "title": "Choose the bench",
+          "batch": "E06-B01",
+          "line_ids": []
+        },
+        {
+          "id": "E06-S02",
+          "start_seconds": 8,
+          "end_seconds": 16,
+          "title": "Bags down",
+          "batch": "E06-B01",
+          "line_ids": []
+        },
+        {
+          "id": "E06-S03",
+          "start_seconds": 16,
+          "end_seconds": 24,
+          "title": "The first quiet",
+          "batch": "E06-B01",
+          "line_ids": []
+        },
+        {
+          "id": "E06-S04",
+          "start_seconds": 24,
+          "end_seconds": 32,
+          "title": "A topic searches for him",
+          "batch": "E06-B01",
+          "line_ids": [
+            "E06-L01"
+          ]
+        },
+        {
+          "id": "E06-S05",
+          "start_seconds": 32,
+          "end_seconds": 40,
+          "title": "Meera hears the effort",
+          "batch": "E06-B02",
+          "line_ids": [
+            "E06-L02"
+          ]
+        },
+        {
+          "id": "E06-S06",
+          "start_seconds": 40,
+          "end_seconds": 48,
+          "title": "Rohan checks",
+          "batch": "E06-B02",
+          "line_ids": [
+            "E06-L03",
+            "E06-L04"
+          ]
+        },
+        {
+          "id": "E06-S07",
+          "start_seconds": 48,
+          "end_seconds": 56,
+          "title": "Actually stop",
+          "batch": "E06-B02",
+          "line_ids": []
+        },
+        {
+          "id": "E06-S08",
+          "start_seconds": 56,
+          "end_seconds": 64,
+          "title": "Something small to notice",
+          "batch": "E06-B02",
+          "line_ids": []
+        },
+        {
+          "id": "E06-S09",
+          "start_seconds": 64,
+          "end_seconds": 72,
+          "title": "Same observation",
+          "batch": "E06-B03",
+          "line_ids": [
+            "E06-L05"
+          ]
+        },
+        {
+          "id": "E06-S10",
+          "start_seconds": 72,
+          "end_seconds": 80,
+          "title": "One real thought",
+          "batch": "E06-B03",
+          "line_ids": [
+            "E06-L06"
+          ]
+        },
+        {
+          "id": "E06-S11",
+          "start_seconds": 80,
+          "end_seconds": 88,
+          "title": "No diagnosis",
+          "batch": "E06-B03",
+          "line_ids": [
+            "E06-L07"
+          ]
+        },
+        {
+          "id": "E06-S12",
+          "start_seconds": 88,
+          "end_seconds": 96,
+          "title": "A useful practical thing",
+          "batch": "E06-B03",
+          "line_ids": [
+            "E06-L08",
+            "E06-L09"
+          ]
+        },
+        {
+          "id": "E06-S13",
+          "start_seconds": 96,
+          "end_seconds": 104,
+          "title": "Water and space",
+          "batch": "E06-B04",
+          "line_ids": []
+        },
+        {
+          "id": "E06-S14",
+          "start_seconds": 104,
+          "end_seconds": 112,
+          "title": "Time to go",
+          "batch": "E06-B04",
+          "line_ids": [
+            "E06-L10",
+            "E06-L11"
+          ]
+        },
+        {
+          "id": "E06-S15",
+          "start_seconds": 112,
+          "end_seconds": 120,
+          "title": "Stand with weight",
+          "batch": "E06-B04",
+          "line_ids": []
+        },
+        {
+          "id": "E06-S16",
+          "start_seconds": 120,
+          "end_seconds": 128,
+          "title": "A quiet kind of plan",
+          "batch": "E06-B04",
+          "line_ids": [
+            "E06-L12"
+          ]
+        }
+      ],
+      "shot_count": 16,
+      "batch_count": 4
+    },
+    {
+      "id": "E07",
+      "source": "ensemble-series/e07-thoda-extra-bana-liya/01-SHOTS.md",
+      "duration_seconds": 128,
+      "shots": [
+        {
+          "id": "E07-S01",
+          "start_seconds": 0,
+          "end_seconds": 8,
+          "title": "Three containers, three arrivals",
+          "batch": "E07-B01",
+          "line_ids": []
+        },
+        {
+          "id": "E07-S02",
+          "start_seconds": 8,
+          "end_seconds": 16,
+          "title": "Tara minimizes it",
+          "batch": "E07-B01",
+          "line_ids": [
+            "E07-L01"
+          ]
+        },
+        {
+          "id": "E07-S03",
+          "start_seconds": 16,
+          "end_seconds": 24,
+          "title": "Dhwani answers plainly",
+          "batch": "E07-B01",
+          "line_ids": [
+            "E07-L02"
+          ]
+        },
+        {
+          "id": "E07-S04",
+          "start_seconds": 24,
+          "end_seconds": 32,
+          "title": "Sameer reveals his contribution",
+          "batch": "E07-B01",
+          "line_ids": [
+            "E07-L03"
+          ]
+        },
+        {
+          "id": "E07-S05",
+          "start_seconds": 32,
+          "end_seconds": 40,
+          "title": "Nobody grades the food",
+          "batch": "E07-B02",
+          "line_ids": [
+            "E07-L04"
+          ]
+        },
+        {
+          "id": "E07-S06",
+          "start_seconds": 40,
+          "end_seconds": 48,
+          "title": "Open lids carefully",
+          "batch": "E07-B02",
+          "line_ids": []
+        },
+        {
+          "id": "E07-S07",
+          "start_seconds": 48,
+          "end_seconds": 56,
+          "title": "What is in it",
+          "batch": "E07-B02",
+          "line_ids": [
+            "E07-L05",
+            "E07-L06"
+          ]
+        },
+        {
+          "id": "E07-S08",
+          "start_seconds": 56,
+          "end_seconds": 64,
+          "title": "A preference is easy",
+          "batch": "E07-B02",
+          "line_ids": [
+            "E07-L07",
+            "E07-L08"
+          ]
+        },
+        {
+          "id": "E07-S09",
+          "start_seconds": 64,
+          "end_seconds": 72,
+          "title": "Serve a small portion",
+          "batch": "E07-B03",
+          "line_ids": []
+        },
+        {
+          "id": "E07-S10",
+          "start_seconds": 72,
+          "end_seconds": 80,
+          "title": "The uneven roll",
+          "batch": "E07-B03",
+          "line_ids": [
+            "E07-L09",
+            "E07-L10"
+          ]
+        },
+        {
+          "id": "E07-S11",
+          "start_seconds": 80,
+          "end_seconds": 88,
+          "title": "A cooking confession",
+          "batch": "E07-B03",
+          "line_ids": [
+            "E07-L11"
+          ]
+        },
+        {
+          "id": "E07-S12",
+          "start_seconds": 88,
+          "end_seconds": 96,
+          "title": "Dhwani has help too",
+          "batch": "E07-B03",
+          "line_ids": [
+            "E07-L12"
+          ]
+        },
+        {
+          "id": "E07-S13",
+          "start_seconds": 96,
+          "end_seconds": 104,
+          "title": "Food continues, talk changes",
+          "batch": "E07-B04",
+          "line_ids": []
+        },
+        {
+          "id": "E07-S14",
+          "start_seconds": 104,
+          "end_seconds": 112,
+          "title": "Close and clear together",
+          "batch": "E07-B04",
+          "line_ids": []
+        },
+        {
+          "id": "E07-S15",
+          "start_seconds": 112,
+          "end_seconds": 120,
+          "title": "Next time without obligation",
+          "batch": "E07-B04",
+          "line_ids": [
+            "E07-L13",
+            "E07-L14"
+          ]
+        },
+        {
+          "id": "E07-S16",
+          "start_seconds": 120,
+          "end_seconds": 128,
+          "title": "The small box was enough",
+          "batch": "E07-B04",
+          "line_ids": []
+        }
+      ],
+      "shot_count": 16,
+      "batch_count": 4
+    },
+    {
+      "id": "E08",
+      "source": "ensemble-series/e08-agla-saturday/01-SHOTS.md",
+      "duration_seconds": 144,
+      "shots": [
+        {
+          "id": "E08-S01",
+          "start_seconds": 0,
+          "end_seconds": 8,
+          "title": "Return to a familiar door",
+          "batch": "E08-B01",
+          "line_ids": []
+        },
+        {
+          "id": "E08-S02",
+          "start_seconds": 8,
+          "end_seconds": 16,
+          "title": "Names this time",
+          "batch": "E08-B01",
+          "line_ids": [
+            "E08-L01",
+            "E08-L02"
+          ]
+        },
+        {
+          "id": "E08-S03",
+          "start_seconds": 16,
+          "end_seconds": 24,
+          "title": "Dhwani joins Meera",
+          "batch": "E08-B01",
+          "line_ids": [
+            "E08-L03",
+            "E08-L04"
+          ]
+        },
+        {
+          "id": "E08-S04",
+          "start_seconds": 24,
+          "end_seconds": 32,
+          "title": "The other two arrive",
+          "batch": "E08-B01",
+          "line_ids": []
+        },
+        {
+          "id": "E08-S05",
+          "start_seconds": 32,
+          "end_seconds": 40,
+          "title": "All six, once clearly",
+          "batch": "E08-B02",
+          "line_ids": []
+        },
+        {
+          "id": "E08-S06",
+          "start_seconds": 40,
+          "end_seconds": 48,
+          "title": "The table callback",
+          "batch": "E08-B02",
+          "line_ids": [
+            "E08-L05",
+            "E08-L06"
+          ]
+        },
+        {
+          "id": "E08-S07",
+          "start_seconds": 48,
+          "end_seconds": 56,
+          "title": "Two food editions",
+          "batch": "E08-B02",
+          "line_ids": []
+        },
+        {
+          "id": "E08-S08",
+          "start_seconds": 56,
+          "end_seconds": 64,
+          "title": "Offer a choice",
+          "batch": "E08-B02",
+          "line_ids": [
+            "E08-L07",
+            "E08-L08"
+          ]
+        },
+        {
+          "id": "E08-S09",
+          "start_seconds": 64,
+          "end_seconds": 72,
+          "title": "A remembered detail",
+          "batch": "E08-B03",
+          "line_ids": [
+            "E08-L09",
+            "E08-L10"
+          ]
+        },
+        {
+          "id": "E08-S10",
+          "start_seconds": 72,
+          "end_seconds": 80,
+          "title": "Let the evening be ordinary",
+          "batch": "E08-B03",
+          "line_ids": []
+        },
+        {
+          "id": "E08-S11",
+          "start_seconds": 80,
+          "end_seconds": 88,
+          "title": "A possible next time",
+          "batch": "E08-B03",
+          "line_ids": [
+            "E08-L11",
+            "E08-L12"
+          ]
+        },
+        {
+          "id": "E08-S12",
+          "start_seconds": 88,
+          "end_seconds": 96,
+          "title": "Another schedule",
+          "batch": "E08-B03",
+          "line_ids": [
+            "E08-L13",
+            "E08-L14"
+          ]
+        },
+        {
+          "id": "E08-S13",
+          "start_seconds": 96,
+          "end_seconds": 104,
+          "title": "Keep it small",
+          "batch": "E08-B04",
+          "line_ids": [
+            "E08-L15",
+            "E08-L16"
+          ]
+        },
+        {
+          "id": "E08-S14",
+          "start_seconds": 104,
+          "end_seconds": 112,
+          "title": "Meera still belongs",
+          "batch": "E08-B04",
+          "line_ids": [
+            "E08-L17",
+            "E08-L18"
+          ]
+        },
+        {
+          "id": "E08-S15",
+          "start_seconds": 112,
+          "end_seconds": 120,
+          "title": "Record the small plan",
+          "batch": "E08-B04",
+          "line_ids": []
+        },
+        {
+          "id": "E08-S16",
+          "start_seconds": 120,
+          "end_seconds": 128,
+          "title": "No ceremony required",
+          "batch": "E08-B04",
+          "line_ids": [
+            "E08-L19",
+            "E08-L20"
+          ]
+        },
+        {
+          "id": "E08-S17",
+          "start_seconds": 128,
+          "end_seconds": 136,
+          "title": "Different conversations, same table",
+          "batch": "E08-B05",
+          "line_ids": []
+        },
+        {
+          "id": "E08-S18",
+          "start_seconds": 136,
+          "end_seconds": 144,
+          "title": "A small next page",
+          "batch": "E08-B05",
+          "line_ids": []
+        }
+      ],
+      "shot_count": 18,
+      "batch_count": 5
+    }
+  ],
+  "validation": {
+    "issues": [],
+    "timing_notes": []
+  }
+}

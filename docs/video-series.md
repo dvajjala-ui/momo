@@ -1,5 +1,21 @@
 # Momo shorts: the character series
 
+## Long-form character expansion — 5 November 2026
+
+The owner requested detailed two-plus-minute films for every lead, character/wardrobe/voice bibles and editable batches, with no new media generation or picture-tool recommendations. [The new character-film folder](character-films/README.md) is the long-form working plan. It preserves Tara's separately selected C identity and later owner corrections while retaining the pulled short-pass/source records below. The older 30–45-second timings and narrator/design assumptions are not automatic approvals for the expanded films.
+
+The same 5 November continuation adds [eight Ahmedabad ensemble episodes](character-films/ensemble-series/README.md), [four brand-ad scripts](character-films/brand-campaign/README.md) and [six short conversations](character-films/conversations/README.md), each with timed shots, dialogue, acting, sound and review batches. They are fictional written plans, not generated videos, real events or venue partnerships. The ensemble's uniform 2D crossover adaptation is a new review proposal that preserves Tara's selected C identity and Sameer's v2 facial identity; the existing solo reference status remains unchanged.
+
+### Preserved local Tara continuation (historical)
+
+The historical links in this subsection refer to local-only Tara documents and media; they are retained for the owner's checkout and are not included in this documentation push. The complete current written plans are in the character-film folder linked above.
+
+**10 October 2026 update:** The owner expanded the weekend-girl pilot: a 26-year-old corporate worker with a slim-to-average build with a little softness and a wolf cut, a shared-flat bedroom, scrolling and postponing, then a thoughtful invitation postcard that makes her want to attend. The current plan is [People still make an effort — revised pilot](video-pilot-effort.md); it takes precedence over the older character, script, production order and tool/budget assumptions. The owner selected C's softer everyday face and clean 2D anime treatment. The [anime direction and production record](video-anime-direction.md) links the first revised motion test. This older series proposal is retained for context, not as verified current tool guidance.
+
+Status, **11 October 2026:** **series proposal and film briefs, not finished films.** The revised Tara [16.3125-second voiced opening](../output/video/tara-opening-v3/tara-opening-v3-with-voice-v2.mp4) now shows waking in a dim room, getting out of bed and opening the window before phone pickup/reading. [A local Kokoro voice comparison](../output/video/tara-opening-v3/tara-opening-v3-with-voice-kokoro.mp4) and [exact prompts, dialogue and QA notes](../output/video/tara-opening-v3/README.md) are available. Mouth timing remains rough. The successful wide-eye postcard reaction is retained; further breeze/body-action generation was blocked by the free Hugging Face runs limit. Later chapters remain unfinished. The old slideshow stays retired.
+
+---
+
 Status: **proposal plus shot lists.** The six films are written out to shot level here, and each film has a spoken script. Nothing is finished: film 5 (*Make a wish*) has a first 30-second pass in progress, and one locked character sheet exists. This replaces the old idea of one generic promo film, and the old slideshow stays retired.
 
 ## What these films are for

@@ -1,0 +1,576 @@
+{
+  "character": "tara",
+  "prefix": "TA",
+  "script_version": "v1",
+  "duration_seconds": 132,
+  "status": "planning only; no new media generated",
+  "shots": [
+    {
+      "id": "TA01",
+      "source_id": "A01",
+      "batch": "B01",
+      "start": "00:00",
+      "end": "00:04",
+      "title": "wake under the blanket",
+      "line_ids": [
+        "TA-L01"
+      ],
+      "prompt": "One quiet side three-quarter medium-wide shot. Tara lies on her side under the floral blue-and-cream cotton blanket, head on her pillow, in her dim blue-grey rental bedroom. All electric lights and the laptop are OFF; heavy blue curtains are CLOSED with a thin late-morning daylight seam. She stirs, opens sleepy eyelids slowly, exhales, and lifts her head slightly. One hand holds the blanket while the other finds support on the mattress. Real breathing and small shoulder movement. She softly mutters “Bas paanch minute aur…” (बस पाँच मिनट और…). Quiet cloth rustle, no music. End with her beginning to push herself up, not already standing."
+    },
+    {
+      "id": "TA02",
+      "source_id": "A02",
+      "batch": "B01",
+      "start": "00:04",
+      "end": "00:08",
+      "title": "bed edge to standing",
+      "line_ids": [
+        "TA-L02"
+      ],
+      "prompt": "Medium-wide three-quarter view with headroom and floor space. Tara begins seated on the outer bed edge, both bare feet flat on the floor, palms on the mattress beside her hips. The blanket stays rumpled on the bed. She leans her torso over her feet, presses down through her hands and rises naturally. Knees and hips extend with believable weight transfer; hands release the mattress once balanced. A small sleepy “Uff… chalo.” No graceful-model pose or dramatic leap. Keep her entire head and feet inside the frame and the room dim, with closed curtains and electric lights OFF. Finish standing beside the bed."
+    },
+    {
+      "id": "TA03",
+      "source_id": "A03",
+      "batch": "B01",
+      "start": "00:08",
+      "end": "00:12",
+      "title": "curtain and window",
+      "line_ids": [
+        "TA-L03"
+      ],
+      "prompt": "Tara stands at the same bedroom window. Show her drawing the blue curtain aside, then a simple cut to her hand on the glass-panel handle. She slides the glass pane along its real track; the fixed iron security bars remain outside and do not move. Natural late-morning daylight now illuminates her face/shoulder and the room. Electric lights stay OFF. Gentle cool air catches the curtain edge and loose hair tips as the pane opens. Clear hand-handle contact, no floating handle or disappearing pane. Soft curtain rustle, latch click and sliding track sound. Do not add magical light or a windstorm."
+    },
+    {
+      "id": "TA04",
+      "source_id": "A04",
+      "batch": "B01",
+      "start": "00:12",
+      "end": "00:14",
+      "title": "feel the air",
+      "line_ids": [
+        "TA-L03"
+      ],
+      "prompt": "Continue with Tara standing at the open window. The curtain edge and loose hair tips move gently. She takes a comfortable breath, lets her shoulders lower, turns her face slightly toward the air and forms a small pleased smile. Optional single hair strand tucked behind her ear. A tiny “Arre… thandi hawa!” may begin in the preceding window shot and finish here; do not rush it. Same body, face and clothes, natural daylight only. Her other hand stays relaxed near the sill. The fresh air is an everyday relief, not a major transformation."
+    },
+    {
+      "id": "TA05",
+      "source_id": "B05",
+      "batch": "B01",
+      "start": "00:14",
+      "end": "00:17",
+      "title": "phone notice and pickup",
+      "line_ids": [],
+      "prompt": "A deliberate cut returns Tara to the now naturally brighter bed area. A gentle phone buzz on the bedside table catches her attention. Her eyes glance toward it before her body follows. She leans slightly, reaches with one hand, grips the phone properly and brings it toward herself. The other hand stabilizes her on the bed. Keep exactly one phone, correct finger contact and the same floral blanket. The window is open and curtains aside in the background. No huge surprise, no constant talking. Let this be readable everyday movement rather than another frozen portrait."
+    },
+    {
+      "id": "TA06",
+      "source_id": "B06",
+      "batch": "B01",
+      "start": "00:17",
+      "end": "00:20",
+      "title": "read the plan",
+      "line_ids": [
+        "TA-L04"
+      ],
+      "prompt": "Over-shoulder or three-quarter close shot of Tara reading the phone. A friend has shared a Momo to Pizza link to a fictional hosted food-and-games plan. Her sleepy face becomes gently curious, brows lift a little, mouth makes a small amused smile. She says “Momos aur games? Hmm…” naturally. Keep small wrist/eye motion and breathing, with readable focus on the phone. Leave the screen neutral or simple for a clean later UI insert. No instant flood of real-looking members, guaranteed gang or invented event claim."
+    },
+    {
+      "id": "TA07",
+      "source_id": "B07",
+      "batch": "B02",
+      "start": "00:20",
+      "end": "00:23",
+      "title": "interest and planning chat insert",
+      "line_ids": [
+        "TA-L04"
+      ],
+      "prompt": "Make a clean fictional phone-screen insert in Momo to Pizza's playful scrapbook style. Show a voluntary Count me in/join-interest action for the already hosted plan, followed by Tara sending “I'm in” in that plan's in-site chat. Use two simple readable edited panels if necessary. This is the pre-meetup site chat, not WhatsApp. Omit routine nickname/account steps for pacing without pretending everyone has joined a WhatsApp group. Use original fictional UI and no real participant data. Text must be composed cleanly in editing, not left as generated gibberish. Match the phone angle and thumb taps from adjacent shots."
+    },
+    {
+      "id": "TA08",
+      "source_id": "B08",
+      "batch": "B02",
+      "start": "00:23",
+      "end": "00:26",
+      "title": "“not going” and back to reels",
+      "line_ids": [
+        "TA-L05"
+      ],
+      "prompt": "Medium shot of Tara on her bed in the same home outfit, phone in hand. After sending her interested message, she leans back slightly, gives herself a tiny amused half-smile and murmurs “Haan… jaana toh nahi hai.” Her thumb opens a reel almost absent-mindedly. Small eyebrow movement and a comfortable shift under the blanket. The contradiction is her own little joke, not a judgment about women or a diagnosis. Keep her lively enough to feel like a person, with no cartoon villain grin and no narrator explaining her behavior."
+    },
+    {
+      "id": "TA09",
+      "source_id": "C09",
+      "batch": "B02",
+      "start": "00:26",
+      "end": "00:29",
+      "title": "+1h",
+      "line_ids": [],
+      "prompt": "Same bedroom angle, Tara reclining diagonally on the bed with the blanket across her knees, one hand holding the phone and thumb making a small scroll. She briefly smiles at an original fictional funny reel. Give her a tiny shoulder shake and natural breathing. Late-morning room brighter than the opening, all electric lights still off. Leave clear edit space for a simple “+1h” overlay. Keep her adult face and body unchanged. One ordinary pose variation, not a new camera orbit or a face-morph montage."
+    },
+    {
+      "id": "TA10",
+      "source_id": "C10",
+      "batch": "B02",
+      "start": "00:29",
+      "end": "00:32",
+      "title": "+2h",
+      "line_ids": [],
+      "prompt": "Match room geography but change Tara's resting pose: she sits curled comfortably against a pillow with the phone supported in one hand. She takes a small sip from the steel tumbler with the other, sets it down safely, then glances back at the screen. Early-afternoon light is slightly warmer. Quiet tumbler contact and distant flat sounds. Add “+2h” later. Do not duplicate cups, deform the hand or make the liquid float. Split sip and phone glance into separate simple takes if object handling fails."
+    },
+    {
+      "id": "TA11",
+      "source_id": "C11",
+      "batch": "B02",
+      "start": "00:32",
+      "end": "00:35",
+      "title": "+3h, optional cocoon insert",
+      "line_ids": [],
+      "prompt": "Begin with normal adult Tara pulling the floral blanket a little closer while holding her phone low. Optional hard cut for about one second to the separately referenced chibi blanket-cocoon: same hair silhouette, lavender collar and blanket colors, deadpan sleepy eyelids, a tiny head settle or gentle rock. Hard cut back to her normal unchanged adult drawing. This is an imagined comedy insert, not a body transformation. Compose “+3h” in editing. Keep the gag brief and avoid baby features, tears or a new costume."
+    },
+    {
+      "id": "TA12",
+      "source_id": "C12",
+      "batch": "B02",
+      "start": "00:35",
+      "end": "00:38",
+      "title": "+4h, last reel",
+      "line_ids": [
+        "TA-L06"
+      ],
+      "prompt": "Tara has shifted to another comfortable bed pose, still scrolling. Warm afternoon light reaches farther into the room; show a matching clock or add a clean “+4h” overlay later. She tells herself softly “Bas last reel.” Her thumb makes one more scroll after the promise, a small familiar joke. Brief original food/dance/animal content can be composited, with no stolen creator clips or social handles. Small leg/shoulder readjustment keeps the performance alive. Let a short room-tone pause lead into the different email sound."
+    },
+    {
+      "id": "TA13",
+      "source_id": "D13",
+      "batch": "B03",
+      "start": "00:38",
+      "end": "00:41",
+      "title": "new email, 16:15",
+      "line_ids": [],
+      "prompt": "Warm late-afternoon room. Tara's scrolling pauses as a different, gentle email chime sounds. Show a clean clock insert around 16:15 or a readable composited phone time. Her thumb stops before her eyes shift to the notification. She exhales and tilts the phone slightly to read. The color shift must be afternoon on the same Sunday, not sunrise or a new morning. No bright electric lights. Keep the notification small and personal rather than urgent, flashing, mandatory or threatening."
+    },
+    {
+      "id": "TA14",
+      "source_id": "D14",
+      "batch": "B03",
+      "start": "00:41",
+      "end": "00:44",
+      "title": "phone, face, phone",
+      "line_ids": [],
+      "prompt": "Two or three measured short cuts: phone with a personal invitation email from Momo to Pizza, Tara's mildly reluctant face, then her thumb hovering over the email. Exact sender/subject is a later UI insert; working subject is “Aaj shaam? Ek chhota sa plan.” She looks as though she might leave it for later. Use a tiny brow crease and sideways mouth, not disgust or fear. Do not invent a ringing phone call or a mother physically entering the scene. Preserve the same orange afternoon window light across the intercuts."
+    },
+    {
+      "id": "TA15",
+      "source_id": "D15",
+      "batch": "B03",
+      "start": "00:44",
+      "end": "00:49",
+      "title": "thought burst",
+      "line_ids": [
+        "TA-L07",
+        "TA-L08"
+      ],
+      "prompt": "Stay on Tara's thinking face in the same warm afternoon room. Brief small imagined cutaways suggest dishes, calling parents, work email, wanting friends in the city and food. In this five-second cut she says only “Bartan… Mummy ko call…” then, after one small stomach sound, “…aur lunch.” Keep work/friends as visual thoughts so the performance stays unhurried. Her face makes a small practical thinking shift and then a dry little food-recognition smile. No parent appears in the room, no guilt lecture, no diagnosis or graph. Keep normal adult proportions, natural breathing and her phone below or near the same settled grip."
+    },
+    {
+      "id": "TA16",
+      "source_id": "D16",
+      "batch": "B03",
+      "start": "00:49",
+      "end": "00:52",
+      "title": "tap, warm light begins",
+      "line_ids": [],
+      "prompt": "Insert of one clear thumb tap opening the invitation email, then cut to Tara's face with the phone below the bottom of frame. A very soft warm reflected glow starts under chin/cheeks. Her gaze remains down toward the phone. Room light is still late afternoon; this reflected warmth is a subjective cinematic accent. Do not show an actual magic scroll, portal, floating paper or a paper card appearing in her hands. Quiet the background slightly and leave a short breath of anticipation."
+    },
+    {
+      "id": "TA17",
+      "source_id": "D17",
+      "batch": "B03",
+      "start": "00:52",
+      "end": "00:56",
+      "title": "the wide-eye “aww”",
+      "line_ids": [
+        "TA-L09"
+      ],
+      "prompt": "An intimate adult face close-up, head to collarbone. Tara reads the phone held below frame. Starting from her quiet tired expression, lower eyelids open wider, brows lift gently, lips part into a small awed breath. Warm soft light rises from below and a sincere smile begins. A natural “Aww…” with a little breathing and layered hair follow-through. Keep her gaze toward the invitation, not directly at the camera. This is appreciation of someone's care, not fear, huge bulging eyes, tears or a glamour makeover. No hands, phone or physical postcard should enter this close-up."
+    },
+    {
+      "id": "TA18",
+      "source_id": "D18",
+      "batch": "B03",
+      "start": "00:56",
+      "end": "01:03",
+      "title": "central line and pause",
+      "line_ids": [
+        "TA-L10"
+      ],
+      "prompt": "Continue the same Tara face in matching warm reflected light, or make a gentle three-quarter angle change. She looks down at the thoughtful invitation, smiles in surprised appreciation and says exactly “Iss zamaane mein bhi koi itna effort daalta hai?” (इस ज़माने में भी कोई इतना एफ़र्ट डालता है?) Natural conversational Indian delivery, not an ad voice. Synchronize the short line if reliable, otherwise reserve a separate voice/lip-sync pass. Let her breathe and hold a quiet genuine smile after the words. No added narrator, comedy noise or giant choir over this moment."
+    },
+    {
+      "id": "TA19",
+      "source_id": "D19",
+      "batch": "B04",
+      "start": "01:03",
+      "end": "01:08",
+      "title": "postcard reveal",
+      "line_ids": [],
+      "prompt": "Now reveal the phone's invitation: a thoughtfully made original childhood-letter-style postcard, soft paper grain, uneven handwritten accents, a little chair/flower/steam doodle. Optional tasteful pink/princess sparkle if that style was selected. Compose the exact approved invitation wording in editing: personal welcome, Sunday 17:30, confirmed public venue/city, host, end time, full cost, and a kind option to skip. Use placeholders during private planning rather than inventing a real event. No copied superhero/princess franchise artwork. Keep the insert readable long enough; extend this edit if necessary instead of shrinking type."
+    },
+    {
+      "id": "TA20",
+      "source_id": "E20",
+      "batch": "B04",
+      "start": "01:08",
+      "end": "01:13",
+      "title": "phone down, blanket aside",
+      "line_ids": [
+        "TA-L11"
+      ],
+      "prompt": "Cut from the appreciative smile to a medium-wide body shot. Tara chooses to act: she deliberately places the phone safely on the bedside table, releases her grip, takes the blanket with both hands and pushes it aside. Her shoulders open and posture begins to straighten. She says quietly, with a tiny determined smile, “Theek hai. Aaj chalte hain.” Clear hand-phone-table contact and blanket weight. Do not just replay the eye close-up or teleport the blanket away. If needed render phone placement and blanket movement as separate takes with a cut."
+    },
+    {
+      "id": "TA21",
+      "source_id": "E21",
+      "batch": "B04",
+      "start": "01:13",
+      "end": "01:16",
+      "title": "stand with purpose",
+      "line_ids": [],
+      "prompt": "Tara begins sitting at the bed edge with feet planted. She leans forward and stands with a little more energy than in the morning, straightening her back and looking toward the clothes bag/mirror like she has a small personal mission. Keep her normal adult body identical to the morning version. A small breath and purposeful head nod are enough; no superhero transformation or body thinning. Show feet and head within the framing. Late-afternoon light, same room and home outfit. This full-body action completes the emotional reaction."
+    },
+    {
+      "id": "TA22",
+      "source_id": "E22",
+      "batch": "B04",
+      "start": "01:16",
+      "end": "01:19",
+      "title": "clothes bag and music",
+      "line_ids": [],
+      "prompt": "At the open clothes bag, Tara starts music with one deliberate phone tap, then crouches or bends naturally and rummages for her selected outfit. The song starts as thin sound from her own phone, later becoming the score. Original light 90s-filmi instrumental energy, no copied melody. Her hand lifts one visible folded garment from the bag; other clothes stay where placed. A tiny self-amused expression. Avoid endless flying clothes, disappearing hands or outfit morphing. Keep her a normal person getting ready in her own room."
+    },
+    {
+      "id": "TA23",
+      "source_id": "E23",
+      "batch": "B04",
+      "start": "01:19",
+      "end": "01:21",
+      "title": "one mismatched-outfit joke",
+      "line_ids": [],
+      "prompt": "Tara briefly holds an amusingly mismatched pair of garments against herself—an over-formal jacket with a bright patterned skirt as an original visual joke. One deadpan glance toward the mirror, raised eyebrow, small head shake, then she lowers them. Do not copy an actor's exact costume, face or film prop. Her actual worn outfit has not magically changed. Two seconds of readable contrast is enough; skip this gag if it crowds the sequence or requires an awkward costume morph."
+    },
+    {
+      "id": "TA24",
+      "source_id": "E24",
+      "batch": "B04",
+      "start": "01:21",
+      "end": "01:25",
+      "title": "sleeve snag",
+      "line_ids": [],
+      "prompt": "Medium view with the locked off-white outer shirt/top being put on in an ordinary non-revealing way. One sleeve briefly catches at Tara's wrist/elbow. She pauses, looks at it with amused annoyance, adjusts the fabric with her free hand and eases her arm through. Clear fabric-arm contact and natural small effort breath; a tiny wobble is okay but no dangerous fall. One physical gag with quiet timing. Same face, hair and body. Do not grow another arm or turn the fabric liquid. Use a stable camera that shows the hands."
+    },
+    {
+      "id": "TA25",
+      "source_id": "E25",
+      "batch": "B05",
+      "start": "01:25",
+      "end": "01:30",
+      "title": "outfit details",
+      "line_ids": [],
+      "prompt": "Edit a few simple original close/medium takes of Tara finishing the one locked outing outfit: brush settling her familiar wolf-cut layers, selected blue scarf adjusted over the off-white top, small silver earrings and everyday bag. Relaxed blue jeans already on at the deliberate cut; do not depict a one-shot magical wardrobe transformation. Same body and face, only clothes/posture change. Gentle upbeat original music and soft fabric/brush sounds. Keep gestures specific and limited rather than generating five objects moving at once."
+    },
+    {
+      "id": "TA26",
+      "source_id": "E26",
+      "batch": "B05",
+      "start": "01:30",
+      "end": "01:36",
+      "title": "denim cap and joke",
+      "line_ids": [
+        "TA-L13"
+      ],
+      "prompt": "Tara puts on the same denim cap, tips the brim slightly, then notices the phrase. Cut to a clean cap-lettering insert composed later: “Don't tell anyone you saw me.” Back to her small amused smile as she says “Arre, aaj toh milne jaa rahi hoon.” Her eyes and head give the joke, with music lowered under the words. Keep the cap's shape, denim color and her hair consistent. Use one chosen phrase only. If another approved cap phrase replaces it, rewrite her response to fit rather than mixing all options."
+    },
+    {
+      "id": "TA27",
+      "source_id": "F27",
+      "batch": "B05",
+      "start": "01:36",
+      "end": "01:39",
+      "title": "small uncertain pause",
+      "line_ids": [
+        "TA-L14"
+      ],
+      "prompt": "Medium-wide mirror composition with Tara in the locked complete outing outfit. She tilts her head, looks at her natural reflection and gives a brief uncertain pause: “Theek lag rahi hoon?” This is ordinary momentary self-consciousness, not disgust at her body or a demand to look thinner. Her reflection must match pose, scarf, cap, earrings and hand positions. Keep mirror geometry consistent with the actual room. No extra person inside the mirror, no identity change, no beauty-filter effect."
+    },
+    {
+      "id": "TA28",
+      "source_id": "F28",
+      "batch": "B05",
+      "start": "01:39",
+      "end": "01:40",
+      "title": "imagined panda",
+      "line_ids": [],
+      "prompt": "A separate playful imagined cutaway: an original small cute panda holds a comparable head-tilted, slightly self-conscious pose with paws near its face. Clean 2D drawing compatible with the film, simple background and affectionate timing. It is a one-second edited joke about the pose, not Tara literally becoming a panda or being insulted for her weight. Hard cut back to normal adult Tara. Do not interpolate her human face/body into an animal or copy the supplied panda photograph."
+    },
+    {
+      "id": "TA29",
+      "source_id": "F29",
+      "batch": "B05",
+      "start": "01:40",
+      "end": "01:44",
+      "title": "scarf and reassurance",
+      "line_ids": [
+        "TA-L15"
+      ],
+      "prompt": "Back to the exact normal adult Tara from F27, same reflection and unchanged body. She gently adjusts the scarf, lets her shoulders relax and sees herself more kindly. Her smile arrives gradually. She says “Haan yaar. Cute lag rahi hoon.” Warm self-talk with a hint of amusement, not a triumphant makeover speech. Keep the face ordinary and recognizably hers. Music stays lower so the line and small breath are clear. No glitter transformation, sudden skin change or disappearing cap."
+    },
+    {
+      "id": "TA30",
+      "source_id": "F30",
+      "batch": "B05",
+      "start": "01:44",
+      "end": "01:48",
+      "title": "kajal dot",
+      "line_ids": [
+        "TA-L16"
+      ],
+      "prompt": "Safe close/medium angle near the mirror. Tara lifts a small kajal applicator with one hand and carefully makes one tiny dot behind her ear, then lowers her hand. The gesture is affectionate and playful. She murmurs “Nazar na lage.” Clear hand/applicator contact, no smearing across the whole face or an applicator passing through the ear. Keep existing nose stud, hair, scarf and cap consistent. The earlier leg-dot alternative is not used in this take; do not add both versions randomly."
+    },
+    {
+      "id": "TA31",
+      "source_id": "F31",
+      "batch": "B06",
+      "start": "01:48",
+      "end": "01:52",
+      "title": "ready, in her own way",
+      "line_ids": [],
+      "prompt": "Hold a comfortable medium mirror view as Tara gives herself a small approving nod, one tiny amused smile and a natural breath. She straightens the bag strap and turns her gaze toward the door. Her back is more upright and energy more present, but her face and body are exactly the same person who woke up. Let the original music rise gently after her last words. No narrator needs to announce that she is ready; the action should tell us."
+    },
+    {
+      "id": "TA32",
+      "source_id": "G32",
+      "batch": "B06",
+      "start": "01:52",
+      "end": "01:57",
+      "title": "bag, keys, door",
+      "line_ids": [],
+      "prompt": "Short clean cuts, not one overloaded take: Tara slips into simple shoes, takes keys and phone, settles the everyday bag on her shoulder and leaves through the flat's doorway. Ordinary confident movement and a small bounce of anticipation, no catwalk or flying superhero exit. The outing outfit, cap and hair remain fixed. End on the door/threshold or her moving out of frame. A two-second return for a forgotten phone is optional only if the edit needs another joke and it replaces time here; otherwise keep her departure simple."
+    },
+    {
+      "id": "TA33",
+      "source_id": "H33",
+      "batch": "B06",
+      "start": "01:57",
+      "end": "02:01",
+      "title": "café glimpse",
+      "line_ids": [],
+      "prompt": "A brief fictional public-café scene around the invitation's meetup time: steaming food on a table, a simple shared game and Tara laughing at an ordinary small joke with a few original adult characters. She wears the same outing outfit. Warm natural reactions and conversational overlap, not everyone cheering at a brand logo. Do not claim these are real customers or guaranteed participants, use real people's photos, display invented five-star reviews or add a crowd just for scale. The payoff is one shared laugh, not an instant lifelong-friend promise."
+    },
+    {
+      "id": "TA34",
+      "source_id": "H34",
+      "batch": "B06",
+      "start": "02:01",
+      "end": "02:05",
+      "title": "home voice note",
+      "line_ids": [
+        "TA-L17"
+      ],
+      "prompt": "Clear time jump back to Tara's room around 20:00; show an evening cue so this is not another morning. She relaxes after returning, still recognizably in the outing clothes with cap perhaps set on the table in a deliberate cut. She records a short voice note to an old friend, smiling at the memory: “Yaar, aaj sach mein bahut maza aaya.” Her delivery feels casual and personal rather than an advertisement or testimonial. Keep one version of the line, with an easy breath and normal phone grip."
+    },
+    {
+      "id": "TA35",
+      "source_id": "H35",
+      "batch": "B06",
+      "start": "02:05",
+      "end": "02:08",
+      "title": "optional attendee-group opt-in",
+      "line_ids": [],
+      "prompt": "Clean fictional follow-up screen: “Aaj ke meetup waalon ke WhatsApp group mein judna hai?” Two genuine choices: “Haan, invite bhejo” and “Abhi nahi.” Make regular-group phone-number visibility clear in the complete opt-in UI. Only verified attendees who opt in are invited; no silent automatic addition and no treating interest as attendance. After her yes, a deliberate cut can show a funny original reel shared with a few people she actually met: “Yeh hum the 😂”. This is distinct from the earlier site's planning chat. Delivery/group automation is a proposed story workflow, not proof it exists on the live site."
+    },
+    {
+      "id": "TA36",
+      "source_id": "I36",
+      "batch": "B06",
+      "start": "02:08",
+      "end": "02:12",
+      "title": "scrapbook end card",
+      "line_ids": [],
+      "prompt": "Simple original Momo to Pizza end card in the established crayon/scrapbook brand. Soft paper background, one friendly momo steam doodle and a small pizza accent, restrained hand-drawn movement, generous readable space. Working copy: “Kabhi kabhi, ek chhota sa effort.” Then “Momo to Pizza · Kal milte hain?” and “momo-ten-pied.vercel.app”. Legible note: “Fictional animated story”. Do not add fake testimonials, urgency, guaranteed friends, safety claims or an invented age-gate policy. Let the music finish warmly with enough time to read the words."
+    }
+  ],
+  "voice_lines": [
+    {
+      "id": "TA-L01",
+      "shots": "TA01",
+      "text": "Bas paanch minute aur…",
+      "hindi": "बस पाँच मिनट और…",
+      "delivery": "Sleep-heavy and low effort; breath after the phrase.",
+      "window": "00:00–00:04",
+      "estimated_spoken_duration": "1.8–2.4 s",
+      "status": "Selected"
+    },
+    {
+      "id": "TA-L02",
+      "shots": "TA02",
+      "text": "Uff… chalo.",
+      "hindi": "उफ़… चलो।",
+      "delivery": "Quiet effort exhale while beginning to rise; not an anguished groan.",
+      "window": "00:04–00:08",
+      "estimated_spoken_duration": "0.9–1.4 s",
+      "status": "Selected"
+    },
+    {
+      "id": "TA-L03",
+      "shots": "TA03–TA04",
+      "text": "Arre… thandi hawa!",
+      "hindi": "अरे… ठंडी हवा!",
+      "delivery": "Small relieved discovery; let the phrase bridge the cut.",
+      "window": "00:08–00:14",
+      "estimated_spoken_duration": "1.6–2.2 s",
+      "status": "Selected"
+    },
+    {
+      "id": "TA-L04",
+      "shots": "TA06–TA07",
+      "text": "Momos aur games? Hmm… I'm in.",
+      "hindi": "मोमोज़ और गेम्स? हम्म… I'm in.",
+      "delivery": "Curious, then casual yes; the typed message is not a second repeated spoken take.",
+      "window": "00:17–00:23",
+      "estimated_spoken_duration": "2.8–3.8 s",
+      "status": "Selected"
+    },
+    {
+      "id": "TA-L05",
+      "shots": "TA08",
+      "text": "Haan… jaana toh nahi hai.",
+      "hindi": "हाँ… जाना तो नहीं है।",
+      "delivery": "Her own contradictory joke with a tiny smile.",
+      "window": "00:23–00:26",
+      "estimated_spoken_duration": "2.0–2.6 s",
+      "status": "Selected"
+    },
+    {
+      "id": "TA-L06",
+      "shots": "TA12",
+      "text": "Bas last reel.",
+      "hindi": "बस लास्ट रील।",
+      "delivery": "A little familiar promise; next scroll follows after a beat.",
+      "window": "00:35–00:38",
+      "estimated_spoken_duration": "1.1–1.7 s",
+      "status": "Selected"
+    },
+    {
+      "id": "TA-L07",
+      "shots": "TA15",
+      "text": "Bartan… Mummy ko call…",
+      "hindi": "बर्तन… मम्मी को कॉल…",
+      "delivery": "Two short inner thought fragments; work/friend thoughts stay visual in this cut.",
+      "window": "00:44–00:49",
+      "estimated_spoken_duration": "2.1–2.7 s",
+      "status": "Selected"
+    },
+    {
+      "id": "TA-L08",
+      "shots": "TA15",
+      "text": "…aur lunch.",
+      "hindi": "…और लंच।",
+      "delivery": "After a short stomach sound; small dry self-recognition.",
+      "window": "00:44–00:49",
+      "estimated_spoken_duration": "0.7–1.1 s",
+      "status": "Selected"
+    },
+    {
+      "id": "TA-L09",
+      "shots": "TA17",
+      "text": "Aww…",
+      "hindi": "Aww…",
+      "delivery": "Soft appreciative breath; no long theatrical shout.",
+      "window": "00:52–00:56",
+      "estimated_spoken_duration": "0.7–1.2 s",
+      "status": "Selected"
+    },
+    {
+      "id": "TA-L10",
+      "shots": "TA18",
+      "text": "Iss zamaane mein bhi koi itna effort daalta hai?",
+      "hindi": "इस ज़माने में भी कोई इतना एफ़र्ट डालता है?",
+      "delivery": "Central sincere sentence, quietly surprised by care; hold smile after.",
+      "window": "00:56–01:03",
+      "estimated_spoken_duration": "4.5–5.4 s",
+      "status": "Selected"
+    },
+    {
+      "id": "TA-L11",
+      "shots": "TA20",
+      "text": "Theek hai. Aaj chalte hain.",
+      "hindi": "ठीक है। आज चलते हैं।",
+      "delivery": "Private decision, settled and lightly purposeful, then action.",
+      "window": "01:08–01:13",
+      "estimated_spoken_duration": "2.5–3.4 s",
+      "status": "Selected"
+    },
+    {
+      "id": "TA-L12",
+      "shots": "TA26",
+      "text": "Don't tell anyone you saw me…",
+      "hindi": "Don't tell anyone you saw me…",
+      "delivery": "Optional cap read only; not selected in the default cut. Add time if used with the reply.",
+      "window": "01:30–01:36",
+      "estimated_spoken_duration": "2.0–2.6 s",
+      "status": "Optional, off by default"
+    },
+    {
+      "id": "TA-L13",
+      "shots": "TA26",
+      "text": "Arre, aaj toh milne jaa rahi hoon.",
+      "hindi": "अरे, आज तो मिलने जा रही हूँ।",
+      "delivery": "Amused quick answer to the visible cap phrase; music lowered.",
+      "window": "01:30–01:36",
+      "estimated_spoken_duration": "3.0–3.8 s",
+      "status": "Selected"
+    },
+    {
+      "id": "TA-L14",
+      "shots": "TA27",
+      "text": "Theek lag rahi hoon?",
+      "hindi": "ठीक लग रही हूँ?",
+      "delivery": "One brief uncertain mirror question, no body disgust.",
+      "window": "01:36–01:39",
+      "estimated_spoken_duration": "1.5–2.2 s",
+      "status": "Selected"
+    },
+    {
+      "id": "TA-L15",
+      "shots": "TA29",
+      "text": "Haan yaar. Cute lag rahi hoon.",
+      "hindi": "हाँ यार। क्यूट लग रही हूँ।",
+      "delivery": "Kindly self-approving, with a small relaxed smile.",
+      "window": "01:40–01:44",
+      "estimated_spoken_duration": "2.6–3.3 s",
+      "status": "Selected"
+    },
+    {
+      "id": "TA-L16",
+      "shots": "TA30",
+      "text": "Nazar na lage.",
+      "hindi": "नज़र न लगे।",
+      "delivery": "Affectionate, playful, under the tiny behind-ear dot gesture.",
+      "window": "01:44–01:48",
+      "estimated_spoken_duration": "1.3–1.9 s",
+      "status": "Selected"
+    },
+    {
+      "id": "TA-L17",
+      "shots": "TA34",
+      "text": "Yaar, aaj sach mein bahut maza aaya.",
+      "hindi": "यार, आज सच में बहुत मज़ा आया।",
+      "delivery": "Personal evening voice note to an old friend, no testimonial delivery.",
+      "window": "02:01–02:05",
+      "estimated_spoken_duration": "3.0–3.7 s",
+      "status": "Selected"
+    }
+  ]
+}
